@@ -1,0 +1,450 @@
+<!DOCTYPE html><html lang=en><head><base href=../../ ><title>CS 229 - Supervised Learning Cheatsheet</title><meta charset=utf-8><meta content="Teaching page of Shervine Amidi, Graduate Student at Stanford University." name=description><meta content="teaching, shervine, shervine amidi, data science" name=keywords><meta content="width=device-width, initial-scale=1" name=viewport><link href=https://stanford.edu/~shervine/teaching/cs-229/cheatsheet-supervised-learning rel=canonical><link href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css rel=stylesheet><link href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><link crossorigin=anonymous href=https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css integrity=sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq rel=stylesheet><link href=css/style.min.css?3587b1299365680430aa5634d6b49ffb rel=stylesheet type=text/css><link href=css/article.min.css?6b276411853b0aa728d3d16d218cc10d rel=stylesheet><script src=https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js></script><script src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script><script defer src=https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js type=text/javascript></script><script crossorigin=anonymous defer integrity=sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz src=https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js></script><script crossorigin=anonymous defer integrity=sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI src=https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-WRQS2JRR3J"></script><script src=js/ga.min.js?95daafd11134fe1dae6aab3d0750f5d6></script><script defer src=js/article.min.js?d4501a257815c34bb5963984260f6b39></script><script defer src=js/lang.min.js?7075a8a43f328d2d2661aafb30dea004></script><script async defer src=https://buttons.github.io/buttons.js></script></head> <body data-offset=50 data-spy=scroll data-target=.navbar> <nav class="navbar navbar-inverse navbar-static-top"> <div class=container-fluid> <div class=navbar-header> <button class=navbar-toggle data-target=#myNavbar data-toggle=collapse type=button> <span class=icon-bar></span> <span class=icon-bar></span> <span class=icon-bar></span> </button> <a class=navbar-brand href> <img alt=Stanford src=images/stanford-logo.png?f7176222abba492681ca93190e078e48> </a> <p class=navbar-text><font color=#dddddd>Shervine Amidi</font></p> </div> <div class="collapse navbar-collapse" id=myNavbar> <ul class="nav navbar-nav"> <li><a href>About</a></li> </ul> <ul class="nav navbar-nav navbar-center"> <li><a href=projects>Projects</a></li> <li class=active><a href=teaching>Teaching</a></li> <li><a href=blog>Blog</a></li> </ul> <div class="collapse navbar-collapse" data-target=None id=HiddenNavbar> <ul class="nav navbar-nav navbar-right"> <li><a href=https://www.mit.edu/~amidi>About</a></li> <p class=navbar-text><font color=#dddddd>Afshine Amidi</font></p> <a class=navbar-brand href=https://www.mit.edu/~amidi style="padding: 0px;"> <img alt=MIT src=images/mit-logo.png?4f7adbadc5c51293b439c17d7305f96b style="padding: 15px 15px; width: 70px; margin-left: 15px; margin-right: 5px;"> </a> </ul> </div> </div> </div> </nav> <div id=wrapper> <div id=sidebar-wrapper> <div class=sidebar-top> <li class=sidebar-title> <a href=teaching/cs-229><img alt=Stanford src=images/stanford-logo.png?f7176222abba492681ca93190e078e48 style="width: 15px;">   <b>CS 229 - Machine Learning</b></a> </li> <li class=sidebar-brand> <a href=#> <div> <span style=color:white>Supervised Learning</span> </div> </a> </li> </div> <ul class=sidebar-nav> <li> <div class=dropdown-btn><a href=#introduction>Introduction</a></div> <div class=dropdown-container> <a href=#introduction><span>Type of prediction</span></a> <a href=#introduction><span>Type of model</span></a> </div> </li> <li> <div class=dropdown-btn><a href=#notations>Notations and general concepts</a></div> <div class=dropdown-container> <a href=#notations><span>Loss function</span></a> <a href=#notations><span>Gradient descent</span></a> <a href=#notations><span>Likelihood</span></a> </div> </li> <li> <div class=dropdown-btn><a href=#linear-models>Linear models</a></div> <div class=dropdown-container> <a href=#linear-models><span>Linear regression</span></a> <a href=#linear-models><span>Logisitic regression</span></a> <a href=#linear-models><span>Generalized linear models</span></a> </div> </li> <li> <div class=dropdown-btn><a href=#svm>Support Vector Machines</a></div> <div class=dropdown-container> <a href=#svm><span>Optimal margin classifier</span></a> <a href=#svm><span>Hinge loss</span></a> <a href=#svm><span>Kernel</span></a> </div> </li> <li> <div class=dropdown-btn><a href=#generative-learning>Generative learning</a></div> <div class=dropdown-container> <a href=#generative-learning><span>Gaussian Discriminant Analysis</span></a> <a href=#generative-learning><span>Naive Bayes</span></a> </div> </li> <li> <div class=dropdown-btn><a href=#tree>Trees and ensemble methods</a></div> <div class=dropdown-container> <a href=#tree><span>CART</span></a> <a href=#tree><span>Random forest</span></a> <a href=#tree><span>Boosting</span></a> </div> </li> <li> <div class=dropdown-btn><a href=#other>Other methods</a></div> <div class=dropdown-container> <a href=#other><span>k-NN</span></a> </div> </li> <li> <div class=dropdown-btn><a href=#learning-theory>Learning Theory</a></div> <div class=dropdown-container> <a href=#learning-theory><span>Hoeffding inequality</span></a> <a href=#learning-theory><span>PAC</span></a> <a href=#learning-theory><span>VC dimension</span></a> </div> </li> </ul> <center> <div class=sidebar-footer> <li> <a href=https://github.com/afshinea/stanford-cs-229-machine-learning/blob/master/en/cheatsheet-supervised-learning.pdf style="color: white; text-decoration:none;"> <i aria-hidden=false class="fa fa-github fa-fw"></i> View PDF version on GitHub </a> </li> </div> </center> </div> <article class="markdown-body entry-content" itemprop=text>
+    <div class="alert alert-primary" role=alert>
+        Want more content like this? <a class=alert-link href=https://docs.google.com/forms/d/e/1FAIpQLSeOr-yp8VzYIs4ZtE9HVkRcMJyDcJ2FieM82fUsFoCssHu9DA/viewform>Subscribe here</a> to be notified of new releases!
+    </div>
+    <div class=title-lang>
+        <a aria-hidden=true class=anchor-bis href=#cs-229---machine-learning id=cs-229---machine-learning></a><a href=teaching/cs-229>CS 229 - Machine Learning</a>
+
+        <div style=float:right;>
+            <div class=input-group>
+                <select class=form-control onchange=changeLangAndTrack(this); onfocus=storeCurrentIndex(this);>
+                    <option value=ar>العربية</option>
+                    <option selected value=en>English</option>
+                    <option value=es>Español</option>
+                    <option value=fa>فارسی</option>
+                    <option value=fr>Français</option>
+                    <option value=ko>한국어</option>
+                    <option value=pt>Português</option>
+                    <option value=tr>Türkçe</option>
+                    <option value=vi>Tiếng Việt</option>
+                    <option value=zh>简中</option>
+                    <option value=zh-tw>繁中</option>
+                </select>
+                <div class=input-group-addon><i class=fa></i></div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div aria-label=... class="btn-group btn-group-justified" role=group>
+        <div class=btn-group role=group>
+            <button class="btn btn-default active" onclick="location.href='teaching/cs-229/cheatsheet-supervised-learning'" type=button><b>Supervised Learning</b></button>
+        </div>
+        <div class=btn-group role=group>
+            <button class="btn btn-default" onclick="location.href='teaching/cs-229/cheatsheet-unsupervised-learning'" type=button>Unsupervised Learning</button>
+        </div>
+        <div class=btn-group role=group>
+            <button class="btn btn-default" onclick="location.href='teaching/cs-229/cheatsheet-deep-learning'" type=button>Deep Learning</button>
+        </div>
+        <div class=btn-group role=group>
+            <button class="btn btn-default" onclick="location.href='teaching/cs-229/cheatsheet-machine-learning-tips-and-tricks'" type=button>Tips and tricks</button>
+        </div>
+    </div>
+    <h1>
+        <a aria-hidden=true class=anchor-bis href=#cheatsheet id=user-content-cheatsheet></a>Supervised Learning cheatsheet
+        <div style=float:right><a aria-label="Star afshinea/stanford-cs-229-machine-learning on GitHub" class="github-button fa-fw" data-icon=octicon-star data-show-count=true href=https://github.com/afshinea/stanford-cs-229-machine-learning>Star</a></div>
+    </h1>
+    <p>By <a href=https://twitter.com/afshinea>Afshine Amidi</a> and <a href=https://twitter.com/shervinea>Shervine Amidi</a></p>
+    <h2><a aria-hidden=true class=anchor href=#introduction id=introduction></a>Introduction to Supervised Learning</h2>
+    <p>Given a set of data points $\{x^{(1)}, ..., x^{(m)}\}$ associated to a set of outcomes $\{y^{(1)}, ..., y^{(m)}\}$, we want to build a classifier that learns how to predict $y$ from $x$.</p>
+    <p><span class="new-item item-b">Type of prediction</span> The different types of predictive models are summed up in the table below:</p>
+    <div class=mobile-container>
+        <center>
+            <table>
+                <tbody>
+                <tr>
+                    <td align=center><b></b></td>
+                    <td align=center><b>Regression</b></td>
+                    <td align=center><b>Classification</b></td>
+                </tr>
+                <tr>
+                    <td align=center><b>Outcome</b></td>
+                    <td align=center>Continuous</td>
+                    <td align=center>Class</td>
+                </tr>
+                <tr>
+                    <td align=center><b>Examples</b></td>
+                    <td align=center>Linear regression</td>
+                    <td align=center>Logistic regression, SVM, Naive Bayes</td>
+                </tr>
+                </tbody>
+            </table>
+        </center>
+    </div>
+    <br>
+    <p><span class="new-item item-b">Type of model</span> The different models are summed up in the table below:</p>
+    <div class=mobile-container>
+        <center>
+            <table style="table-layout:fixed; width:100%; min-width:300px;">
+                <colgroup>
+                    <col style=width:120px>
+                    <col style=width:50%>
+                    <col style=width:50%>
+                </colgroup>
+                <tbody>
+                <tr>
+                    <td align=center></td>
+                    <td align=center><b>Discriminative model</b></td>
+                    <td align=center><b>Generative model</b></td>
+                </tr>
+                <tr>
+                    <td align=center><b>Goal</b></td>
+                    <td align=left>Directly estimate $P(y|x)$</td>
+                    <td align=left>Estimate $P(x|y)$ to then deduce $P(y|x)$</td>
+                </tr>
+                <tr>
+                    <td align=center><b>What's learned</b></td>
+                    <td align=left>Decision boundary</td>
+                    <td align=left>Probability distributions of the data</td>
+                </tr>
+                <tr>
+                    <td align=center><b>Illustration</b></td>
+                    <td align=center style="width: 41%;"><img alt="Discriminative model" class=img-responsive src=teaching/cs-229/illustrations/discriminative-model.png?767b34c21d43a4fd8b59683578e132f9></td>
+                    <td align=center style="width: 41%;"><img alt="Generative model" class=img-responsive src=teaching/cs-229/illustrations/generative-model.png?df0642cec6e99ac162cd4848d26f41c3></td>
+                </tr>
+                <tr>
+                    <td align=center><b>Examples</b></td>
+                    <td align=left>Regressions, SVMs</td>
+                    <td align=left>GDA, Naive Bayes</td>
+                </tr>
+                </tbody>
+            </table>
+        </center>
+    </div>
+    <br>
+    <h2><a aria-hidden=true class=anchor href=#notations id=notations></a>Notations and general concepts</h2>
+    <p><span class="new-item item-b">Hypothesis</span> The hypothesis is noted $h_\theta$ and is the model that we choose. For a given input data $x^{(i)}$ the model prediction output is $h_\theta(x^{(i)})$.</p>
+    <br>
+    <p><span class="new-item item-r">Loss function</span> A loss function is a function $L:(z,y)\in\mathbb{R}\times Y\longmapsto L(z,y)\in\mathbb{R}$ that takes as inputs the predicted value $z$ corresponding to the real data value $y$ and outputs how different they are. The common loss functions are summed up in the table below:</p>
+    <div class=mobile-container>
+        <center>
+            <table style="table-layout:fixed; width:100%; min-width:820px;">
+                <colgroup>
+                    <col style=width:25%>
+                    <col style=width:25%>
+                    <col style=width:25%>
+                    <col style=width:25%>
+                </colgroup>
+                <tbody>
+                <tr>
+                    <td align=center><b>Least squared error</b></td>
+                    <td align=center><b>Logistic loss</b></td>
+                    <td align=center><b>Hinge loss</b></td>
+                    <td align=center><b>Cross-entropy</b></td>
+                </tr>
+                <tr>
+                    <td align=center>$\displaystyle\frac{1}{2}(y-z)^2$</td>
+                    <td align=center>$\displaystyle\log(1+\exp(-yz))$</td>
+                    <td align=center>$\displaystyle\max(0,1-yz)$</td>
+                    <td align=center style=vertical-align:middle><div id=some_math style=font-size:75%>$\displaystyle-\Big[y\log(z)+(1-y)\log(1-z)\Big]$</div></td>
+                </tr>
+                <tr>
+                    <td align=center style="width: 25%;"><img alt="Least squared error" class=img-responsive src=teaching/cs-229/illustrations/least-square-error.png?63fef2552284b0dc15f27d1ef0b79fea></td>
+                    <td align=center style="width: 25%;"><img alt="Logistic loss" class=img-responsive src=teaching/cs-229/illustrations/logistic-loss.png?1bc1cb6d682c1bbfb978ec894afdf588></td>
+                    <td align=center style="width: 25%;"><img alt="Hinge loss" class=img-responsive src=teaching/cs-229/illustrations/hinge-loss.png?3f1b26410c446f52885dcc5266937c84></td>
+                    <td align=center style="width: 25%;"><img alt="Cross entropy" class=img-responsive src=teaching/cs-229/illustrations/cross-entropy.png?037ea4073873c9be4a7de099dac6d3b5></td>
+                </tr>
+                <tr>
+                    <td align=center>Linear regression</td>
+                    <td align=center>Logistic regression</td>
+                    <td align=center>SVM</td>
+                    <td align=center>Neural Network</td>
+                </tr>
+                </tbody>
+            </table>
+        </center>
+    </div>
+    <br>
+    <p><span class="new-item item-r">Cost function</span> The cost function $J$ is commonly used to assess the performance of a model, and is defined with the loss function $L$ as follows:</p>
+    <div class=mobile-container>
+        \[\boxed{J(\theta)=\sum_{i=1}^mL(h_\theta(x^{(i)}), y^{(i)})}\]
+    </div>
+    <br>
+    <p><span class="new-item item-r">Gradient descent</span> By noting $\alpha\in\mathbb{R}$ the learning rate, the update rule for gradient descent is expressed with the learning rate and the cost function $J$ as follows:</p>
+    <div class=mobile-container>
+        \[\boxed{\theta\longleftarrow\theta-\alpha\nabla J(\theta)}\]
+    </div>
+    <br>
+    <center>
+        <img alt="Gradient descent" class=img-responsive src=teaching/cs-229/illustrations/gradient-descent.png?01662c4a8147a55ba09f4f5c047641ba style=width:100%;max-width:500px>
+    </center>
+    <br>
+    <p><span class=remark>Remark: Stochastic gradient descent (SGD) is updating the parameter based on each training example, and batch gradient descent is on a batch of training examples.</span></p>
+    <br>
+    <p><span class="new-item item-b">Likelihood</span> The likelihood of a model $L(\theta)$ given parameters $\theta$ is used to find the optimal parameters $\theta$ through likelihood maximization. We have:</p>
+    <div class=mobile-container>
+        \[\boxed{\theta^{\textrm{opt}}=\underset{\theta}{\textrm{arg max }}L(\theta)}\]
+    </div>
+    <p><span class=remark>Remark: in practice, we use the log-likelihood $\ell(\theta)=\log(L(\theta))$ which is easier to optimize.</span></p>
+    <br>
+    <p><span class="new-item item-r">Newton's algorithm</span> Newton's algorithm is a numerical method that finds $\theta$ such that $\ell'(\theta)=0$. Its update rule is as follows:</p>
+    <div class=mobile-container>
+        \[\boxed{\theta\leftarrow\theta-\frac{\ell'(\theta)}{\ell''(\theta)}}\]
+    </div>
+    <p><span class=remark>Remark: the multidimensional generalization, also known as the Newton-Raphson method, has the following update rule:</span></p>
+    <div class=mobile-container>
+        \[\theta\leftarrow\theta-\left(\nabla_\theta^2\ell(\theta)\right)^{-1}\nabla_\theta\ell(\theta)\]
+    </div>
+    <br>
+    <h2><a aria-hidden=true class=anchor href=#linear-models id=linear-models></a>Linear models</h2>
+    <h3>Linear regression</h3>
+    <p>We assume here that $y|x;\theta\sim\mathcal{N}(\mu,\sigma^2)$</p>
+    <p><span class="new-item item-g">Normal equations</span> By noting $X$ the design matrix, the value of $\theta$ that minimizes the cost function is a closed-form solution such that:</p>
+    <div class=mobile-container>
+        \[\boxed{\theta=(X^TX)^{-1}X^Ty}\]
+    </div>
+    <br>
+    <p><span class="new-item item-g">LMS algorithm</span> By noting $\alpha$ the learning rate, the update rule of the Least Mean Squares (LMS) algorithm for a training set of $m$ data points, which is also known as the Widrow-Hoff learning rule, is as follows:</p>
+    <div class=mobile-container>
+        \[\boxed{\forall j,\quad \theta_j \leftarrow \theta_j+\alpha\sum_{i=1}^m\left[y^{(i)}-h_\theta(x^{(i)})\right]x_j^{(i)}}\]
+    </div>
+    <p><span class=remark>Remark: the update rule is a particular case of the gradient ascent.</span></p>
+    <br>
+    <p><span class="new-item item-b">LWR</span> Locally Weighted Regression, also known as LWR, is a variant of linear regression that weights each training example in its cost function by $w^{(i)}(x)$, which is defined with parameter $\tau\in\mathbb{R}$ as:</p>
+    <div class=mobile-container>
+        \[\boxed{w^{(i)}(x)=\exp\left(-\frac{(x^{(i)}-x)^2}{2\tau^2}\right)}\]
+    </div>
+    <br>
+    <h3>Classification and logistic regression</h3>
+    <p><span class="new-item item-b">Sigmoid function</span> The sigmoid function $g$, also known as the logistic function, is defined as follows:</p>
+    <div class=mobile-container>
+        \[\forall z\in\mathbb{R},\quad\boxed{g(z)=\frac{1}{1+e^{-z}}\in]0,1[}\]
+    </div>
+    <br>
+    <p><span class="new-item item-b">Logistic regression</span> We assume here that $y|x;\theta\sim\textrm{Bernoulli}(\phi)$. We have the following form:</p>
+    <div class=mobile-container>
+        \[\boxed{\phi=p(y=1|x;\theta)=\frac{1}{1+\exp(-\theta^Tx)}=g(\theta^Tx)}\]
+    </div>
+    <p><span class=remark>Remark: logistic regressions do not have closed form solutions.</span></p>
+    <br>
+    <p><span class="new-item item-b">Softmax regression</span> A softmax regression, also called a multiclass logistic regression, is used to generalize logistic regression when there are more than 2 outcome classes. By convention, we set $\theta_K=0$, which makes the Bernoulli parameter $\phi_i$ of each class $i$ be such that:</p>
+    <div class=mobile-container>
+        \[\boxed{\displaystyle\phi_i=\frac{\exp(\theta_i^Tx)}{\displaystyle\sum_{j=1}^K\exp(\theta_j^Tx)}}\]
+    </div>
+    <br>
+    <h3>Generalized Linear Models</h3>
+    <p><span class="new-item item-r">Exponential family</span> A class of distributions is said to be in the exponential family if it can be written in terms of a natural parameter, also called the canonical parameter or link function, $\eta$, a sufficient statistic $T(y)$ and a log-partition function $a(\eta)$ as follows:</p>
+    <div class=mobile-container>
+        \[\boxed{p(y;\eta)=b(y)\exp(\eta T(y)-a(\eta))}\]
+    </div>
+    <p><span class=remark>Remark: we will often have $T(y)=y$. Also, $\exp(-a(\eta))$ can be seen as a normalization parameter that will make sure that the probabilities sum to one.</span></p>
+    <p>The most common exponential distributions are summed up in the following table:</p>
+    <div class=mobile-container>
+        <center>
+            <table>
+                <tbody>
+                <tr>
+                    <td align=center><b>Distribution</b></td>
+                    <td align=center><b>$\eta$</b></td>
+                    <td align=center><b>$T(y)$</b></td>
+                    <td align=center><b>$a(\eta)$</b></td>
+                    <td align=center><b>$b(y)$</b></td>
+                </tr>
+                <tr>
+                    <td align=center>Bernoulli</td>
+                    <td align=center>$\log\left(\frac{\phi}{1-\phi}\right)$</td>
+                    <td align=center>$y$</td>
+                    <td align=center>$\log(1+\exp(\eta))$</td>
+                    <td align=center>$1$</td>
+                </tr>
+                <tr>
+                    <td align=center>Gaussian</td>
+                    <td align=center>$\mu$</td>
+                    <td align=center>$y$</td>
+                    <td align=center>$\frac{\eta^2}{2}$</td>
+                    <td align=center>$\frac{1}{\sqrt{2\pi}}\exp\left(-\frac{y^2}{2}\right)$</td>
+                </tr>
+                <tr>
+                    <td align=center>Poisson</td>
+                    <td align=center>$\log(\lambda)$</td>
+                    <td align=center>$y$</td>
+                    <td align=center>$e^{\eta}$</td>
+                    <td align=center>$\displaystyle\frac{1}{y!}$</td>
+                </tr>
+                <tr>
+                    <td align=center>Geometric</td>
+                    <td align=center>$\log(1-\phi)$</td>
+                    <td align=center>$y$</td>
+                    <td align=center>$\log\left(\frac{e^\eta}{1-e^\eta}\right)$</td>
+                    <td align=center>$1$</td>
+                </tr>
+                </tbody>
+            </table>
+        </center>
+    </div>
+    <br>
+    <p><span class="new-item item-r">Assumptions of GLMs</span> Generalized Linear Models (GLM) aim at predicting a random variable $y$ as a function of $x\in\mathbb{R}^{n+1}$ and rely on the following 3 assumptions:</p>
+    <div class=row>
+        <div class=col-sm-4>$(1)\quad\boxed{y|x;\theta\sim\textrm{ExpFamily}(\eta)}$</div>
+        <div class=col-sm-4>$(2)\quad\boxed{h_\theta(x)=E[y|x;\theta]}$</div>
+        <div class=col-sm-4>$(3)\quad\boxed{\eta=\theta^Tx}$</div>
+    </div>
+    <br>
+    <p><span class=remark>Remark: ordinary least squares and logistic regression are special cases of generalized linear models.</span></p>
+    <br>
+    <h2><a aria-hidden=true class=anchor href=#svm id=svm></a>Support Vector Machines</h2>
+    <p>The goal of support vector machines is to find the line that maximizes the minimum distance to the line.</p>
+    <p><span class="new-item item-b">Optimal margin classifier</span> The optimal margin classifier $h$ is such that:</p>
+    <div class=mobile-container>
+        \[\boxed{h(x)=\textrm{sign}(w^Tx-b)}\]
+    </div>
+    <p>where $(w, b)\in\mathbb{R}^n\times\mathbb{R}$ is the solution of the following optimization problem:</p>
+    <div class=mobile-container>
+        \[\boxed{\min\frac{1}{2}||w||^2}\quad\quad\textrm{such that }\quad \boxed{y^{(i)}(w^Tx^{(i)}-b)\geqslant1}\]
+    </div>
+    <center>
+        <img alt=SVM class=img-responsive src=teaching/cs-229/illustrations/svm-en.png?d23456fe589935f26cf32c1664c90851 style=width:100%;max-width:600px>
+    </center>
+    <p><span class=remark>Remark: the decision boundary is defined as $\boxed{w^Tx-b=0}$.</span></p>
+    <br>
+    <p><span class="new-item item-b">Hinge loss</span> The hinge loss is used in the setting of SVMs and is defined as follows:</p>
+    <div class=mobile-container>
+        \[\boxed{L(z,y)=[1-yz]_+=\max(0,1-yz)}\]
+    </div>
+    <br>
+    <p><span class="new-item item-b">Kernel</span> Given a feature mapping $\phi$, we define the kernel $K$ as follows:</p>
+    <div class=mobile-container>
+        \[\boxed{K(x,z)=\phi(x)^T\phi(z)}\]
+    </div>
+    <p>In practice, the kernel $K$ defined by $K(x,z)=\exp\left(-\frac{||x-z||^2}{2\sigma^2}\right)$ is called the Gaussian kernel and is commonly used.</p>
+    <center>
+        <img alt="SVM kernel" class=img-responsive src=teaching/cs-229/illustrations/svm-kernel-en.png?43f2af419ba926948a5bbf3289f2cf39>
+    </center>
+    <br>
+    <p><span class=remark>Remark: we say that we use the "kernel trick" to compute the cost function using the kernel because we actually don't need to know the explicit mapping $\phi$, which is often very complicated. Instead, only the values $K(x,z)$ are needed.</span></p>
+    <br>
+    <p><span class="new-item item-r">Lagrangian</span> We define the Lagrangian $\mathcal{L}(w,b)$ as follows:</p>
+    <div class=mobile-container>
+        \[\boxed{\mathcal{L}(w,b)=f(w)+\sum_{i=1}^l\beta_ih_i(w)}\]
+    </div>
+    <p><span class=remark>Remark: the coefficients $\beta_i$ are called the Lagrange multipliers.</span></p>
+    <br>
+    <h2><a aria-hidden=true class=anchor href=#generative-learning id=generative-learning></a>Generative Learning</h2>
+    <p>A generative model first tries to learn how the data is generated by estimating $P(x|y)$, which we can then use to estimate $P(y|x)$ by using Bayes' rule.</p>
+    <h3>Gaussian Discriminant Analysis</h3>
+    <p><span class="new-item item-b">Setting</span> The Gaussian Discriminant Analysis assumes that $y$ and $x|y=0$ and $x|y=1$ are such that:</p>
+    <div class=row>
+        <div class=col-sm-4>$(1)\quad\boxed{y\sim\textrm{Bernoulli}(\phi)}$</div>
+        <div class=col-sm-4>$(2)\quad\boxed{x|y=0\sim\mathcal{N}(\mu_0,\Sigma)}$</div>
+        <div class=col-sm-4>$(3)\quad\boxed{x|y=1\sim\mathcal{N}(\mu_1,\Sigma)}$</div>
+    </div>
+    <br>
+    <p><span class="new-item item-b">Estimation</span> The following table sums up the estimates that we find when maximizing the likelihood:</p>
+    <div class=mobile-container>
+        <center>
+            <table>
+                <tbody>
+                <tr>
+                    <td align=center><b>$\widehat{\phi}$</b></td>
+                    <td align=right><b>$\widehat{\mu_j}\quad{\small(j=0,1)}$</b></td>
+                    <td align=center><b>$\widehat{\Sigma}$</b></td>
+                </tr>
+                <tr>
+                    <td align=center>$\displaystyle\frac{1}{m}\sum_{i=1}^m1_{\{y^{(i)}=1\}}$</td>
+                    <td align=center>$\displaystyle\frac{\sum_{i=1}^m1_{\{y^{(i)}=j\}}x^{(i)}}{\sum_{i=1}^m1_{\{y^{(i)}=j\}}}$</td>
+                    <td align=center>$\displaystyle\frac{1}{m}\sum_{i=1}^m(x^{(i)}-\mu_{y^{(i)}})(x^{(i)}-\mu_{y^{(i)}})^T$</td>
+                </tr>
+                </tbody>
+            </table>
+        </center>
+    </div>
+    <br>
+    <h3>Naive Bayes</h3>
+    <p><span class="new-item item-b">Assumption</span> The Naive Bayes model supposes that the features of each data point are all independent:</p>
+    <div class=mobile-container>
+        \[\boxed{P(x|y)=P(x_1,x_2,...|y)=P(x_1|y)P(x_2|y)...=\prod_{i=1}^nP(x_i|y)}\]
+    </div>
+    <br>
+    <p><span class="new-item item-r">Solutions</span> Maximizing the log-likelihood gives the following solutions:
+    </p><div class=mobile-container>
+    \[\boxed{P(y=k)=\frac{1}{m}\times\#\{j|y^{(j)}=k\}}\quad\textrm{ and }\quad\boxed{P(x_i=l|y=k)=\frac{\#\{j|y^{(j)}=k\textrm{ and }x_i^{(j)}=l\}}{\#\{j|y^{(j)}=k\}}}\]
+</div>
+    with $k\in\{0,1\}$ and $l\in[\![1,L]\!]$<p></p>
+    <p><span class=remark>Remark: Naive Bayes is widely used for text classification and spam detection.</span></p>
+    <br>
+    <h2><a aria-hidden=true class=anchor href=#tree id=tree></a>Tree-based and ensemble methods</h2>
+    <p>These methods can be used for both regression and classification problems.</p>
+    <p><span class="new-item item-b">CART</span> Classification and Regression Trees (CART), commonly known as decision trees, can be represented as binary trees. They have the advantage to be very interpretable.</p>
+    <br>
+    <p><span class="new-item item-b">Random forest</span> It is a tree-based technique that uses a high number of decision trees built out of randomly selected sets of features. Contrary to the simple decision tree, it is highly uninterpretable but its generally good performance makes it a popular algorithm.</p>
+    <p><span class=remark>Remark: random forests are a type of ensemble methods.</span></p>
+    <br>
+    <p><span class="new-item item-b">Boosting</span> The idea of boosting methods is to combine several weak learners to form a stronger one. The main ones are summed up in the table below:</p>
+    <div class=mobile-container>
+        <center>
+            <table style="table-layout:fixed; width:100%; min-width:760px;">
+                <colgroup>
+                    <col style=width:50%>
+                    <col style=width:50%>
+                </colgroup>
+                <tbody>
+                <tr>
+                    <td align=center><b>Adaptive boosting</b></td>
+                    <td align=center><b>Gradient boosting</b></td>
+                </tr>
+                <tr>
+                    <td align=left>• High weights are put on errors to improve at the next boosting step<br>
+                        • Known as Adaboost</td>
+                    <td align=left>• Weak learners are trained on residuals<br>
+                        • Examples include XGBoost</td>
+                </tr>
+                </tbody>
+            </table>
+        </center>
+    </div>
+    <br>
+    <h2><a aria-hidden=true class=anchor href=#other id=other></a>Other non-parametric approaches</h2>
+    <p><span class="new-item item-b">$k$-nearest neighbors</span> The $k$-nearest neighbors algorithm, commonly known as $k$-NN, is a non-parametric approach where the response of a data point is determined by the nature of its $k$ neighbors from the training set. It can be used in both classification and regression settings.</p>
+    <p><span class=remark>Remark: the higher the parameter $k$, the higher the bias, and the lower the parameter $k$, the higher the variance.</span></p>
+    <div class=mobile-container>
+        <center>
+            <img alt="k nearest neighbors" class=img-responsive src=teaching/cs-229/illustrations/k-nearest-neighbors.png?02f80a524bb11e2b7a70b58c9ed3b0f4 style=width:100%;max-width:740px>
+        </center>
+    </div>
+    <br>
+    <h2><a aria-hidden=true class=anchor href=#learning-theory id=learning-theory></a>Learning Theory</h2>
+    <p><span class="new-item item-r">Union bound</span> Let $A_1, ..., A_k$ be $k$ events. We have:</p>
+    <div class=mobile-container>
+        \[\boxed{P(A_1\cup ...\cup A_k)\leqslant P(A_1)+...+P(A_k)}\]
+    </div>
+    <center>
+        <img alt="Union bound" class=img-responsive src=teaching/cs-229/illustrations/union-bound.png?aab917859fa8e260e865def69a2889b8 style=width:100%;max-width:700px>
+    </center>
+    <br>
+    <p><span class="new-item item-r">Hoeffding inequality</span> Let $Z_1, .., Z_m$ be $m$ iid variables drawn from a Bernoulli distribution of parameter $\phi$. Let $\widehat{\phi}$ be their sample mean and $\gamma&gt;0$ fixed. We have:</p>
+    <div class=mobile-container>
+        \[\boxed{P(|\phi-\widehat{\phi}|&gt;\gamma)\leqslant2\exp(-2\gamma^2m)}\]
+    </div>
+    <p><span class=remark>Remark: this inequality is also known as the Chernoff bound.</span></p>
+    <br>
+    <p><span class="new-item item-g">Training error</span> For a given classifier $h$, we define the training error $\widehat{\epsilon}(h)$, also known as the empirical risk or empirical error, to be as follows:</p>
+    <div class=mobile-container>
+        \[\boxed{\widehat{\epsilon}(h)=\frac{1}{m}\sum_{i=1}^m1_{\{h(x^{(i)})\neq y^{(i)}\}}}\]
+    </div>
+    <br>
+    <p><span class="new-item item-g">Probably Approximately Correct (PAC)</span> PAC is a framework under which numerous results on learning theory were proved, and has the following set of assumptions:</p>
+    <ul>
+        <li>the training and testing sets follow the same distribution</li>
+        <li>the training examples are drawn independently</li>
+    </ul>
+    <br>
+    <p><span class="new-item item-g">Shattering</span> Given a set $S=\{x^{(1)},...,x^{(d)}\}$, and a set of classifiers $\mathcal{H}$, we say that $\mathcal{H}$ shatters $S$ if for any set of labels $\{y^{(1)}, ..., y^{(d)}\}$, we have:</p>
+    <div class=mobile-container>
+        \[\boxed{\exists h\in\mathcal{H}, \quad \forall i\in[\![1,d]\!],\quad h(x^{(i)})=y^{(i)}}\]
+    </div>
+    <br>
+    <p><span class="new-item item-r">Upper bound theorem</span> Let $\mathcal{H}$ be a finite hypothesis class such that $|\mathcal{H}|=k$ and let $\delta$ and the sample size $m$ be fixed. Then, with probability of at least $1-\delta$, we have:</p>
+    <div class=mobile-container>
+        \[\boxed{\epsilon(\widehat{h})\leqslant\left(\min_{h\in\mathcal{H}}\epsilon(h)\right)+2\sqrt{\frac{1}{2m}\log\left(\frac{2k}{\delta}\right)}}\]
+    </div>
+    <br>
+    <p><span class="new-item item-g">VC dimension</span> The Vapnik-Chervonenkis (VC) dimension of a given infinite hypothesis class $\mathcal{H}$, noted $\textrm{VC}(\mathcal{H})$ is the size of the largest set that is shattered by $\mathcal{H}$.</p>
+    <p><span class=remark>Remark: the VC dimension of ${\small\mathcal{H}=\{\textrm{set of linear classifiers in 2 dimensions}\}}$ is 3.</span></p>
+    <center>
+        <img alt="VC dimension" class=img-responsive src=teaching/cs-229/illustrations/vc-dimension.png?73859dedcc66a0e47526936f801b7b56>
+    </center>
+    <br>
+    <p><span class="new-item item-r">Theorem (Vapnik)</span> Let $\mathcal{H}$ be given, with $\textrm{VC}(\mathcal{H})=d$ and $m$ the number of training examples. With probability at least $1-\delta$, we have:</p>
+    <div class=mobile-container>
+        \[\boxed{\epsilon(\widehat{h})\leqslant \left(\min_{h\in\mathcal{H}}\epsilon(h)\right) + O\left(\sqrt{\frac{d}{m}\log\left(\frac{m}{d}\right)+\frac{1}{m}\log\left(\frac{1}{\delta}\right)}\right)}\]
+    </div>
+</article> </div> <footer class=footer> <div class=footer id=contact> <div class=container> <a href=https://twitter.com/shervinea><i class="fa fa-twitter fa-3x fa-fw"></i></a> <a href=https://linkedin.com/in/shervineamidi><i class="fa fa-linkedin fa-3x fa-fw"></i></a> <a href=https://github.com/shervinea><i class="fa fa-github fa-3x fa-fw"></i></a> <a href="https://scholar.google.com/citations?user=nMnMTm8AAAAJ"><i class="fa fa-google fa-3x fa-fw"></i></a> <a class=crptdml data-domain=stanford data-name=shervine data-tld=edu href=#mail onclick="window.location.href = 'mailto:' + this.dataset.name + '@' + this.dataset.domain + '.' + this.dataset.tld"><i class="fa fa-envelope fa-3x fa-fw"></i></a> <a href=https://www.amazon.com/stores/author/B0B37XBSJL><i class="fa fa-amazon fa-3x fa-fw"></i></a> </div> </div> </footer> </body></html>
