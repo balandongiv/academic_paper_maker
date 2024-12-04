@@ -132,15 +132,11 @@ pdf_align_with_title:
     Identify whether the extracted text contains the exact title {paper_title}.
 
   goal: >
-    Ensure the provided title is matched exactly to determine the relevance of the document to the specified subject.
-
+    Identify whether the extracted text contains the exact title {paper_title}.
   backstory: >
-    The evaluation aims to confirm whether a document is relevant for further analysis or inclusion in a specific dataset, based on the exact title match with a given query. This strict matching ensures accuracy in document categorization.
+
 
   evaluation_criteria: >
-    - The extracted text must include the exact title enclosed in curly brackets: {paper_title}.
-    - The match must be precise with no deviations, rewording, or partial matches.
-    - Contextual relevance is secondary and not evaluated in this prompt.
 
   expected_output: >
     A boolean value:

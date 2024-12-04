@@ -14,7 +14,8 @@ from googlesearch import search
 from openai import OpenAI
 
 from research_filter.agent_helper import combine_role_instruction
-
+import re
+from research_filter.check_pdf_title import extract_title_from_pdf
 # Initialize logger
 logging.basicConfig(
     level=logging.INFO,
@@ -24,7 +25,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-logger.info("Loading environment variables.")
+# logger.info("Loading environment variables.")
 
 def initialize_openai_client():
     load_env()
@@ -111,20 +112,52 @@ def search_with_ddgs(query, max_attempts=5, delay=5):
     print("DuckDuckGo search failed after multiple attempts.")
     return []
 
+def normalize_title(title):
+    return re.sub(r'\s+', ' ', title.strip().lower())
 
-
-def download_and_validate_pdf(pdf_url, save_path,  client, role_instruction,model_name):
+def download_and_validate_pdf(pdf_url,paper_title, save_path,  client, role_instruction,model_name):
     """
     Download a PDF and validate its relevance using AI.
     """
     try:
         pdf_path = download_pdf(pdf_url, save_path)
+
+
+        title_found = extract_title_from_pdf(pdf_path)
+        if normalize_title(title_found) == normalize_title(paper_title):
+            status = 'SUCCESS'
+            return status
+        role_instruction_first = "Your task is to determine whether the given two texts, representing paper titles, match. Return 'True' if they match and 'False' if they do not."
+        the_two_titles = f"The provided paper title is: '{paper_title}', and the extracted title from the PDF is: '{title_found}'."
+
+
+        completion = client.chat.completions.create(
+            model=model_name,
+            messages=[
+                {"role": "system", "content": role_instruction_first},
+                {"role": "user", "content": the_two_titles}
+            ]
+        )
+
+        try:
+            output = completion.choices[0].message.content.strip()
+        except Exception as e:
+            pass
+
+        if output is 'True':
+            status='SUCCESS'
+            return status
+
         pdf_document = fitz.open(pdf_path)
         first_page_content = pdf_document[0].get_text("text")
 
         # Check relevance using AI
         # instruction = (f"Does the following text of the first page extracted have the title {paper_title}? "
         #                f"Return Boolean True if relevant and False if not relevant.")
+
+
+
+
         is_relevant = get_info_ai(first_page_content, role_instruction, client, model_name=model_name)
 
         if is_relevant == "False":
@@ -157,7 +190,7 @@ def process_single_url(url, save_path, paper_title, client, role_instruction,mod
     Process a single URL to find a valid PDF.
     """
     if url.lower().endswith('.pdf'):
-        status =download_and_validate_pdf(url,  save_path,  client, role_instruction,model_name)
+        status =download_and_validate_pdf(url,  paper_title,save_path,  client, role_instruction,model_name)
         return status
     else:
         try:
@@ -165,7 +198,7 @@ def process_single_url(url, save_path, paper_title, client, role_instruction,mod
             response.raise_for_status()
             pdf_links = extract_pdf_links(response.text, url)
             for pdf_url in pdf_links:
-                status = download_and_validate_pdf(pdf_url,  save_path,  client, role_instruction,model_name)
+                status = download_and_validate_pdf(pdf_url,  paper_title,save_path,  client, role_instruction,model_name)
                 if status == 'SUCCESS':
                     return status
         except Exception as e:
@@ -190,7 +223,7 @@ def load_yaml(file_path):
     with open(file_path, "r") as file:
         return yaml.safe_load(file)
 
-def find_and_download_pdf(query, save_path=".",paper_title=None):
+def find_and_download_pdf(paper_title, save_path):
     """
     Main function to find and download a PDF for the given query.
     """
@@ -205,18 +238,18 @@ def find_and_download_pdf(query, save_path=".",paper_title=None):
 
 
     placeholders = {
-        "paper_title": 'Pattern recognition of partial discharge by using simplified fuzzy ARTMAP',
+        "paper_title": paper_title,
     }
 
     role_instruction = combine_role_instruction(config, placeholders, agent_name)
 
-    print(f"Searching for: {query}")
+    print(f"Searching for: {paper_title}")
     # all_url=[]
     # Try Google first
-    urls = search_with_google(query)
+    urls = search_with_google(paper_title)
     if not urls:
         # Fall back to DuckDuckGo if Google fails
-        urls = search_with_ddgs(query)
+        urls = search_with_ddgs(paper_title)
 
     if not urls:
         return "I have used Google and DuckDuckGo despite multiple attempts, but still unable to find the PDF."
@@ -228,7 +261,7 @@ def find_and_download_pdf(query, save_path=".",paper_title=None):
 
 
 
-
+    urls=urls[:1]
 
     client = initialize_openai_client()
     status = process_urls(urls, save_path,client,paper_title,role_instruction)
@@ -246,12 +279,12 @@ def find_and_download_pdf(query, save_path=".",paper_title=None):
 
 # Example usage of the function
 if __name__ == "__main__":
-    # query = "Identification of contradictory patterns in experimental datasets for the development of models for electrical cables diagnostics"
+    paper_title  = "Identification of contradictory patterns in experimental datasets for the development of models for electrical cables diagnostics"
     # query = "Pattern recognition of partial discharge by using simplified fuzzy ARTMAP"
     # Define the folder and filename
-    query = "Pattern recognition of partial discharge by using simplified fuzzy ARTMAP"
-    filename = "_".join(query.split()) + ".pdf"
-    folder_path = r"C:\Users\balan\IdeaProjects\crewai-flows-crash-course\research_filter\downloads"
+    # paper_title = "Pattern recognition of partial discharge by using simplified fuzzy ARTMAP"
+    filename = "_".join(paper_title.split()) + ".pdf"
+    folder_path = r"C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\downloads"
 
     # Check if the downloads folder exists, and create it if not
     if not os.path.exists(folder_path):
@@ -263,5 +296,5 @@ if __name__ == "__main__":
     # Normalize the path to ensure it's in the correct format
     output_path = os.path.normpath(output_path)
 
-    remark = find_and_download_pdf(query, output_path)
+    remark = find_and_download_pdf(paper_title, output_path)
     print(remark)

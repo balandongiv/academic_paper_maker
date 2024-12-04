@@ -52,7 +52,7 @@ def download_paper(title, output_directory):
                 os.remove(output_path)  # Remove the invalid file
                 # Attempt alternative download
                 logger.info("Attempting alternative download method.")
-                remark = find_and_download_pdf(title, output_path,paper_title=title)
+                remark = find_and_download_pdf(title, output_path)
                 return remark
             else:
                 logger.info(f"Successfully downloaded: {output_path}")
@@ -61,13 +61,13 @@ def download_paper(title, output_directory):
             logger.warning(f"Sci-Hub download failed for: {title}")
             # Attempt alternative download
             logger.info("Attempting alternative download method.")
-            remark = find_and_download_pdf(title, output_path,paper_title=title)
+            remark = find_and_download_pdf(title, output_path)
             return remark
     except Exception as e:
         logger.error(f"Error during Sci-Hub download for '{title}': {e}")
         # Attempt alternative download
         logger.info("Attempting alternative download method.")
-        remark = find_and_download_pdf(title, output_directory)
+        remark = find_and_download_pdf(title, output_path)
         return remark
 
 
@@ -84,19 +84,19 @@ def process_dataframe(input_csv, output_directory):
     """
     df = pd.read_excel(input_csv)
     df = df[df['ai_output'] == 'Related']
-    df['pdf_scihub'] = 'Not Success'
-
+    df['pdf_scihub'] = ''
+    df=df[6:8]
     for _, row in tqdm(df.iterrows(), total=len(df), desc="Processing papers"):
         title = row['title']
-        success = download_paper(title, output_directory)
-        df.loc[df['title'] == title, 'pdf_scihub'] = 'Success' if success else 'Not Success'
+        download_status = download_paper(title, output_directory)
+        df.loc[df['title'] == title, 'pdf_scihub'] = download_status
 
     return df
 
 if __name__ == "__main__":
     # Configuration
     csv_path = r'../research_filter/corono_discharge_updated_20241130_231804_X.xlsx'
-    pdf_store_directory = 'pdf_store'
+    pdf_store_directory = r'C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\pdf_store'
 
     # Create output directory
     create_pdf_store(pdf_store_directory)
@@ -106,6 +106,6 @@ if __name__ == "__main__":
     updated_df = process_dataframe(csv_path, pdf_store_directory)
 
     # Save the updated DataFrame
-    output_csv_path = 'updated_corono_discharge_downloaded_v1.xlsx'
+    output_csv_path = 'updated_corono_discharge_downloaded_status.xlsx'
     updated_df.to_excel(output_csv_path, index=False)
     logger.info(f"Updated DataFrame saved to {output_csv_path}")

@@ -13,7 +13,7 @@ def combine_role_instruction(config, placeholders,agent_name):
     # Extract and format the components
     goal = config[agent_name]["goal"].format(**placeholders)
     backstory = config[agent_name]["backstory"].format(**placeholders)
-    evaluation_criteria = "\n".join(f"- {criterion}" for criterion in config["abstract_sorter"]["evaluation_criteria"])
+    evaluation_criteria =  config[agent_name]["evaluation_criteria"].format(**placeholders)
     expected_output = config[agent_name]["expected_output"].format(**placeholders)
     additional_notes = config[agent_name]["additional_notes"].format(**placeholders)
 
