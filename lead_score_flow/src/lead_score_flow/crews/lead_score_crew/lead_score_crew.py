@@ -7,7 +7,7 @@ from lead_score_flow.src.lead_score_flow.types import CandidateScore
 class LeadScoreCrew:
     """Lead Score Crew"""
 
-    agents_config = "config/agents.yaml"
+    agents_config = "config/agents_partial_discharge.yaml"
     tasks_config = "config/tasks.yaml"
 
     @agent

@@ -101,9 +101,10 @@ def main():
 
     try:
         # Define placeholders
-        csv_path = "../research_filter/corono_discharge.csv"
+        csv_path = "../research_filter/eeg_based_fatigue_classification_trends_new_2024.xlsx"
         placeholders = {
-            "topic": "Partial discharge or corona discharge classification and detection using machine learning techniques",
+            "topic": "fatigue or drowsiness classification and detection using machine learning techniques",
+            # "topic": "Partial discharge or corona discharge classification and detection using machine learning techniques",
         }
 
         # Load environment variables
@@ -111,7 +112,7 @@ def main():
         load_env()
 
         # Load YAML configuration
-        yaml_path = "../research_filter/agents.yaml"
+        yaml_path = "agents_partial_discharge.yaml"
         logger.info(f"Loading YAML configuration from {yaml_path}.")
         config = load_yaml(yaml_path)
 
@@ -129,7 +130,7 @@ def main():
         # Load CSV data
         logger.info(f"Loading CSV data from {csv_path}.")
         model_name = "gpt-4o-mini"
-        df = pd.read_csv(csv_path)
+        df = pd.read_excel(csv_path)
         # df = df.head(2)
         # Process DataFrame
         logger.info("Processing DataFrame.")

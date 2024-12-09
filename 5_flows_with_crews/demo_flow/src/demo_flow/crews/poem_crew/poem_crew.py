@@ -6,7 +6,7 @@ from crewai.project import CrewBase, agent, crew, task
 class PoemCrew():
 	"""Poem Crew"""
 
-	agents_config = 'config/agents.yaml'
+	agents_config = 'config/agents_partial_discharge.yaml'
 	tasks_config = 'config/tasks.yaml'
 
 	llm=LLM(

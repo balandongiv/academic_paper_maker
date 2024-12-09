@@ -10,7 +10,7 @@ from write_a_book_with_flows.types import Chapter
 class WriteBookChapterCrew:
     """Write Book Chapter Crew"""
 
-    agents_config = "config/agents.yaml"
+    agents_config = "config/agents_partial_discharge.yaml"
     tasks_config = "config/tasks.yaml"
     # llm = ChatOpenAI(model="gpt-3.5-turbo")
     # llm=LLM(
