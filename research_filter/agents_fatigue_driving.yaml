@@ -33,12 +33,7 @@ abstract_filter:
     - The abstract contributes directly to the stated research focus without excessive divergence.
 
   expected_output: >
-    A boolean value:
-    - True if the abstract is directly relevant to the specified topic, 
-      addressing both {topic} and machine learning techniques.
-    - False if the abstract does not meet the criteria or lacks sufficient relevance 
-      to the specified topic.
-
+    Respond with only "True" if all criteria are met. Respond with only "False" if any criterion is not met. Provide no explanation or commentary.
   additional_notes: >
     
 

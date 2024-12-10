@@ -1,7 +1,15 @@
 import pandas as pd
+import os
+# Get the directory of the current script
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
+# Define the relative YAML path
+# YAML_PATH = os.path.join(SCRIPT_DIR, "agents_fatigue_driving.yaml")
+file_path = os.path.join(SCRIPT_DIR, "eeg_based_fatigue_classification_trends_new_2024.xlsx")
+output_file_path = os.path.join(SCRIPT_DIR, "eeg_test_simple_with_bibtex.xlsx")
+# output_file_path = r'C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\eeg_test_simple_with_bibtex.xlsx'
 # Load the EEG test data from the Excel file
-file_path = r'C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\eeg_test_simple.xlsx'
+# file_path = r'C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\eeg_test_simple.xlsx'
 df = pd.read_excel(file_path)
 
 # Ensure the required columns 'Author' and 'Year' are present
@@ -33,5 +41,5 @@ for bibtex in df['bibtex']:
 df['bibtex'] = final_bibtex
 
 # Save the modified dataframe to a new file
-output_file_path = r'C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\eeg_test_simple_with_bibtex.xlsx'
+
 df.to_excel(output_file_path, index=False)

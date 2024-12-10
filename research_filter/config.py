@@ -25,9 +25,17 @@ AGENT_NAME_MAPPING = {
     "analyse_pdf": "pdf_fatigue_reader"
 }
 
+import os
+
+# Get the directory of the current script
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Define the relative YAML path
+YAML_PATH = os.path.join(SCRIPT_DIR, "agents_fatigue_driving.yaml")
+FILE_PATH = os.path.join(SCRIPT_DIR, "eeg_test_simple_with_bibtex.xlsx")
 # Files and paths
-FILE_PATH = r"C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\eeg_test_simple_with_bibtex.xlsx"
-YAML_PATH = r"C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\agents_fatigue_driving.yaml"
+# FILE_PATH = r"..\research_filter\eeg_test_simple_with_bibtex.xlsx"
+# YAML_PATH = r"..\esearch_filter\agents_fatigue_driving.yaml"
 
 # JSON output directory
 JSON_OUTPUT_DIR = "json_output"

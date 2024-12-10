@@ -138,7 +138,7 @@ def main():
 
         # Combine system prompt
         system_prompt = combine_role_instruction(config, placeholders, "abstract_filter")
-        combined_string = f"{system_prompt}\n\nBibRef: {bib_ref}\n\n{abstract}"
+        combined_string = f"{system_prompt}\n The abstract is as follow: {abstract}"
         return idx, bib_ref, combined_string, system_prompt
 
     def display_current_row():
@@ -174,7 +174,7 @@ def main():
         with open(json_file_path, 'w') as json_file:
             json.dump(final_data, json_file, indent=4)
 
-        messagebox.showinfo("Success", f"JSON validated and saved for {bib_ref}.")
+        # messagebox.showinfo("Success", f"JSON validated and saved for {bib_ref}.")
         return True
 
     def next_row():
