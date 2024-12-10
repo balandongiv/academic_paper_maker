@@ -4,7 +4,7 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 import pandas as pd
 import pyperclip
-
+import shutil
 from config import (
     DEBUG,
     ACTIVITY_NOW,
@@ -91,6 +91,11 @@ def main():
     # State variables
     row_indices = rows_to_process.index.tolist()
     current_index = tk.IntVar(value=0)
+    status_message = tk.StringVar(value="Ready to start.")
+
+    def update_status(message):
+        """Update the dynamic status message."""
+        status_message.set(message)
 
     def on_activity_change(event):
         pass  # If needed, handle changes in the selection
@@ -107,8 +112,8 @@ def main():
         "Instructions:\n"
         "1. The combined prompt+abstract is copied to the clipboard.\n"
         "2. Process it externally and paste the resulting JSON below.\n"
-        "3. Click 'Save JSON' to validate and save for this row.\n"
-        "4. Use 'Next Row' to continue or 'Exit' to finish."
+        "3. Click 'Save & Next' to validate, save, and move to the next row.\n"
+        "4. Use 'Exit' to finish."
     ))
     instruction_label.pack(pady=5)
 
@@ -124,6 +129,10 @@ def main():
 
     json_text_box = tk.Text(root, height=10, width=70)
     json_text_box.pack(pady=5)
+
+    # Dynamic status section
+    status_label = tk.Label(root, textvariable=status_message, fg="blue")
+    status_label.pack(pady=10)
 
     # Helper Functions
     def load_row_data():
@@ -143,6 +152,7 @@ def main():
 
     def display_current_row():
         # Display combined prompt+abstract for current row
+        update_status("Loading row data...")
         _, bib_ref, combined_string, _ = load_row_data()
         combined_text_box.delete("1.0", tk.END)
         combined_text_box.insert(tk.END, combined_string)
@@ -152,42 +162,43 @@ def main():
 
         # Clear the JSON box for fresh input
         json_text_box.delete("1.0", tk.END)
+        update_status("Ready for JSON input.")
 
-    def save_user_json():
-        # Validate and save the JSON for the current row
+    def save_and_next():
+        update_status("Validating and saving data...")
         user_json_input = json_text_box.get("1.0", tk.END).strip()
         if not user_json_input:
             messagebox.showerror("Error", "No JSON input provided.")
-            return False
+            update_status("Validation failed: No JSON input.")
+            return
 
         idx, bib_ref, _, system_prompt = load_row_data()
         valid, result = validate_json_data(user_json_input, system_prompt)
         if not valid:
             # result is the error message or updated prompt with error
             messagebox.showerror("Validation Error", f"Error in JSON:\n\n{result}")
-            return False
+            update_status("Validation failed: Invalid JSON.")
+            return
 
-        # If valid, 'result' is either a boolean or a dict
-        final_data = result  # if bool, final_data is bool; if dict, final_data is dict
-
+        # Save JSON file
+        final_data = result
         json_file_path = os.path.join(JSON_OUTPUT_DIR, f"{bib_ref}.json")
         with open(json_file_path, 'w') as json_file:
             json.dump(final_data, json_file, indent=4)
 
-        # messagebox.showinfo("Success", f"JSON validated and saved for {bib_ref}.")
-        return True
+        update_status("Data saved successfully. Moving to the next row...")
 
-    def next_row():
         # Move to the next row if possible
-        if save_user_json():
-            current_pos = current_index.get()
-            if current_pos < len(row_indices) - 1:
-                current_index.set(current_pos + 1)
-                display_current_row()
-            else:
-                messagebox.showinfo("Done", "No more rows to process.")
+        current_pos = current_index.get()
+        if current_pos < len(row_indices) - 1:
+            current_index.set(current_pos + 1)
+            display_current_row()
+        else:
+            messagebox.showinfo("Done", "No more rows to process.")
+            update_status("All rows processed.")
 
     def on_exit():
+        update_status("Finalizing and saving data...")
         # On exit, update df with processed JSON data
         for idx in row_indices:
             bib_ref = df.at[idx, 'bib_ref'] if 'bib_ref' in df.columns else f"row_{idx}"
@@ -196,17 +207,13 @@ def main():
                 try:
                     with open(json_file_path, 'r') as f:
                         data = json.load(f)
-                    # If boolean, store just the boolean value as string 'True'/'False'.
-                    # If dict, store the entire dict as JSON string.
                     if isinstance(data, bool):
                         df.at[idx, 'ai_related'] = data
                     else:
-                        # It's a dict
                         df.at[idx, 'ai_related'] = json.dumps(data)
                 except Exception as e:
                     print(f"Error reading JSON for {bib_ref}: {e}")
 
-        # Save back to Excel
         df.to_excel(FILE_PATH, index=False)
 
         # Clean up JSON directory
@@ -214,17 +221,28 @@ def main():
             file_path = os.path.join(JSON_OUTPUT_DIR, file_name)
             if os.path.isfile(file_path):
                 os.remove(file_path)
-        os.rmdir(JSON_OUTPUT_DIR)
 
+        # Ensure the directory exists
+        if os.path.exists(JSON_OUTPUT_DIR):
+            try:
+                # Use shutil.rmtree to forcefully remove the directory
+                shutil.rmtree(JSON_OUTPUT_DIR)
+                print(f"Successfully deleted: {JSON_OUTPUT_DIR}")
+            except PermissionError as e:
+                print(f"Permission denied: {e}")
+            except Exception as e:
+                print(f"An error occurred: {e}")
+        else:
+            print(f"Directory does not exist: {JSON_OUTPUT_DIR}")
+
+
+        update_status("Data updated and saved. Exiting...")
         messagebox.showinfo("Exit", "Data updated and saved back to Excel.")
         root.destroy()
 
     # Buttons
-    save_button = tk.Button(root, text="Save JSON for This Row", command=save_user_json)
-    save_button.pack(pady=5)
-
-    next_button = tk.Button(root, text="Next Row", command=next_row)
-    next_button.pack(pady=5)
+    save_next_button = tk.Button(root, text="Save & Next", command=save_and_next)
+    save_next_button.pack(pady=5)
 
     exit_button = tk.Button(root, text="Exit", command=on_exit)
     exit_button.pack(pady=5)
@@ -236,3 +254,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
