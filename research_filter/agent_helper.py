@@ -1,5 +1,58 @@
 import yaml
 
+import os
+from pydantic import RootModel
+from typing import Any, Dict, Union
+import json
+# Pydantic model for validation using RootModel
+class AIOutputModel(RootModel[Union[str, Dict[str, Any]]]):
+    pass
+
+
+def parse_ai_output(user_json_input: str):
+    """Attempt to parse the user's JSON input into a bool or dict using Pydantic."""
+    try:
+        data = json.loads(user_json_input)
+    except json.JSONDecodeError:
+        data = user_json_input.strip().lower()
+
+
+    # If data is a string "True"/"False", convert it to boolean
+    if isinstance(data, str):
+        lower_str = data.strip().lower()
+        if lower_str == "true":
+            data = 'relevance'
+        elif lower_str == "false":
+            data = 'not_relevance'
+        else:
+            raise ValueError("String provided is not 'True' or 'False'.")
+
+
+
+    # Now data should be either a bool or a dict
+    # Pydantic validation
+    try:
+        validated = AIOutputModel.parse_obj(data)
+        return validated.root  # returns the underlying bool or dict
+    except Exception as e:
+        # Validation error from Pydantic
+        raise ValueError(f"Pydantic validation error: {str(e)}")
+
+def validate_json_data(user_json_input, system_prompt):
+    """
+    Validate the user JSON using Pydantic.
+    If validation fails, return (False, error_message or updated_prompt).
+    If success, return (True, validated_data).
+    """
+    try:
+        validated_data = parse_ai_output(user_json_input)
+        return True, validated_data
+    except ValueError as e:
+        error_message = str(e)
+        # Append error message into the system_prompt to help user correct errors
+        updated_prompt = system_prompt + "\n\n" + error_message
+        return False, updated_prompt
+
 
 def load_yaml(file_path):
     """Load a YAML file and return its contents."""

@@ -21,7 +21,7 @@ placeholders = {
 
 # Hardcoded agent names based on activity
 AGENT_NAME_MAPPING = {
-    "abstract_filtering": "abstract_fatigue_filter",
+    "abstract_filtering": "abstract_filter_fatigue_eeg",
     "analyse_pdf": "pdf_fatigue_reader"
 }
 
@@ -43,6 +43,3 @@ if not os.path.exists(JSON_OUTPUT_DIR):
     os.makedirs(JSON_OUTPUT_DIR)
 
 
-# Pydantic model for validation using RootModel
-class AIOutputModel(RootModel[Union[bool, Dict[str, Any]]]):
-    pass

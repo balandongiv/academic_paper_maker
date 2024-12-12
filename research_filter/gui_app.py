@@ -14,68 +14,25 @@ from config import (
     YAML_PATH,
     placeholders,
     JSON_OUTPUT_DIR,
-    AIOutputModel
 )
-from research_filter.agent_helper import combine_role_instruction, load_yaml
-
-
-def parse_ai_output(user_json_input: str):
-    """Attempt to parse the user's JSON input into a bool or dict using Pydantic."""
-    try:
-        data = json.loads(user_json_input)
-    except json.JSONDecodeError:
-        data = user_json_input.strip().lower()
-        # data=f'"{user_json_input}"'
-        # raise ValueError("Invalid JSON format. Please ensure valid JSON input.")
-
-    # If data is a string "True"/"False", convert it to boolean
-    if isinstance(data, str):
-        lower_str = data.strip().lower()
-        if lower_str == "true":
-            data = True
-        elif lower_str == "false":
-            data = False
-        else:
-            raise ValueError("String provided is not 'True' or 'False'.")
+from research_filter.agent_helper import combine_role_instruction, load_yaml,validate_json_data
 
 
 
-    # Now data should be either a bool or a dict
-    # Pydantic validation
-    try:
-        validated = AIOutputModel.parse_obj(data)
-        return validated.root  # returns the underlying bool or dict
-    except Exception as e:
-        # Validation error from Pydantic
-        raise ValueError(f"Pydantic validation error: {str(e)}")
 
 
-def validate_json_data(user_json_input, system_prompt):
-    """
-    Validate the user JSON using Pydantic.
-    If validation fails, return (False, error_message or updated_prompt).
-    If success, return (True, validated_data).
-    """
-    try:
-        validated_data = parse_ai_output(user_json_input)
-        return True, validated_data
-    except ValueError as e:
-        error_message = str(e)
-        # Append error message into the system_prompt to help user correct errors
-        updated_prompt = system_prompt + "\n\n" + error_message
-        return False, updated_prompt
 
 
 def main():
     # Load Excel file
     df = pd.read_excel(FILE_PATH)
 
-    # Ensure 'ai_related' column exists for storing processed JSON data at the end
-    if 'ai_related' not in df.columns:
-        df['ai_related'] = ""
+    # Ensure 'ai_output' column exists for storing processed JSON data at the end
+    if 'ai_output' not in df.columns:
+        df['ai_output'] = ""
 
     # Filter rows for processing (those not processed yet)
-    rows_to_process = df[df['ai_related'].isna() | (df['ai_related'] == '')].copy()
+    rows_to_process = df[df['ai_output'].isna() | (df['ai_output'] == '')].copy()
 
     if rows_to_process.empty:
         print("No rows left to process.")
@@ -136,9 +93,10 @@ def main():
 
     # Helper Functions
     def load_row_data():
+
         idx = row_indices[current_index.get()]
         row = df.loc[idx]
-        abstract = row.get('Abstract', '')
+        abstract = row.get('abstract', '')
         bib_ref = row.get('bib_ref', f"row_{idx}")
 
         # Determine agent_name from activity
@@ -146,7 +104,7 @@ def main():
         agent_name = AGENT_NAME_MAPPING.get(activity_selected, AGENT_NAME_MAPPING["abstract_filtering"])
 
         # Combine system prompt
-        system_prompt = combine_role_instruction(config, placeholders, "abstract_filter")
+        system_prompt = combine_role_instruction(config, placeholders, agent_name)
         combined_string = f"{system_prompt}\n The abstract is as follow: {abstract}"
         return idx, bib_ref, combined_string, system_prompt
 
@@ -181,10 +139,11 @@ def main():
             return
 
         # Save JSON file
-        final_data = result
+        # final_data = result
+        data = {'ai_output': result}
         json_file_path = os.path.join(JSON_OUTPUT_DIR, f"{bib_ref}.json")
         with open(json_file_path, 'w') as json_file:
-            json.dump(final_data, json_file, indent=4)
+            json.dump(data, json_file, indent=4)
 
         update_status("Data saved successfully. Moving to the next row...")
 
@@ -205,12 +164,13 @@ def main():
             json_file_path = os.path.join(JSON_OUTPUT_DIR, f"{bib_ref}.json")
             if os.path.exists(json_file_path):
                 try:
-                    with open(json_file_path, 'r') as f:
+                    with open(json_file_path, "r") as f:
                         data = json.load(f)
-                    if isinstance(data, bool):
-                        df.at[idx, 'ai_related'] = data
-                    else:
-                        df.at[idx, 'ai_related'] = json.dumps(data)
+                    # Update the row with the saved ai_output if available
+                    if 'ai_output' in data:
+                        df.at[idx, 'ai_output'] = data['ai_output']
+
+
                 except Exception as e:
                     print(f"Error reading JSON for {bib_ref}: {e}")
 

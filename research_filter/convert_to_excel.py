@@ -46,16 +46,16 @@ df = pd.DataFrame(data)
 
 # Define the desired headers
 headers = [
-    "Author",
-    "Year",
-    "Title",
-    "Journal",
-    "Volume",
-    "Publisher",
-    "DOI",
-    "abstract: Abstract:",
-    "File Attachments",
-    "URL"
+    "author",
+    "year",
+    "title",
+    "journal",
+    "volume",
+    "publisher",
+    "doi",
+    "abstract",
+    "attachments",
+    "url"
 ]
 
 # If the file has fewer columns than the headers, fill in missing columns with None
