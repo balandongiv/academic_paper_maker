@@ -1,3 +1,35 @@
+template:
+
+  Key Placeholder Definitions: >
+    #  { topic }:
+    #  Represents the specific subject of research, e.g., "EEG-based fatigue classification" or "partial discharge."
+    #  { topic_context }:
+    #  Represents the broader context or domain, e.g., "neurophysiological analysis" or "electrical systems diagnostics."
+
+  role: >
+    # This section describes the agent's specific expertise and responsibilities in the context of evaluating abstracts.
+
+
+  goal: >
+    # Define the overarching purpose of the evaluation. This should include what the agent is expected to identify or assess in the abstracts.
+
+
+  backstory: >
+    # This section provides context about the agent’s qualifications and the reasoning behind the evaluation. It may include domain expertise, relevant experience, and understanding of the research topic.
+
+
+  evaluation_criteria:
+  # A structured list of specific conditions that the abstract must meet to be considered relevant. This section is critical for ensuring objective assessments.
+
+
+  expected_output: >
+    # This section specifies the format of the agent’s response. It ensures that the output is concise, standardized, and unambiguous.
+
+
+  additional_notes: >
+    # This section can provide any supplementary guidance, reminders, or context to aid the agent in their task. It can include edge cases, clarifications, or tips for interpretation.
+  
+
 abstract_filter_fatigue_eeg:
 
   Key Placeholder Definitions: >
@@ -217,3 +249,7 @@ Guidelines:
   Maintain the integrity and originality of the content when moving it into subsections.
   Ensure the abstract is no longer than 250 words and provides a clear overview.
   The conclusion should succinctly restate the critical findings and their implications, remaining concise yet comprehensive.
+
+
+
+
