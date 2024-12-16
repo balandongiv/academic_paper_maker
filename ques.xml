@@ -2,7 +2,7 @@
     <!-- question: 1029303 -->
     <question type="multichoice">
         <name>
-            <text>Rotational_Motion: Angular Acceleration Counterpart</text>
+            <text>Rotational_Dynamic: Torque Definition</text>
         </name>
         <questiontext format="html">
             <text>Which linear motion quantity corresponds to Angular Acceleration (α)?</text>

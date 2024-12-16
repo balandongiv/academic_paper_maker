@@ -2,7 +2,7 @@ import pandas as pd
 from pdf_ieee import do_download_ieee
 
 # Path to the Excel file
-file_path = r'../research_filter/eeg_test_simple_with_bibtex.xlsx'
+file_path = r'../research_filter/eeg_test_simple_with_bibtex_v1.xlsx'
 data = pd.read_excel(file_path)
 
 # Dictionaries for different URL categories

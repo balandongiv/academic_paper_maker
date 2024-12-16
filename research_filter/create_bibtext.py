@@ -6,8 +6,8 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 # Define the relative YAML path
 # YAML_PATH = os.path.join(SCRIPT_DIR, "agents_fatigue_driving.yaml")
 file_path = os.path.join(SCRIPT_DIR, "eeg_based_fatigue_classification_trends_new_2024.xlsx")
-output_file_path = os.path.join(SCRIPT_DIR, "eeg_test_simple_with_bibtex.xlsx")
-# output_file_path = r'C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\eeg_test_simple_with_bibtex.xlsx'
+output_file_path = os.path.join(SCRIPT_DIR, "eeg_test_simple_with_bibtex_v1.xlsx")
+# output_file_path = r'C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\eeg_test_simple_with_bibtex_v1.xlsx'
 # Load the EEG test data from the Excel file
 # file_path = r'C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\eeg_test_simple.xlsx'
 df = pd.read_excel(file_path)

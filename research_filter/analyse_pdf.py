@@ -3,11 +3,11 @@ from PyPDF2 import PdfReader
 from research_filter.agent_helper import combine_role_instruction
 
 def prepare_data_analyse_pdf(row, config, placeholders, agent_name):
-    pdf_path = row.get('pdf_path', '')
-    bib_ref = row.get('bib_ref', f"row_{row.name}")
+    pdf_path = row.get('attachments', '')
+    bib_ref = row.get('bibtex')
 
     # Extract text from PDF
-    pdf_text = ""
+    pdf_text = f"This is test pdf text for {bib_ref}"
     if pdf_path and os.path.exists(pdf_path):
         try:
             reader = PdfReader(pdf_path)

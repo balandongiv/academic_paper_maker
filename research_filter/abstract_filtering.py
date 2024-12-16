@@ -10,3 +10,6 @@ def prepare_data_abstract_filtering(row, config, placeholders, agent_name):
 
 def save_output_abstract_filtering(df, idx, ai_output):
     df.at[idx, 'ai_output'] = ai_output
+
+def save_output_analyse_pdf(df, idx, ai_output):
+    df.at[idx, 'pdf_analysis_output'] = ai_output

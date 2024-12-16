@@ -162,7 +162,7 @@ def main():
         "topic": "EEG-based fatigue classification",
         "topic_context": "neurophysiological analysis"
     }
-    csv_path = "../research_filter/eeg_test_simple_with_bibtex.xlsx"
+    csv_path = "eeg_test_simple_with_bibtex_v1.xlsx"
     agent_name = 'abstract_filter_fatigue_eeg'
     load_dotenv()
     yaml_path = "agents_fatigue_driving.yaml"
