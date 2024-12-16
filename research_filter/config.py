@@ -31,8 +31,8 @@ import os
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Define the relative YAML path
-YAML_PATH = os.path.join(SCRIPT_DIR, "agents_fatigue_driving.yaml")
-FILE_PATH = os.path.join(SCRIPT_DIR, "eeg_test_simple_with_bibtex_development_pdf_reader.xlsx")
+YAML_PATH = os.path.join(SCRIPT_DIR, "agent","agents_fatigue_driving.yaml")
+FILE_PATH = os.path.join(SCRIPT_DIR,"database", "eeg_test_simple_with_bibtex_v1.xlsx")
 # Files and paths
 # FILE_PATH = r"..\research_filter\eeg_test_simple_with_bibtex_v1.xlsx"
 # YAML_PATH = r"..\esearch_filter\agents_fatigue_driving.yaml"

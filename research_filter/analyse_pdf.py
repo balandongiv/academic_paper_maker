@@ -8,13 +8,13 @@ def prepare_data_analyse_pdf(row, config, placeholders, agent_name):
 
     # Extract text from PDF
     pdf_text = f"This is test pdf text for {bib_ref}"
-    if pdf_path and os.path.exists(pdf_path):
-        try:
-            reader = PdfReader(pdf_path)
-            for page in reader.pages:
-                pdf_text += page.extract_text() + "\n"
-        except Exception as e:
-            pdf_text = f"Error reading PDF: {e}"
+    # if pdf_path and os.path.exists(pdf_path):
+    #     try:
+    #         reader = PdfReader(pdf_path)
+    #         for page in reader.pages:
+    #             pdf_text += page.extract_text() + "\n"
+    #     except Exception as e:
+    #         pdf_text = f"Error reading PDF: {e}"
 
     # Combine system prompt
     system_prompt = combine_role_instruction(config, placeholders, agent_name)

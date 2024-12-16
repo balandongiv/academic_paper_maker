@@ -228,7 +228,7 @@ def find_and_download_pdf(paper_title, save_path):
     Main function to find and download a PDF for the given query.
     """
     # Load YAML configuration
-    yaml_path = "agents_partial_discharge.yaml"
+    yaml_path = "agent/agents_partial_discharge.yaml"
     logger.info(f"Loading YAML configuration from {yaml_path}.")
     config = load_yaml(yaml_path)
 
