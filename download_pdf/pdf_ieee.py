@@ -127,7 +127,7 @@ def download_pdfs(driver, url_dict, download_folder):
         with open(json_filename, 'w') as json_file:
             json.dump(metadata, json_file, indent=4)
         print(f"Saved JSON metadata: {json_filename}")
-def do_download_ieee(input_urls):
+def do_download_ieee(input_urls,bibtex=None):
     geckodriver_path, firefox_binary_path, download_folder = setup_paths()
 
     url_dict = normalize_urls(input_urls)

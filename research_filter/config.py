@@ -15,14 +15,14 @@ else:
 
 # Placeholders
 placeholders = {
-    "topic": "EEG-based fatigue classification",
+    "topic": "EEG-based driver fatigue classification",
     "topic_context": "neurophysiological analysis"
 }
 
 # Hardcoded agent names based on activity
 AGENT_NAME_MAPPING = {
     "abstract_filtering": "abstract_filter_fatigue_eeg",
-    "analyse_pdf": "academic_writer" # To change later to appropriate agent name
+    "analyse_pdf": "methodology_extractor_agent" # To change later to appropriate agent name
 }
 
 import os

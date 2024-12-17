@@ -4,7 +4,8 @@ from pdf_ieee import do_download_ieee
 # Path to the Excel file
 file_path = r'../research_filter/database/eeg_test_simple_with_bibtex_v1.xlsx'
 data = pd.read_excel(file_path)
-
+# Filter only if the 'ai_output' is relevance
+data=data[data['ai_output']=='relevance']
 # Dictionaries for different URL categories
 ieeexplore_dict = {}
 springer_dict = {}
@@ -18,8 +19,8 @@ ncbi_dict = {}
 for index, row in data.iterrows():
     bibtex = row.get('bibtex', '')
     urls = row.get('url', '')  # Can be multiple URLs separated by newline
-    doi = row.get('DOI', '')  # Assuming 'DOI' is a column in the DataFrame
-    title = row.get('Title', '')  # Assuming 'Title' is a column in the DataFrame
+    doi = row.get('doi', '')  # Assuming 'DOI' is a column in the DataFrame
+    title = row.get('title', '')  # Assuming 'Title' is a column in the DataFrame
 
     # Split URLs by newline and iterate over them
     for url in str(urls).split('\n'):
@@ -54,6 +55,6 @@ for index, row in data.iterrows():
 # Processing IEEE URLs with `do_download_ieee`
 for bibtex, details in ieeexplore_dict.items():
     urls = details["url"]
-    for url in urls:
-        # Call your download function or other processing here
-        do_download_ieee(url, bibtex=bibtex)
+
+    # Call your download function or other processing here
+    do_download_ieee(urls, bibtex=bibtex)

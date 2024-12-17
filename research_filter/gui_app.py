@@ -245,7 +245,8 @@ def main():
 
     # Reload the DataFrame after integration (to reflect updates and ensure row filtering works correctly)
     df = pd.read_excel(FILE_PATH)
-
+    df=df[df['ai_output']=='relevance']
+    df.reset_index(drop=True, inplace=True)
     # Initialize GUI
     root = tk.Tk()
     root.title("Academic Tool")
