@@ -22,8 +22,6 @@ df.to_excel(excel_file, index=False)
 default_shown_columns = ["year", "title", "bibtex"]
 currently_editing_column = None
 
-
-
 main_template = """
 <!DOCTYPE html>
 <html>
@@ -150,9 +148,11 @@ index_template = """
 
         <div class="navigation-buttons">
             <form action="{{ url_for('prev_row') }}" method="post" style="display:inline;">
+                <input type="hidden" name="current_tab" value="index">
                 <button type="submit">Previous</button>
             </form>
             <form action="{{ url_for('next_row') }}" method="post" style="display:inline;">
+                <input type="hidden" name="current_tab" value="index">
                 <button type="submit">Next</button>
             </form>
         </div>
@@ -268,9 +268,11 @@ index_template = """
 
         <div class="navigation-buttons">
             <form action="{{ url_for('prev_row') }}" method="post" style="display:inline;">
+                <input type="hidden" name="current_tab" value="index">
                 <button type="submit">Previous</button>
             </form>
             <form action="{{ url_for('next_row') }}" method="post" style="display:inline;">
+                <input type="hidden" name="current_tab" value="index">
                 <button type="submit">Next</button>
             </form>
         </div>
@@ -294,6 +296,20 @@ agentic_template = """
 <div class="container">
     <div class="left-panel">
         <h1>Agentic Operation</h1>
+
+        <div class="navigation-buttons">
+            <form action="{{ url_for('prev_row') }}" method="post" style="display:inline;">
+                <input type="hidden" name="current_tab" value="agentic_operation">
+                <input type="hidden" name="activity_selected" value="{{ activity_selected }}">
+                <button type="submit">Previous</button>
+            </form>
+            <form action="{{ url_for('next_row') }}" method="post" style="display:inline;">
+                <input type="hidden" name="current_tab" value="agentic_operation">
+                <input type="hidden" name="activity_selected" value="{{ activity_selected }}">
+                <button type="submit">Next</button>
+            </form>
+        </div>
+
         <form action="{{ url_for('agentic_operation') }}" method="post">
             <label for="activity_selected">Select Operation:</label>
             <select name="activity_selected" id="activity_selected" required>
@@ -346,10 +362,23 @@ agentic_template = """
             <button type="submit">Update Data</button>
         </form>
         {% endif %}
+
+        <div class="navigation-buttons">
+            <form action="{{ url_for('prev_row') }}" method="post" style="display:inline;">
+                <input type="hidden" name="current_tab" value="agentic_operation">
+                <input type="hidden" name="activity_selected" value="{{ activity_selected }}">
+                <button type="submit">Previous</button>
+            </form>
+            <form action="{{ url_for('next_row') }}" method="post" style="display:inline;">
+                <input type="hidden" name="current_tab" value="agentic_operation">
+                <input type="hidden" name="activity_selected" value="{{ activity_selected }}">
+                <button type="submit">Next</button>
+            </form>
+        </div>
     </div>
     <div class="right-panel">
+        <h2>PDF Viewer</h2>
         {% if pdf_path %}
-            <h2>PDF Viewer</h2>
             <iframe class="pdf-viewer" src="{{ url_for('serve_pdf', pdf_path=pdf_path) }}"></iframe>
         {% else %}
             <p>No PDF available for this operation or none selected yet.</p>
@@ -381,6 +410,7 @@ def get_current_edit_column_value():
 
 @app.route("/", methods=["GET"])
 def index():
+    global current_index
     row_data = get_row_data(current_index)
 
     edit_column_name = None
@@ -418,14 +448,29 @@ def prev_row():
     global current_index
     if current_index > 0:
         current_index -= 1
-    return redirect(url_for('index'))
+    current_tab = request.form.get("current_tab", "index")
+    activity_selected = request.form.get("activity_selected", None)
+    if current_tab == "agentic_operation":
+        # If we have activity_selected from before, store it in session
+        if activity_selected:
+            session['activity_selected'] = activity_selected
+        return redirect(url_for('agentic_operation'))
+    else:
+        return redirect(url_for('index'))
 
 @app.route("/next", methods=["POST"])
 def next_row():
     global current_index
     if current_index < len(df) - 1:
         current_index += 1
-    return redirect(url_for('index'))
+    current_tab = request.form.get("current_tab", "index")
+    activity_selected = request.form.get("activity_selected", None)
+    if current_tab == "agentic_operation":
+        if activity_selected:
+            session['activity_selected'] = activity_selected
+        return redirect(url_for('agentic_operation'))
+    else:
+        return redirect(url_for('index'))
 
 @app.route("/search_column", methods=["POST"])
 def search_column():
@@ -528,54 +573,54 @@ def exit_server():
         safe_exit()
     return "Server shutting down..."
 
-# ---------------------------------------------
-# New route for Agentic Operation
-# ---------------------------------------------
 @app.route("/agentic_operation", methods=["GET", "POST"])
 def agentic_operation():
     global current_index, df
 
     row_data = get_row_data(current_index)
     pdf_path = row_data.get("pdf_path", "")
+
+    # If an operation is submitted now or previously set in session
     activity_selected = request.form.get("activity_selected", None)
+    if not activity_selected:
+        # check session if already selected
+        activity_selected = session.get('activity_selected', None)
 
-    combined_string = ""
-    if request.method == "POST" and activity_selected:
-        # Load configuration
+    # If we have an activity_selected, let's load previous combined_string from session if exists
+    combined_string = session.get('combined_string', "")
+
+    if request.method == "POST" and request.form.get("activity_selected"):
+        # User selected a new activity and clicked run
         config = load_yaml(YAML_PATH)
-
         pdf_text = ""
+
+        if pdf_path and os.path.exists(pdf_path):
+            try:
+                reader = PdfReader(pdf_path)
+                for page in reader.pages:
+                    pdf_text += page.extract_text() + "\n"
+            except Exception as e:
+                pdf_text = f"Error reading PDF: {e}"
+
         if activity_selected == "analyse_pdf":
-            if pdf_path and os.path.exists(pdf_path):
-                try:
-                    reader = PdfReader(pdf_path)
-                    for page in reader.pages:
-                        pdf_text += page.extract_text() + "\n"
-                except Exception as e:
-                    pdf_text = f"Error reading PDF: {e}"
-            # Combine prompts
             agent_name = AGENT_NAME_MAPPING.get(activity_selected, AGENT_NAME_MAPPING["analyse_pdf"])
-            # Combine system prompt
             system_prompt = combine_role_instruction(config, placeholders, agent_name)
             combined_string = f"{system_prompt}\n The PDF text is as follows:\n{pdf_text}"
 
-
-
         elif activity_selected == "abstract_filtering":
-            # Example: we could do something else here if needed.
-            # For now, just a placeholder string.
             agent_name = AGENT_NAME_MAPPING.get(activity_selected, AGENT_NAME_MAPPING["abstract_filtering"])
             system_prompt = combine_role_instruction(config, placeholders, agent_name)
             abstract_text = row_data.get("abstract", "")
-            combined_string = f"{system_prompt}\n The abstract  is as follows:\n{abstract_text }"
+            combined_string = f"{system_prompt}\n The abstract  is as follows:\n{abstract_text}"
 
-        # Store combined_string in session if needed
+        # Store them in session
+        session['activity_selected'] = activity_selected
         session['combined_string'] = combined_string
 
     content = render_template_string(
         agentic_template,
         activity_selected=activity_selected,
-        pdf_path=pdf_path if activity_selected == "analyse_pdf" else None,
+        pdf_path=pdf_path,
         combined_string=combined_string,
         default_columns=default_shown_columns
     )
