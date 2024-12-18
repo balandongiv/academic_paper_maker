@@ -5,28 +5,14 @@ from flask import Flask, render_template_string, request, redirect, url_for, sen
 
 app = Flask(__name__)
 
-# ----------------------------
-# Configuration
-# ----------------------------
-fname = r'C:\Users\rpb\OneDrive - ums.edu.my\Code Development\academic_paper_maker\use_browser\shortdbs.xlsx'
+fname = r'..\use_browser\shortdbs.xlsx'
 df = pd.read_excel(fname)
 
-# Keep track of the current index in the DataFrame
 current_index = 0
-
-# To store user annotations per row
-annotations_dict = {}
-
-# Excel file to save the data
 excel_file = "data.xlsx"
 df.to_excel(excel_file, index=False)
-
-# Default columns to show at the top (for debugging and convenience)
 default_shown_columns = ["year", "title", "bibtex"]
-
-# Keep track of the currently editing column
 currently_editing_column = None
-
 
 template = """
 <!DOCTYPE html>
@@ -117,7 +103,6 @@ template = """
         <div class="left-panel">
             <h1>PDF Dashboard</h1>
 
-            <!-- Navigation Buttons (Top) -->
             <div class="navigation-buttons">
                 <form action="{{ url_for('prev_row') }}" method="post" style="display:inline;">
                     <button type="submit">Previous</button>
@@ -169,7 +154,7 @@ template = """
                 <form action="{{ url_for('update_value') }}" method="post">
                     <label for="column_to_update">Column:</label>
                     <select id="column_to_update" name="column_to_update" onchange="toggleNewColumnInput()">
-                        {% for col in df_columns %}
+                        {% for col in default_columns %}
                             <option value="{{ col }}">{{ col }}</option>
                         {% endfor %}
                         <option value="__new_column__">Create New Column</option>
@@ -192,28 +177,11 @@ template = """
             </div>
 
             <div class="form-section">
-                <h3>Annotations</h3>
-                <form action="{{ url_for('save_annotations') }}" method="post">
-                    <label for="annotation_text">Notes:</label><br>
-                    <textarea id="annotation_text" name="annotation_text" rows="4" cols="50">{{ current_annotation }}</textarea><br><br>
-                    <button type="submit">Save Annotation</button>
-                </form>
-            </div>
-
-            <div class="form-section">
-                <h3>Update via JSON</h3>
-                <form action="{{ url_for('update_json_data') }}" method="post">
-                    <textarea name="json_data" rows="6" cols="50" placeholder='{"Column":"Value"}'></textarea><br><br>
-                    <button type="submit">Update JSON</button>
-                </form>
-            </div>
-
-            <div class="form-section">
                 <h3>Edit Column Value (Current Row Only)</h3>
                 <form action="{{ url_for('edit_column') }}" method="get">
                     <label for="edit_column_select">Select Column:</label>
                     <select id="edit_column_select" name="column_name">
-                        {% for col in df_columns %}
+                        {% for col in default_columns %}
                             <option value="{{ col }}">{{ col }}</option>
                         {% endfor %}
                     </select>
@@ -239,7 +207,6 @@ template = """
                 </form>
             </div>
 
-            <!-- Navigation Buttons (Bottom) -->
             <div class="navigation-buttons">
                 <form action="{{ url_for('prev_row') }}" method="post" style="display:inline;">
                     <button type="submit">Previous</button>
@@ -256,7 +223,6 @@ template = """
         <div class="right-panel">
             <h2>PDF Viewer</h2>
             {% if pdf_path %}
-                <!-- Embedding the PDF in an iframe -->
                 <iframe class="pdf-viewer" src="{{ url_for('serve_pdf', pdf_path=pdf_path) }}"></iframe>
             {% else %}
                 <p>No PDF available</p>
@@ -267,7 +233,6 @@ template = """
 </html>
 """
 
-
 def get_row_data(index):
     if 0 <= index < len(df):
         return df.iloc[index].to_dict()
@@ -275,7 +240,6 @@ def get_row_data(index):
         return {}
 
 def safe_exit():
-    # A simple way to shut down the Flask server
     os._exit(0)
 
 def save_to_excel():
@@ -290,11 +254,9 @@ def get_current_edit_column_value():
         return val
     return None
 
-
 @app.route("/", methods=["GET"])
 def index():
     row_data = get_row_data(current_index)
-    current_annotation = annotations_dict.get(current_index, "")
 
     edit_column_name = None
     edit_column_value = None
@@ -302,17 +264,18 @@ def index():
         edit_column_name = currently_editing_column
         edit_column_value = get_current_edit_column_value()
 
+    default_column = "year"
     return render_template_string(
         template,
         row_data=row_data,
         pdf_path=row_data.get("pdf_path", None),
-        current_annotation=current_annotation,
-        df_columns=df.columns,
+        df_columns=default_shown_columns,
         default_columns=default_shown_columns,
         default_columns_str=",".join(default_shown_columns),
         current_index=current_index,
         edit_column_name=edit_column_name,
-        edit_column_value=edit_column_value
+        edit_column_value=edit_column_value,
+        default_column=default_column
     )
 
 @app.route("/set_default_columns", methods=["POST"])
@@ -347,7 +310,6 @@ def search_column():
         result = row_data[column_name]
     else:
         result = None
-    current_annotation = annotations_dict.get(current_index, "")
 
     edit_column_name = None
     edit_column_value = None
@@ -359,8 +321,7 @@ def search_column():
         template,
         row_data=row_data,
         pdf_path=row_data.get("pdf_path", None),
-        current_annotation=current_annotation,
-        df_columns=df.columns,
+        df_columns=default_shown_columns,
         search_column_result=result,
         search_column_name=column_name,
         default_columns=default_shown_columns,
@@ -386,7 +347,6 @@ def update_value():
         else:
             return redirect(url_for('index'))
     else:
-        # If the column does not exist, create it
         if column_to_update not in df.columns:
             df[column_to_update] = ""
 
@@ -403,36 +363,6 @@ def update_value():
 
     return redirect(url_for('index'))
 
-@app.route("/save_annotations", methods=["POST"])
-def save_annotations():
-    global current_index, annotations_dict, df
-    annotation_text = request.form.get("annotation_text", "")
-
-    annotations_dict[current_index] = annotation_text
-
-    if "Annotations" not in df.columns:
-        df["Annotations"] = ""
-    df.at[current_index, "Annotations"] = annotation_text
-    save_to_excel()
-
-    return redirect(url_for('index'))
-
-@app.route("/update_json_data", methods=["POST"])
-def update_json_data():
-    global df, current_index
-    json_data_str = request.form.get("json_data", "")
-    try:
-        json_data = json.loads(json_data_str)
-        for col, val in json_data.items():
-            if col not in df.columns:
-                df[col] = ""
-            df.at[current_index, col] = val
-    except Exception as e:
-        print("Error processing JSON:", e)
-
-    save_to_excel()
-    return redirect(url_for('index'))
-
 @app.route("/edit_column", methods=["GET"])
 def edit_column():
     global currently_editing_column
@@ -446,11 +376,8 @@ def save_edited_column():
     global df, current_index
     column_name = request.form.get("column_name")
     edited_text = request.form.get("edit_column_value", "")
-
-    # Update only the current row's cell
     df.at[current_index, column_name] = edited_text.strip()
     save_to_excel()
-
     return redirect(url_for('index'))
 
 @app.route("/export_to_excel", methods=["POST"])
