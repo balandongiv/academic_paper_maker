@@ -1,0 +1,21 @@
+prompt:
+task: >
+For each limitation and challenge in the given machine learning paper, provide a structured analysis.
+Include direct quotes from the source text for clarity and accuracy. Your response should address:
+- The limitation or challenge (quoted from the paper).
+- The proposed solution (quoted from the paper).
+- A detailed explanation of how the solution addresses the limitation.
+
+output_format: json
+structure:
+- limitation: >
+Exact words from the paper that describe the limitation or challenge.
+- proposed_solution: >
+Exact words from the paper that outline the proposed solution.
+- explanation: >
+Exact words from the paper providing the rationale or detailed explanation.
+
+notes: >
+- Focus on challenges specific to machine learning.
+- Use precise terminology and exact quotes from the paper.
+- Ensure the explanation directly relates to motivations, limitations, and how the solution addresses the issue.
