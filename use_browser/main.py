@@ -22,6 +22,9 @@ df.to_excel(excel_file, index=False)
 default_shown_columns = ["year", "title", "bibtex"]
 currently_editing_column = None
 
+# Pagination for the row list
+ROWS_PER_PAGE = 10
+
 main_template = """
 <!DOCTYPE html>
 <html>
@@ -36,16 +39,26 @@ main_template = """
             flex-direction: row;
             height: 95vh;
         }
-        .left-panel {
-            width: 40%;
-            padding: 20px;
+
+        /* Three-column layout */
+        .column1, .column2, .column3 {
             border-right: 1px solid #ccc;
+            padding: 20px;
             overflow-y: auto;
         }
-        .right-panel {
-            width: 60%;
-            padding: 20px;
+
+        .column1 {
+            width: 20%;
         }
+
+        .column2 {
+            width: 40%;
+        }
+
+        .column3 {
+            width: 40%;
+        }
+
         .navigation-buttons, .form-section {
             margin-bottom: 20px;
         }
@@ -91,27 +104,84 @@ main_template = """
             text-decoration: none;
             color: blue;
         }
+
+        /* Collapsible panel styles */
+        .collapsible-button {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .collapsible-button:hover {
+            background-color: #ccc;
+        }
+
+        .collapsible-content {
+            padding: 0 10px;
+            display: none;
+            overflow: auto;
+            background-color: #f9f9f9;
+            max-height: 300px;
+            border: 1px solid #ccc;
+        }
+
+        .collapsible-content a {
+            display: block;
+            padding: 5px 0;
+            color: blue;
+            text-decoration: none;
+        }
+
+        .collapsible-content a:hover {
+            text-decoration: underline;
+        }
+
+        .row-list-pagination {
+            margin-top: 10px;
+        }
+
+        /* Show/hide column1 */
+        .hide-column1 .column1 {
+            display: none;
+        }
+        .hide-column1 .column2 {
+            width: 60%; /* Adjust if needed */
+        }
+        .hide-column1 .column3 {
+            width: 40%; /* Adjust if needed */
+        }
+
     </style>
     <script>
         function toggleNewColumnInput() {
             var columnSelect = document.getElementById('column_to_update');
             var newColumnInput = document.getElementById('new_column_name_container');
-            if (columnSelect.value === '__new_column__') {
-                newColumnInput.classList.remove('hidden');
-            } else {
-                newColumnInput.classList.add('hidden');
+            if (columnSelect && newColumnInput) {
+                if (columnSelect.value === '__new_column__') {
+                    newColumnInput.classList.remove('hidden');
+                } else {
+                    newColumnInput.classList.add('hidden');
+                }
             }
         }
 
         function toggleAppendClear() {
             var modeSelect = document.getElementById('update_mode');
             var appendNote = document.getElementById('append_note');
-            if (modeSelect.value === 'append') {
-                appendNote.textContent = "Appending will create a new line separated by newline on top of old record.";
-            } else if (modeSelect.value === 'clear') {
-                appendNote.textContent = "Clearing will overwrite the old record.";
-            } else {
-                appendNote.textContent = "";
+            if (modeSelect && appendNote) {
+                if (modeSelect.value === 'append') {
+                    appendNote.textContent = "Appending will create a new line separated by newline on top of old record.";
+                } else if (modeSelect.value === 'clear') {
+                    appendNote.textContent = "Clearing will overwrite the old record.";
+                } else {
+                    appendNote.textContent = "";
+                }
             }
         }
 
@@ -127,7 +197,39 @@ main_template = """
                 window.scrollTo(0, parseInt(scrollTop, 10));
                 localStorage.removeItem("scrollTop");
             }
+
+            // Collapsible
+            var content = document.getElementById("collapsibleContent");
+            // We'll just let user toggle by a button
         });
+
+        function editColumn(columnName) {
+            if (columnName) {
+                const url = `{{ url_for('edit_column') }}?column_name=${encodeURIComponent(columnName)}`;
+                fetch(url)
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.reload();
+                        } else {
+                            console.error("Failed to update column.");
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
+            }
+        }
+
+        function copyToClipboard() {
+            var text = document.getElementById('combined_string');
+            if (text) {
+                text.select();
+                text.setSelectionRange(0, 99999);
+                document.execCommand("copy");
+            }
+        }
+
+        function toggleColumn1() {
+            document.body.classList.toggle('hide-column1');
+        }
     </script>
 
 </head>
@@ -135,6 +237,7 @@ main_template = """
     <div class="top-nav">
         <a href="{{ url_for('index') }}">Home</a>
         <a href="{{ url_for('agentic_operation') }}">Agentic Operation</a>
+        <button onclick="toggleColumn1()">Show/Hide Row List Column</button>
     </div>
     {{ content|safe }}
 </body>
@@ -143,7 +246,31 @@ main_template = """
 
 index_template = """
 <div class="container">
-    <div class="left-panel">
+    <div class="column1">
+        <button class="collapsible-button" onclick="var c=document.getElementById('collapsibleContent');c.style.display=(c.style.display==='block'?'none':'block')">Show/Hide Row List</button>
+        <div class="collapsible-content" id="collapsibleContent" style="display:none;">
+            {% for i in rows_to_display %}
+                <a href="{{ url_for('go_to_row') }}?index={{ i }}&current_tab=index">{{ i }} - {{ df.iloc[i]['title'] if 'title' in df.columns else 'No Title' }}</a>
+            {% endfor %}
+            <div class="row-list-pagination">
+                {% if row_list_page > 0 %}
+                    <form action="{{ url_for('change_row_list_page') }}" method="post" style="display:inline;">
+                        <input type="hidden" name="current_tab" value="index">
+                        <input type="hidden" name="page_action" value="prev">
+                        <button type="submit">Previous 10</button>
+                    </form>
+                {% endif %}
+                {% if row_list_page < max_page %}
+                    <form action="{{ url_for('change_row_list_page') }}" method="post" style="display:inline;">
+                        <input type="hidden" name="current_tab" value="index">
+                        <input type="hidden" name="page_action" value="next">
+                        <button type="submit">Next 10</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="column2">
         <h1>PDF Dashboard</h1>
 
         <div class="navigation-buttons">
@@ -230,23 +357,6 @@ index_template = """
                 {% endfor %}
             </select>
         </div>
-        
-        <script>
-            function editColumn(columnName) {
-                if (columnName) {
-                    const url = `{{ url_for('edit_column') }}?column_name=${encodeURIComponent(columnName)}`;
-                    fetch(url)
-                        .then(response => {
-                            if (response.ok) {
-                                window.location.reload();
-                            } else {
-                                console.error("Failed to update column.");
-                            }
-                        })
-                        .catch(error => console.error("Error:", error));
-                }
-            }
-        </script>
 
         {% if edit_column_name is defined %}
         <div class="form-section">
@@ -281,7 +391,7 @@ index_template = """
             <button type="submit" class="exit-button">Exit</button>
         </form>
     </div>
-    <div class="right-panel">
+    <div class="column3">
         <h2>PDF Viewer</h2>
         {% if pdf_path %}
             <iframe class="pdf-viewer" src="{{ url_for('serve_pdf', pdf_path=pdf_path) }}"></iframe>
@@ -294,18 +404,52 @@ index_template = """
 
 agentic_template = """
 <div class="container">
-    <div class="left-panel">
+    <div class="column1">
+        <button class="collapsible-button" onclick="var c=document.getElementById('collapsibleContent');c.style.display=(c.style.display==='block'?'none':'block')">Show/Hide Row List</button>
+        <div class="collapsible-content" id="collapsibleContent" style="display:none;">
+            {% for i in rows_to_display %}
+                <a href="{{ url_for('go_to_row') }}?index={{ i }}&current_tab=agentic_operation&activity_selected={{ activity_selected if activity_selected else '' }}">{{ i }} - {{ df.iloc[i]['title'] if 'title' in df.columns else 'No Title' }}</a>
+            {% endfor %}
+            <div class="row-list-pagination">
+                {% if row_list_page > 0 %}
+                    <form action="{{ url_for('change_row_list_page') }}" method="post" style="display:inline;">
+                        <input type="hidden" name="current_tab" value="agentic_operation">
+                        {% if activity_selected %}
+                        <input type="hidden" name="activity_selected" value="{{ activity_selected }}">
+                        {% endif %}
+                        <input type="hidden" name="page_action" value="prev">
+                        <button type="submit">Previous 10</button>
+                    </form>
+                {% endif %}
+                {% if row_list_page < max_page %}
+                    <form action="{{ url_for('change_row_list_page') }}" method="post" style="display:inline;">
+                        <input type="hidden" name="current_tab" value="agentic_operation">
+                        {% if activity_selected %}
+                        <input type="hidden" name="activity_selected" value="{{ activity_selected }}">
+                        {% endif %}
+                        <input type="hidden" name="page_action" value="next">
+                        <button type="submit">Next 10</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="column2">
         <h1>Agentic Operation</h1>
 
         <div class="navigation-buttons">
             <form action="{{ url_for('prev_row') }}" method="post" style="display:inline;">
                 <input type="hidden" name="current_tab" value="agentic_operation">
+                {% if activity_selected %}
                 <input type="hidden" name="activity_selected" value="{{ activity_selected }}">
+                {% endif %}
                 <button type="submit">Previous</button>
             </form>
             <form action="{{ url_for('next_row') }}" method="post" style="display:inline;">
                 <input type="hidden" name="current_tab" value="agentic_operation">
+                {% if activity_selected %}
                 <input type="hidden" name="activity_selected" value="{{ activity_selected }}">
+                {% endif %}
                 <button type="submit">Next</button>
             </form>
         </div>
@@ -324,15 +468,6 @@ agentic_template = """
         <h3>Combined String</h3>
         <textarea id="combined_string" rows="10">{{ combined_string }}</textarea><br>
         <button type="button" onclick="copyToClipboard()">Copy</button>
-        <script>
-            function copyToClipboard() {
-                var text = document.getElementById('combined_string');
-                text.select();
-                text.setSelectionRange(0, 99999); // For mobile devices
-                document.execCommand("copy");
-                alert("Copied the combined string!");
-            }
-        </script>
         {% endif %}
 
         {% if combined_string %}
@@ -363,20 +498,31 @@ agentic_template = """
         </form>
         {% endif %}
 
+        <div class="form-section">
+            <h3>Export to Excel</h3>
+            <form action="{{ url_for('export_to_excel') }}" method="post">
+                <button type="submit">Export Now</button>
+            </form>
+        </div>
+
         <div class="navigation-buttons">
             <form action="{{ url_for('prev_row') }}" method="post" style="display:inline;">
                 <input type="hidden" name="current_tab" value="agentic_operation">
+                {% if activity_selected %}
                 <input type="hidden" name="activity_selected" value="{{ activity_selected }}">
+                {% endif %}
                 <button type="submit">Previous</button>
             </form>
             <form action="{{ url_for('next_row') }}" method="post" style="display:inline;">
                 <input type="hidden" name="current_tab" value="agentic_operation">
+                {% if activity_selected %}
                 <input type="hidden" name="activity_selected" value="{{ activity_selected }}">
+                {% endif %}
                 <button type="submit">Next</button>
             </form>
         </div>
     </div>
-    <div class="right-panel">
+    <div class="column3">
         <h2>PDF Viewer</h2>
         {% if pdf_path %}
             <iframe class="pdf-viewer" src="{{ url_for('serve_pdf', pdf_path=pdf_path) }}"></iframe>
@@ -408,11 +554,16 @@ def get_current_edit_column_value():
         return val
     return None
 
+def get_row_list_page():
+    return session.get('row_list_page', 0)
+
+def set_row_list_page(page):
+    session['row_list_page'] = page
+
 @app.route("/", methods=["GET"])
 def index():
     global current_index
     row_data = get_row_data(current_index)
-
     edit_column_name = None
     edit_column_value = None
     if currently_editing_column and currently_editing_column in df.columns:
@@ -420,6 +571,12 @@ def index():
         edit_column_value = get_current_edit_column_value()
 
     default_column = "year"
+    row_list_page = get_row_list_page()
+    start_idx = row_list_page * ROWS_PER_PAGE
+    end_idx = start_idx + ROWS_PER_PAGE
+    rows_to_display = range(start_idx, min(end_idx, len(df)))
+    max_page = (len(df)-1)//ROWS_PER_PAGE
+
     content = render_template_string(
         index_template,
         row_data=row_data,
@@ -430,9 +587,96 @@ def index():
         current_index=current_index,
         edit_column_name=edit_column_name,
         edit_column_value=edit_column_value,
-        default_column=default_column
+        default_column=default_column,
+        df=df,
+        df_length=len(df),
+        rows_to_display=rows_to_display,
+        row_list_page=row_list_page,
+        max_page=max_page
     )
     return render_template_string(main_template, content=content)
+
+@app.route("/agentic_operation", methods=["GET", "POST"])
+def agentic_operation():
+    global current_index, df
+
+    row_data = get_row_data(current_index)
+    pdf_path = row_data.get("pdf_path", "")
+
+    # Check if user selected/ran an activity
+    activity_selected = request.form.get("activity_selected", None)
+    if not activity_selected:
+        activity_selected = session.get('activity_selected', None)
+
+    combined_string = session.get('combined_string', "")
+
+    if request.method == "POST" and request.form.get("activity_selected"):
+        # User selected a new activity and clicked run
+        config = load_yaml(YAML_PATH)
+        pdf_text = ""
+        if pdf_path and os.path.exists(pdf_path):
+            try:
+                reader = PdfReader(pdf_path)
+                for page in reader.pages:
+                    pdf_text += page.extract_text() + "\n"
+            except Exception as e:
+                pdf_text = f"Error reading PDF: {e}"
+
+        if activity_selected == "analyse_pdf":
+            agent_name = AGENT_NAME_MAPPING.get(activity_selected, AGENT_NAME_MAPPING["analyse_pdf"])
+            system_prompt = combine_role_instruction(config, placeholders, agent_name)
+            combined_string = f"{system_prompt}\n The PDF text is as follows:\n{pdf_text}"
+
+        elif activity_selected == "abstract_filtering":
+            agent_name = AGENT_NAME_MAPPING.get(activity_selected, AGENT_NAME_MAPPING["abstract_filtering"])
+            system_prompt = combine_role_instruction(config, placeholders, agent_name)
+            abstract_text = row_data.get("abstract", "")
+            combined_string = f"{system_prompt}\n The abstract  is as follows:\n{abstract_text}"
+
+        # Store them in session
+        session['activity_selected'] = activity_selected
+        session['combined_string'] = combined_string
+
+    row_list_page = get_row_list_page()
+    start_idx = row_list_page * ROWS_PER_PAGE
+    end_idx = start_idx + ROWS_PER_PAGE
+    rows_to_display = range(start_idx, min(end_idx, len(df)))
+    max_page = (len(df)-1)//ROWS_PER_PAGE
+
+    content = render_template_string(
+        agentic_template,
+        activity_selected=activity_selected,
+        pdf_path=pdf_path,
+        combined_string=combined_string,
+        default_columns=default_shown_columns,
+        df=df,
+        df_length=len(df),
+        rows_to_display=rows_to_display,
+        row_list_page=row_list_page,
+        max_page=max_page
+    )
+    return render_template_string(main_template, content=content)
+
+@app.route("/change_row_list_page", methods=["POST"])
+def change_row_list_page():
+    page_action = request.form.get("page_action")
+    current_tab = request.form.get("current_tab", "index")
+    activity_selected = request.form.get("activity_selected", None)
+    row_list_page = get_row_list_page()
+
+    if page_action == "next":
+        row_list_page += 1
+    elif page_action == "prev" and row_list_page > 0:
+        row_list_page -= 1
+
+    set_row_list_page(row_list_page)
+
+    if current_tab == "agentic_operation":
+        if activity_selected:
+            session['activity_selected'] = activity_selected
+        return redirect(url_for('agentic_operation'))
+    else:
+        return redirect(url_for('index'))
 
 @app.route("/set_default_columns", methods=["POST"])
 def set_default_columns():
@@ -451,7 +695,6 @@ def prev_row():
     current_tab = request.form.get("current_tab", "index")
     activity_selected = request.form.get("activity_selected", None)
     if current_tab == "agentic_operation":
-        # If we have activity_selected from before, store it in session
         if activity_selected:
             session['activity_selected'] = activity_selected
         return redirect(url_for('agentic_operation'))
@@ -465,6 +708,23 @@ def next_row():
         current_index += 1
     current_tab = request.form.get("current_tab", "index")
     activity_selected = request.form.get("activity_selected", None)
+    if current_tab == "agentic_operation":
+        if activity_selected:
+            session['activity_selected'] = activity_selected
+        return redirect(url_for('agentic_operation'))
+    else:
+        return redirect(url_for('index'))
+
+@app.route("/go_to_row", methods=["GET"])
+def go_to_row():
+    global current_index
+    idx = request.args.get("index", None)
+    current_tab = request.args.get("current_tab", "index")
+    activity_selected = request.args.get("activity_selected", None)
+    if idx is not None and idx.isdigit():
+        new_index = int(idx)
+        if 0 <= new_index < len(df):
+            current_index = new_index
     if current_tab == "agentic_operation":
         if activity_selected:
             session['activity_selected'] = activity_selected
@@ -488,6 +748,12 @@ def search_column():
         edit_column_name = currently_editing_column
         edit_column_value = get_current_edit_column_value()
 
+    row_list_page = get_row_list_page()
+    start_idx = row_list_page * ROWS_PER_PAGE
+    end_idx = start_idx + ROWS_PER_PAGE
+    rows_to_display = range(start_idx, min(end_idx, len(df)))
+    max_page = (len(df)-1)//ROWS_PER_PAGE
+
     content = render_template_string(
         index_template,
         row_data=row_data,
@@ -499,7 +765,12 @@ def search_column():
         default_columns_str=",".join(default_shown_columns),
         current_index=current_index,
         edit_column_name=edit_column_name,
-        edit_column_value=edit_column_value
+        edit_column_value=edit_column_value,
+        df=df,
+        df_length=len(df),
+        rows_to_display=rows_to_display,
+        row_list_page=row_list_page,
+        max_page=max_page
     )
     return render_template_string(main_template, content=content)
 
@@ -541,7 +812,7 @@ def edit_column():
     column_name = request.args.get("column_name") or request.form.get("column_name")
     if column_name and column_name in df.columns:
         currently_editing_column = column_name
-    return "", 204  # No content response for fetch call
+    return "", 204  # No content response
 
 @app.route("/save_edited_column", methods=["POST"])
 def save_edited_column():
@@ -572,59 +843,6 @@ def exit_server():
     else:
         safe_exit()
     return "Server shutting down..."
-
-@app.route("/agentic_operation", methods=["GET", "POST"])
-def agentic_operation():
-    global current_index, df
-
-    row_data = get_row_data(current_index)
-    pdf_path = row_data.get("pdf_path", "")
-
-    # If an operation is submitted now or previously set in session
-    activity_selected = request.form.get("activity_selected", None)
-    if not activity_selected:
-        # check session if already selected
-        activity_selected = session.get('activity_selected', None)
-
-    # If we have an activity_selected, let's load previous combined_string from session if exists
-    combined_string = session.get('combined_string', "")
-
-    if request.method == "POST" and request.form.get("activity_selected"):
-        # User selected a new activity and clicked run
-        config = load_yaml(YAML_PATH)
-        pdf_text = ""
-
-        if pdf_path and os.path.exists(pdf_path):
-            try:
-                reader = PdfReader(pdf_path)
-                for page in reader.pages:
-                    pdf_text += page.extract_text() + "\n"
-            except Exception as e:
-                pdf_text = f"Error reading PDF: {e}"
-
-        if activity_selected == "analyse_pdf":
-            agent_name = AGENT_NAME_MAPPING.get(activity_selected, AGENT_NAME_MAPPING["analyse_pdf"])
-            system_prompt = combine_role_instruction(config, placeholders, agent_name)
-            combined_string = f"{system_prompt}\n The PDF text is as follows:\n{pdf_text}"
-
-        elif activity_selected == "abstract_filtering":
-            agent_name = AGENT_NAME_MAPPING.get(activity_selected, AGENT_NAME_MAPPING["abstract_filtering"])
-            system_prompt = combine_role_instruction(config, placeholders, agent_name)
-            abstract_text = row_data.get("abstract", "")
-            combined_string = f"{system_prompt}\n The abstract  is as follows:\n{abstract_text}"
-
-        # Store them in session
-        session['activity_selected'] = activity_selected
-        session['combined_string'] = combined_string
-
-    content = render_template_string(
-        agentic_template,
-        activity_selected=activity_selected,
-        pdf_path=pdf_path,
-        combined_string=combined_string,
-        default_columns=default_shown_columns
-    )
-    return render_template_string(main_template, content=content)
 
 @app.route("/agentic_operation_update", methods=["POST"])
 def agentic_operation_update():
