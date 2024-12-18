@@ -97,6 +97,23 @@ template = """
             }
         }
     </script>
+    
+    <script>
+    // Save the scroll position to localStorage
+    function saveScrollPosition() {
+        localStorage.setItem("scrollTop", window.scrollY);
+    }
+
+    // Restore the scroll position after page load
+    document.addEventListener("DOMContentLoaded", () => {
+        const scrollTop = localStorage.getItem("scrollTop");
+        if (scrollTop !== null) {
+            window.scrollTo(0, parseInt(scrollTop, 10));
+            localStorage.removeItem("scrollTop");
+        }
+    });
+    </script>
+
 </head>
 <body>
     <div class="container">
@@ -178,16 +195,31 @@ template = """
 
             <div class="form-section">
                 <h3>Edit Column Value (Current Row Only)</h3>
-                <form action="{{ url_for('edit_column') }}" method="get">
-                    <label for="edit_column_select">Select Column:</label>
-                    <select id="edit_column_select" name="column_name">
-                        {% for col in default_columns %}
-                            <option value="{{ col }}">{{ col }}</option>
-                        {% endfor %}
-                    </select>
-                    <button type="submit">Load</button>
-                </form>
+                <label for="edit_column_select">Select Column:</label>
+                <select id="edit_column_select" name="column_name" onchange="editColumn(this.value)">
+                    {% for col in default_columns %}
+                        <option value="{{ col }}">{{ col }}</option>
+                    {% endfor %}
+                </select>
             </div>
+            
+            <script>
+                function editColumn(columnName) {
+                    if (columnName) {
+                        const url = `{{ url_for('edit_column') }}?column_name=${encodeURIComponent(columnName)}`;
+                        fetch(url)
+                            .then(response => {
+                                if (response.ok) {
+                                    window.location.reload();
+                                } else {
+                                    console.error("Failed to update column.");
+                                }
+                            })
+                            .catch(error => console.error("Error:", error));
+                    }
+                }
+            </script>
+
 
             {% if edit_column_name is defined %}
             <div class="form-section">
@@ -363,13 +395,14 @@ def update_value():
 
     return redirect(url_for('index'))
 
-@app.route("/edit_column", methods=["GET"])
+@app.route("/edit_column", methods=["GET", "POST"])
 def edit_column():
     global currently_editing_column
-    column_name = request.args.get("column_name")
+    column_name = request.args.get("column_name") or request.form.get("column_name")
     if column_name and column_name in df.columns:
         currently_editing_column = column_name
-    return redirect(url_for('index'))
+    return "", 204  # No content response for fetch call
+
 
 @app.route("/save_edited_column", methods=["POST"])
 def save_edited_column():
