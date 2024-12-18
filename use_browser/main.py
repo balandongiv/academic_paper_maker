@@ -1,9 +1,17 @@
 import os
-import json
+from research_filter.agent_helper import combine_role_instruction
 import pandas as pd
-from flask import Flask, render_template_string, request, redirect, url_for, send_file
+from PyPDF2 import PdfReader  # Make sure PyPDF2 is installed
+from flask import Flask, render_template_string, request, redirect, url_for, send_file, session
+from research_filter.config import AGENT_NAME_MAPPING
+from research_filter.agent_helper import load_yaml
+from research_filter.config import (
+    YAML_PATH,
+    placeholders
+)
 
 app = Flask(__name__)
+app.secret_key = "your_secret_key"  # Needed for session usage
 
 fname = r'..\use_browser\shortdbs.xlsx'
 df = pd.read_excel(fname)
@@ -14,7 +22,9 @@ df.to_excel(excel_file, index=False)
 default_shown_columns = ["year", "title", "bibtex"]
 currently_editing_column = None
 
-template = """
+
+
+main_template = """
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,6 +83,16 @@ template = """
             display: flex;
             justify-content: space-between;
         }
+        .top-nav {
+            background: #f0f0f0;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .top-nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: blue;
+        }
     </style>
     <script>
         function toggleNewColumnInput() {
@@ -96,173 +116,246 @@ template = """
                 appendNote.textContent = "";
             }
         }
-    </script>
-    
-    <script>
-    // Save the scroll position to localStorage
-    function saveScrollPosition() {
-        localStorage.setItem("scrollTop", window.scrollY);
-    }
 
-    // Restore the scroll position after page load
-    document.addEventListener("DOMContentLoaded", () => {
-        const scrollTop = localStorage.getItem("scrollTop");
-        if (scrollTop !== null) {
-            window.scrollTo(0, parseInt(scrollTop, 10));
-            localStorage.removeItem("scrollTop");
+        // Save the scroll position to localStorage
+        function saveScrollPosition() {
+            localStorage.setItem("scrollTop", window.scrollY);
         }
-    });
+
+        // Restore the scroll position after page load
+        document.addEventListener("DOMContentLoaded", () => {
+            const scrollTop = localStorage.getItem("scrollTop");
+            if (scrollTop !== null) {
+                window.scrollTo(0, parseInt(scrollTop, 10));
+                localStorage.removeItem("scrollTop");
+            }
+        });
     </script>
 
 </head>
 <body>
-    <div class="container">
-        <div class="left-panel">
-            <h1>PDF Dashboard</h1>
+    <div class="top-nav">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('agentic_operation') }}">Agentic Operation</a>
+    </div>
+    {{ content|safe }}
+</body>
+</html>
+"""
 
-            <div class="navigation-buttons">
-                <form action="{{ url_for('prev_row') }}" method="post" style="display:inline;">
-                    <button type="submit">Previous</button>
-                </form>
-                <form action="{{ url_for('next_row') }}" method="post" style="display:inline;">
-                    <button type="submit">Next</button>
-                </form>
-            </div>
+index_template = """
+<div class="container">
+    <div class="left-panel">
+        <h1>PDF Dashboard</h1>
 
-            <div class="form-section">
-                <h3>Set Default Shown Columns</h3>
-                <form action="{{ url_for('set_default_columns') }}" method="post">
-                    <label for="default_columns">Columns (comma-separated):</label>
-                    <input type="text" id="default_columns" name="default_columns" value="{{ default_columns_str }}">
-                    <button type="submit">Set</button>
-                </form>
-            </div>
+        <div class="navigation-buttons">
+            <form action="{{ url_for('prev_row') }}" method="post" style="display:inline;">
+                <button type="submit">Previous</button>
+            </form>
+            <form action="{{ url_for('next_row') }}" method="post" style="display:inline;">
+                <button type="submit">Next</button>
+            </form>
+        </div>
 
-            <div class="row-data">
-                <h3>Current Row Data (Default Columns)</h3>
-                {% for col in default_columns %}
-                    {% if col in row_data %}
-                        <p><strong>{{ col }}:</strong> {{ row_data[col] }}</p>
-                    {% else %}
-                        <p><strong>{{ col }}:</strong> N/A</p>
-                    {% endif %}
-                {% endfor %}
-            </div>
+        <div class="form-section">
+            <h3>Set Default Shown Columns</h3>
+            <form action="{{ url_for('set_default_columns') }}" method="post">
+                <label for="default_columns">Columns (comma-separated):</label>
+                <input type="text" id="default_columns" name="default_columns" value="{{ default_columns_str }}">
+                <button type="submit">Set</button>
+            </form>
+        </div>
 
-            <div class="form-section">
-                <h3>Search Column</h3>
-                <form action="{{ url_for('search_column') }}" method="post">
-                    <label for="column_name">Column Name:</label>
-                    <input type="text" id="column_name" name="column_name" required>
-                    <button type="submit">Search</button>
-                </form>
-                {% if search_column_result is defined %}
-                    <h4>Search Result</h4>
-                    {% if search_column_result is none %}
-                        <p>Column not found.</p>
-                    {% else %}
-                        <p><strong>{{ search_column_name }}:</strong> {{ search_column_result }}</p>
-                    {% endif %}
+        <div class="row-data">
+            <h3>Current Row Data (Default Columns)</h3>
+            {% for col in default_columns %}
+                {% if col in row_data %}
+                    <p><strong>{{ col }}:</strong> {{ row_data[col] }}</p>
+                {% else %}
+                    <p><strong>{{ col }}:</strong> N/A</p>
                 {% endif %}
-            </div>
+            {% endfor %}
+        </div>
 
-            <div class="form-section">
-                <h3>Update DataFrame</h3>
-                <form action="{{ url_for('update_value') }}" method="post">
-                    <label for="column_to_update">Column:</label>
-                    <select id="column_to_update" name="column_to_update" onchange="toggleNewColumnInput()">
-                        {% for col in default_columns %}
-                            <option value="{{ col }}">{{ col }}</option>
-                        {% endfor %}
-                        <option value="__new_column__">Create New Column</option>
-                    </select><br><br>
-                    <div id="new_column_name_container" class="hidden">
-                        <label for="new_column_name">New Column Name:</label>
-                        <input type="text" id="new_column_name" name="new_column_name"><br><br>
-                    </div>
-                    <label for="new_value">New Value:</label>
-                    <input type="text" id="new_value" name="new_value" required><br><br>
+        <div class="form-section">
+            <h3>Search Column</h3>
+            <form action="{{ url_for('search_column') }}" method="post">
+                <label for="column_name">Column Name:</label>
+                <input type="text" id="column_name" name="column_name" required>
+                <button type="submit">Search</button>
+            </form>
+            {% if search_column_result is defined %}
+                <h4>Search Result</h4>
+                {% if search_column_result is none %}
+                    <p>Column not found.</p>
+                {% else %}
+                    <p><strong>{{ search_column_name }}:</strong> {{ search_column_result }}</p>
+                {% endif %}
+            {% endif %}
+        </div>
 
-                    <label for="update_mode">Mode:</label>
-                    <select id="update_mode" name="update_mode" onchange="toggleAppendClear()">
-                        <option value="append">Append</option>
-                        <option value="clear">Clear</option>
-                    </select>
-                    <p id="append_note"></p>
-                    <button type="submit">Update</button>
-                </form>
-            </div>
-
-            <div class="form-section">
-                <h3>Edit Column Value (Current Row Only)</h3>
-                <label for="edit_column_select">Select Column:</label>
-                <select id="edit_column_select" name="column_name" onchange="editColumn(this.value)">
+        <div class="form-section">
+            <h3>Update DataFrame</h3>
+            <form action="{{ url_for('update_value') }}" method="post">
+                <label for="column_to_update">Column:</label>
+                <select id="column_to_update" name="column_to_update" onchange="toggleNewColumnInput()">
                     {% for col in default_columns %}
                         <option value="{{ col }}">{{ col }}</option>
                     {% endfor %}
+                    <option value="__new_column__">Create New Column</option>
+                </select><br><br>
+                <div id="new_column_name_container" class="hidden">
+                    <label for="new_column_name">New Column Name:</label>
+                    <input type="text" id="new_column_name" name="new_column_name"><br><br>
+                </div>
+                <label for="new_value">New Value:</label>
+                <input type="text" id="new_value" name="new_value" required><br><br>
+
+                <label for="update_mode">Mode:</label>
+                <select id="update_mode" name="update_mode" onchange="toggleAppendClear()">
+                    <option value="append">Append</option>
+                    <option value="clear">Clear</option>
                 </select>
-            </div>
-            
-            <script>
-                function editColumn(columnName) {
-                    if (columnName) {
-                        const url = `{{ url_for('edit_column') }}?column_name=${encodeURIComponent(columnName)}`;
-                        fetch(url)
-                            .then(response => {
-                                if (response.ok) {
-                                    window.location.reload();
-                                } else {
-                                    console.error("Failed to update column.");
-                                }
-                            })
-                            .catch(error => console.error("Error:", error));
-                    }
-                }
-            </script>
-
-
-            {% if edit_column_name is defined %}
-            <div class="form-section">
-                <h3>Editing Column: {{ edit_column_name }} (Row: {{ current_index }})</h3>
-                <form action="{{ url_for('save_edited_column') }}" method="post">
-                    <input type="hidden" name="column_name" value="{{ edit_column_name }}">
-                    <textarea id="edit_column_textarea" name="edit_column_value" rows="5">{{ edit_column_value }}</textarea><br><br>
-                    <button type="submit">Save Column Changes</button>
-                </form>
-            </div>
-            {% endif %}
-
-            <div class="form-section">
-                <h3>Export to Excel</h3>
-                <form action="{{ url_for('export_to_excel') }}" method="post">
-                    <button type="submit">Export Now</button>
-                </form>
-            </div>
-
-            <div class="navigation-buttons">
-                <form action="{{ url_for('prev_row') }}" method="post" style="display:inline;">
-                    <button type="submit">Previous</button>
-                </form>
-                <form action="{{ url_for('next_row') }}" method="post" style="display:inline;">
-                    <button type="submit">Next</button>
-                </form>
-            </div>
-
-            <form action="{{ url_for('exit_server') }}" method="post">
-                <button type="submit" class="exit-button">Exit</button>
+                <p id="append_note"></p>
+                <button type="submit">Update</button>
             </form>
         </div>
-        <div class="right-panel">
-            <h2>PDF Viewer</h2>
-            {% if pdf_path %}
-                <iframe class="pdf-viewer" src="{{ url_for('serve_pdf', pdf_path=pdf_path) }}"></iframe>
-            {% else %}
-                <p>No PDF available</p>
-            {% endif %}
+
+        <div class="form-section">
+            <h3>Edit Column Value (Current Row Only)</h3>
+            <label for="edit_column_select">Select Column:</label>
+            <select id="edit_column_select" name="column_name" onchange="editColumn(this.value)">
+                {% for col in default_columns %}
+                    <option value="{{ col }}">{{ col }}</option>
+                {% endfor %}
+            </select>
         </div>
+        
+        <script>
+            function editColumn(columnName) {
+                if (columnName) {
+                    const url = `{{ url_for('edit_column') }}?column_name=${encodeURIComponent(columnName)}`;
+                    fetch(url)
+                        .then(response => {
+                            if (response.ok) {
+                                window.location.reload();
+                            } else {
+                                console.error("Failed to update column.");
+                            }
+                        })
+                        .catch(error => console.error("Error:", error));
+                }
+            }
+        </script>
+
+        {% if edit_column_name is defined %}
+        <div class="form-section">
+            <h3>Editing Column: {{ edit_column_name }} (Row: {{ current_index }})</h3>
+            <form action="{{ url_for('save_edited_column') }}" method="post">
+                <input type="hidden" name="column_name" value="{{ edit_column_name }}">
+                <textarea id="edit_column_textarea" name="edit_column_value" rows="5">{{ edit_column_value }}</textarea><br><br>
+                <button type="submit">Save Column Changes</button>
+            </form>
+        </div>
+        {% endif %}
+
+        <div class="form-section">
+            <h3>Export to Excel</h3>
+            <form action="{{ url_for('export_to_excel') }}" method="post">
+                <button type="submit">Export Now</button>
+            </form>
+        </div>
+
+        <div class="navigation-buttons">
+            <form action="{{ url_for('prev_row') }}" method="post" style="display:inline;">
+                <button type="submit">Previous</button>
+            </form>
+            <form action="{{ url_for('next_row') }}" method="post" style="display:inline;">
+                <button type="submit">Next</button>
+            </form>
+        </div>
+
+        <form action="{{ url_for('exit_server') }}" method="post">
+            <button type="submit" class="exit-button">Exit</button>
+        </form>
     </div>
-</body>
-</html>
+    <div class="right-panel">
+        <h2>PDF Viewer</h2>
+        {% if pdf_path %}
+            <iframe class="pdf-viewer" src="{{ url_for('serve_pdf', pdf_path=pdf_path) }}"></iframe>
+        {% else %}
+            <p>No PDF available</p>
+        {% endif %}
+    </div>
+</div>
+"""
+
+agentic_template = """
+<div class="container">
+    <div class="left-panel">
+        <h1>Agentic Operation</h1>
+        <form action="{{ url_for('agentic_operation') }}" method="post">
+            <label for="activity_selected">Select Operation:</label>
+            <select name="activity_selected" id="activity_selected" required>
+                <option value="">--Select--</option>
+                <option value="analyse_pdf" {% if activity_selected == "analyse_pdf" %}selected{% endif %}>Analyse PDF</option>
+                <option value="abstract_filtering" {% if activity_selected == "abstract_filtering" %}selected{% endif %}>Abstract Filtering</option>
+            </select>
+            <button type="submit">Run</button>
+        </form>
+
+        {% if combined_string %}
+        <h3>Combined String</h3>
+        <textarea id="combined_string" rows="10">{{ combined_string }}</textarea><br>
+        <button type="button" onclick="copyToClipboard()">Copy</button>
+        <script>
+            function copyToClipboard() {
+                var text = document.getElementById('combined_string');
+                text.select();
+                text.setSelectionRange(0, 99999); // For mobile devices
+                document.execCommand("copy");
+                alert("Copied the combined string!");
+            }
+        </script>
+        {% endif %}
+
+        {% if combined_string %}
+        <h3>Final Result (Paste Here)</h3>
+        <form action="{{ url_for('agentic_operation_update') }}" method="post">
+            <label for="json_input">JSON Input:</label>
+            <textarea name="json_input" id="json_input" rows="5"></textarea><br><br>
+
+            <label for="column_to_update">Column:</label>
+            <select id="column_to_update" name="column_to_update" onchange="toggleNewColumnInput()">
+                {% for col in default_columns %}
+                    <option value="{{ col }}">{{ col }}</option>
+                {% endfor %}
+                <option value="__new_column__">Create New Column</option>
+            </select><br><br>
+            <div id="new_column_name_container" class="hidden">
+                <label for="new_column_name">New Column Name:</label>
+                <input type="text" id="new_column_name" name="new_column_name"><br><br>
+            </div>
+
+            <label for="update_mode">Mode:</label>
+            <select id="update_mode" name="update_mode" onchange="toggleAppendClear()">
+                <option value="append">Append</option>
+                <option value="clear">Clear</option>
+            </select>
+            <p id="append_note"></p>
+            <button type="submit">Update Data</button>
+        </form>
+        {% endif %}
+    </div>
+    <div class="right-panel">
+        {% if pdf_path %}
+            <h2>PDF Viewer</h2>
+            <iframe class="pdf-viewer" src="{{ url_for('serve_pdf', pdf_path=pdf_path) }}"></iframe>
+        {% else %}
+            <p>No PDF available for this operation or none selected yet.</p>
+        {% endif %}
+    </div>
+</div>
 """
 
 def get_row_data(index):
@@ -297,8 +390,8 @@ def index():
         edit_column_value = get_current_edit_column_value()
 
     default_column = "year"
-    return render_template_string(
-        template,
+    content = render_template_string(
+        index_template,
         row_data=row_data,
         pdf_path=row_data.get("pdf_path", None),
         df_columns=default_shown_columns,
@@ -309,6 +402,7 @@ def index():
         edit_column_value=edit_column_value,
         default_column=default_column
     )
+    return render_template_string(main_template, content=content)
 
 @app.route("/set_default_columns", methods=["POST"])
 def set_default_columns():
@@ -349,8 +443,8 @@ def search_column():
         edit_column_name = currently_editing_column
         edit_column_value = get_current_edit_column_value()
 
-    return render_template_string(
-        template,
+    content = render_template_string(
+        index_template,
         row_data=row_data,
         pdf_path=row_data.get("pdf_path", None),
         df_columns=default_shown_columns,
@@ -362,6 +456,7 @@ def search_column():
         edit_column_name=edit_column_name,
         edit_column_value=edit_column_value
     )
+    return render_template_string(main_template, content=content)
 
 @app.route("/update_value", methods=["POST"])
 def update_value():
@@ -403,7 +498,6 @@ def edit_column():
         currently_editing_column = column_name
     return "", 204  # No content response for fetch call
 
-
 @app.route("/save_edited_column", methods=["POST"])
 def save_edited_column():
     global df, current_index
@@ -433,6 +527,91 @@ def exit_server():
     else:
         safe_exit()
     return "Server shutting down..."
+
+# ---------------------------------------------
+# New route for Agentic Operation
+# ---------------------------------------------
+@app.route("/agentic_operation", methods=["GET", "POST"])
+def agentic_operation():
+    global current_index, df
+
+    row_data = get_row_data(current_index)
+    pdf_path = row_data.get("pdf_path", "")
+    activity_selected = request.form.get("activity_selected", None)
+
+    combined_string = ""
+    if request.method == "POST" and activity_selected:
+        # Load configuration
+        config = load_yaml(YAML_PATH)
+
+        pdf_text = ""
+        if activity_selected == "analyse_pdf":
+            if pdf_path and os.path.exists(pdf_path):
+                try:
+                    reader = PdfReader(pdf_path)
+                    for page in reader.pages:
+                        pdf_text += page.extract_text() + "\n"
+                except Exception as e:
+                    pdf_text = f"Error reading PDF: {e}"
+            # Combine prompts
+            agent_name = AGENT_NAME_MAPPING.get(activity_selected, AGENT_NAME_MAPPING["analyse_pdf"])
+            # Combine system prompt
+            system_prompt = combine_role_instruction(config, placeholders, agent_name)
+            combined_string = f"{system_prompt}\n The PDF text is as follows:\n{pdf_text}"
+
+
+
+        elif activity_selected == "abstract_filtering":
+            # Example: we could do something else here if needed.
+            # For now, just a placeholder string.
+            agent_name = AGENT_NAME_MAPPING.get(activity_selected, AGENT_NAME_MAPPING["abstract_filtering"])
+            system_prompt = combine_role_instruction(config, placeholders, agent_name)
+            abstract_text = row_data.get("abstract", "")
+            combined_string = f"{system_prompt}\n The abstract  is as follows:\n{abstract_text }"
+
+        # Store combined_string in session if needed
+        session['combined_string'] = combined_string
+
+    content = render_template_string(
+        agentic_template,
+        activity_selected=activity_selected,
+        pdf_path=pdf_path if activity_selected == "analyse_pdf" else None,
+        combined_string=combined_string,
+        default_columns=default_shown_columns
+    )
+    return render_template_string(main_template, content=content)
+
+@app.route("/agentic_operation_update", methods=["POST"])
+def agentic_operation_update():
+    global current_index, df
+    json_input = request.form.get("json_input", "")
+    column_to_update = request.form.get("column_to_update")
+    update_mode = request.form.get("update_mode", "append")
+
+    if column_to_update == "__new_column__":
+        new_col_name = request.form.get("new_column_name")
+        if new_col_name and new_col_name.strip():
+            column_to_update = new_col_name.strip()
+            if column_to_update not in df.columns:
+                df[column_to_update] = ""
+        else:
+            return redirect(url_for('agentic_operation'))
+    else:
+        if column_to_update not in df.columns:
+            df[column_to_update] = ""
+
+    old_val = df.at[current_index, column_to_update]
+    if pd.isna(old_val):
+        old_val = ""
+    if update_mode == "append":
+        updated_val = (json_input + "\n" + old_val).strip()
+    else:
+        updated_val = json_input.strip()
+
+    df.at[current_index, column_to_update] = updated_val
+    save_to_excel()
+
+    return redirect(url_for('agentic_operation'))
 
 if __name__ == "__main__":
     app.run(debug=True)
