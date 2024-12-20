@@ -5,7 +5,8 @@ from pdf_ieee import do_download_ieee
 file_path = r'../research_filter/database/eeg_test_simple_with_bibtex_v1.xlsx'
 data = pd.read_excel(file_path)
 # Filter only if the 'ai_output' is relevance
-data=data[data['ai_output']=='relevance']
+data = data[(data['ai_output'] == 'relevance') & (data['pdf_name'].isna() | data['pdf_name'].str.strip().eq(''))]
+
 # Dictionaries for different URL categories
 ieeexplore_dict = {}
 springer_dict = {}
@@ -53,8 +54,8 @@ for index, row in data.iterrows():
 
 # Example: Using the categorized data
 # Processing IEEE URLs with `do_download_ieee`
-for bibtex, details in ieeexplore_dict.items():
-    urls = details["url"]
+# for bibtex, details in ieeexplore_dict.items():
+#     urls = details["url"]
 
-    # Call your download function or other processing here
-    do_download_ieee(urls, bibtex=bibtex)
+# Call your download function or other processing here
+do_download_ieee(ieeexplore_dict)
