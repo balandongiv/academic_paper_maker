@@ -29,8 +29,8 @@ for filename in os.listdir(download_path):
 
             # Extract the actual_pdf_name value
             actual_pdf_name = data.get('expected_pdf_name', None)
-
-            if actual_pdf_name:
+            status = data.get('status', None)
+            if actual_pdf_name and status == 'success':
                 # Update the DataFrame with the extracted PDF filename (not full path)
                 df.loc[df['bibtex'] == identifier, 'pdf_name'] = actual_pdf_name
 
@@ -43,7 +43,7 @@ for filename in os.listdir(download_path):
             continue
 
 # Save the updated DataFrame back to Excel
-updated_excel_path = r'C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\database\eeg_test_simple_with_bibtex_v1.xlsx'
+updated_excel_path = r'C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\database\eeg_test_simple_with_bibtex_v1_updated.xlsx'
 df.to_excel(updated_excel_path, index=False)
 
 print(f"Updated Excel file saved at: {updated_excel_path}")

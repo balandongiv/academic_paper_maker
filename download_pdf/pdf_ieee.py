@@ -1,19 +1,18 @@
 import json
+import logging
 import os
-import time
-import re
 import shutil
 import sys
-import logging
+import time
 import tkinter as tk
 from tkinter import messagebox
 
-from tqdm import tqdm
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from tqdm import tqdm
 
 # Configure logger
 logger = logging.getLogger("pdf_ieee")
@@ -38,7 +37,7 @@ def setup_paths():
 
     return geckodriver_path, firefox_binary_path, download_folder, triage_folder, main_temp_folder
 
-from selenium.webdriver.firefox.service import Service
+
 from selenium.webdriver.firefox.service import Service
 
 def create_driver(geckodriver_path, firefox_binary_path, download_directory):
