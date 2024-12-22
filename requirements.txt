@@ -3,6 +3,8 @@ crewai>=0.76.9
 python-dotenv>=1.0.1
 pyperclip
 PyPDF2
+duckduckgo-search
+googlesearch-python
 # pip3 install -U scidownl  : https://github.com/Tishacy/SciDownl
 
 
