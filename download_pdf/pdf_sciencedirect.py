@@ -1,9 +1,9 @@
-import os
-from pdf_downloader import setup_driver, wait_for_download_complete
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+from pdf_downloader import setup_driver
 from selenium.webdriver.support import expected_conditions as EC
-import time
+from selenium.webdriver.support.ui import WebDriverWait
+
+from pdf_downloader import setup_driver
+
 
 def download_pdf(driver, url, download_folder):
     """

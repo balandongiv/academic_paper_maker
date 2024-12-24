@@ -1,42 +1,56 @@
-from selenium import webdriver
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
-from selenium.webdriver.firefox.service import Service as FirefoxService
-from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
-
+import logging
+import sys
 from time import sleep
 
-def create_driver_with_profile(geckodriver_path, firefox_binary_path, firefox_profile_path):
+from bs4 import BeautifulSoup
+
+from download_pdf.browse_internet.firefox_setting import create_driver_with_profile
+from download_pdf.browse_internet.urlcleaning import extract_valid_urls
+from download_pdf.haltbrowser import show_popup
+
+# Configure logger
+logger = logging.getLogger("pdf_ieee")
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler(sys.stdout)
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
+
+
+
+def get_search_results_from_page_source(page_source, num_results):
     """
-    Creates a Firefox WebDriver using an existing profile.
+    Extracts the top N result URLs from the page source using BeautifulSoup.
     """
-    options = FirefoxOptions()
-    options.binary_location = firefox_binary_path
-    profile = FirefoxProfile(firefox_profile_path)
-    options.profile = profile  # Set the profile in options
-    service = FirefoxService(executable_path=geckodriver_path)
-    driver = webdriver.Firefox(service=service, options=options)
-    return driver
+    soup = BeautifulSoup(page_source, 'html.parser')
+
+    urls = []
+    links = soup.find_all('a', href=True)
+    for link in links:
+
+        url = link['href']
+        urls.append(url)
+
+    return urls
+
 
 def search_google_and_extract_urls(driver, keyword, num_results=10):
     """
-    Searches Google for a given keyword and extracts the top N result URLs.
+    Searches Google for a given keyword and extracts the top N result URLs using BeautifulSoup.
     """
     driver.get(f"https://www.google.com/search?q={keyword}")
     sleep(2)  # Allow time for the page to load
 
-    urls = []
-    search_results = driver.find_elements("xpath", "//div[@class='g']")  # Common container for search results
+    # Get the page source
+    page_source = driver.page_source
 
-    for i, result in enumerate(search_results):
-        if i >= num_results:
-            break
-        try:
-            link_element = result.find_element("xpath", ".//a")
-            url = link_element.get_attribute("href")
-            urls.append(url)
-        except Exception as e:
-            print(f"Error extracting URL from result {i+1}: {e}")
-    return urls
+    # Delegate URL extraction to helper function
+
+    all_url=get_search_results_from_page_source(page_source, num_results)
+    valid_urls = extract_valid_urls(all_url)
+    return valid_urls
+
 
 def main(list_keyword, geckodriver_path, firefox_binary_path, firefox_profile_path):
     """
@@ -45,6 +59,16 @@ def main(list_keyword, geckodriver_path, firefox_binary_path, firefox_profile_pa
     """
     driver = create_driver_with_profile(geckodriver_path, firefox_binary_path, firefox_profile_path)
     all_search_results = {}
+    driver.get(f"https://www.google.com/search?q=python")
+
+
+
+    user_response = show_popup()
+    if not user_response:
+        logger.info("User cancelled the operation.")
+        driver.quit()
+        sys.exit(0)
+
 
     for keyword in list_keyword:
         print(f"Searching for: {keyword}")
@@ -62,7 +86,10 @@ if __name__ == "__main__":
     geckodriver_path = r"D:\geckodrive\geckodriver.exe"
     firefox_binary_path = r"C:\Program Files\Mozilla Firefox\firefox.exe"
     firefox_profile_path = r"C:\Users\balan\AppData\Roaming\Mozilla\Firefox\Profiles\ssjd4eo7.default-release"
-    list_keyword = ['eeg', 'emg']
+    list_keyword = {
+        "Subasi_A_2022": "EEG-Based Driver Fatigue Detection Using FAWT and Multiboosting Approaches",
+        "Abidi_A_2022": "Automatic Detection of Drowsiness in EEG Records Based on Machine Learning Approaches"
+    }
 
     search_results = main(list_keyword, geckodriver_path, firefox_binary_path, firefox_profile_path)
     print("\nAll search results:")
