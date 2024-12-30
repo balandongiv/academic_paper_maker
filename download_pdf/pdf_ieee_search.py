@@ -1,4 +1,4 @@
-import json
+import errno
 import logging
 import os
 import shutil
@@ -8,13 +8,13 @@ import tkinter as tk
 from tkinter import messagebox
 
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from tqdm import tqdm
-
-from selenium.webdriver.firefox.service import Service
 
 # Configure logger
 logger = logging.getLogger("pdf_ieee")
@@ -74,7 +74,7 @@ def create_driver(geckodriver_path, firefox_binary_path, download_directory):
 
 
 
-def wait_for_download_complete(download_folder, timeout=60):
+def wait_for_download_complete(download_folder, timeout=600):
     """
     Waits for a download to complete by monitoring the download folder for the absence of .part files.
     """
@@ -197,130 +197,125 @@ def flatten_url_dict(url_dict):
     return [(bibtex, details["url"], details["title"]) for bibtex, details in url_dict.items()]
 
 
+
+
+
 def download_pdfs(initial_driver, flattened_entries, download_folder, triage_folder, main_temp_folder,
                   geckodriver_path, firefox_binary_path):
     """
-    Downloads PDFs from a flattened list of (bibtex, url, title) tuples and saves JSON metadata.
-    Avoid multiple logins by using the initial driver's session cookies.
-    For each URL:
-      - Create a unique temporary folder inside main_temp_folder
-      - Spawn a new driver with that folder as download dir
-      - Transfer cookies from initial_driver to new driver
-      - Download the PDF
-      - Once done, rename/move PDF and save JSON
+    Downloads PDFs and handles errors gracefully to ensure the loop processes all entries.
     """
-
-    # Get cookies from initial_driver after login
+    # Extract cookies
     cookies = initial_driver.get_cookies()
 
-    total_urls = sum(len(urls) for _, urls, _ in flattened_entries)
-    with tqdm(total=total_urls, desc="Processing URLs") as pbar:
-        for bibtex, urls, title in flattened_entries:
-            for url in urls:
-                # Create a unique temp folder for this URL
-                # We can use bibtex + a timestamp or simple uniqueness
-                timestamp = int(time.time() * 1000)
-                temp_url_folder = os.path.join(main_temp_folder, f"{bibtex}_{timestamp}")
-                os.makedirs(temp_url_folder, exist_ok=True)
+    with tqdm(total=len(flattened_entries), desc="Processing URLs") as pbar:
+        for key, value in flattened_entries.items():
+            bibtex = key
+            doi = value.get('doi', 'Unknown DOI')
+            if bibtex == 'Eskandarian_C_2021':
+                continue
+            timestamp = int(time.time() * 1000)
+            temp_url_folder = os.path.join(main_temp_folder, f"{bibtex}_{timestamp}")
+            os.makedirs(temp_url_folder, exist_ok=True)
 
-                # Create a new driver for this URL with the custom download folder
-                driver = create_driver(geckodriver_path, firefox_binary_path, temp_url_folder)
+            driver = create_driver(geckodriver_path, firefox_binary_path, temp_url_folder)
 
-                # Inject cookies from initial driver to maintain logged-in session
-                driver.get("https://ieeexplore.ieee.org/")  # Navigate to a page before adding cookies
+            try:
+                # Transfer cookies
+                driver.get("https://ieeexplore.ieee.org/")
                 driver.delete_all_cookies()
                 for c in cookies:
                     driver.add_cookie(c)
-                driver.get("https://ieeexplore.ieee.org/")  # Refresh page to apply cookies
+                driver.get("https://ieeexplore.ieee.org/")
 
-                logger.info(f"Processing URL: {url} for {bibtex}")
+                logger.info(f"Processing DOI: {doi} for BibTeX key: {bibtex}")
 
-                status = "fail"
-                actual_file = None
+                # Perform the search
+                search_input = WebDriverWait(driver, 10).until(
+                    EC.visibility_of_element_located((By.XPATH, "//input[@aria-label='main']"))
+                )
+                search_input.clear()
+                search_input.send_keys(doi)
 
-                try:
-                    if '.pdf' in url.lower():
-                        driver.execute_script("window.location.href = arguments[0];", url)
-                        logger.info(f"Direct PDF download initiated for: {url}")
+                search_button = WebDriverWait(driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, "//button[@aria-label='Search']"))
+                )
+                search_button.click()
+
+                # Locate PDF link
+                pdf_link = WebDriverWait(driver, 20).until(
+                    EC.presence_of_element_located((By.XPATH, "//a[contains(@href, '/stamp/stamp.jsp')]"))
+                )
+                pdf_href = pdf_link.get_attribute('href')
+                driver.get(pdf_href)
+
+                # Wait for download to complete
+                if wait_for_download_complete(temp_url_folder):
+                    latest_file = get_latest_file(temp_url_folder)
+                    if latest_file and latest_file.lower().endswith('.pdf'):
+                        handle_success(latest_file, bibtex, temp_url_folder, download_folder)
                     else:
-                        driver.get(url)
-                        logger.info(f"Navigated to: {url}")
-                        pdf_link = WebDriverWait(driver, 10).until(
-                            EC.element_to_be_clickable(
-                                (By.XPATH, "//a[contains(@class, 'xpl-btn-pdf') and contains(@href, 'stamp')]"))
-                        )
-                        pdf_link.click()
-                        logger.info(f"PDF download initiated via link for: {url}")
-
-                    if wait_for_download_complete(temp_url_folder):
-                        latest_file = get_latest_file(temp_url_folder)
-                        if latest_file and latest_file.lower().endswith('.pdf'):
-                            logger.info(f"Download complete: {latest_file}")
-                            actual_file = latest_file
-                            status = "success"
-                        else:
-                            logger.warning(f"No valid PDF file detected for: {url}")
-                    else:
-                        logger.warning(f"Download timed out for: {url}")
-
-                except Exception as e:
-                    logger.error(f"Could not download PDF for {url}: {e}")
-                    driver.quit()
-                    pbar.update(1)
-                    continue
-
-                # Save JSON metadata regardless of success/fail
-                json_filename = os.path.join(temp_url_folder, f"{bibtex}.json")
-                metadata = {
-                    "expected_pdf_name": f"{bibtex}.pdf",
-                    "actual_pdf_name": f"{actual_file if actual_file else 'None'}",
-                    "status": status,
-                    "url": url
-                }
-                with open(json_filename, 'w') as json_file:
-                    json.dump(metadata, json_file, indent=4)
-                logger.info(f"Saved JSON metadata: {json_filename}")
-
-                # If success, rename PDF and move to final folder
-                if status == "success" and actual_file:
-                    # Rename PDF to bibtex.pdf
-                    source_pdf = os.path.join(temp_url_folder, actual_file)
-                    target_pdf_name = f"{bibtex}.pdf"
-                    target_pdf = os.path.join(temp_url_folder, target_pdf_name)
-                    os.rename(source_pdf, target_pdf)
-
-                    # Move PDF and JSON to main download_folder
-                    final_pdf_path = os.path.join(download_folder, f"{bibtex}.pdf")
-                    final_json_path = os.path.join(download_folder, f"{bibtex}.json")
-
-                    shutil.move(target_pdf, final_pdf_path)
-                    shutil.move(json_filename, final_json_path)
-                    logger.info(f"Moved PDF and JSON to {download_folder}")
-
+                        logger.warning(f"No valid PDF file found for DOI {doi}.")
+                        handle_failure(temp_url_folder, bibtex, triage_folder)
                 else:
-                    # If fail, we still keep the JSON in main folder for reference
-                    # and move the folder to triage
-                    final_json_path = os.path.join(download_folder, f"{bibtex}.json")
-                    shutil.move(json_filename, final_json_path)
-                    logger.info("PDF download failed, JSON moved to main folder for reference.")
-                    # Move the temp folder to triage for inspection (if it has leftovers)
-                    # or at least keep a record
-                    triage_bib_folder = os.path.join(triage_folder, f"{bibtex}_{timestamp}")
-                    shutil.move(temp_url_folder, triage_bib_folder)
-                    logger.info(f"Moved incomplete data to triage folder: {triage_bib_folder}")
+                    logger.warning(f"Download timed out for DOI {doi}.")
+                    handle_failure(temp_url_folder, bibtex, triage_folder)
 
+            except TimeoutException:
+                logger.error(f"PDF link not found or download timeout for DOI {doi}.")
+                handle_failure(temp_url_folder, bibtex, triage_folder)
 
+            except OSError as e:
+                if e.errno == errno.EBUSY:
+                    logger.error(f"File lock issue for DOI {doi}: {e}")
+                else:
+                    logger.error(f"Unexpected file system error for DOI {doi}: {e}")
+                handle_failure(temp_url_folder, bibtex, triage_folder)
+
+            except Exception as e:
+                logger.error(f"Unexpected error for DOI {doi}: {e}")
+                handle_failure(temp_url_folder, bibtex, triage_folder)
+
+            finally:
                 driver.quit()
                 pbar.update(1)
 
+def handle_success(latest_file, bibtex, temp_url_folder, download_folder):
+    """Handle successful download."""
+    try:
+        latest_file= os.path.join(temp_url_folder, latest_file)
+        target_pdf_name = f"{bibtex}.pdf"
+        target_pdf = os.path.join(temp_url_folder, target_pdf_name)
+        os.rename(latest_file, target_pdf)
 
-def do_download_ieee(input_urls):
+        final_pdf_path = os.path.join(download_folder, target_pdf_name)
+        shutil.move(target_pdf, final_pdf_path)
+        logger.info(f"PDF successfully downloaded and moved to: {final_pdf_path}")
+
+    except Exception as e:
+        logger.error(f"Error handling successful download for BibTeX {bibtex}: {e}")
+        # raise  # Optionally re-raise for debugging purposes
+
+
+def handle_failure(temp_url_folder, bibtex, triage_folder):
+    """Handle failures gracefully by moving temp data to the triage folder."""
+    triage_bib_folder = os.path.join(triage_folder, f"{bibtex}_{int(time.time() * 1000)}")
+    try:
+        shutil.move(temp_url_folder, triage_bib_folder)
+        logger.info(f"Moved incomplete data for {bibtex} to triage folder: {triage_bib_folder}")
+    except Exception as e:
+        logger.error(f"Failed to move incomplete data for {bibtex} to triage folder: {e}")
+
+
+
+
+def do_download_ieee_search(input_urls):
     """
     Orchestrates the download process.
     """
     try:
-        url_dict = normalize_urls(input_urls)
-        flattened_entries = flatten_url_dict(url_dict)
+        # url_dict = normalize_urls(input_urls)
+        # flattened_entries = flatten_url_dict(url_dict)
 
         geckodriver_path, firefox_binary_path, download_folder, triage_folder, main_temp_folder = setup_paths()
 
@@ -331,7 +326,7 @@ def do_download_ieee(input_urls):
 
         download_pdfs(
             initial_driver,
-            flattened_entries,
+            input_urls,
             download_folder,
             triage_folder,
             main_temp_folder,
@@ -350,20 +345,32 @@ def main():
     """
     Main function to log in once and download all PDFs.
     """
-    input_urls = [
-        (
-            'Chen_C_2023',
-            ['https://ieeexplore.ieee.org/ielx7/7333/10031624/10194963.pdf?tp=&arnumber=10194963&isnumber=10031624&ref='],
-            'Self-Attentive Channel-Connectivity Capsule Network for EEG-Based Driving Fatigue Detection'
-        ),
-        (
-            'Wei_C_2018',
-            ['https://ieeexplore.ieee.org/ielx7/7333/8288842/08247228.pdf?tp=&arnumber=8247228&isnumber=8288842&ref='],
-            'Toward Drowsiness Detection Using Non-hair-Bearing EEG-Based Brain-Computer Interfaces'
-        )
-    ]
+    ieee_dict = {
+        'dummy_Nguyen_H_2023': {
+            'doi': '10.1109/JSEN.2023.3307766',
+            'title': 'Behind-the-Ear EEG-Based Wearable Driver Drowsiness Detection System Using Embedded Tiny Neural Networks',
+            'url': [
+                'https://www.scopus.com/inward/record.uri?eid=2-s2.0-85170514053&doi=10.1109%2fJSEN.2023.3307766&partnerID=40&md5=03312515df8489961c92b88009cdda9a'
+            ]
+        },
+        'dummy_Yaacob_H_2023': {
+            'doi': '10.1109/ACCESS.2023.3296382',
+            'title': 'Application of Artificial Intelligence Techniques for Brain-Computer Interface in Mental Fatigue Detection: A Systematic Review (2011-2022)',
+            'url': [
+                'https://www.scopus.com/inward/record.uri?eid=2-s2.0-85165289795&doi=10.1109%2fACCESS.2023.3296382&partnerID=40&md5=5133f41370bc67b73d7d337f83e38be5'
+            ]
+        },
+        'dummy_Pan_J_2023': {
+            'doi': '10.1109/TIM.2023.3307756',
+            'title': 'Residual Attention Capsule Network for Multimodal EEG- and EOG-Based Driver Vigilance Estimation',
+            'url': [
+                'https://www.scopus.com/inward/record.uri?eid=2-s2.0-85168714318&doi=10.1109%2fTIM.2023.3307756&partnerID=40&md5=c91c54ed0ba4ab797b158b1e42f61c04'
+            ]
+        }
+    }
 
-    do_download_ieee(input_urls)
+
+    do_download_ieee_search(ieee_dict)
 
 
 if __name__ == "__main__":

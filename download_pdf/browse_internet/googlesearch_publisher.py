@@ -1,19 +1,21 @@
 import logging
-import sys
 import os
+import sys
+
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
 '''
-This code will be use to search the academic title using google search engine
-https://www.bing.com/search?q=
-https://duckduckgo.com/?t=
+This code will be use to search the publisher based on incomplete journal name from the excel file
+
 '''
 
 
 import json
-import random
 from time import sleep
 from bs4 import BeautifulSoup
 from download_pdf.browse_internet.firefox_setting import create_driver_with_profile
-from download_pdf.browse_internet.urlcleaning import extract_valid_urls
 from download_pdf.haltbrowser import show_popup
 
 # Configure logger
@@ -40,21 +42,33 @@ def search_google_and_extract_urls(driver, keyword, num_results=10):
     """
     Searches Google for a given keyword and extracts the top N result URLs using BeautifulSoup.
     """
-    driver.get(f"https://www.google.com/search?q={keyword}")
+    driver.get(f"https://www.google.com/search?q={keyword} journal")
     sleep(2)  # Allow time for the page to load
+    results = []
 
-    # Get the page source
-    page_source = driver.page_source
+    # Use a more robust selector to find result containers
+    search_result_elements = WebDriverWait(driver, 10).until(
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div.g"))
+    )
 
-    # Delegate URL extraction to helper function
-    all_urls = get_search_results_from_page_source(page_source, num_results)
-    valid_urls = extract_valid_urls(all_urls)
+    for result_element in search_result_elements:
+        try:
+            # Find the anchor element and get href
+            link_element = result_element.find_element(By.CSS_SELECTOR, "a")
+            href = link_element.get_attribute("href")
 
-    # Randomized sleep to avoid robotic detection
-    random_sleep_time = random.uniform(2, 5)  # Random sleep between 2 and 5 seconds
-    sleep(random_sleep_time)
+            # Find the heading element and get text
+            title_element = result_element.find_element(By.CSS_SELECTOR, "h3")
+            text = title_element.text
 
-    return valid_urls
+            results.append({"href": href, "text": text})
+
+        except Exception as e:
+            print(f"Error processing a result element: {e}")
+            # You might want to log the specific error or skip to the next result
+            continue
+    results=results[0] # I purposely added this line to get the first result. thou not efficient, but i want use the above code as sample in the future
+    return results
 
 def save_results_to_json(keyword, search_term, urls, main_directory=None):
     """
@@ -97,7 +111,7 @@ def process_keywords(list_keyword, geckodriver_path, firefox_binary_path, firefo
     Processes a list of keywords, searches Google, and saves the results.
     """
     driver = create_driver_with_profile(geckodriver_path, firefox_binary_path, firefox_profile_path)
-
+    print("Make sure to accept the notifications prompt in the browser.")
     user_response = show_popup()
     if not user_response:
         logger.info("User cancelled the operation.")
@@ -110,7 +124,10 @@ def process_keywords(list_keyword, geckodriver_path, firefox_binary_path, firefo
             continue
 
         logger.info(f"Searching for: {keyword}")
-        top_urls = search_google_and_extract_urls(driver, search_term)
+        try:
+            top_urls = search_google_and_extract_urls(driver, search_term)
+        except Exception as e:
+            continue
         save_results_to_json(keyword, search_term, top_urls, main_directory)
 
         logger.info(f"Top URLs for '{keyword}':")
@@ -125,8 +142,8 @@ if __name__ == "__main__":
     firefox_binary_path = r"C:\\Program Files\\Mozilla Firefox\\firefox.exe"
     firefox_profile_path = r"C:\\Users\\balan\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\ssjd4eo7.default-release"
     list_keyword = {
-        "Subasi_A_2022": "EEG-Based Driver Fatigue Detection Using FAWT and Multiboosting Approaches",
-        "Abidi_A_2022": "Automatic Detection of Drowsiness in EEG Records Based on Machine Learning Approaches"
+        "Jeong_J_2019": "Brain Sci",
+        "Yuan_D_2023": "Rev Sci Instrum"
     }
 
     main_directory = None  # Specify a path here to save results in a specific directory, or leave as None
