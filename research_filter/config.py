@@ -1,7 +1,4 @@
-import os
-from pydantic import RootModel
-from typing import Any, Dict, Union
-from research_filter.agent_helper import combine_role_instruction, load_yaml, validate_json_data
+from research_filter.agent_helper import validate_json_data
 # DEBUG mode
 DEBUG = True
 
@@ -32,7 +29,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Define the relative YAML path
 YAML_PATH = os.path.join(SCRIPT_DIR, "agent","agents_fatigue_driving.yaml")
-FILE_PATH = os.path.join(SCRIPT_DIR,"database", "eeg_test_simple_with_bibtex_v1.xlsx")
+FILE_PATH = os.path.join(SCRIPT_DIR,"database", "eeg_review.xlsx")
 # Files and paths
 # FILE_PATH = r"..\research_filter\eeg_test_simple_with_bibtex_v1.xlsx"
 # YAML_PATH = r"..\esearch_filter\agents_fatigue_driving.yaml"

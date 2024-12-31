@@ -12,9 +12,15 @@ from research_filter.config import (
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"  # Needed for session usage
-
-fname = r'..\use_browser\shortdbs.xlsx'
+pdf_folder=r'C:\Users\balan\OneDrive - ums.edu.my\research_related\0 eeg_trend_till24\eeg_review'
+# fname = r'..\use_browser\shortdbs.xlsx'
+fname=r'C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\database\eeg_review.xlsx'
 df = pd.read_excel(fname)
+
+# Create a new column combining the folder and file name
+df['pdf_path'] = df['pdf_name'].apply(lambda x: f"{pdf_folder}\\{x}")
+
+df = df[(df['ai_output'] == 'relevance') & (df['pdf_name'].notna()) & (df['pdf_name'] != '')]
 
 current_index = 0
 excel_file = "data.xlsx"
