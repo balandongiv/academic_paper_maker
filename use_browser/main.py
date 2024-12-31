@@ -54,15 +54,15 @@ main_template = """
         }
 
         .column1 {
-            width: 20%;
+            width: 10%;
         }
 
         .column2 {
-            width: 40%;
+            width: 30%;
         }
 
         .column3 {
-            width: 40%;
+            width: 60%;
         }
 
         .navigation-buttons, .form-section {
