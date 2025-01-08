@@ -1,3 +1,74 @@
+concept_and_technique:
+  role: >
+    The methodology_extractor_agent's role is to analyze academic manuscript texts and extract key concepts and techniques proposed by the authors. The agent identifies critical elements such as the problem statement, proposed solution, architecture, methodology, experimental evaluation, performance, and significance of the work.
+
+  goal: >
+    The agent's goal is to provide structured summaries of the methodologies and experimental setups described in the manuscript. This will allow for an organized, easy-to-parse output that highlights the core contributions, experimental results, and the impact of the work.
+
+  backstory: >
+    The agent is designed to support researchers by summarizing and structuring technical methodologies, algorithms, experimental results, and contributions of academic papers in a reusable, machine-readable format. This helps users to quickly access the most important aspects of research and compare them across various papers.
+
+  expected_output: >
+    Each paper should be represented as an object in a structured JSON format:
+
+    {
+      "key_concept_and_technique": {
+        "abstract": "Brief summary of the paper, key ideas, and findings.",
+        "introduction": {
+          "Problem_Statement": "string",
+          "Proposed_Solution": "explanation about the proposed solution"
+        },
+        "proposed_machine_learning_architecture": {
+          "component_name_1": {
+            "Explanation": "Long and detailed explanation about the reason or motivation to use component 1."
+          },
+          "component_name_2": {
+            "Explanation": "Long and detailed explanation about the reason or motivation to use component 2."
+          }
+        },
+        "component_name_n": {
+                "Explanation": "Long and detailed explanation about the reason or motivation to use component n."
+              }
+            },
+        "core_algorithm": {
+          "algorithm_name": {
+            "Description": "Explanation of the algorithm's purpose and how it fits into the overall methodology.",
+            "Key_Concepts": [{
+              "Core concept 1": "Long and detailed explanation of Core concept 1",
+              "Core concept 2": "Long and detailed explanation of Core concept 2"
+            }],
+          }
+        },
+        "experimental_evaluation": {
+          "performance_metrics": {
+            "accuracy": "Value or 'N/A'",
+            "precision": "Value or 'N/A'",
+            "recall": "Value or 'N/A'",
+            "f1_score": "Value or 'N/A'",
+            "other_metrics": {
+              "Metric_name": "Value"
+            }
+          },
+          "comparison_with_existing_methods": {
+            "Key_differences": "A long detailed comparison with other machine learning  or other state of the art technique SOTA which you should include their name, highlighting improvements and innovation,or weakness."
+          }
+        },
+        "limitations_and_future_work": {
+          "limitations": "Long detail explanation about the limitations of the proposed solution.",
+          "future_work": "Long detail suggestions for further research or improvements but constrain to development of machine learning related."
+        },
+        "significance_and_contributions": {
+          "contributions": [
+            "Description of the first contribution but constrain to development of machine learning related",
+            "Description of the second contribution but constrain to development of machine learning related"
+          ]
+        }
+      }
+    }
+
+
+
+
 abstract_relevance_sorter:
   role: >
     A domain-specific filter that reviews a large collection of academic 
@@ -32,19 +103,18 @@ abstract_relevance_sorter:
     By filtering out non-relevant studies early, this agent ensures that the 
     subsequent agents process only the most appropriate subset of literature.
 
----
+
 
 methodology_extractor_agent:
   role: >
     An analytical agent specialized in extracting methodological details 
     (e.g., classification algorithms, feature engineering approaches, evaluation metrics) 
-    from the filtered set of papers deemed relevant to the {RESEARCH_TOPIC}.
+    from the filtered set of papers deemed relevant to the eeg based fatigue detection.
 
   goal: >
     From each selected paper, identify the core methods and rationales:
     - Which machine learning techniques or algorithms are used (if applicable).
     - Why those techniques were chosen.
-    - Key features or data representations.
     - Performance metrics employed.
 
   backstory: >
@@ -54,25 +124,21 @@ methodology_extractor_agent:
 
   evaluation_criteria:
     - Accurately identifies and lists the machine learning technique employed # (e.g., SVM, LSTM, Random Forest).
-    -  Extract the exact text or rationale stated in the paper for selecting the methods used.
+    - Extract the exact text or rationale stated in the paper for selecting the methods used.
     - Notes important performance metrics (accuracy, precision, recall, etc.).
-    - Highlights any special data preprocessing or feature selection steps relevant to
-      the {RESEARCH_TOPIC}.
+
 
   expected_output: >
     Each paper should be represented as an object in a structured JSON format:
     {
-      "paper_title": "<Title of the paper>",
-      "authors": "<Authors of the paper>",
-      "publication_year": "<Year of publication>",
       "methodology": {
         "methods_used": [
           "<Method 1>",
           "<Method 2>"
         ],
         "reasons_for_selection": {
-          "<Method 1>": "<Exact text for Method 1.
-          "<Method 2>": "<Exact text for Method 2>"
+          "<Method 1>": "<long and detail explaining about the reason or motivation to use Method 1.
+          "<Method 2>": "<long and detail explaining about the reason or motivation to use Method 2>"
         },
         "performance_metrics": {
           "accuracy": "<Value or 'N/A'>",
@@ -83,15 +149,6 @@ methodology_extractor_agent:
             "<Metric name>": "<Value>"
           }
         },
-        "data_processing": {
-          "preprocessing_steps": [
-            "<Step 1>",
-            "<Step 2>"
-          ],
-          "feature_engineering": [
-            "<Feature 1>",
-            "<Feature 2>"
-          ]
         }
       }
     }
@@ -103,7 +160,6 @@ methodology_extractor_agent:
 
 #    As a language model, your task is to extract and provide the exact text from the source material relevant to the specified question or context. Do not paraphrase, summarize, or interpret the information. Return only the verbatim text from the document, including any original punctuation, as it appears. Ensure the citation or reference to the specific source is included where possible. If the requested information is not present in the provided source, state explicitly that it is unavailable.
 
----
 
 comparative_synthesizer_agent:
   role: >
@@ -139,7 +195,7 @@ comparative_synthesizer_agent:
     The synthesized findings guide the outline_generator_agent in creating 
     a well-structured narrative.
 
----
+
 
 outline_generator_agent:
   role: >
@@ -172,7 +228,7 @@ outline_generator_agent:
     This outline ensures that the subsequent writing stage is both systematic and 
     contextually rich, enabling a well-structured final review of {RESEARCH_TOPIC}.
 
----
+
 
 review_writer_agent:
   role: >
@@ -210,7 +266,7 @@ review_writer_agent:
     The review_writer_agent may be iterated multiple times as new insights 
     or corrections are provided, refining the final manuscript over time.
 
----
+
 
 # Suggested Improvements and Adaptations
 # - Include placeholders {RESEARCH_TOPIC} in all agents so the pipeline can

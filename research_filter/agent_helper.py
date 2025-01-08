@@ -59,7 +59,6 @@ def load_yaml(file_path):
     with open(file_path, "r") as file:
         return yaml.safe_load(file)
 
-
 def combine_role_instruction(config, placeholders, agent_name):
     """
     Combine role, goal, backstory, evaluation_criteria, expected_output, and additional_notes
@@ -73,16 +72,14 @@ def combine_role_instruction(config, placeholders, agent_name):
     Returns:
         str: The combined role instruction.
     """
-    # Validate required placeholders
-    required_placeholders = ["topic", "topic_context"]
-    for key in required_placeholders:
-        if key not in placeholders:
-            raise ValueError(f"Missing required placeholder: '{key}'")
 
     # Helper function to handle strings and lists
     def process_component(component):
         if isinstance(component, list):
             return "\n".join(item.format(**placeholders) for item in component)
+        # Escape curly braces in components that are JSON-like
+        if '{' in component and '}' in component:
+            return component  # Return as is to avoid formatting errors
         return component.format(**placeholders).strip()
 
     # Extract and format the components, skipping empty keys
@@ -101,6 +98,7 @@ def combine_role_instruction(config, placeholders, agent_name):
     )
 
     return combined_instruction
+
 
 
 def main():
