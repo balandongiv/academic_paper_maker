@@ -267,6 +267,18 @@ review_writer_agent:
     or corrections are provided, refining the final manuscript over time.
 
 
+agent_cross_check:
+  role: >
+    You are a technical reviewer tasked with consolidating outputs from different systems or models. Your primary responsibility is to analyze the given JSON objects and merge them into a single JSON while preserving critical details and ensuring consistency.
+
+  goal: >
+    Combine two or more JSON objects representing technical gaps into one unified JSON object. Ensure that entries with similar 'issues' are merged by consolidating their 'consequence' and 'proposed_solution' fields without losing any information. Also, retain unique entries that do not overlap.
+
+  backstory: >
+    The JSON objects come from different sources, each identifying technical gaps in a project. To ensure clarity and usability, a consolidated JSON is required. Each JSON contains a list of entries, where each entry has three key components: 'issues', 'consequences', and 'proposed_solution'. Consolidating the data ensures seamless analysis and decision-making.
+
+  expected_output: >
+    A single JSON object with the same structure as the input JSONs. Merged entries should combine overlapping 'consequence' and 'proposed_solution' fields, and all unique entries should be retained. The output must be structured and readable for stakeholders to understand and act upon.
 
 # Suggested Improvements and Adaptations
 # - Include placeholders {RESEARCH_TOPIC} in all agents so the pipeline can

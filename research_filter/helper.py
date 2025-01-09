@@ -9,7 +9,21 @@ import yaml
 from dotenv import load_dotenv
 from openai import OpenAI
 from research_filter.agent_helper import combine_role_instruction, load_yaml,validate_json_data
+from PyPDF2 import PdfReader  # Make sure PyPDF2 is installed
+def extract_pdf_text(pdf_path):
+    pdf_text=''
+    try:
+    #
+        reader = PdfReader(pdf_path)
+        for page in reader.pages:
+            pdf_text += page.extract_text() + "\n"
+        status=True
+    except Exception as e:
+        pdf_text = f"Error reading PDF: {e}"
+        status=False
 
+
+    return pdf_text,status
 
 def load_yaml(file_path):
     """Load a YAML file and return its contents."""

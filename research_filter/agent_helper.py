@@ -8,6 +8,83 @@ import json
 class AIOutputModel(RootModel[Union[str, Dict[str, Any]]]):
     pass
 
+def get_info_ai(bibtex_val,abstract, instruction, client, model_name="gpt-4o-mini"):
+    """
+    Get AI response for the given abstract using the provided instruction.
+    Returns True, False, or 'Uncertain'.
+    """
+    mock_data={
+        "technical_gaps": [
+            {
+                "issue": "Computer vision-based methods for drowsiness detection are highly sensitive to external conditions such as occlusion, illumination, and clothing.",
+                "consequence": "These methods produce unreliable results in varying environmental conditions, compromising the robustness of the detection system.",
+                "proposed_solution": {
+                    "strategy": "Shift focus to physiological signal-based methods, particularly EEG signals, which reflect brain dynamics and are less impacted by external conditions.",
+                    "advantages": "EEG signals offer higher reliability and robustness in detecting driver drowsiness, unaffected by external physical conditions."
+                }
+            },
+            {
+                "issue": "Traditional EEG-based machine learning methods rely on handcrafted feature extraction, which demands significant domain expertise and often yields suboptimal performance.",
+                "consequence": "The reliance on handcrafted features limits the scalability and adaptability of these systems to diverse and dynamic scenarios.",
+                "proposed_solution": {
+                    "strategy": "Adopt deep learning methods, specifically CNNs, to enable end-to-end learning of task-relevant features directly from raw EEG data.",
+                    "advantages": "Improved feature representation, reduced dependency on domain expertise, and enhanced classification performance."
+                }
+            },
+            {
+                "issue": "CNN architectures struggle with cross-subject classification due to inter-subject variability in EEG signals.",
+                "consequence": "This limitation reduces the generalizability of the model, making it less effective for real-world applications where subject-specific variations are common.",
+                "proposed_solution": {
+                    "strategy": "Introduce the Gumbel-Softmax trick to optimize EEG channel selection and minimize inter-subject variability in an end-to-end framework.",
+                    "advantages": "Improved cross-subject classification accuracy, reduced computational burden, and enhanced generalizability of the detection model."
+                }
+            },
+            {
+                "issue": "Processing all EEG channels increases model complexity and computational burden, making real-time detection challenging.",
+                "consequence": "This hampers the feasibility of deploying EEG-based drowsiness detection systems in real-time applications.",
+                "proposed_solution": {
+                    "strategy": "Implement channel selection using Gumbel-Softmax discrete sampling to reduce data dimensionality and focus on relevant EEG channels.",
+                    "advantages": "Lower computational cost, reduced model complexity, and improved efficiency suitable for real-time applications."
+                }
+            },
+            {
+                "issue": "Deep learning models often lack interpretability and are affected by extraneous EEG channels.",
+                "consequence": "The presence of redundant information reduces the model's interpretability and efficiency, leading to suboptimal performance.",
+                "proposed_solution": {
+                    "strategy": "Incorporate penalties on weight matrix row sums to prevent the selection of duplicate channels and enhance model interpretability.",
+                    "advantages": "Improved interpretability, reduced redundancy, and better optimization of network parameters for practical applications."
+                }
+            },
+            {
+                "issue": "Few studies simulate real-time EEG-based driver drowsiness detection systems.",
+                "consequence": "The lack of real-time application frameworks limits the practical utility of these methodologies in the transportation industry.",
+                "proposed_solution": {
+                    "strategy": "Develop a graphical user interface (GUI) for real-time simulation of driver drowsiness detection using the proposed model.",
+                    "advantages": "Provides a practical and user-friendly solution for real-time driver monitoring, bridging the gap between research and application."
+                }
+            }
+        ]
+    }
+    return mock_data
+    # try:
+    #     completion = client.chat.completions.create(
+    #         model=model_name,
+    #         messages=[
+    #             {"role": "system", "content": instruction},
+    #             {"role": "user", "content": abstract},
+    #
+    #         ],
+    #         response_format= { "type":"json_object" }
+    #     )
+    # except Exception as e:
+    #     return f"Error when processing {bibtex_val}: {e}"
+    # try:
+    #     output = completion.choices[0].message.content
+    #
+    #     return output
+    # except Exception as e:
+    #     return f"Error when processing {bibtex_val}: {e}"
+
 
 def parse_ai_output(user_json_input: str):
     """Attempt to parse the user's JSON input into a bool or dict using Pydantic."""
