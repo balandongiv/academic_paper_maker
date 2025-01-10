@@ -1,0 +1,123 @@
+{
+  "title": "Multimodal Fusion and Contextual Information",
+  "section_id": "8.3 Multimodal Fusion and Contextual Information",
+  "description": "Advocate for integrating EEG with other physiological signals and contextual data (e.g., driving environment, time of day).",
+  "examples": [
+    {
+      "reference": "Ahn_S_2016",
+      "description": "Combines EEG, ECG, and fNIRS for a comprehensive analysis of drivers' mental states.",
+      "note": "Added for its multimodal approach, combining EEG, ECG, and fNIRS to provide a comprehensive analysis of drivers' mental states."
+    },
+    {
+      "reference": "Cao_L_2016",
+      "description": "Integrates EEG and eye movement signals for real-time drowsiness detection.",
+      "note": "Added for its integration of EEG and eye movement signals, demonstrating the value of combining neurological and behavioral data for real-time drowsiness detection."
+    },
+    {
+      "reference": "Cao_L_2024",
+      "description": "Introduces a multimodal tensor fusion network (MTFN-SAM) for fatigue recognition, integrating EEG, HR, GSR, and ACC.",
+      "note": "Added for its introduction of a multimodal tensor fusion network, showcasing an advanced method for integrating diverse physiological signals to enhance fatigue recognition."
+    },
+    {
+      "reference": "Etemad_G_2019",
+      "description": "Utilizes multimodal EEG and EOG data for driver vigilance estimation.",
+      "note": "Added for its use of multimodal EEG and EOG data, illustrating the benefits of combining brain and eye activity measurements for driver vigilance estimation."
+    },
+    {
+      "reference": "Etemad_G_2021",
+      "description": "Proposes a multimodal architecture for estimating driver vigilance based on EEG and EOG signals.",
+      "note": "Added for its multimodal architecture proposal, further emphasizing the integration of EEG and EOG signals for a more accurate estimation of driver vigilance."
+    },
+    {
+      "reference": "Farha_N_2022",
+      "description": "Combines EEG and eye-tracking data to assess vigilance levels, achieving high accuracy.",
+      "note": "Added for its combination of EEG and eye-tracking data, demonstrating the effectiveness of multimodal data fusion in assessing vigilance levels with high accuracy."
+    },
+    {
+      "reference": "Fu_R_2016",
+      "description": "Integrates EEG, EMG, and respiration signals with contextual information for continuous fatigue estimation.",
+      "note": "Added for its integration of multiple physiological signals with contextual information, highlighting the value of a holistic approach to continuous fatigue estimation."
+    },
+    {
+      "reference": "Giorgi_A_2023",
+      "description": "Assesses mental fatigue using multiple biosignals (EEG, EOG, EDA, PPG), enhancing safety in automated driving.",
+      "note": "Added for its assessment of mental fatigue using a wide range of biosignals, showcasing the potential of multimodal data in enhancing safety in automated driving."
+    },
+    {
+      "reference": "Han_S_2020",
+      "description": "Utilizes multimodal biosignals, including EEG, ECG, respiration, and EDA, for classifying pilots' mental states.",
+      "note": "Added for its use of multimodal biosignals in classifying pilots' mental states, demonstrating the application of multimodal data in safety-critical professions beyond driving."
+    },
+    {
+      "reference": "Lian_Z_2024",
+      "description": "Proposes a multimodal architecture integrating EEG and eye-tracking data for enhanced fatigue detection accuracy.",
+      "note": "Added for its proposal of a multimodal architecture that integrates EEG and eye-tracking data, further supporting the trend towards combining multiple data sources for improved fatigue detection."
+    },
+    {
+      "reference": "Mehmood_I_2023",
+      "description": "Combines EEG, EDA, and video signals to classify mental fatigue in construction workers.",
+      "note": "Added for its combination of EEG, EDA, and video signals, illustrating the application of multimodal data fusion in occupational safety and fatigue detection."
+    },
+    {
+      "reference": "Tang_M_2024",
+      "description": "Integrates EEG and EOG signals using advanced multimodal fusion techniques for driver vigilance estimation.",
+      "note": "Added for its integration of EEG and EOG signals using advanced fusion techniques, contributing to the development of more accurate driver vigilance estimation methods."
+    },
+    {
+      "reference": "Yogarajan_G_2023",
+      "description": "Integrates EEG and ECG signals for drowsiness detection, demonstrating the effectiveness of a hybrid approach.",
+      "note": "Added for its integration of EEG and ECG signals, showcasing the effectiveness of a hybrid approach in drowsiness detection and the growing interest in multimodal data fusion."
+    },
+    {
+      "reference": "Guo_M_2016",
+      "description": "Combines physiological signals (EEG and ECG) and reaction time measurements, optimizing class classification accuracy through SVM enhanced by grey correlation analysis and genetic algorithms.",
+      "note": "Added for its combination of physiological signals and reaction time measurements, demonstrating a comprehensive approach to fatigue detection optimized through advanced analytical techniques."
+    },
+    {
+      "reference": "Hasan_M_2022",
+      "description": "Utilizes EEG, EOG, and ECG signals combined with subjective sleepiness measurements to improve the accuracy of drowsiness detection.",
+      "note": "Added for its use of multiple physiological signals alongside subjective sleepiness measurements, highlighting the importance of a multimodal approach for accurate drowsiness detection."
+    },
+    {
+      "reference": "Hasan_M_2024",
+      "description": "Employs a multimodal system utilizing EEG, EOG, and ECG signals, emphasizing model robustness and explainability through SHAP analysis and partial dependency analysis.",
+      "note": "Added for its emphasis on model robustness and explainability in a multimodal system, contributing to the development of more transparent and reliable fatigue detection models."
+    },
+    {
+      "reference": "Ko_L_2020",
+      "description": "Combines electrocortical activity features and eyeblink recognition for accurate prediction of inattention using a single EEG sensor.",
+      "note": "Added for its combination of electrocortical activity features and eyeblink recognition, demonstrating the potential of using a single EEG sensor for accurate inattention prediction."
+    },
+    {
+      "reference": "Laurent_F_2013",
+      "description": "Combines EEG, EOG, and ECG for on-line mental fatigue monitoring, showing that EEG is the most effective modality, with ECG contributing positively when combined with EEG.",
+      "note": "Added for its investigation into the combination of EEG, EOG, and ECG for mental fatigue monitoring, highlighting the effectiveness of EEG and the positive contribution of ECG in a multimodal approach."
+    },
+    {
+      "reference": "Liu_Y_2016",
+      "description": "Combines EEG signals with other physiological signals (EOG, ECG, EMG) to predict driving fatigue, using a recurrent self-evolving fuzzy neural network (RSEFNN).",
+      "note": "Added for its combination of EEG signals with other physiological signals, demonstrating a multimodal approach to predicting driving fatigue using advanced neural network techniques."
+    },
+    {
+      "reference": "Mehmood_I_2023",
+      "description": "Utilizes a combination of electroencephalography (EEG), electrodermal activity (EDA), and video signals for a multimodal approach to fatigue detection.",
+      "note": "Added for its use of multiple physiological signals and video data, showcasing a comprehensive multimodal approach to fatigue detection in construction workers."
+    },
+    {
+      "reference": "Wang_F_2018",
+      "description": "Combines EEG signals with other physiological signals like ECG and EMG for fatigue detection.",
+      "note": "Added for its combination of EEG with other physiological signals, demonstrating the value of integrating multiple data sources for fatigue detection."
+    }
+  ],
+  "trend": "Development of advanced fusion algorithms combining multi-modal and contextual data for robust fatigue detection.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Promising Directions for Future Research",
+      "section_id": "8 Promising Directions for Future Research",
+      "description": "not available"
+    }
+  ]
+}

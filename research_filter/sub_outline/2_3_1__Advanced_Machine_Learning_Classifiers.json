@@ -1,0 +1,140 @@
+{
+  "title": "Advanced Machine Learning Classifiers",
+  "section_id": "2.3.1 Advanced Machine Learning Classifiers",
+  "description": "Discuss the use of advanced classifiers capable of handling multiple classes beyond binary classification.",
+  "examples": [
+    {
+      "reference": "Mesbah_A_2018",
+      "description": "Classifies human alertness into four states using an automated system."
+    },
+    {
+      "reference": "Ahmadi_A_2021",
+      "description": "Presents an expert automatic method to detect driver fatigue using EEG signals"
+    },
+    {
+      "reference": "Ac_C_2019",
+      "description": "Detects mental attention states (focused, unfocused, and drowsy) using EEG signals and SVM"
+    },
+    {
+      "reference": "Al-Shargie_F_2020",
+      "description": "Classifies semantic vigilance levels using EEG directed connectivity patterns and graph theory measures."
+    },
+    {
+      "reference": "Cao_Z_2021",
+      "description": "Utilizes a neural network ensemble (SE-SDAE) to identify different levels of cognitive load from EEG signals."
+    },
+    {
+      "reference": "Chau_A_2017",
+      "description": "Utilizes a passive EEG-BCI for single-trial mental state classification including fatigue."
+    },
+    {
+      "reference": "Jeong_J_2019",
+      "description": "Proposes a Deep Spatio-Temporal Convolutional Bidirectional LSTM Network (DSTCLN) for classifying multiple mental states, including five levels of drowsiness."
+    },
+    {
+      "reference": "Phanikrishna_B_2023",
+      "description": "Utilizes various machine learning algorithms for classifying drowsy versus awake states based on EEG signals"
+    },
+    {
+      "reference": "Dogan_S_2023",
+      "description": "Employs robust validation techniques to enhance accuracy in fatigue detection, tested for binary classification"
+    },
+    {
+      "reference": "Darojatun_A_2023",
+      "description": "Analyzes EEG frequency bands to classify drowsy versus alert states using various machine learning algorithms."
+    },
+    {
+      "reference": "Fouad_I_2023",
+      "description": "Utilizes multiple classifiers to differentiate between drowsy and alert states in a binary classification task"
+    },
+    {
+      "reference": "Jantan_S_2022",
+      "description": "Uses various classifiers to evaluate driving fatigue, focusing on binary classification between alert and drowsy states."
+    },
+    {
+      "reference": "Latreche_I_2022",
+      "description": "Classifies EEG data into drowsy or alert states, indicating a focus on binary classification of driver's states."
+    },
+    {
+      "reference": "Latreche_I_2025",
+      "description": "Focuses on binary classification of EEG data into alert and fatigue states, indicating a binary classification task"
+    },
+    {
+      "reference": "Min_J_2018",
+      "description": "Detects driver fatigue by classifying EEG signals into fatigue and alert states using a GBDT classifier"
+    },
+    {
+      "reference": "Zhao_C_2011_1",
+      "description": "Classifies EEG signals into alert and drowsy states, implying a binary classification approach"
+    },
+    {
+      "reference": "Zou_S_2020_1",
+      "description": "Detects driving fatigue through EEG signals, suggesting a binary classification between fatigue and non-fatigue states."
+    },
+    {
+      "reference": "Zou_S_2020",
+      "description": "Classifies driver fatigue and alert states using EEG signals based on constructed brain networks."
+    },
+    {
+      "reference": "Zhang_B_2023",
+      "description": "Classifies driver states as alert or fatigued using machine learning algorithms applied to EEG data."
+    },
+    {
+      "reference": "Zhang_C_2008",
+      "description": "Classifies mental fatigue states using a KPCA-HMM approach, focusing on binary states of normal and fatigued."
+    },
+    {
+      "reference": "Zhang_C_2018",
+      "description": "Classifies EEG data into alert and drowsy states based on changes in specific EEG parameters."
+    },
+    {
+      "reference": "Zhang_H_2023_1",
+      "description": "Classifies driving fatigue based on EEG signals, focusing on binary outcomes of alert versus fatigued states."
+    },
+    {
+      "reference": "Zhang_X_2023",
+      "description": "Detects fatigue by classifying EEG signals into different states based on extracted features."
+    },
+    {
+      "reference": "Zhang_Z_2017_1",
+      "description": "Classifies mental workload into different levels using EEG data, suggesting a multi-class approach."
+    },
+    {
+      "reference": "Zhang_Z_2018",
+      "description": "Classifies mental fatigue levels into multiple classes based on EEG data."
+    },
+    {
+      "reference": "Zhang_Z_2016",
+      "description": "Classifies the driver's vigilance state into multiple levels based on EEG features"
+    },
+    {
+      "reference": "Zhao_C_2011",
+      "description": "Classifies driving mental fatigue into three levels, indicating a multi-class approach."
+    },
+    {
+      "reference": "Zheng_Y_2022",
+      "description": "Detects driving fatigue using EEG data, classifying fatigue states"
+    },
+    {
+      "reference": "Zheng_C_2008",
+      "description": "Detects mental fatigue by classifying EEG signals into different states, suggesting a multi-class approach."
+    }
+  ],
+  "why_introduced": "To provide a more nuanced understanding of driver state and improve the accuracy of fatigue detection.",
+  "trend": "Moving beyond binary classification to differentiate between multiple levels of drowsiness for a more nuanced understanding of driver state.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Addressing Core Challenges with Machine Learning",
+      "section_id": "2. Addressing Core Challenges with Machine Learning",
+      "description": "not available"
+    },
+    {
+      "title": "Multiclass Sleepiness Classification",
+      "section_id": "2.3 Multiclass Sleepiness Classification",
+      "description": "Methods for classifying multiple levels of fatigue driving using EEG based approach."
+    }
+  ]
+}

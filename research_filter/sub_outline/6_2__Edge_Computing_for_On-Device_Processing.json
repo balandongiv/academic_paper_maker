@@ -1,0 +1,21 @@
+{
+  "title": "Edge Computing for On-Device Processing",
+  "section_id": "6.2 Edge Computing for On-Device Processing",
+  "examples": [
+    {
+      "reference": "Bencsik_B_2023",
+      "description": "Focuses on an embedded feature selection algorithm for efficient on-device processing in drowsiness detection.",
+      "note": "Added for its contribution to edge computing, enabling efficient on-device processing which is essential for real-time applications."
+    }
+  ],
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Real-Time Implementation and Edge Computing",
+      "section_id": "6 Real-Time Implementation and Edge Computing",
+      "description": "not available"
+    }
+  ]
+}

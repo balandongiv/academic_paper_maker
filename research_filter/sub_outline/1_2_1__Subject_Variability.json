@@ -1,0 +1,21 @@
+{
+  "title": "Subject Variability",
+  "section_id": "1.2.1 Subject Variability",
+  "level": 3,
+  "example": "Discusses the inherent differences in EEG signals between individuals.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Introduction",
+      "section_id": "1. Introduction",
+      "description": "not available"
+    },
+    {
+      "title": "Core Challenges in EEG-Based Fatigue Detection",
+      "section_id": "1.2 Core Challenges in EEG-Based driver Fatigue Detection",
+      "description": "not available"
+    }
+  ]
+}

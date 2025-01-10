@@ -1,0 +1,21 @@
+{
+  "title": "Model Optimization for Resource-Constrained Devices",
+  "section_id": "6.3 Model Optimization for Resource-Constrained Devices",
+  "examples": [
+    {
+      "reference": "Gu_T_2024",
+      "description": "Proposes a low-power model combining SOM and SNN for real-time fatigue detection, suitable for deployment in resource-limited devices.",
+      "note": "Added for its emphasis on low-power, efficient models which are crucial for real-time implementation and edge computing in fatigue detection."
+    }
+  ],
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Real-Time Implementation and Edge Computing",
+      "section_id": "6 Real-Time Implementation and Edge Computing",
+      "description": "not available"
+    }
+  ]
+}

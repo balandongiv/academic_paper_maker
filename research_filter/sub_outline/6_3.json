@@ -1,0 +1,53 @@
+{
+  "title": "Model Optimization for Resource-Constrained Devices",
+  "section_id": "6.3",
+  "description": "Discuss techniques for model compression, quantization, and pruning to reduce model size and computational cost.",
+  "examples": [
+    {
+      "reference": "Feng_W_2024",
+      "description": "Optimizes channel selection and neural network parameters, including the use of a separable CNN, to minimize computational resource requirements.",
+      "note": "Added for its optimization of channel selection and neural network parameters, demonstrating a focus on minimizing computational resource requirements for real-time applications."
+    },
+    {
+      "reference": "Gao_D_2024_1",
+      "description": "Suggests improving computational efficiency through techniques like channel selection and graph sparsification as part of future work.",
+      "note": "Added for its suggestion of improving computational efficiency, indicating a direction towards optimizing models for resource-constrained devices."
+    },
+    {
+      "reference": "Hu_F_2024",
+      "description": "Includes selective kernel attention to reduce computational demands and a capsule network designed for improved learning with limited data, suggesting a focus on efficiency.",
+      "note": "Added for its inclusion of selective kernel attention and a capsule network, which are aimed at reducing computational demands and improving learning efficiency."
+    },
+    {
+      "reference": "Latreche_I_2025",
+      "description": "Aims to develop a system with reduced computational complexity suitable for real-time applications by optimizing preprocessing and neural network parameters.",
+      "note": "Added for its aim to reduce computational complexity through optimization, making it suitable for real-time, resource-constrained applications."
+    },
+    {
+      "reference": "Liu_H_2023",
+      "description": "Optimizes computational costs by utilizing a multi-semantic approach to graph convolution and incorporating channel and spatial attention mechanisms.",
+      "note": "Added for its optimization of computational costs, demonstrating a method for reducing resource demands in complex models."
+    },
+    {
+      "reference": "Zorzos_I_2023",
+      "description": "Employs a shallow CNN to minimize computational complexity, achieving fast prediction times suitable for real-time detection.",
+      "note": "Added for its use of a shallow CNN to minimize computational complexity, showcasing an approach to achieving fast prediction times suitable for real-time detection."
+    }
+  ],
+  "trend": "Development of lightweight and efficient models suitable for deployment on wearable devices and in-vehicle systems.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Promising Directions for Future Research",
+      "section_id": "8 Promising Directions for Future Research",
+      "description": "not available"
+    },
+    {
+      "title": "Real-Time Implementation and Edge Computing",
+      "section_id": "6",
+      "description": "not available"
+    }
+  ]
+}

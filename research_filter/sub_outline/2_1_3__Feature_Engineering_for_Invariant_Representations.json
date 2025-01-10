@@ -1,0 +1,31 @@
+{
+  "title": "Feature Engineering for Invariant Representations",
+  "section_id": "2.1.3 Feature Engineering for Invariant Representations",
+  "description": "Discuss feature extraction methods that are less sensitive to subject variability.",
+  "examples": [
+    {
+      "reference": "Buriro_A_2018",
+      "description": "Investigates inter-channel relationships for online prediction of microsleep states."
+    },
+    {
+      "reference": "Zhang_Z_2016",
+      "description": "Employs sparse representation classification to address subject variability."
+    }
+  ],
+  "why_introduced": " To extract features that are more robust to individual differences in EEG signals",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Addressing Core Challenges with Machine Learning",
+      "section_id": "2. Addressing Core Challenges with Machine Learning",
+      "description": "not available"
+    },
+    {
+      "title": "Tackling Subject Variability",
+      "section_id": "2.1 Tackling Subject Variability",
+      "description": "Methods to address subject variability in EEG based driving fatigue detection."
+    }
+  ]
+}

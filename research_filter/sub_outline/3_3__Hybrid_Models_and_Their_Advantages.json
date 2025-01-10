@@ -1,0 +1,57 @@
+{
+  "title": "Hybrid Models and Their Advantages",
+  "section_id": "3.3 Hybrid Models and Their Advantages",
+  "description": "Explain the rationale behind combining different deep learning architectures..Discuss the benefits of hybrid models in capturing diverse aspects of EEG signals (e.g., spatial, temporal, spectral).",
+  "example": [
+    {
+      "reference": "Alghanim_M_2024",
+      "description": "Combines Inception and ResNet for improved feature extraction from EEG signals."
+    },
+    {
+      "reference": "Budak_U_2019",
+      "description": "Combines statistical feature extraction with deep learning for enhanced drowsiness detection accuracy."
+    },
+    {
+      "reference": "Chen_C_2023",
+      "description": "Integrates temporal-channel attention and channel-connectivity attention for improved EEG analysis in fatigue detection."
+    },
+    {
+      "reference": "Cui_J_2021",
+      "description": "Combines CNN and LSTM for subject-independent drowsiness recognition, offering interpretability."
+    },
+    {
+      "reference": "Etemad_G_2019",
+      "description": "Integrates LSTM with a capsule attention mechanism for enhanced driver vigilance estimation."
+    },
+    {
+      "reference": "Etemad_G_2021",
+      "description": "Integrates LSTM with a capsule attention mechanism for enhanced driver vigilance estimation."
+    },
+    {
+      "reference": "Cao_L_2024",
+      "description": "Uses a multimodal tensor fusion network with LSTM and a self-attention mechanism for fatigue recognition."
+    },
+    {
+      "reference": "Ghadami_A_2022",
+      "description": "Combines pre-trained networks with a custom 1D-CNN for effective single-channel EEG analysis."
+    },
+    {
+      "reference": "He_L_2024",
+      "description": "Proposes hybrid models, ARMFCN-LSTM and GARMFCN-LSTM, combining deep learning techniques for fatigue detection."
+    },
+    {
+      "reference": "Feng_W_2024",
+      "description": "Presents a hybrid model combining a separable CNN with Gumbel-Softmax for channel selection in real-time EEG-based driver drowsiness detection."
+    }
+  ],
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "The Role of Deep Learning and Hybrid Models",
+      "section_id": "3. The Role of Deep Learning and Hybrid Models",
+      "description": "not available"
+    }
+  ]
+}

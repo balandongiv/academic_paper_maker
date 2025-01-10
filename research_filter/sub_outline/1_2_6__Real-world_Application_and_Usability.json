@@ -1,0 +1,20 @@
+{
+  "title": "Real-world Application and Usability",
+  "section_id": "1.2.6 Real-world Application and Usability",
+  "example": "Discusses the challenges of deploying EEG-based systems in practical, real-world driving scenarios.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Introduction",
+      "section_id": "1. Introduction",
+      "description": "not available"
+    },
+    {
+      "title": "Core Challenges in EEG-Based Fatigue Detection",
+      "section_id": "1.2 Core Challenges in EEG-Based driver Fatigue Detection",
+      "description": "not available"
+    }
+  ]
+}

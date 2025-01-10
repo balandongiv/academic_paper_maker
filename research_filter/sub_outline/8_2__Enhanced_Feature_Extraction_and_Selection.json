@@ -1,0 +1,578 @@
+{
+  "title": "Enhanced Feature Extraction and Selection",
+  "section_id": "8.2 Enhanced Feature Extraction and Selection",
+  "description": "Develop advanced feature extraction and selection methods to capture the most relevant information from EEG signals.",
+  "examples": [
+    {
+      "reference": "An_J_2024",
+      "description": "Introduces ACF-GCN, which enhances feature extraction through attention mechanisms and graph-based learning.",
+      "note": "Added for its introduction of ACF-GCN, enhancing feature extraction through attention mechanisms and graph-based learning."
+    },
+    {
+      "reference": "Bencsik_B_2023",
+      "description": "Proposes an embedded feature selection algorithm for efficient dimensionality reduction.",
+      "note": "Added for its proposal of an embedded feature selection algorithm, relevant for efficient dimensionality reduction in EEG analysis."
+    },
+    {
+      "reference": "Budak_U_2019",
+      "description": "Combines statistical and deep learning features for enhanced EEG-based drowsiness detection.",
+      "note": "Added for its combination of statistical and deep learning features, contributing to enhanced EEG-based drowsiness detection."
+    },
+    {
+      "reference": "Chen_C_2023",
+      "description": "Focuses on capturing inter-channel relations and uses a capsule network for improved feature learning under limited data.",
+      "note": "Added for its focus on capturing inter-channel relations and using a capsule network, relevant for improved feature learning with limited EEG data."
+    },
+    {
+      "reference": "Chen_J_2018_2",
+      "description": "Combines SL and MST for effective feature extraction and classification in driver drowsiness detection.",
+      "note": "Added for its combination of SL and MST for effective feature extraction and classification, relevant for driver drowsiness detection."
+    },
+    {
+      "reference": "Chen_J_2018_3",
+      "description": "Develops a feature fusion method (FBN-PSD-FF) to enhance the classification performance of fatigue detection systems.",
+      "note": "Added for its development of a feature fusion method, relevant for enhancing the classification performance of fatigue detection systems."
+    },
+    {
+      "reference": "Chen_J_2019",
+      "description": "Integrates functional connectivity and graph theory for feature extraction in assessing driver fatigue.",
+      "note": "Added for its integration of functional connectivity and graph theory, relevant for feature extraction in assessing driver fatigue."
+    },
+    {
+      "reference": "Chen_K_2022",
+      "description": "Proposes a multi-domain feature extraction and fusion algorithm for mental fatigue detection.",
+      "note": "Added for its proposal of a multi-domain feature extraction and fusion algorithm, relevant for mental fatigue detection."
+    },
+    {
+      "reference": "Chen_K_2024",
+      "description": "Utilizes a dual-graph GCN architecture for feature extraction, focusing on spatial inter-channel connectivity.",
+      "note": "Added for its utilization of a dual-graph GCN architecture, relevant for feature extraction focusing on spatial inter-channel connectivity."
+    },
+    {
+      "reference": "Chung_G_2018",
+      "description": "Focuses on feature extraction from EEG and gyroscope data for early driver drowsiness detection.",
+      "note": "Added for its focus on feature extraction from EEG and gyroscope data, relevant for early driver drowsiness detection."
+    },
+    {
+      "reference": "Chung_G_2018_1",
+      "description": "Utilizes feature extraction from EEG and gyroscope data, with a focus on real-time monitoring and closed-loop feedback.",
+      "note": "Added for its utilization of feature extraction from EEG and gyroscope data, relevant for real-time monitoring and closed-loop feedback."
+    },
+    {
+      "reference": "Cui_J_2021",
+      "description": "Employs CNN for feature extraction from EEG signals, tailored to capture essential EEG frequencies related to alertness and drowsiness.",
+      "note": "Added for its employment of CNN for feature extraction, tailored to capture essential EEG frequencies related to alertness and drowsiness."
+    },
+    {
+      "reference": "Cui_J_2022",
+      "description": "Focuses on feature extraction from cross-subject data using CNNs, with an emphasis on discovering shared EEG features indicative of driver drowsiness.",
+      "note": "Added for its focus on feature extraction from cross-subject data using CNNs, relevant for discovering shared EEG features indicative of driver drowsiness."
+    },
+    {
+      "reference": "Cui_J_2023_1",
+      "description": "Utilizes a novel interpretation technique for feature analysis in an interpretable CNN architecture.",
+      "note": "Added for its utilization of a novel interpretation technique for feature analysis, relevant for an interpretable CNN architecture."
+    },
+    {
+      "reference": "Dogan_S_2023",
+      "description": "Utilizes wavelet packet decomposition for feature extraction from EEG signals in the frequency domain.",
+      "note": "Added for its utilization of wavelet packet decomposition for feature extraction in the frequency domain, relevant for EEG-based fatigue detection."
+    },
+    {
+      "reference": "Farhangi_F_2022_1",
+      "description": "Focuses on feature extraction and the impact of hyperparameter tuning on classification accuracy.",
+      "note": "Added for its emphasis on feature extraction and the impact of hyperparameter tuning, relevant for enhancing classification accuracy in fatigue detection."
+    },
+    {
+      "reference": "Farhangi_F_2023",
+      "description": "Emphasizes feature extraction combining machine learning algorithms with spatial factors derived from EEG data.",
+      "note": "Added for its emphasis on feature extraction combining machine learning algorithms with spatial factors, relevant for EEG-based fatigue detection."
+    },
+    {
+      "reference": "Feng_W_2024",
+      "description": "Employs a separable CNN for feature extraction from EEG data, focusing on both spatial and temporal aspects.",
+      "note": "Added for its employment of a separable CNN for feature extraction, relevant for analyzing both spatial and temporal aspects of EEG data in fatigue detection."
+    },
+    {
+      "reference": "Gao_D_2023_1",
+      "description": "Focuses on feature extraction from EEG and ECG signals using a fusion-separation mechanism in the PFCN model.",
+      "note": "Added for its focus on feature extraction from both EEG and ECG signals, relevant for a multimodal approach to fatigue detection."
+    },
+    {
+      "reference": "Gao_D_2024_1",
+      "description": "Emphasizes feature extraction using a dual-graph approach, with both time-frequency characteristics via Pearson correlation and magnitude-squared coherence.",
+      "note": "Added for its emphasis on feature extraction using a dual-graph approach, relevant for capturing time-frequency characteristics in fatigue detection."
+    },
+    {
+      "reference": "Hao_C_2021",
+      "description": "Utilizes feature extraction through recurrence plots, which are then processed by CNNs for classification.",
+      "note": "Added for its utilization of feature extraction through recurrence plots, relevant for representing EEG signals in a format suitable for CNN processing."
+    },
+    {
+      "reference": "Hu_F_2024",
+      "description": "Integrates a temporal-channel attention module and a channel-connectivity attention module for refining EEG signals and capturing significant features.",
+      "note": "Added for its integration of attention modules for refining EEG signals and capturing significant features, relevant for effective fatigue detection."
+    },
+    {
+      "reference": "Jantan_S_2022",
+      "description": "Employs DWT for feature extraction from EEG signals, focusing on time-domain analysis for drowsiness detection.",
+      "note": "Added for its employment of DWT for feature extraction in the time domain, relevant for EEG-based drowsiness detection."
+    },
+    {
+      "reference": "Latreche_I_2022",
+      "description": "Focuses on feature extraction using a CNN-LSTM model, optimizing performance through cross-validation techniques.",
+      "note": "Added for its focus on feature extraction using a CNN-LSTM model, relevant for fatigue detection through EEG signals."
+    },
+    {
+      "reference": "Latreche_I_2025",
+      "description": "Emphasizes feature extraction using a combination of CNN and various ML classifiers, with preprocessing optimization via random search.",
+      "note": "Added for its emphasis on feature extraction using a combination of CNN and ML classifiers, relevant for enhancing the accuracy of fatigue detection."
+    },
+    {
+      "reference": "Lian_Z_2024",
+      "description": "Employs separate encoders for EEG and eye-tracking data for feature extraction, followed by a cross-modal predictive alignment module.",
+      "note": "Added for its use of separate encoders for multimodal feature extraction, relevant for combining EEG and eye-tracking data in fatigue detection."
+    },
+    {
+      "reference": "Lin_Z_2021",
+      "description": "Focuses on feature extraction using specific entropy and fractal dimension features for constructing a dynamic functional brain network.",
+      "note": "Added for its focus on specific entropy and fractal dimension features, relevant for constructing a dynamic functional brain network in fatigue analysis."
+    },
+    {
+      "reference": "Liu_H_2023",
+      "description": "Utilizes a channel attention mechanism and a multi-semantic dynamical graph convolution for feature extraction from EEG signals.",
+      "note": "Added for its utilization of a channel attention mechanism and graph convolution for feature extraction, relevant for enhancing detection accuracy in fatigue detection."
+    },
+    {
+      "reference": "Liu_Y_2016",
+      "description": "Employs feature extraction techniques to capture physiological changes indicative of fatigue, using a recurrent self-evolving fuzzy neural network.",
+      "note": "Added for its use of feature extraction techniques to capture physiological changes, relevant for predicting driving fatigue using EEG and other physiological signals."
+    },
+    {
+      "reference": "Ma_C_2024",
+      "description": "Utilizes multi-layer convolution networks for feature extraction from EEG signals, enhanced by a domain discriminator for alignment.",
+      "note": "Added for its utilization of multi-layer convolution networks for feature extraction, relevant for addressing domain shift in cross-subject fatigue recognition."
+    },
+    {
+      "reference": "Ma_Y_2019",
+      "description": "Integrates PCA for dimensionality reduction with PCANet for feature extraction from EEG signals.",
+      "note": "Added for its integration of PCA and PCANet for feature extraction, relevant for dimensionality reduction and fatigue state classification."
+    },
+    {
+      "reference": "Ma_Y_2020",
+      "description": "Focuses on feature extraction through the calculation of power spectral density (PSD) from EEG data.",
+      "note": "Added for its focus on feature extraction through PSD calculation, relevant for analyzing driver fatigue using EEG signals."
+    },
+    {
+      "reference": "Mehmood_I_2023",
+      "description": "Employs feature extraction from EEG, EDA, and facial feature tracking, using a decision tree model for classification.",
+      "note": "Added for its multimodal approach to feature extraction, relevant for classifying mental fatigue in construction workers."
+    },
+    {
+      "reference": "Min_J_2018",
+      "description": "Utilizes various entropy measures for feature extraction from EEG signals to analyze driver fatigue.",
+      "note": "Added for its utilization of entropy measures for feature extraction, relevant for analyzing driver fatigue through EEG signals."
+    },
+    {
+      "reference": "Min_J_2021",
+      "description": "Emphasizes the extraction of features from specific signal sub-bands in hybrid-channel EEG data to distinguish between sleep stages.",
+      "note": "Added for its emphasis on extracting features from specific signal sub-bands, relevant for sleep stage classification and potentially fatigue detection."
+    },
+    {
+      "reference": "Nadalizadeh_F_2018",
+      "description": "Focuses on feature extraction from both source and sensor spaces, using a variety of features including frequency band powers and ARMA model parameters.",
+      "note": "Added for its comprehensive approach to feature extraction, relevant for identifying a wide range of EEG features related to mental fatigue."
+    },
+    {
+      "reference": "Nassehi_F_2024",
+      "description": "Extracts time-domain, spectral, and nonlinear features from awake EEG to classify OSA severity, using feature selection via the Relief method.",
+      "note": "Added for its extraction of diverse features from EEG signals, relevant for classifying the severity of obstructive sleep apnea and potentially applicable to fatigue detection."
+    },
+    {
+      "reference": "Pan_Y_2024",
+      "description": "Employs a CNN for feature extraction from EEG and EOG signals, using a split-band method to preserve modality-specific features.",
+      "note": "Added for its use of a CNN for feature extraction from multimodal data, relevant for enhancing fatigue detection through EEG and EOG signals."
+    },
+    {
+      "reference": "Park_J_2021",
+      "description": "Employs feature extraction via adaptive auto-regressive coefficients (AAR) and dimensionality reduction using principal component analysis (PCA).",
+      "note": "Added for its use of AAR for feature extraction, relevant for capturing dynamic changes in EEG signals during cognitive tasks."
+    },
+    {
+      "reference": "Paulo_J_2021",
+      "description": "Focuses on feature extraction using recurrence plots and gramian angular fields for representing EEG signals in image form for CNN processing.",
+      "note": "Added for its novel approach to feature extraction using recurrence plots and gramian angular fields, relevant for transforming EEG signals into image representations for deep learning models."
+    },
+    {
+      "reference": "Peng_B_2023",
+      "description": "Utilizes a temporal-channel attention module and a channel-connectivity attention module for feature extraction, focusing on critical temporal information and inter-channel relationships.",
+      "note": "Added for its innovative use of attention mechanisms for feature extraction, relevant for enhancing fatigue detection by focusing on critical EEG signal components."
+    },
+    {
+      "reference": "Puspasari_M_2023",
+      "description": "Focuses on feature extraction from EEG signals using power spectral density (PSD) across various frequency bands.",
+      "note": "Added for its use of PSD for feature extraction, relevant for analyzing the distribution of power across different frequency bands in EEG signals."
+    },
+    {
+      "reference": "Qin_X_2023",
+      "description": "Employs feature extraction through a global-personalized deep neural network, focusing on shared features across clients and individual data variations.",
+      "note": "Added for its approach to feature extraction using a global-personalized deep neural network, relevant for federated learning scenarios in fatigue detection."
+    },
+    {
+      "reference": "Rohit_F_2017",
+      "description": "Focuses on spectral analysis for feature extraction from EEG signals, using mental correlation of brain signals for drowsiness detection.",
+      "note": "Added for its focus on spectral analysis for feature extraction, relevant for drowsiness detection based on EEG signals."
+    },
+    {
+      "reference": "Sheykhivand_S_2022_1",
+      "description": "Utilizes wavelet packet decomposition for feature extraction from EEG signals, employing a classification framework to identify fatigue levels.",
+      "note": "Added for its use of wavelet packet decomposition for feature extraction, relevant for a detailed analysis of EEG signals in fatigue detection."
+    },
+    {
+      "reference": "Stancin_I_2021",
+      "description": "Focuses on feature extraction from EEG signals using spectral analysis, specifically through power spectral density (PSD) calculations.",
+      "note": "Added for its emphasis on spectral analysis for feature extraction, relevant for fatigue detection using EEG signals."
+    },
+    {
+      "reference": "Su_R_2023",
+      "description": "Employs feature extraction techniques from physiological signals, including EEG, EOG, ECG, and EMG, using both handcrafted and automated methods.",
+      "note": "Added for its comprehensive approach to feature extraction from multiple physiological signals, relevant for multimodal fatigue detection."
+    },
+    {
+      "reference": "Sun_Y_2014",
+      "description": "Utilizes feature extraction from functional connectivity matrices derived from EEG data, employing Kendall tau rank correlation coefficients.",
+      "note": "Added for its use of functional connectivity matrices for feature extraction, relevant for analyzing brain network topology changes in fatigue detection."
+    },
+    {
+      "reference": "Tang_J_2024",
+      "description": "Employs a temporal-channel attention module to investigate critical temporal information and important channels for feature extraction.",
+      "note": "Added for its use of a temporal-channel attention module, relevant for focusing on critical temporal information and important channels in EEG signals for fatigue detection."
+    },
+    {
+      "reference": "Tuncer_T_2021",
+      "description": "Introduces a feature generator (DCBP) and an advanced feature extractor (MTTP) for EEG signal feature extraction.",
+      "note": "Added for its development of novel feature generation and extraction techniques, relevant for enhancing the accuracy of EEG-based fatigue detection systems."
+    },
+    {
+      "reference": "Tuncer_T_2021_1",
+      "description": "Employs a four-level implementation of 1D-DWT for multilevel feature extraction from EEG signals.",
+      "note": "Added for its application of 1D-DWT for multilevel feature extraction, relevant for a detailed analysis of EEG signals in fatigue detection."
+    },
+    {
+      "reference": "Wang_F_2018",
+      "description": "Utilizes wavelet packet transform for decomposing EEG signals into different frequency bands for feature extraction.",
+      "note": "Added for its use of wavelet packet transform for feature extraction, relevant for analyzing EEG signals in fatigue detection."
+    },
+    {
+      "reference": "Wang_F_2022_1",
+      "description": "Employs wavelet packet transform for decomposing EEG signals and constructs functional brain networks for feature extraction.",
+      "note": "Added for its use of wavelet packet transform and functional brain networks for feature extraction, relevant for analyzing EEG signals in fatigue detection."
+    },
+    {
+      "reference": "Wang_F_2023",
+      "description": "Utilizes feature extraction from EEG signals, considering time domain, frequency domain, and non-linear features.",
+      "note": "Added for its comprehensive approach to feature extraction, considering various domains, relevant for fatigue detection using EEG signals."
+    },
+    {
+      "reference": "Wang_F_2023_1",
+      "description": "Employs wavelet packet transform for decomposing EEG signals into frequency bands for feature extraction.",
+      "note": "Added for its use of wavelet packet transform for feature extraction, relevant for analyzing EEG signals in fatigue detection."
+    },
+    {
+      "reference": "Wang_F_2024_2",
+      "description": "Utilizes wavelet packet decomposition and MF-DFA for feature extraction from EEG signals.",
+      "note": "Added for its use of wavelet packet decomposition and MF-DFA for feature extraction, relevant for analyzing EEG signals in fatigue detection."
+    },
+    {
+      "reference": "Wang_F_2024_3",
+      "description": "Employs wavelet packet decomposition for feature extraction from EEG signals.",
+      "note": "Added for its use of wavelet packet decomposition for feature extraction, relevant for analyzing EEG signals in fatigue detection."
+    },
+    {
+      "reference": "Wang_H_2018",
+      "description": "Utilizes wavelet packets transform (WPT) for feature extraction, focusing on specific frequency bands relevant to mental fatigue.",
+      "note": "Added for its use of WPT for feature extraction, relevant for analyzing EEG signals in mental fatigue detection."
+    },
+    {
+      "reference": "Wang_H_2019",
+      "description": "Employs wavelet packet transform for decomposing EEG signals into frequency bands and uses various entropy measures for feature extraction.",
+      "note": "Added for its use of wavelet packet transform and entropy measures for feature extraction, relevant for analyzing EEG signals in fatigue detection."
+    },
+    {
+      "reference": "Wang_H_2021",
+      "description": "Utilizes wavelet packet transform for decomposing EEG signals into frequency bands for feature extraction.",
+      "note": "Added for its use of wavelet packet transform for feature extraction, relevant for analyzing EEG signals in fatigue detection."
+    },
+    {
+      "reference": "Wang_H_2021_2",
+      "description": "Utilizes wavelet packet transform for decomposing EEG signals into frequency bands for feature extraction.",
+      "note": "Added for its use of wavelet packet transform for feature extraction, relevant for analyzing EEG signals in fatigue detection."
+    },
+    {
+      "reference": "Wang_J_2022",
+      "description": "Utilizes wavelet packet transform for decomposing EEG signals into frequency bands and employs PLI for functional connectivity assessment.",
+      "note": "Added for its use of wavelet packet transform and PLI for feature extraction, relevant for analyzing EEG signals in fatigue detection."
+    },
+    {
+      "reference": "Wang_J_2023",
+      "description": "Employs convolutional layers in a CNN for feature extraction from EEG signals.",
+      "note": "Added for its use of convolutional layers for feature extraction, relevant for analyzing EEG signals in fatigue detection."
+    },
+    {
+      "reference": "Wang_K_2019",
+      "description": "Utilizes Morlet wavelet kernels for time-frequency feature extraction from EEG signals.",
+      "note": "Added for its use of Morlet wavelet kernels for time-frequency feature extraction, relevant for analyzing EEG signals in fatigue detection."
+    },
+    {
+      "reference": "Wang_K_2024",
+      "description": "Employs a graph convolutional network (GCN) for feature extraction, focusing on spatial inter-channel connectivity in EEG data.",
+      "note": "Added for its use of a GCN for feature extraction, relevant for analyzing spatial inter-channel connectivity in EEG data for fatigue detection."
+    },
+    {
+      "reference": "Wei_C_2018",
+      "description": "Utilizes wavelet packet analysis for feature extraction, focusing on enhancing the detection of drowsiness.",
+      "note": "Added for its use of wavelet packet analysis, contributing to the methods for feature extraction from EEG signals in the context of drowsiness detection."
+    },
+    {
+      "reference": "Wu_D_2017",
+      "description": "Employs fuzzy sets for feature extraction to handle variations in EEG data across different subjects.",
+      "note": "Added for its use of fuzzy sets in feature extraction, addressing the challenge of EEG data variability among subjects for improved fatigue detection accuracy."
+    },
+    {
+      "reference": "Wu_E_2019",
+      "description": "Utilizes wavelet packet transform for feature extraction from EEG signals.",
+      "note": "Added for its application of wavelet packet transform in feature extraction, enhancing the analysis of EEG signals for fatigue detection."
+    },
+    {
+      "reference": "Wu_E_2020",
+      "description": "Employs Hilbert transform for instantaneous spectral feature extraction from EEG signals.",
+      "note": "Added for its use of Hilbert transform in extracting instantaneous spectral features, contributing to the detailed analysis of EEG signals for fatigue detection."
+    },
+    {
+      "reference": "wu_E_2021",
+      "description": "Utilizes sparse coding with contraction mappings for feature extraction from EEG data, focusing on local variations.",
+      "note": "Added for its innovative approach to feature extraction using sparse coding, which is particularly useful for detecting subtle changes in EEG signals indicative of fatigue."
+    },
+    {
+      "reference": "Wu_E_2021_1",
+      "description": "Extracts power spectral density features from EEG signals to enhance fatigue detection capability.",
+      "note": "Added for its focus on power spectral density features, which are crucial for understanding the frequency distribution of EEG signals in fatigue detection."
+    },
+    {
+      "reference": "Wu_E_2022",
+      "description": "Utilizes ensemble wavelet transform and Hilbert transform for instantaneous spectrum feature extraction from EEG signals.",
+      "note": "Added for its combined use of ensemble wavelet transform and Hilbert transform, offering a robust method for feature extraction in EEG-based fatigue detection."
+    },
+    {
+      "reference": "Wu_W_2021",
+      "description": "Employs dimension reduction techniques and feature fusion for EEG and EOG data to enhance vigilance estimation.",
+      "note": "Added for its strategy of dimension reduction and feature fusion, improving the efficiency and accuracy of vigilance estimation using multimodal data."
+    },
+    {
+      "reference": "Wu_X_2023",
+      "description": "Utilizes mathematical morphology for feature extraction, focusing on the morphological characteristics of EEG signals.",
+      "note": "Added for its application of mathematical morphology, which provides a unique perspective on feature extraction by analyzing the shape and structure of EEG signals for fatigue detection."
+    },
+    {
+      "reference": "Xiao_H_2018",
+      "description": "Applies Power Spectrum Density (PSD) analysis to extract features from EEG signals, capturing frequency domain characteristics relevant to mental fatigue.",
+      "note": "Added for its use of PSD analysis in feature extraction, a well-established technique for evaluating EEG signals in the context of fatigue."
+    },
+    {
+      "reference": "Yogarajan_G_2023",
+      "description": "Utilizes 2D CNNs for feature extraction from EEG and ECG signals, focusing on temporal and spatial patterns.",
+      "note": "Added for its application of 2D CNNs to extract features from both EEG and ECG, demonstrating a multimodal approach to fatigue detection."
+    },
+    {
+      "reference": "Yuan_D_2023",
+      "description": "Employs a combination of CNN and RNN for automatic feature extraction from EEG signals, focusing on spatial and temporal correlations indicative of fatigue.",
+      "note": "Added for its hybrid CNN and RNN approach to feature extraction, which captures both spatial and temporal information from EEG signals for fatigue detection."
+    },
+    {
+      "reference": "Yuan_D_2023_1",
+      "description": "Utilizes a Residual Network (ResNet) with a Channel Attention Mechanism for feature extraction from EEG signals, focusing on domain-invariant features.",
+      "note": "Added for its use of a ResNet with a channel attention mechanism, which enhances feature extraction by focusing on domain-invariant features across different EEG datasets."
+    },
+    {
+      "reference": "Yuan_L_2024",
+      "description": "Employs an ensemble-like structure with multiple branch classifiers for feature extraction, focusing on domain alignment and uncertainty reduction.",
+      "note": "Added for its ensemble-based approach to feature extraction, improving robustness and accuracy in cross-dataset fatigue detection through domain alignment."
+    },
+    {
+      "reference": "Yu_C_2010",
+      "description": "Combines wavelet packet features from EEG with power spectral indices from HRV for feature extraction, enhancing mental fatigue estimation.",
+      "note": "Added for its multimodal approach, combining wavelet packet features and power spectral indices for a comprehensive assessment of mental fatigue."
+    },
+    {
+      "reference": "Yu_H_2017",
+      "description": "Utilizes Independent Component Analysis (ICA) to decompose EEG signals into independent components for feature extraction, focusing on non-Gaussian distributions.",
+      "note": "Added for its application of ICA in feature extraction, which helps in isolating independent sources of brain activity related to fatigue."
+    },
+    {
+      "reference": "Zayed_A_2024",
+      "description": "Utilizes Welch method for RPSD and Discrete Wavelet Transform (DWT) for feature extraction from EEG signals, focusing on time, frequency, and time-frequency domain analysis.",
+      "note": "Added for its use of Welch method and DWT, providing a detailed analysis of EEG signals across multiple domains for fatigue detection."
+    },
+    {
+      "reference": "Zeng_C_2022",
+      "description": "Utilizes Empirical Mode Decomposition (EMD) and power spectral density for feature extraction from EEG signals, focusing on intrinsic mode functions to emphasize relevant features.",
+      "note": "Added for its application of EMD in feature extraction, which is effective in identifying non-stationary and nonlinear features of EEG signals associated with fatigue."
+    },
+    {
+      "reference": "Zeng_H_2018",
+      "description": "Employs convolutional layers for feature extraction from EEG signals, focusing on spatial and temporal dependencies to improve classification accuracy.",
+      "note": "Added for its use of convolutional layers in deep learning models to automatically extract features, enhancing the accuracy of fatigue detection."
+    },
+    {
+      "reference": "Zeng_H_2019",
+      "description": "Utilizes Common Spatial Pattern (CSP) for feature extraction, focusing on spatial filters to enhance EEG signal classification for driver mental state detection.",
+      "note": "Added for its application of CSP, which is a well-established technique for spatial feature extraction in EEG signal processing, particularly useful in BCI applications."
+    },
+    {
+      "reference": "Zeng_H_2020",
+      "description": "Utilizes power spectral density (PSD) and differential entropy for feature extraction, combining them with deep learning techniques for mental workload classification.",
+      "note": "Added for its combination of traditional feature extraction methods with deep learning, enhancing the classification of mental workload states from EEG data."
+    },
+    {
+      "reference": "Zeng_H_2021",
+      "description": "Employs power spectral density (PSD) for feature extraction from EEG signals, focusing on frequency domain analysis to detect fatigue.",
+      "note": "Added for its use of PSD as a feature extraction method, which is effective in identifying fatigue-related changes in EEG frequency bands."
+    },
+    {
+      "reference": "Zhang_B_2023",
+      "description": "Utilizes wavelet packet transform for decomposing EEG signals into frequency bands and employs PLV and PLI for functional connectivity assessment.",
+      "note": "Added for its approach to constructing brain functional networks, which provides insights into the connectivity patterns associated with fatigue states."
+    },
+    {
+      "reference": "Zhang_C_2008",
+      "description": "Utilizes wavelet packet decomposition for feature extraction, focusing on relative wavelet packet energy and entropy from EEG signals.",
+      "note": "Added for its wavelet-based feature extraction method, which is effective in capturing the non-stationary characteristics of EEG signals during fatigue."
+    },
+    {
+      "reference": "Zhang_H_2023_1",
+      "description": "Utilizes wavelet packet transform (WPT) for multi-resolution analysis of EEG signals, enabling extraction of nuanced information from various frequency bands.",
+      "note": "Added for its application of WPT, which allows for a detailed examination of EEG signals across different scales, enhancing fatigue detection accuracy."
+    },
+    {
+      "reference": "Zhang_J_2025",
+      "description": "Utilizes continuous wavelet transform for spectral-temporal representation and employs a temporal-frequential attention mechanism for feature extraction.",
+      "note": "Added for its use of continuous wavelet transform and attention mechanisms, offering advanced techniques for analyzing EEG signals in fatigue recognition. Note: The reference year (2025) suggests this is a future work and might need to be considered for the scope of this review."
+    },
+    {
+      "reference": "Zhang_L_2020",
+      "description": "Utilizes wavelet entropy and a combination of synchronization likelihood (SL) and minimum spanning tree (MST) for feature extraction.",
+      "note": "Added for its novel combination of wavelet entropy, SL, and MST, providing a comprehensive approach to analyzing EEG signal complexity and connectivity for fatigue detection."
+    },
+    {
+      "reference": "Zhang_M_2022",
+      "description": "Employs spectral analysis based on FFT for feature extraction, focusing on a single frequency in the alpha sub-band.",
+      "note": "Added for its straightforward approach using FFT, which is effective in identifying fatigue-related changes in specific EEG frequency bands."
+    },
+    {
+      "reference": "Zhang_S_2021",
+      "description": "Utilizes wavelet threshold denoising for preprocessing EEG data before feature extraction, enhancing signal quality for fatigue detection.",
+      "note": "Added for its emphasis on preprocessing techniques that improve the reliability of feature extraction in EEG-based fatigue detection."
+    },
+    {
+      "reference": "Zhang_S_2021_1",
+      "description": "Utilizes discrete wavelet transform (DWT) for feature extraction from EEG signals, focusing on approximate entropy and energy within specific sub-bands.",
+      "note": "Added for its use of DWT, which is effective in capturing localized time-frequency information from EEG signals, enhancing fatigue detection accuracy."
+    },
+    {
+      "reference": "Zhang_W_2020",
+      "description": "Utilizes wavelet packet transform and partial directed coherence for feature extraction from EEG signals, focusing on frequency band analysis and functional connectivity.",
+      "note": "Added for its advanced approach to analyzing EEG signals through wavelet packet transform and partial directed coherence, offering insights into fatigue-related brain connectivity."
+    },
+    {
+      "reference": "Zhang_X_2017",
+      "description": "Utilizes Fast Fourier Transform (FFT) for power spectrum density estimation in feature extraction from EEG signals.",
+      "note": "Added for its application of FFT, a fundamental technique in EEG signal processing, to quantify fatigue-related changes in brain activity."
+    },
+    {
+      "reference": "Zhang_X_2023",
+      "description": "Utilizes linear prediction for time domain feature extraction and Riemannian geometric method for spatial domain features from EEG data.",
+      "note": "Added for its innovative combination of linear prediction and Riemannian geometry, providing a comprehensive approach to analyzing EEG signals for fatigue detection."
+    },
+    {
+      "reference": "Zhang_Y_2023_4",
+      "description": "Utilizes wavelet packet decomposition for EEG signal analysis and feature extraction in different frequency bands.",
+      "note": "Added for its use of wavelet packet decomposition, which allows for detailed analysis of EEG signals across various frequency bands relevant to fatigue states."
+    },
+    {
+      "reference": "Zhang_Z_2016",
+      "description": "Utilizes wavelet denoising and Fast Fourier Transformation (FFT) for feature extraction, focusing on power spectrum density features from EEG signals.",
+      "note": "Added for its combination of wavelet denoising and FFT, enhancing the quality of EEG signals and the accuracy of feature extraction for fatigue detection."
+    },
+    {
+      "reference": "Zhao_C_2011",
+      "description": "Utilizes wavelet packet decomposition for feature extraction from EEG signals, focusing on frequency domain analysis to identify fatigue states.",
+      "note": "Added for its application of wavelet packet decomposition, which provides a detailed frequency domain analysis of EEG signals, aiding in fatigue state classification."
+    },
+    {
+      "reference": "Zhao_C_2011_1",
+      "description": "Utilizes wavelet packet transform for feature extraction, focusing on the energy distribution across different frequency bands of EEG signals.",
+      "note": "Added for its focus on wavelet packet transform, enabling the analysis of energy distribution in EEG signals, which is crucial for fatigue detection."
+    },
+    {
+      "reference": "Zhao_Y_2021",
+      "description": "Utilizes power spectral density (PSD) for feature extraction from EEG signals, focusing on frequency domain analysis to identify fatigue states.",
+      "note": "Added for its use of PSD, a fundamental technique in EEG analysis, to extract frequency-domain features relevant to fatigue detection."
+    },
+    {
+      "reference": "Zhao_Y_2023",
+      "description": "Utilizes power spectral density (PSD) for feature extraction from EEG signals, combined with a deep learning framework for cognitive state recognition.",
+      "note": "Added for its integration of PSD with deep learning, showcasing an advanced approach to feature extraction and cognitive state recognition from EEG data."
+    },
+    {
+      "reference": "Zheng_C_2008",
+      "description": "Utilizes wavelet packet parameters from EEG signals combined with power spectral indices from HRV for feature extraction in mental fatigue estimation.",
+      "note": "Added for its combined use of wavelet packet parameters and HRV indices, offering a multimodal approach to feature extraction for mental fatigue estimation."
+    },
+    {
+      "reference": "Zheng_R_2022",
+      "description": "Utilizes empirical modal decomposition (EMD) and amplitude locking value (ALV) for feature extraction from EEG signals to assess brain functional connectivity.",
+      "note": "Added for its use of EMD and ALV, providing a novel method for feature extraction that assesses brain functional connectivity in the context of fatigue."
+    },
+    {
+      "reference": "Zheng_Y_2022",
+      "description": "Utilizes ensemble empirical mode decomposition (EEMD) and power spectral density (PSD) for feature extraction from EEG signals to improve fatigue detection accuracy.",
+      "note": "Added for its application of EEMD and PSD, enhancing feature extraction by addressing the mode mixing problem of traditional EMD and focusing on power spectral features."
+    },
+    {
+      "reference": "Zhou_Y_2023",
+      "description": "Utilizes graph theoretical analysis for feature extraction from functional brain networks constructed using EEG signals, focusing on network properties like clustering coefficient and path length.",
+      "note": "Added for its graph theoretical analysis approach, providing insights into the topological changes of brain networks associated with fatigue."
+    },
+    {
+      "reference": "Zhu_M_2021",
+      "description": "Utilizes power spectral density (PSD) analysis and deep learning models like Inception and Modified AlexNet for feature extraction from EEG signals to detect driver drowsiness.",
+      "note": "Added for its combination of PSD analysis and deep learning models, offering an advanced approach to feature extraction for driver drowsiness detection."
+    },
+    {
+      "reference": "Zhuang_Z_2024",
+      "description": "Utilizes power spectral density (PSD) and differential entropy (DE) for EEG feature extraction, processed through a self-attention mechanism and graph neural network for drowsiness classification.",
+      "note": "Added for its use of PSD and DE with advanced processing techniques, providing a sophisticated method for feature extraction and classification in drowsiness detection."
+    },
+    {
+      "reference": "Zou_S_2020",
+      "description": "Utilizes wavelet entropy to extract features from EEG signals for constructing functional brain networks, focusing on complexity and uncertainty measures.",
+      "note": "Added for its use of wavelet entropy in constructing functional brain networks, offering insights into the complexity and uncertainty of brain states during fatigue."
+    },
+    {
+      "reference": "Zou_S_2020_1",
+      "description": "Utilizes empirical mode decomposition (EMD) for feature extraction from EEG signals, focusing on multi-scale entropy to identify optimal scale features for fatigue detection.",
+      "note": "Added for its application of EMD and multi-scale entropy, providing a detailed method for feature extraction and fatigue detection from EEG signals."
+    }
+  ],
+  "trend": "Development of feature extraction techniques tailored for multi-modal EEG analysis and fatigue detection.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Promising Directions for Future Research",
+      "section_id": "8 Promising Directions for Future Research",
+      "description": "not available"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "title": "Oversampling",
+  "section_id": "7.4.1 Oversampling",
+  "example": [
+    "Discuss methods like SMOTE (Synthetic Minority Over-sampling Technique) for oversampling the minority class."
+  ],
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Addressing Data Scarcity and Class Imbalance",
+      "section_id": "7 Addressing Data Scarcity and Class Imbalance",
+      "description": "not available"
+    }
+  ]
+}

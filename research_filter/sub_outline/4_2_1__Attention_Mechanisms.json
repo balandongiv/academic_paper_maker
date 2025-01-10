@@ -1,0 +1,73 @@
+{
+  "title": "Attention Mechanisms",
+  "section_id": "4.2.1 Attention Mechanisms",
+  "description": "Explain how attention mechanisms can highlight important features or time points in EEG signals.",
+  "examples": [
+    {
+      "reference": "An_J_2024",
+      "description": "Employs attention mechanisms across frequency bands to capture crucial interactions between EEG channels, enhancing the model's ability to infer fatigue levels.",
+      "note": "Added for showcasing the use of attention mechanisms across frequency bands to understand EEG channel interactions in fatigue level inference."
+    },
+    {
+      "reference": "Cao_L_2024",
+      "description": "Applies a self-attention mechanism to discern relevant features across modalities for fatigue recognition.",
+      "note": "Added for illustrating the use of a self-attention mechanism for identifying relevant features in multimodal fatigue recognition."
+    },
+    {
+      "reference": "Ding_S_2019",
+      "description": "Integrates an attention mechanism to focus on essential parts of the EEG signal, ensuring high accuracy while maintaining a low computational load suitable for mobile devices.",
+      "note": "Added for demonstrating the integration of an attention mechanism to enhance accuracy and computational efficiency in mobile EEG-based drowsiness detection."
+    },
+    {
+      "reference": "Etemad_G_2019",
+      "description": "Introduces a capsule attention mechanism combined with an LSTM network to enhance focus on important features within the data, leading to improved accuracy in driver vigilance prediction.",
+      "note": "Added for introducing a capsule attention mechanism to improve focus on significant data features, enhancing driver vigilance prediction accuracy."
+    },
+    {
+      "reference": "Etemad_G_2021",
+      "description": "Employs a capsule attention mechanism in conjunction with a deep LSTM network to focus on significant features within EEG and EOG representations.",
+      "note": "Added for utilizing a capsule attention mechanism with a deep LSTM network to emphasize crucial features in EEG and EOG signals for vigilance estimation."
+    },
+    {
+      "reference": "Feng_X_2025",
+      "description": "Incorporates coordinate attention to enhance feature representation and interpretation, allowing the model to better localize features critical for classification.",
+      "note": "Added for its use of coordinate attention to enhance feature representation, which aids in localizing critical features for classification. Note: The reference year (2025) suggests this is a future work and might need to be considered for the scope of this review."
+    },
+    {
+      "reference": "Gao_D_2024_1",
+      "description": "Uses an attention mechanism to enhance feature representation and model interpretability, allowing for a selective approach to EEG signal collection.",
+      "note": "Added for employing an attention mechanism to improve feature representation and model interpretability, facilitating a selective approach to EEG data collection."
+    },
+    {
+      "reference": "Hu_F_2024",
+      "description": "Integrates temporal-channel attention and channel-connectivity attention to refine EEG signals and capture significant features for effective fatigue detection.",
+      "note": "Added for integrating temporal-channel and channel-connectivity attention to enhance EEG signal processing and capture significant features relevant to fatigue detection."
+    },
+    {
+      "reference": "Liu_H_2023",
+      "description": "Utilizes channel and spatial attention mechanisms to reinforce feature extraction from EEG signals, enhancing detection accuracy.",
+      "note": "Added for the use of channel and spatial attention mechanisms to enhance feature extraction from EEG signals, improving detection accuracy."
+    },
+    {
+      "reference": "Tang_M_2024",
+      "description": "Incorporates a topology self-aware attention mechanism to improve the model's ability to focus on the most relevant features for vigilance assessment.",
+      "note": "Added for its incorporation of a topology self-aware attention mechanism, enhancing the model's focus on relevant features for vigilance assessment."
+    }
+  ],
+  "trend": "Providing insights into the model's decision-making process by highlighting influential features.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Explainability and Interpretability",
+      "section_id": "4 Explainability and Interpretability",
+      "description": "not available"
+    },
+    {
+      "title": "Techniques for Enhancing Model Interpretability",
+      "section_id": "4.2 Techniques for Enhancing Model Interpretability",
+      "description": "not available"
+    }
+  ]
+}

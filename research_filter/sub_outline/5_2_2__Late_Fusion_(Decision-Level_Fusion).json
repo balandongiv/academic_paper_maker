@@ -1,0 +1,22 @@
+{
+  "title": "Late Fusion (Decision-Level Fusion)",
+  "section_id": "5.2.2 Late Fusion (Decision-Level Fusion)",
+  "description": "Analyze approaches that combine the outputs of separate classifiers trained on each modality.",
+  "examples": [],
+  "trend": "Leveraging the strengths of individual classifiers and improving overall decision accuracy.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Integration of Multimodal Data",
+      "section_id": "5 Integration of Multimodal Data",
+      "description": "not available"
+    },
+    {
+      "title": "Fusion Strategies",
+      "section_id": "5.2 Fusion Strategies",
+      "description": "not available"
+    }
+  ]
+}

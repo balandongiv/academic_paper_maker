@@ -1,0 +1,93 @@
+{
+  "title": "Challenges of Real-Time Fatigue Detection",
+  "section_id": "6.1",
+  "description": "Discuss the need for low latency and fast processing in real-time applications. Analyze the computational demands of complex machine learning models.",
+  "examples": [
+    {
+      "reference": "Feng_W_2024",
+      "description": "Develops a real-time GUI for monitoring driver alertness, demonstrating the practical applicability of the model in real-time.",
+      "note": "Added for its development of a real-time GUI, showcasing the practical implementation of fatigue monitoring in real-time scenarios."
+    },
+    {
+      "reference": "Gu_T_2024",
+      "description": "Aims to develop a low-power model suitable for deployment in devices with limited power resources for real-time monitoring.",
+      "note": "Added for its focus on developing a low-power model for real-time monitoring, addressing the challenge of limited power resources in real-time applications."
+    },
+    {
+      "reference": "Houshmand_S_2021",
+      "description": "Focuses on real-time detection capabilities using single-feature computation directly from EEG signals.",
+      "note": "Added for its emphasis on real-time detection using single-feature computation, which is crucial for timely interventions in safety-critical applications."
+    },
+    {
+      "reference": "Hussein_R_2024",
+      "description": "Aims to develop a system capable of real-time fatigue detection to provide timely warnings.",
+      "note": "Added for its focus on developing a system for real-time fatigue detection, highlighting the importance of timely warnings in preventing accidents."
+    },
+    {
+      "reference": "Kartsch_V_2018",
+      "description": "Focuses on real-time monitoring of drowsiness in a wearable format with extended battery life.",
+      "note": "Added for its focus on real-time monitoring using wearable technology, which is essential for practical applications in fatigue detection."
+    },
+    {
+      "reference": "Ko_L_2020",
+      "description": "Aims for real-time drowsiness detection using a single EEG sensor, though the study itself is in a controlled setting.",
+      "note": "Added for its aim of real-time drowsiness detection using a single EEG sensor, although the real-world applicability needs further investigation."
+    },
+    {
+      "reference": "Lian_Z_2024",
+      "description": "Aims for real-time fatigue detection, though the immediate applicability in real-time is noted as a limitation.",
+      "note": "Added for its aim towards real-time fatigue detection, acknowledging the challenges in achieving immediate real-time applicability."
+    },
+    {
+      "reference": "Liu_Y_2016",
+      "description": "Focuses on real-time detection capabilities, though the study itself is based on simulated driving tasks.",
+      "note": "Added for its focus on real-time detection capabilities, although the study's reliance on simulated driving tasks raises questions about real-world applicability."
+    },
+    {
+      "reference": "Mehmood_I_2023",
+      "description": "Aims for real-time fatigue monitoring, though the current implementation requires further development for real-time application.",
+      "note": "Added for its aim towards real-time fatigue monitoring, highlighting the need for further development to achieve practical real-time application."
+    },
+    {
+      "reference": "Mohammedi_M_2023",
+      "description": "Proposes an IoT Cloud solution for real-time alerts, though the focus of the paper is on reviewing existing techniques.",
+      "note": "Added for its proposal of an IoT Cloud solution for real-time alerts, showcasing an innovative approach to real-time fatigue monitoring."
+    },
+    {
+      "reference": "Zhang_X_2017",
+      "description": "Aims for real-time monitoring using a wireless wearable EEG.",
+      "note": "Added for its aim of real-time monitoring using a wireless wearable EEG, demonstrating the feasibility of real-time fatigue detection in practical settings."
+    },
+    {
+      "reference": "Zhang_X_2023",
+      "description": "Suggests future work should focus on real-time application of the fatigue detection method.",
+      "note": "Added for its suggestion to focus on real-time application, emphasizing the importance of translating research findings into practical, real-time fatigue detection systems."
+    },
+    {
+      "reference": "Zorzos_I_2023",
+      "description": "Focuses on achieving low prediction times suitable for real-time applications.",
+      "note": "Added for its focus on low prediction times, which is crucial for the effectiveness of real-time fatigue detection systems."
+    },
+    {
+      "reference": "Zou_S_2020_1",
+      "description": "Aims for real-time detection, though the study itself is based on simulated driving.",
+      "note": "Added for its aim towards real-time detection, despite the study being based on simulated driving, highlighting the need for real-world validation."
+    }
+  ],
+  "trend": "Focus on real-time processing and low latency for immediate feedback in safety-critical applications.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Promising Directions for Future Research",
+      "section_id": "8 Promising Directions for Future Research",
+      "description": "not available"
+    },
+    {
+      "title": "Real-Time Implementation and Edge Computing",
+      "section_id": "6",
+      "description": "not available"
+    }
+  ]
+}

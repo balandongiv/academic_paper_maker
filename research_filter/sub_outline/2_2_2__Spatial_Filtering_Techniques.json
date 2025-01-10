@@ -1,0 +1,36 @@
+{
+  "title": "Spatial Filtering Techniques",
+  "section_id": "2.2.2 Spatial Filtering Techniques",
+  "description": "Discuss techniques like Common Spatial Patterns (CSP) and its variants.",
+  "examples": [
+    {
+      "reference": "Cui_Y_2019",
+      "description": "Employs feature weighting to identify the importance of different EEG features, with a focus on crucial brain regions"
+    },
+    {
+      "reference": "Talukdar_U_2020",
+      "description": "Introduces adaptive CSP methods for motor imagery tasks, demonstrating improved feature separability."
+    },
+    {
+      "reference": "Talukdar_U_2020_1",
+      "description": "Combines fatigue analysis with active learning to adapt CSP during high fatigue, improving BCI performance."
+    }
+  ],
+  "why_introduced": "To enhance signal quality and reduce the number of electrodes needed for fatigue detection.",
+  "trend": "Using spatial filtering to improve signal quality and reduce the number of electrodes.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Addressing Core Challenges with Machine Learning",
+      "section_id": "2. Addressing Core Challenges with Machine Learning",
+      "description": "not available"
+    },
+    {
+      "title": "Reducing the Number of EEG Channels",
+      "section_id": "2.2 Reducing the Number of EEG Channels",
+      "description": "Methods to reduce the number of EEG channels while maintaining detection accuracy."
+    }
+  ]
+}

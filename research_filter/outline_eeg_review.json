@@ -21,10 +21,12 @@
         {
             "title": "Introduction",
             "section_id": "1. Introduction",
+            "level": 1,
             "subsections": [
                 {
                     "title": "Background",
                     "section_id": "1.1 Background",
+                    "level": 2,
                     "example": [
                         "Defines driver fatigue and its impact on road safety.",
                         "Emphasizes need for real-time fatigue detection systems.",
@@ -34,25 +36,30 @@
                 {
                     "title": "Core Challenges in EEG-Based Fatigue Detection",
                     "section_id": "1.2 Core Challenges in EEG-Based driver Fatigue Detection",
+                    "level": 2,
                     "subsections": [
                         {
                             "title": "Subject Variability",
                             "section_id": "1.2.1 Subject Variability",
+                            "level": 3,
                             "example": "Discusses the inherent differences in EEG signals between individuals."
                         },
                         {
                             "title": "Reduced Channel Count",
                             "section_id": "1.2.2 Reduced Channel Count",
+                            "level": 3,
                             "example": "Explains the need for practical systems with fewer electrodes."
                         },
                         {
                             "title": "Multiclass Sleepiness Classification",
                             "section_id": "1.2.3 Multiclass Sleepiness Classification",
+                            "level": 3,
                             "example": "Emphasizes the importance of detecting different levels of fatigue beyond binary classification."
                         },
                         {
                             "title": "Robustness and Generalization",
                             "section_id": "1.2.4 Robustness and Generalization",
+                            "level": 3,
                             "example": "Addresses the need for models that perform well in real-world conditions and across diverse populations."
                         },
                         {
@@ -75,6 +82,7 @@
                 {
                     "title": "Motivation and Objectives",
                     "section_id": "1.3 Motivation and Objectives",
+                    "level": 3,
                     "example": [
                         "Highlight the need for a review that focuses on how research has addressed these core challenges.",
                         "State the objectives, emphasizing the analysis of machine learning trends and their impact on these challenges."
@@ -83,6 +91,7 @@
                 {
                     "title": "Scope and Structure of the Review",
                     "section_id": "1.4 Scope and Structure of the Review",
+                    "level": 3,
                     "example": [
                         "Defines temporal scope (past 10 years).",
                         "Outlines specific topics and roadmap."
@@ -93,10 +102,13 @@
         {
             "title": "Addressing Core Challenges with Machine Learning",
             "section_id": "2. Addressing Core Challenges with Machine Learning",
+            "level": 1,
             "subsections": [
                 {
                     "title": "Tackling Subject Variability",
                     "section_id": "2.1 Tackling Subject Variability",
+                    "level": 2,
+                    "description": "Methods to address subject variability in EEG based driving fatigue detection.",
                     "methods": [
                         {
                             "title": "Transfer Learning and Domain Adaptation",
@@ -181,6 +193,7 @@
                 {
                     "title": "Reducing the Number of EEG Channels",
                     "section_id": "2.2 Reducing the Number of EEG Channels",
+                    "description": "Methods to reduce the number of EEG channels while maintaining detection accuracy.",
                     "methods": [
                         {
                             "title": "Channel Selection Algorithms",
@@ -301,7 +314,15 @@
                 {
                     "title": "Multiclass Sleepiness Classification",
                     "section_id": "2.3 Multiclass Sleepiness Classification",
+                    "description": "Methods for classifying multiple levels of fatigue driving using EEG based approach.",
                     "methods": [
+                        {"title": "Improve the feature extraction or selection",
+                        "section_id": "2.3.1 Improve the feature extraction or selection",
+                        "description": "Discuss the use of advanced classifiers capable of handling multiple classes beyond binary classification.",
+                        "examples": [
+                            "empty"
+                        ],
+                        "why_introduced": "To provide a more nuanced understanding of driver state and improve the accuracy of fatigue detection."},
                         {
                             "title": "Advanced Machine Learning Classifiers",
                             "section_id": "2.3.1 Advanced Machine Learning Classifiers",

@@ -1,0 +1,17 @@
+{
+  "title": "Class Imbalance Problem",
+  "section_id": "7.3 Class Imbalance Problem",
+  "example": [
+    "Analyze the issue of imbalanced datasets in fatigue detection, where alert states often outnumber drowsy states."
+  ],
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Addressing Data Scarcity and Class Imbalance",
+      "section_id": "7 Addressing Data Scarcity and Class Imbalance",
+      "description": "not available"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "title": "Automatic Feature Learning",
+  "section_id": "3.1.1 Automatic Feature Learning",
+  "description": "Discuss the ability of deep learning models to automatically learn relevant features from raw EEG data.",
+  "example": [
+    {
+      "reference": "Budak_U_2019",
+      "description": "Demonstrates a hybrid model leveraging raw EEG signals and deep learning for drowsiness detection."
+    },
+    {
+      "reference": "Alghanim_M_2024",
+      "description": "Automates feature learning in a deep learning model for fatigue detection, providing better generalizability."
+    },
+    {
+      "reference": "Chen_J_2021",
+      "description": "Introduces end-to-end deep learning for drowsiness recognition, eliminating manual feature selection."
+    },
+    {
+      "reference": "Cheng_E_2019",
+      "description": "Uses a CNN to predict drowsiness from EEG images, showcasing automatic feature learning."
+    },
+    {
+      "reference": "Chen_J_2022_2",
+      "description": "Employs CNNs for automated EEG analysis in driver fatigue detection, avoiding manual feature extraction."
+    }
+  ],
+  "why_introduced": "To reduce reliance on manual feature engineering and potentially discover novel fatigue-related features.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "The Role of Deep Learning and Hybrid Models",
+      "section_id": "3. The Role of Deep Learning and Hybrid Models",
+      "description": "not available"
+    },
+    {
+      "title": "Advantages of Deep Learning in EEG Analysis",
+      "section_id": "3.1 Advantages of Deep Learning in EEG Analysis",
+      "description": "not available"
+    }
+  ]
+}

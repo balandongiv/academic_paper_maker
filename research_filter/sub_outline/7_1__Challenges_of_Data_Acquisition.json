@@ -1,0 +1,17 @@
+{
+  "title": "Challenges of Data Acquisition",
+  "section_id": "7.1 Challenges of Data Acquisition",
+  "example": [
+    "Discuss the difficulties in collecting large, labeled EEG datasets for fatigue detection, particularly in real-world driving scenarios."
+  ],
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Addressing Data Scarcity and Class Imbalance",
+      "section_id": "7 Addressing Data Scarcity and Class Imbalance",
+      "description": "not available"
+    }
+  ]
+}

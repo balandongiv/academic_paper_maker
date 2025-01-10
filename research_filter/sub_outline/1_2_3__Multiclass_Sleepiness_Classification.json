@@ -1,0 +1,21 @@
+{
+  "title": "Multiclass Sleepiness Classification",
+  "section_id": "1.2.3 Multiclass Sleepiness Classification",
+  "level": 3,
+  "example": "Emphasizes the importance of detecting different levels of fatigue beyond binary classification.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Introduction",
+      "section_id": "1. Introduction",
+      "description": "not available"
+    },
+    {
+      "title": "Core Challenges in EEG-Based Fatigue Detection",
+      "section_id": "1.2 Core Challenges in EEG-Based driver Fatigue Detection",
+      "description": "not available"
+    }
+  ]
+}

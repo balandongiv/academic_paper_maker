@@ -1,0 +1,37 @@
+{
+  "title": "The Need for Explainable AI (XAI) in Fatigue Detection",
+  "section_id": "4.1 The Need for Explainable AI (XAI) in Fatigue Detection",
+  "examples": [
+    {
+      "reference": "Cui_J_2021",
+      "description": "emphasize the interpretability of their proposed models for subject-independent and cross-subject drowsiness recognition, respectively."
+    },
+    {
+      "reference": "Cui_J_2022",
+      "description": "emphasize the interpretability of their proposed models for subject-independent and cross-subject drowsiness recognition, respectively."
+    },
+    {
+      "reference": "Feng_W_2024",
+      "description": "discusses the lack of deep interpretability in their proposed model as a limitation."
+    },
+    {
+      "reference": "Zorzos_I_2023",
+      "description": "employs SHAP values to understand feature contributions, enhancing model transparency."
+    },
+    {
+      "reference": "Lian_Z_2024",
+      "description": "applies an attention module to enhance feature representation quality, though it notes reduced interpretability of 1D attention weights."
+    }
+  ],
+  "why_added": "To build trust, ensure fairness, and facilitate debugging and improvement of fatigue detection models.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Explainability and Interpretability",
+      "section_id": "4 Explainability and Interpretability",
+      "description": "not available"
+    }
+  ]
+}
