@@ -159,8 +159,8 @@ def process_main_agent_row_multi_runs(
     pdf_path = os.path.join(main_folder, pdf_filename)
     if pdf_filename == 'no_pdf':
         # Fallback to 'abstract' column if no PDF
-        # pdf_text = row.get('abstract', None)
-        pdf_text=''
+        pdf_text = row.get('abstract', None)
+        # pdf_text=''
         status = True
     elif pdf_filename and os.path.exists(pdf_path):
         pdf_text, status = extract_pdf_text(pdf_path)
@@ -187,15 +187,15 @@ def process_main_agent_row_multi_runs(
             client,
             model_name=model_name
         )
-        # try:
-        #     parsed_data = json.loads(ai_output)
-        # except json.JSONDecodeError:
-        #     parsed_data = {
-        #         column_name: {
-        #             "error_msg": f"error text {ai_output}"
-        #         }
-        #     }
-        parsed_data=ai_output
+        try:
+            parsed_data = json.loads(ai_output)
+        except json.JSONDecodeError:
+            parsed_data = {
+                column_name: {
+                    "error_msg": f"error text {ai_output}"
+                }
+            }
+        # parsed_data=ai_output
 
         save_result_to_json(bibtex_val, parsed_data, json_path, column_name)
 
@@ -267,15 +267,15 @@ def finalize_cross_check_output(
             client,
             model_name=model_name
         )
-        # try:
-        #     final_json = json.loads(ai_output)
-        # except json.JSONDecodeError:
-        #     final_json = {
-        #         column_name: {
-        #             "error_msg": f"error text {ai_output}"
-        #         }
-        #     }
-        final_json=ai_output
+        try:
+            final_json = json.loads(ai_output)
+        except json.JSONDecodeError:
+            final_json = {
+                column_name: {
+                    "error_msg": f"error text {ai_output}"
+                }
+            }
+        # final_json=ai_output
         # Save final JSON
 
         with open(final_json_path, 'w', encoding='utf-8') as f:
