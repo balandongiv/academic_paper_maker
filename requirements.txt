@@ -5,6 +5,7 @@ pyperclip
 PyPDF2
 duckduckgo-search
 googlesearch-python
+pandas
 # pip3 install -U scidownl  : https://github.com/Tishacy/SciDownl
 
 

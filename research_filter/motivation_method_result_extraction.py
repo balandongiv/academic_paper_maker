@@ -21,7 +21,7 @@ from research_filter.helper import (
     cleanup_json_files,
     extract_pdf_text
 )
-
+from setting.project_path import project_folder
 # --------------------------------------------------------------------------------
 # Logger Setup
 # --------------------------------------------------------------------------------
@@ -343,8 +343,11 @@ def run_pipeline(
     # Load DataFrame from Excel
     logger.info(f"Loading DataFrame from {csv_path}")
     df = pd.read_excel(csv_path)
-
+    df=df[df['year_relavency']=='yes']
+    df=df[df['review_paper']!='yes']
+    unique_val=df['review_paper'].unique()
     # If cross_check_enabled is False, do single-run approach
+    df=df.head(2)
     if not cross_check_enabled:
         # Ensure main output folder exists
         create_folder_if_not_exists(methodology_json_folder)
@@ -437,13 +440,21 @@ def main():
     We keep in main() only the parameters that are likely to change frequently.
     """
 
-    from setting.project_path import project_folder
+
 
     path_dic=project_folder()
-    multiple_runs_folder =path_dic['multiple_runs_folder']
-    final_cross_check_folder = path_dic['final_cross_check_folder']
     main_folder = path_dic['main_folder']
-    methodology_json_folder =path_dic['methodology_json_folder']
+
+    agent_name = "concept_and_technique"
+    column_name = "concept_and_technique"
+    yaml_path = "agent/agent_ml.yaml"
+
+
+    methodology_json_folder=os.path.join(main_folder,agent_name,'json_output')
+    multiple_runs_folder =os.path.join(main_folder,agent_name,'multiple_runs_folder')
+    final_cross_check_folder = os.path.join(main_folder,agent_name,'final_cross_check_folder')
+
+    csv_path = path_dic['csv_path']
     # Basic placeholders for roles
     placeholders = {
         "topic": "EEG-based fatigue classification",
@@ -452,10 +463,7 @@ def main():
 
     # Editable variables
     model_name = "gpt-4o-mini"  # or "gpt-4o"
-    csv_path = "database/eeg_review.xlsx"
-    agent_name = "concept_and_technique"
-    column_name = "concept_and_technique"
-    yaml_path = "agent/agent_ml.yaml"
+
 
 
     # Single-run
