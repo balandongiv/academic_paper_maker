@@ -436,6 +436,14 @@ def main():
     """
     We keep in main() only the parameters that are likely to change frequently.
     """
+
+    from setting.project_path import project_folder
+
+    path_dic=project_folder()
+    multiple_runs_folder =path_dic['multiple_runs_folder']
+    final_cross_check_folder = path_dic['final_cross_check_folder']
+    main_folder = path_dic['main_folder']
+    methodology_json_folder =path_dic['methodology_json_folder']
     # Basic placeholders for roles
     placeholders = {
         "topic": "EEG-based fatigue classification",
@@ -448,19 +456,15 @@ def main():
     agent_name = "concept_and_technique"
     column_name = "concept_and_technique"
     yaml_path = "agent/agent_ml.yaml"
-    main_folder = r"C:\Users\rpb\OneDrive - ums.edu.my\research_related\0 eeg_trend_till24\eeg_review"
+
 
     # Single-run
-    methodology_json_folder = r"C:\Users\rpb\OneDrive - ums.edu.my\research_related\0 eeg_trend_till24\eeg_review\concept_and_technique"
+
 
     # Cross-check logic
     cross_check_enabled = True
     cross_check_runs = 3
     cross_check_agent_name = "agent_cross_check"
-
-    multiple_runs_folder = r"C:\Users\rpb\OneDrive - ums.edu.my\research_related\0 eeg_trend_till24\eeg_review\multiple_runs_temp"
-    final_cross_check_folder = r"C:\Users\rpb\OneDrive - ums.edu.my\research_related\0 eeg_trend_till24\eeg_review\cross_check_final"
-
     cleanup_json = False
 
     # Run pipeline
