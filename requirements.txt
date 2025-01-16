@@ -1,11 +1,19 @@
 # List your project dependencies below. For example:
+# pip install -r requirements.txt
+# pip install python-dotenv
 crewai>=0.76.9
 python-dotenv>=1.0.1
 pyperclip
 PyPDF2
 duckduckgo-search
 googlesearch-python
+tqdm
 pandas
+pyperclip
+PyYAML
+pydantic
+openpyxl
+flask
 # pip3 install -U scidownl  : https://github.com/Tishacy/SciDownl
 
 

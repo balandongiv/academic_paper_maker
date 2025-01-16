@@ -9,18 +9,28 @@ from research_filter.config import (
     YAML_PATH,
     placeholders
 )
-
+from setting.project_path import project_folder
 app = Flask(__name__)
+
+
+path_dic=project_folder()
+main_folder = path_dic['main_folder']
+
+
 app.secret_key = "your_secret_key"  # Needed for session usage
-pdf_folder=r'C:\Users\balan\OneDrive - ums.edu.my\research_related\0 eeg_trend_till24\eeg_review'
+pdf_folder=path_dic['main_folder']
 # fname = r'..\use_browser\shortdbs.xlsx'
-fname=r'C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\database\eeg_review.xlsx'
+fname=path_dic['csv_path']
 df = pd.read_excel(fname)
 
 # Create a new column combining the folder and file name
 df['pdf_path'] = df['pdf_name'].apply(lambda x: f"{pdf_folder}\\{x}")
 
-df = df[(df['ai_output'] == 'relevance') & (df['pdf_name'].notna()) & (df['pdf_name'] != '')]
+df=df[df['year_relavency']=='yes']
+df=df[df['review_paper']!='yes']
+
+
+# df = df[(df['ai_output'] == 'relevance') & (df['pdf_name'].notna()) & (df['pdf_name'] != '')]
 
 current_index = 0
 excel_file = "data.xlsx"
@@ -631,7 +641,8 @@ def agentic_operation():
         if activity_selected == "analyse_pdf":
             agent_name = AGENT_NAME_MAPPING.get(activity_selected, AGENT_NAME_MAPPING["analyse_pdf"])
             system_prompt = combine_role_instruction(config, placeholders, agent_name)
-            combined_string = f"{system_prompt}\n The PDF text is as follows:\n{pdf_text}"
+            # combined_string = f"{system_prompt}\n The PDF text is as follows:\n{pdf_text}"
+            combined_string = f"The PDF text is as follows:\n{pdf_text}"
 
         elif activity_selected == "abstract_filtering":
             agent_name = AGENT_NAME_MAPPING.get(activity_selected, AGENT_NAME_MAPPING["abstract_filtering"])

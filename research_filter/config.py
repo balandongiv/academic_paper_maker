@@ -1,6 +1,22 @@
 from research_filter.agent_helper import validate_json_data
+from setting.project_path import project_folder
+import os
 # DEBUG mode
 DEBUG = True
+
+path_dic=project_folder()
+main_folder = path_dic['main_folder']
+
+agent_name = "concept_and_technique"
+column_name = "concept_and_technique"
+yaml_path = "agent/agent_ml.yaml"
+
+
+methodology_json_folder=os.path.join(main_folder,agent_name,'json_output')
+multiple_runs_folder =os.path.join(main_folder,agent_name,'multiple_runs_folder')
+final_cross_check_folder = os.path.join(main_folder,agent_name,'final_cross_check_folder')
+
+csv_path = path_dic['csv_path']
 
 # Default activity
 DEFAULT_ACTIVITY = "abstract_filtering"  # abstract_filtering or analyse_pdf
@@ -29,7 +45,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Define the relative YAML path
 YAML_PATH = os.path.join(SCRIPT_DIR, "agent","agents_fatigue_driving.yaml")
-FILE_PATH = os.path.join(SCRIPT_DIR,"database", "eeg_review.xlsx")
+FILE_PATH = path_dic['csv_path']
 # Files and paths
 # FILE_PATH = r"..\research_filter\eeg_test_simple_with_bibtex_v1.xlsx"
 # YAML_PATH = r"..\esearch_filter\agents_fatigue_driving.yaml"

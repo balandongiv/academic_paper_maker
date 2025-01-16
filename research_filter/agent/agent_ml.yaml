@@ -9,7 +9,6 @@ methodology_extractor_agent:
     - Which machine learning techniques or algorithms are used (if applicable).
     - Why those techniques were chosen.
     - Performance metrics employed.
-    - Determine if the research is related to EEG-based driving drowsiness, sleepiness, or fatigue detection. Return True or False.
 
   backstory: >
     As a meticulous methodology researcher, you have deep knowledge of various 
@@ -17,46 +16,50 @@ methodology_extractor_agent:
     to summarize each paper’s approach and methodological framework efficiently.
 
   evaluation_criteria:
-    - Accurately identifies and lists the machine learning techniques employed.
+    - Accurately identifies and lists the machine learning techniques employed (e.g., SVM, LSTM, Random Forest).
     - Extracts the exact text or rationale stated in the paper for selecting the methods used.
     - Notes important performance metrics (accuracy, precision, recall, etc.).
 
   expected_output: >
     Each paper should be represented as an object in a structured JSON format:
+
     {
       "introduction": {
         "problem_statement": "string",
-        "proposed_solution": "explanation about the proposed solution"
-      },
-      "methodology": {
-        "driver_fatigue_eeg": "True if the dataset is related to EEG driver fatigue detection, or False otherwise",
-        "methods_used": [
-          "<Method 1>",
-          "<Method 2>"
-        ],
-        "reasons_for_selection": {
-          "<Method 1>": "Detailed explanation about the reason or motivation to use Method 1.",
-          "<Method 2>": "Detailed explanation about the reason or motivation to use Method 2."
-        },
-        "performance_metrics": {
-          "accuracy": "<Value or 'N/A'>",
-          "precision": "<Value or 'N/A'>",
-          "recall": "<Value or 'N/A'>",
-          "f1_score": "<Value or 'N/A'>",
-          "other_metrics": {
-            "<Metric name>": "<Value>"
-          }
-        },
-        "comparison_with_existing_methods": {
-          "key_differences": "A detailed comparison with other machine learning or state-of-the-art (SOTA) techniques, including their names, highlighting improvements, innovations, or weaknesses."
-        }
-      }
-    }
+        "proposed_solution": "explanation about the proposed solution",
+  "gap_in_previous_study":" long discussion about the technical gap identified in previous studies",
+  "issue_being_addressed": " choose either one of the four following theme 1. Tackling Subject Variability, 2. Reducing the Number of EEG Channels, 3.Multiclass Sleepiness Classification 4. Enhancing Robustness and Generalization",
+  "justification": "long explaination on why you choose the theme in the in issue_being_addressed"
+  },
+                     "methodology": {
+                       "methods_used": [
+                         "<Method 1>",
+                         "<Method 2>",
+                         "<list of other method if available>>"
+                       ],
+                       "reasons_for_selection": {
+                         "<Method 1>": "Long and detailed explanation about the reason or motivation to use Method 1.",
+                         "<Method 2>": "Long and detailed explanation about the reason or motivation to use Method 2.",
+                         "<list of other method if available>":
+                       },
+                       "performance_metrics": {
+                         "accuracy": "<Value or 'N/A'>",
+                         "precision": "<Value or 'N/A'>",
+                         "recall": "<Value or 'N/A'>",
+                         "f1_score": "<Value or 'N/A'>",
+                         "other_metrics": {
+                           "<Metric name>": "<Value>"
+                         }
+                       },
+                       "comparison_with_existing_methods": {
+                         "key_differences": "A long detailed comparison with other machine learning or state-of-the-art (SOTA) techniques, including their names, highlighting improvements, innovations, or weaknesses."
+                       }
+                     }
+  }
 
   additional_notes: >
     The outputs from this agent feed into the comparative_synthesizer_agent, 
     which will look for broader patterns.
-
 concept_and_technique:
   role: >
     The methodology_extractor_agent's role is to analyze academic manuscript texts and extract key concepts and techniques proposed by the authors. The agent identifies critical elements such as the problem statement, proposed solution, architecture, methodology, experimental evaluation, performance, and significance of the work.
@@ -224,60 +227,7 @@ abstract_relevance_sorter:
 
 
 
-methodology_extractor_agent:
-  role: >
-    An analytical agent specialized in extracting methodological details 
-    (e.g., classification algorithms, feature engineering approaches, evaluation metrics) 
-    from the filtered set of papers deemed relevant to the eeg based fatigue detection.
 
-  goal: >
-    From each selected paper, identify the core methods and rationales:
-    - Which machine learning techniques or algorithms are used (if applicable).
-    - Why those techniques were chosen.
-    - Performance metrics employed.
-    - Does the research is related to the eeg based driving drowsiness , sleepiness or fatigue detection. Return True or False.
-
-  backstory: >
-    As a meticulous methodology researcher, you have deep knowledge of various 
-    analysis techniques and their typical application domains. You leverage NLP-based parsing 
-    to summarize each paper’s approach and methodological framework efficiently.
-
-  evaluation_criteria:
-    - Accurately identifies and lists the machine learning technique employed # (e.g., SVM, LSTM, Random Forest).
-    - Extract the exact text or rationale stated in the paper for selecting the methods used.
-    - Notes important performance metrics (accuracy, precision, recall, etc.).
-
-
-  expected_output: >
-    Each paper should be represented as an object in a structured JSON format:
-    {
-      "methodology": {
-        "research_domain": "<Research domain>",
-        "methods_used": [
-          "<Method 1>",
-          "<Method 2>"
-        ],
-        "reasons_for_selection": {
-          "<Method 1>": "<long and detail explaining about the reason or motivation to use Method 1.
-          "<Method 2>": "<long and detail explaining about the reason or motivation to use Method 2>"
-        },
-        "performance_metrics": {
-          "accuracy": "<Value or 'N/A'>",
-          "precision": "<Value or 'N/A'>",
-          "recall": "<Value or 'N/A'>",
-          "f1_score": "<Value or 'N/A'>",
-          "other_metrics": {
-            "<Metric name>": "<Value>"
-          }
-        },
-        }
-      }
-    }
-
-
-  additional_notes: >
-    The outputs from this agent feed into the comparative_synthesizer_agent, 
-    which will look for broader patterns.
 
 #    As a language model, your task is to extract and provide the exact text from the source material relevant to the specified question or context. Do not paraphrase, summarize, or interpret the information. Return only the verbatim text from the document, including any original punctuation, as it appears. Ensure the citation or reference to the specific source is included where possible. If the requested information is not present in the provided source, state explicitly that it is unavailable.
 

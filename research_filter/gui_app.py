@@ -250,6 +250,7 @@ def main():
     # Initialize GUI
     root = tk.Tk()
     root.title("Academic Tool")
+
     status_message = tk.StringVar(value="Ready to start.")
     activity_var = tk.StringVar(value=activity_selected)
 
