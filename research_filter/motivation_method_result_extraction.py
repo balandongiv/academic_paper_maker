@@ -12,6 +12,8 @@ from research_filter.agent_helper import (
     get_info_ai,
     load_yaml
 )
+
+from research_filter.gemini_helper import get_info_gemini
 from research_filter.helper import (
     load_partial_results_from_json,
     initialize_openai_client,
@@ -100,6 +102,7 @@ def process_main_agent_row_single_run(
         # Fallback to 'abstract' column if no PDF
         pdf_text = row.get('abstract', None)
         status = True
+        return
     elif pdf_filename and os.path.exists(pdf_path):
         pdf_text, status = extract_pdf_text(pdf_path)
     else:
@@ -108,21 +111,32 @@ def process_main_agent_row_single_run(
 
     # If text extraction was successful
     if status:
-        ai_output = get_info_ai(
-            bibtex_val,
-            pdf_text,
-            role_instruction,
-            client,
-            model_name=model_name
-        )
-        try:
-            parsed_data = json.loads(ai_output)
-        except json.JSONDecodeError:
-            parsed_data = {
-                column_name: {
-                    "error_msg": f"error text {ai_output}"
+        model_name='gemini-exp-1206'
+        logger.info(f"Processing {bibtex_val} with using model {model_name}.")
+        # ai_output = get_info_ai(
+        #     bibtex_val,
+        #     pdf_text,
+        #     role_instruction,
+        #     client,
+        #     model_name=model_name
+        # )
+
+        ai_output=get_info_gemini(bibtex_val,pdf_text,role_instruction,model_name=model_name)
+
+        if isinstance(ai_output, dict):
+            # If ai_output is already a dictionary, no need to parse it
+            parsed_data = ai_output
+        else:
+            try:
+                # Attempt to parse ai_output if it's a JSON string
+                parsed_data = json.loads(ai_output)
+            except:
+                # Handle JSON decoding errors gracefully
+                parsed_data = {
+                    column_name: {
+                        "error_msg": f"Error parsing JSON: {ai_output}"
+                    }
                 }
-            }
     else:
         parsed_data = {
             column_name: {
@@ -180,21 +194,40 @@ def process_main_agent_row_multi_runs(
         if os.path.exists(json_path):
             continue
 
-        ai_output = get_info_ai(
-            bibtex_val,
-            pdf_text,
-            role_instruction,
-            client,
-            model_name=model_name
-        )
-        try:
-            parsed_data = json.loads(ai_output)
-        except json.JSONDecodeError:
-            parsed_data = {
-                column_name: {
-                    "error_msg": f"error text {ai_output}"
+        # ai_output = get_info_ai(
+        #     bibtex_val,
+        #     pdf_text,
+        #     role_instruction,
+        #     client,
+        #     model_name=model_name
+        # )
+        model_name='gemini-exp-1206'
+        logger.info(f"Processing {bibtex_val} with using model {model_name}.")
+        # ai_output = get_info_ai(
+        #     bibtex_val,
+        #     pdf_text,
+        #     role_instruction,
+        #     client,
+        #     model_name=model_name
+        # )
+
+        ai_output=get_info_gemini(bibtex_val,pdf_text,role_instruction,model_name=model_name)
+
+
+        if isinstance(ai_output, dict):
+            # If ai_output is already a dictionary, no need to parse it
+            parsed_data = ai_output
+        else:
+            try:
+                # Attempt to parse ai_output if it's a JSON string
+                parsed_data = json.loads(ai_output)
+            except:
+                # Handle JSON decoding errors gracefully
+                parsed_data = {
+                    column_name: {
+                        "error_msg": f"Error parsing JSON: {ai_output}"
+                    }
                 }
-            }
         # parsed_data=ai_output
 
         save_result_to_json(bibtex_val, parsed_data, json_path, column_name)
@@ -343,11 +376,14 @@ def run_pipeline(
     # Load DataFrame from Excel
     logger.info(f"Loading DataFrame from {csv_path}")
     df = pd.read_excel(csv_path)
-    df=df[df['year_relavency']=='yes']
-    df=df[df['review_paper']!='yes']
-    unique_val=df['review_paper'].unique()
+    # df=df[df['year_relavency']=='yes']
+    # df=df[df['review_paper']!='yes']
+    # df = df[df['experimental'].isna()]
+    # unique_val=df['review_paper'].unique()
     # If cross_check_enabled is False, do single-run approach
-    df=df.head(2)
+    # df=df.head(2)
+
+
     if not cross_check_enabled:
         # Ensure main output folder exists
         create_folder_if_not_exists(methodology_json_folder)
@@ -357,8 +393,14 @@ def run_pipeline(
 
         # Process each row with main agent once
         logger.info("Processing each row with main agent (SINGLE-RUN).")
-        non_nan_df = df[~df['pdf_name'].isna()]
-        for _, row in tqdm(non_nan_df.iterrows(), total=len(non_nan_df)):
+        non_nan_df = df[
+            (df['year_relavency'] == 'yes') &
+            (df['review_paper'] != 'yes') &
+            (df['experimental'].isna()) &
+            (df['pdf_name'].notna()) &
+            (df['pdf_name'] != "no_pdf")
+            ]
+        for _, row in tqdm(non_nan_df.iterrows(), total=len(non_nan_df), leave=False):
             process_main_agent_row_single_run(
                 row,
                 main_folder,
@@ -386,8 +428,17 @@ def run_pipeline(
 
         # Step 1: Run main agent cross_check_runs times for each row
         logger.info(f"Processing each row with main agent MULTI-RUNS = {cross_check_runs}")
-        non_nan_df = df[~df['pdf_name'].isna()]
-        non_nan_df=non_nan_df.head(10)
+        # non_nan_df = df[~df['pdf_name'].isna()]
+        # non_nan_df=non_nan_df.head(10)
+
+        non_nan_df = df[
+            (df['year_relavency'] == 'yes') &
+            (df['review_paper'] != 'yes') &
+            (df['experimental'].isna()) &
+            (df['pdf_name'].notna()) &
+            (df['pdf_name'] != "no_pdf")
+            ]
+        non_nan_df=non_nan_df.head(2)
         for _, row in tqdm(non_nan_df.iterrows(), total=len(non_nan_df)):
             process_main_agent_row_multi_runs(
                 row,
@@ -445,8 +496,8 @@ def main():
     path_dic=project_folder()
     main_folder = path_dic['main_folder']
 
-    agent_name = "concept_and_technique"
-    column_name = "concept_and_technique"
+    agent_name = "methodology_extractor_agent"
+    column_name = "experimental"
     yaml_path = "agent/agent_ml.yaml"
 
 
@@ -470,7 +521,7 @@ def main():
 
 
     # Cross-check logic
-    cross_check_enabled = True
+    cross_check_enabled = False
     cross_check_runs = 3
     cross_check_agent_name = "agent_cross_check"
     cleanup_json = False

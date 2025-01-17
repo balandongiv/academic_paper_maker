@@ -34,6 +34,7 @@ def extract_level_info(d: dict) -> dict:
 
 def save_deepest_sections(
         obj,
+        folder_name,
         parent_chain=None
 ):
     """
@@ -60,7 +61,7 @@ def save_deepest_sections(
             # Convert this section_id to a file name
             filename_root = convert_section_id_to_filename(leaf_section["section_id"])
             filename = f"{filename_root}.json"
-            filepath = os.path.join("sub_outline", filename)  # store in sub_outline folder
+            filepath = os.path.join(folder_name, filename)  # store in sub_outline folder
 
             # Save
             with open(filepath, "w", encoding="utf-8") as f:
@@ -78,7 +79,7 @@ def save_deepest_sections(
             for key in sub_keys:
                 if key in obj and isinstance(obj[key], list):
                     for item in obj[key]:
-                        save_deepest_sections(item, parent_chain=new_parent_chain)
+                        save_deepest_sections(item, folder_name,parent_chain=new_parent_chain)
 
     # If obj is a list, recurse on each item
     elif isinstance(obj, list):
@@ -88,18 +89,18 @@ def save_deepest_sections(
 
 def main():
     # 1. Set your input JSON path
-    input_path = r"C:\Users\rpb\OneDrive - ums.edu.my\Code Development\academic_paper_maker\research_filter\outline_eeg_review.json"
-
+    input_path = r"..\research_filter\outline_eeg_review.json"
+    folder_name='sub_outlinex'
     # 2. Load the JSON
     with open(input_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
 
     # 3. Make sure the output folder 'sub_outline' exists
-    if not os.path.exists("sub_outline"):
-        os.makedirs("sub_outline")
+    if not os.path.exists(folder_name):
+        os.makedirs(folder_name)
 
     # 4. Recursively traverse and save the deepest sections
-    save_deepest_sections(data)
+    save_deepest_sections(data,folder_name)
 
 
 if __name__ == '__main__':

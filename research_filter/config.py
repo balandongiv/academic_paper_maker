@@ -19,7 +19,7 @@ final_cross_check_folder = os.path.join(main_folder,agent_name,'final_cross_chec
 csv_path = path_dic['csv_path']
 
 # Default activity
-DEFAULT_ACTIVITY = "abstract_filtering"  # abstract_filtering or analyse_pdf
+DEFAULT_ACTIVITY = "analyse_pdf"  # abstract_filtering or analyse_pdf
 if DEBUG:
     # If debugging, force activity to abstract_filtering to avoid multiple dropdown selections
     ACTIVITY_NOW = "analyse_pdf"

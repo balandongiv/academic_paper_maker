@@ -24,42 +24,49 @@ methodology_extractor_agent:
     Each paper should be represented as an object in a structured JSON format:
 
     {
-      "introduction": {
-        "problem_statement": "string",
-        "proposed_solution": "explanation about the proposed solution",
-  "gap_in_previous_study":" long discussion about the technical gap identified in previous studies",
-  "issue_being_addressed": " choose either one of the four following theme 1. Tackling Subject Variability, 2. Reducing the Number of EEG Channels, 3.Multiclass Sleepiness Classification 4. Enhancing Robustness and Generalization",
-  "justification": "long explaination on why you choose the theme in the in issue_being_addressed"
-  },
-                     "methodology": {
-                       "methods_used": [
-                         "<Method 1>",
-                         "<Method 2>",
-                         "<list of other method if available>>"
-                       ],
-                       "reasons_for_selection": {
-                         "<Method 1>": "Long and detailed explanation about the reason or motivation to use Method 1.",
-                         "<Method 2>": "Long and detailed explanation about the reason or motivation to use Method 2.",
-                         "<list of other method if available>":
-                       },
-                       "performance_metrics": {
-                         "accuracy": "<Value or 'N/A'>",
-                         "precision": "<Value or 'N/A'>",
-                         "recall": "<Value or 'N/A'>",
-                         "f1_score": "<Value or 'N/A'>",
-                         "other_metrics": {
-                           "<Metric name>": "<Value>"
-                         }
-                       },
-                       "comparison_with_existing_methods": {
-                         "key_differences": "A long detailed comparison with other machine learning or state-of-the-art (SOTA) techniques, including their names, highlighting improvements, innovations, or weaknesses."
-                       }
-                     }
-  }
+          "introduction": {
+            "problem_statement": "string",
+            "proposed_solution": "explanation about the proposed solution",
+            "gap_in_previous_study": "long discussion about the technical gap identified in previous studies",
+            "issue_being_addressed": "choose either one of the four following themes: 1. Tackling Subject Variability, 2. Reducing the Number of EEG Channels, 3. Multiclass Sleepiness Classification, 4. Enhancing Robustness and Generalization",
+            "justification": "long explanation on why you choose the theme in the issue_being_addressed"
+          },
+          "methodology": {
+            "methods_used": [
+              "<Method 1>",
+              "<Method 2>",
+              "<list of other methods if available>"
+            ],
+            "exact_reasons_for_selection": {
+              "<Method 1>": "multiple lines of the exact text from the input about the reason or motivation to use Method 1.",
+              "<Method 2>": "multiple lines of the exact text from the input about the reason or motivation to use Method 2",
+              "<list of other methods if available>": ""
+            },
+            "reasons_for_selection": {
+              "<Method 1>": "Long and detailed explanation about the reason or motivation to use Method 1.",
+              "<Method 2>": "Long and detailed explanation about the reason or motivation to use Method 2.",
+              "<list of other methods if available>": ""
+            },
+            "performance_metrics": {
+              "accuracy": "<Value or 'N/A'>",
+              "precision": "<Value or 'N/A'>",
+              "recall": "<Value or 'N/A'>",
+              "f1_score": "<Value or 'N/A'>",
+              "other_metrics": {
+                "<Metric name>": "<Value>"
+              }
+            },
+            "comparison_with_existing_methods": {
+              "key_differences": "A long detailed comparison with other machine learning or state-of-the-art (SOTA) techniques, including their names, highlighting improvements, innovations, or weaknesses. If there is value associated, give"
+            }
+          }
+        }
 
   additional_notes: >
     The outputs from this agent feed into the comparative_synthesizer_agent, 
     which will look for broader patterns.
+    
+
 concept_and_technique:
   role: >
     The methodology_extractor_agent's role is to analyze academic manuscript texts and extract key concepts and techniques proposed by the authors. The agent identifies critical elements such as the problem statement, proposed solution, architecture, methodology, experimental evaluation, performance, and significance of the work.
