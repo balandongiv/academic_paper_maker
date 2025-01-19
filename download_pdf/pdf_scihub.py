@@ -75,10 +75,10 @@ def save_and_move_files(logger, metadata, temp_folder, download_folder, bibtex, 
 
 
 # Main download handler function
-def do_download_scihub(scihub_dict):
+def do_download_scihub(scihub_dict,pdf_folder):
     # Configurations
-    download_folder = r"C:\Users\balan\OneDrive - ums.edu.my\research_related\0 eeg_trend_till24\eeg_review"
-    main_temp_folder = os.path.join(download_folder, "temp_downloads")
+    # pdf_folder = r"C:\Users\balan\OneDrive - ums.edu.my\research_related\0 eeg_trend_till24\eeg_review"
+    main_temp_folder = os.path.join(pdf_folder, "temp_downloads")
 
     logger = configure_logger()
     logger.info("Starting SciHub download script")
@@ -87,14 +87,22 @@ def do_download_scihub(scihub_dict):
 
     with tqdm(total=total_urls, desc="Processing SciHub Downloads") as pbar:
         for bibtex, details in scihub_dict.items():
-            temp_folder = create_temp_folder(main_temp_folder, bibtex)
 
-            status, pdf_path, url = download_paper(logger, details, bibtex, temp_folder)
+            output_path = os.path.join(pdf_folder, bibtex + ".pdf")
+
+            if os.path.exists(output_path):
+                pbar.update(1)
+                logger.info(f"PDF already exists: {output_path}")
+                continue
+            else:
+                temp_folder = create_temp_folder(main_temp_folder, bibtex)
+                status, pdf_path, url = download_paper(logger, details, bibtex, temp_folder)
 
             if status=='success' and os.path.exists(pdf_path):
                 status='success'
             else:
                 status='Scihub fail'
+                # os.rmdir(temp_folder)
 
             metadata = {
                 "bibtex": bibtex,
@@ -104,7 +112,7 @@ def do_download_scihub(scihub_dict):
                 "url": url,
             }
 
-            save_and_move_files(logger, metadata, temp_folder, download_folder, bibtex, pdf_path)
+            save_and_move_files(logger, metadata, temp_folder, pdf_folder, bibtex, pdf_path)
 
             pbar.update(1)  # Increment the progress bar
 

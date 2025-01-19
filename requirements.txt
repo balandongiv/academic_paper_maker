@@ -14,6 +14,11 @@ PyYAML
 pydantic
 openpyxl
 flask
+beautifulsoup4
+pip install pymupdf
+python3 -m pip install googlesearch-python
+frontend
+selenium
 # pip install google-generativeai
 # install -qU langchain-openai
 # pip install -qU langchain-google-genai

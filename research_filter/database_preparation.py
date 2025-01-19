@@ -234,6 +234,24 @@ def extract_first_author(df: pd.DataFrame) -> pd.DataFrame:
         df['first_author'] = ""
     return df
 
+# Clean the 'first_author' column
+def clean_first_author(name):
+    """
+    Clean the first_author name:
+    - Remove everything after the first comma or period.
+    - Remove commas and periods entirely.
+    """
+    if pd.isna(name) or not isinstance(name, str):
+        return ""
+
+    # Find the first comma or period and truncate the name
+    name = name.split(",")[0].split(".")[0]
+
+    # Remove any remaining commas or periods (unlikely after truncation)
+    name = name.replace(",", "").replace(".", "")
+
+    return name
+
 def create_bibtex_column(df: pd.DataFrame) -> pd.DataFrame:
     """
     Create and disambiguate a 'bibtex' column of the form 'first_author_year',
@@ -246,6 +264,8 @@ def create_bibtex_column(df: pd.DataFrame) -> pd.DataFrame:
         # If there's no 'year' column, use a placeholder (e.g., 'NA')
         df['year'] = "NA"
 
+    # Apply the cleaning function
+    df['first_author'] = df['first_author'].apply(clean_first_author)
     df['bibtex'] = df['first_author'] + '_' + df['year'].astype(str)
     bibtex_counts = {}
     final_bibtex = []

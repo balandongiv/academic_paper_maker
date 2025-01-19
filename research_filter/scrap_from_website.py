@@ -4,7 +4,7 @@ import time
 import urllib.parse
 import urllib.parse
 
-import fitz
+# import fitz
 import requests
 import yaml
 from bs4 import BeautifulSoup
@@ -15,7 +15,7 @@ from openai import OpenAI
 
 from research_filter.agent_helper import combine_role_instruction
 import re
-from research_filter.check_pdf_title import extract_title_from_pdf
+# from research_filter.check_pdf_title import extract_title_from_pdf
 # Initialize logger
 logging.basicConfig(
     level=logging.INFO,
@@ -228,20 +228,20 @@ def find_and_download_pdf(paper_title, save_path):
     Main function to find and download a PDF for the given query.
     """
     # Load YAML configuration
-    yaml_path = "agent/agents_partial_discharge.yaml"
-    logger.info(f"Loading YAML configuration from {yaml_path}.")
-    config = load_yaml(yaml_path)
+    # yaml_path = "agent/agents_partial_discharge.yaml"
+    # logger.info(f"Loading YAML configuration from {yaml_path}.")
+    # config = load_yaml(yaml_path)
 
     # Combine YAML fields into role instruction
-    agent_name = 'pdf_align_with_title'
-    logger.info(f"Combining role instruction for agent: {agent_name}.")
+    # agent_name = 'pdf_align_with_title'
+    # logger.info(f"Combining role instruction for agent: {agent_name}.")
 
 
-    placeholders = {
-        "paper_title": paper_title,
-    }
+    # placeholders = {
+    #     "paper_title": paper_title,
+    # }
 
-    role_instruction = combine_role_instruction(config, placeholders, agent_name)
+    # role_instruction = combine_role_instruction(config, placeholders, agent_name)
 
     print(f"Searching for: {paper_title}")
     # all_url=[]

@@ -1,27 +1,22 @@
-import os
 import logging
-from tqdm import tqdm
+import os
+
 import pandas as pd
+from tqdm import tqdm
+
 from scidownl.api.scihub import scihub_download
-from research_filter.scrap_from_website import find_and_download_pdf
+from setting.project_path import project_folder
+
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
-def create_pdf_store(directory):
-    """Create a directory to store downloaded PDFs."""
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-        logger.info(f"Directory '{directory}' created.")
-    else:
-        logger.info(f"Directory '{directory}' already exists.")
 
-import os
-import logging
+
 
 logger = logging.getLogger(__name__)
 
-def download_paper(title, output_directory):
+def download_paper(title, output_directory,bibtex_val):
     """
     Download a research paper from Sci-Hub. If the download fails or the file is too small,
     attempts to download the paper using alternative search and download methods.
@@ -33,8 +28,8 @@ def download_paper(title, output_directory):
     Returns:
         str: The result of the download attempt ('Success', 'File too small', or 'No PDF found').
     """
-    filename = "_".join(title.split()) + ".pdf"
-    output_path = os.path.join(output_directory, filename)
+    # filename = "_".join(title.split()) + ".pdf"
+    output_path = os.path.join(output_directory, bibtex_val + ".pdf")
 
     # Check if the file already exists
     if os.path.exists(output_path):
@@ -50,25 +45,21 @@ def download_paper(title, output_directory):
             if file_size_kb < 10:
                 logger.warning(f"Downloaded file '{output_path}' is too small: {file_size_kb} KB")
                 os.remove(output_path)  # Remove the invalid file
-                # Attempt alternative download
-                logger.info("Attempting alternative download method.")
-                remark = find_and_download_pdf(title, output_path)
-                return remark
+
+                return 'File too small'
             else:
                 logger.info(f"Successfully downloaded: {output_path}")
                 return "Success"
         else:
             logger.warning(f"Sci-Hub download failed for: {title}")
-            # Attempt alternative download
-            logger.info("Attempting alternative download method.")
-            remark = find_and_download_pdf(title, output_path)
-            return remark
+
+            return 'No PDF found'
     except Exception as e:
         logger.error(f"Error during Sci-Hub download for '{title}': {e}")
-        # Attempt alternative download
+
         logger.info("Attempting alternative download method.")
-        remark = find_and_download_pdf(title, output_path)
-        return remark
+
+        return 'No PDF found'
 
 
 def process_dataframe(input_csv, output_directory):
@@ -83,29 +74,35 @@ def process_dataframe(input_csv, output_directory):
         pd.DataFrame: Updated DataFrame with download status.
     """
     df = pd.read_excel(input_csv)
-    df = df[df['ai_output'] == 'Related']
+    df = df[df['ai_output'] == True]
     df['pdf_scihub'] = ''
-    df=df[6:8]
+
     for _, row in tqdm(df.iterrows(), total=len(df), desc="Processing papers"):
         title = row['title']
-        download_status = download_paper(title, output_directory)
+        bibtex_val = row['bibtex']
+        download_status = download_paper(title, output_directory,bibtex_val)
         df.loc[df['title'] == title, 'pdf_scihub'] = download_status
 
     return df
 
 if __name__ == "__main__":
-    # Configuration
-    csv_path = r'../research_filter/corono_discharge_updated_20241130_231804_X.xlsx'
-    pdf_store_directory = r'C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\pdf_store'
+
+    project_review='partial_discharge'
+    path_dic=project_folder(project_review=project_review)
+    main_folder = path_dic['main_folder']
+
+    csv_path = path_dic['csv_path']
+    pdf_store_directory = os.path.join(main_folder, 'pdf')
 
     # Create output directory
-    create_pdf_store(pdf_store_directory)
+    os.makedirs(pdf_store_directory, exist_ok=True)
+
 
     # Process the DataFrame and update download status
     logger.info("Starting the download process...")
     updated_df = process_dataframe(csv_path, pdf_store_directory)
 
     # Save the updated DataFrame
-    output_csv_path = 'updated_corono_discharge_downloaded_status.xlsx'
+    output_csv_path = os.path.join(main_folder, 'updated_corono_discharge_downloaded_status.xlsx')
     updated_df.to_excel(output_csv_path, index=False)
     logger.info(f"Updated DataFrame saved to {output_csv_path}")

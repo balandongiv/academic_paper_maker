@@ -98,6 +98,7 @@ def process_main_agent_row_single_run(
     # Build path for the final JSON
     json_path = os.path.join(output_folder, f"{bibtex_val}.json")
     if os.path.exists(json_path):
+        logger.info(f"Already processed: {json_path}")
         # Already processed
         return
 

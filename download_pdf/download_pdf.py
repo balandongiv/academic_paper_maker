@@ -8,6 +8,7 @@ import pandas as pd
 from pdf_ieee import do_download_ieee
 from pdf_scihub import do_download_scihub
 from pdf_ieee_search import do_download_ieee_search
+from setting.project_path import project_folder
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
@@ -90,10 +91,10 @@ def categorize_publisher(data):
 def process_scihub_downloads(categories, output_folder, data):
     """Download PDFs using Sci-Hub and update the data based on JSON responses."""
     logging.info("Starting Sci-Hub downloads...")
-    categories={'scopus':categories['scopus']}
+    # categories={'scopus':categories['scopus']}
     for category in categories.values():
         try:
-            do_download_scihub(category)
+            do_download_scihub(category,output_folder)
         except Exception as e:
             logging.error(f"Error downloading from Sci-Hub: {e}")
 
@@ -201,20 +202,28 @@ def save_data(data, file_path):
 
 if __name__ == "__main__":
     # Paths and constants
-    file_path = r'../research_filter/database/eeg_review.xlsx'
-    output_folder = r'C:\Users\balan\OneDrive - ums.edu.my\research_related\0 eeg_trend_till24\eeg_review'
+    project_review='partial_discharge'
+    path_dic=project_folder(project_review=project_review)
+    main_folder = path_dic['main_folder']
+
+    # csv_path = path_dic['csv_path']
+    # pdf_store_directory = os.path.join(main_folder, 'pdf')
+
+
+    file_path = path_dic['csv_path']
+    output_folder =  os.path.join(main_folder, 'pdf')
 
     # Workflow
-    data = load_data(file_path)
-    data_filtered = filter_relevant_data(data)
+    data_filtered  = load_data(file_path)
+    # data_filtered = filter_relevant_data(data_filtered)
     categories = categorize_publisher(data_filtered)
-    # process_scihub_downloads(categories, output_folder, data_filtered)
+    process_scihub_downloads(categories, output_folder, data_filtered)
 
     # Skipping the IEEE fallback step for testing
     # process_fallback_ieee(categories, data_filtered, output_folder)
 
     # process_fallback_ieee_search(categories, data_filtered, output_folder)
 
-    process_fallback_mdpi(categories, data_filtered, output_folder)
+    # process_fallback_mdpi(categories, data_filtered, output_folder)
 
     save_data(data_filtered, file_path)
