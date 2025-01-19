@@ -1,8 +1,131 @@
+'''
+This is the first step in the data preparation process. The script combines multiple Scopus CSV files in a folder, applies cleaning/formatting, removes duplicates, and saves to Excel.
+
+'''
+
 import os
 import glob
 import pandas as pd
 import re
 import unicodedata
+
+def map_publisher_long(df):
+    # Create a full dictionary for mapping
+    publisher_mapping = {
+        'Elsevier Ltd': 'sciencedirect',
+        'Elsevier B.V.': 'sciencedirect',
+        'Elsevier Inc.': 'sciencedirect',
+        'Elsevier Ireland Ltd': 'sciencedirect',
+        'Elsevier Masson s.r.l.': 'sciencedirect',
+        'Elsevier Masson SAS': 'sciencedirect',
+        'John Wiley and Sons Inc': 'wiley',
+        'John Wiley and Sons Ltd': 'wiley',
+        'John Wiley and Sons Inc.': 'wiley',
+        'Wiley-Blackwell Publishing': 'wiley',
+        'Springer Science and Business Media Deutschland GmbH': 'springer',
+        'Springer Nature': 'springer',
+        'Springer New York LLC': 'springer',
+        'Springer London': 'springer',
+        'Springer-Verlag London Ltd': 'springer',
+        'Springer-Verlag Italia s.r.l.': 'springer',
+        'Springer Berlin Heidelberg': 'springer',
+        'Springer International Publishing': 'springer',
+        'Springer-Verlag Wien': 'springer',
+        'Springer New York': 'springer',
+        'Springer Japan': 'springer',
+        'Springer India': 'springer',
+        'Springer Netherlands': 'springer',
+        'Springer Tokyo': 'springer',
+        'Springer': 'springer',
+        'Multidisciplinary Digital Publishing Institute (MDPI)': 'mdpi',
+        'MDPI': 'mdpi',
+        'MDPI AG': 'mdpi',
+        'World Scientific': 'worldscientific',
+        'Institute of Physics Publishing': 'iopscience',
+        'IOP Publishing Ltd': 'iopscience',
+        'Institute of Electrical and Electronics Engineers Inc.': 'ieee',
+        'IEEE': 'ieee',
+        'IEEE Computer Society': 'ieee',
+        'Inderscience Publishers': 'inderscience',
+        'IOS Press': 'iospress_content',
+        'IOS Press BV': 'iospress_content',
+        'National Institute of Health': 'nih_nlm',
+        'Nature Publishing Group': 'nature',
+        'Nature Research': 'nature',
+        'Frontiers Media SA': 'frontiers',
+        'Frontiers Media S.A.': 'frontiers',
+        'Public Library of Science': 'plos_journals',
+        'American Chemical Society': 'rsc_pubs',
+        'Royal Society of Chemistry': 'rsc_pubs',
+        'Taylor and Francis Ltd.': 'tandfonline',
+        'Taylor and Francis Ltd': 'tandfonline',
+        'Taylor and Francis Inc.': 'tandfonline',
+        'Hindawi Limited': 'biorxiv',
+        'American Institute of Physics': 'aip_pubs',
+        'American Institute of Physics Inc.': 'aip_pubs',
+        'SAGE Publications Ltd': 'sagepub_journals',
+        'SAGE Publications Inc.': 'sagepub_journals',
+        'American Society of Mechanical Engineers (ASME)': 'scimagojr',
+        'Wolters Kluwer Medknow Publications': 'lww_journals',
+        'De Gruyter Open Ltd': 'degruyter',
+        'Scibulcom Ltd.': 'sciencepubco',
+        'Semarak Ilmu Publishing': 'sciencepubco',
+        'Bentham Science Publishers': 'neuroquantology',
+        'Edizioni Minerva Medica': 'neuroquantology',
+        'Elsevier GmbH': 'sciencedirect',
+        'Penerbit Akademia Baru': 'edu_iium',
+        'University of Medicine and Pharmacy Targu Mures': 'edu_unimap',
+        'KeAi Publishing Communications Ltd.': 'edu_chd',
+        'Inderscience Publishers': 'inderscience',
+        'Polska Akademia Nauk': 'edu_tyut',
+        'Turkiye Klinikleri': 'gov_tubitak',
+        'Journal of Infection in Developing Countries': 'fpz_trafficandtransportation',
+        'Korean Institute of Electrical Engineers': 'edu_fudan',
+        'ISA - Instrumentation, Systems, and Automation Society': 'edu_tyut',
+        'Chinese Society for Electrical Engineering': 'edu_chd',
+        'Research India Publications': 'ripublication',
+        'Tech Science Press': 'techscience',
+        'Science and Engineering Research Support Society': 'iaescore_ijece',
+        'Institute of Advanced Engineering and Science': 'iaescore_ijece',
+        'International Institute of Anticancer Research': 'imrpress',
+        'Kluwer Academic Publishers': 'sharif_scientiairanica',
+        'Association for Computing Machinery': 'acm',
+        'American Physical Society': 'aps',
+        'Academic Press': 'academicpress',
+        'Academic Press Inc.': 'academicpress',
+        'Informa Healthcare': 'sagepub_journals',
+        'IEEE Canada': 'ieee',
+        'IEEE': 'ieee',
+        'Elsevier': 'sciencedirect',
+        'Elsevier Ltd:': 'sciencedirect',
+        'BioMed Central': 'biomedcentral',
+        'BioMed Central Ltd': 'biomedcentral',
+        'Springer-Verlag': 'springer',
+        'Blackwell Publishing Ltd': 'wiley',
+        'BMJ Publishing Group': 'bmj',
+        'Cambridge University Press': 'cambridge',
+        'Elsevier': 'sciencedirect',
+        'Blackwell Publishing Inc.': 'wiley',
+        'W.B. Saunders Ltd': 'sciencedirect',
+        'BioMed Central Ltd.': 'biomedcentral',
+        'Institute of Physics': 'iopscience',
+        'Institution of Engineering and Technology': 'iet',
+        'Lippincott Williams and Wilkins': 'lww_journals',
+        'Oxford University Press': 'oup',
+        'Springer Verlag': 'springer',
+        'Springer Science and Business Media B.V.': 'springer',
+        # Default for unmatched cases
+        'nan': 'other'
+    }
+
+    # Assuming df is your DataFrame
+    df['publisher'] = df['publisher_long'].map(publisher_mapping)
+
+    # Fill unmapped values with 'other'
+    df['publisher'] = df['publisher'].fillna('other')
+
+    return df
+
 
 def format_name(name: str) -> str:
     """
@@ -147,7 +270,8 @@ def rename_columns_for_final_schema(df: pd.DataFrame) -> pd.DataFrame:
     rename_map = {
         'authors': 'author',
         'source_title': 'journal',
-        'link': 'url'
+        'link': 'url',
+        'publisher': 'publisher_long',
         # Add more renames as needed
     }
     return df.rename(columns=rename_map)
@@ -162,6 +286,7 @@ def ensure_and_reorder_columns(df: pd.DataFrame) -> pd.DataFrame:
         'title',
         'abstract',
         'year',
+        'index_keywords',
         'document_type',
         'author',
         'doi',
@@ -169,6 +294,7 @@ def ensure_and_reorder_columns(df: pd.DataFrame) -> pd.DataFrame:
         'volume',
         'issue',
         'publisher',
+        'publisher_long',
         'attachments',
         'url',
         'cited_by',
@@ -225,7 +351,12 @@ def combine_scopus_csvs_to_excel(folder_path: str, output_excel_path: str) -> No
 
     # 7. Extract the first author
     df = extract_first_author(df)
+    unique_val=df['publisher_long'].unique()
+    print(unique_val)
+    df = map_publisher_long(df)
 
+    unique_val=df['publisher'].unique()
+    print(unique_val)
     # 8. Create bibtex column
     df = create_bibtex_column(df)
 

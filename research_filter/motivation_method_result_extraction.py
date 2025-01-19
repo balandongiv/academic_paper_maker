@@ -58,7 +58,7 @@ def generate_output_xlsx_path(csv_path: str) -> str:
 def create_folder_if_not_exists(folder_path: str) -> None:
     """Create the folder if it does not exist."""
     if not os.path.exists(folder_path):
-        os.makedirs(folder_path)
+        os.makedirs(folder_path,exist_ok=True)
 
 
 def get_role_instruction(config: dict, placeholders: dict, agent_name: str) -> str:
@@ -86,7 +86,12 @@ def process_main_agent_row_single_run(
     3. Call the AI agent to get the response.
     4. Save result to a JSON file in output_folder.
     """
-    pdf_filename = row.get('pdf_name', '')
+    filter_abstract=True
+
+    if filter_abstract:
+        pdf_filename='no_pdf'
+    else:
+        pdf_filename = row.get('pdf_name', '')
     bibtex_val = row.get('bibtex', None)
     if not pdf_filename or pd.isna(bibtex_val):
         return
@@ -102,7 +107,7 @@ def process_main_agent_row_single_run(
         # Fallback to 'abstract' column if no PDF
         pdf_text = row.get('abstract', None)
         status = True
-        return
+        # return
     elif pdf_filename and os.path.exists(pdf_path):
         pdf_text, status = extract_pdf_text(pdf_path)
     else:
@@ -113,13 +118,13 @@ def process_main_agent_row_single_run(
     if status:
         model_name='gemini-exp-1206'
         logger.info(f"Processing {bibtex_val} with using model {model_name}.")
-        # ai_output = get_info_ai(
-        #     bibtex_val,
-        #     pdf_text,
-        #     role_instruction,
-        #     client,
-        #     model_name=model_name
-        # )
+        ai_output = get_info_ai(
+            bibtex_val,
+            pdf_text,
+            role_instruction,
+            client,
+            model_name=model_name
+        )
 
         ai_output=get_info_gemini(bibtex_val,pdf_text,role_instruction,model_name=model_name)
 
@@ -367,9 +372,12 @@ def run_pipeline(
     # Prepare role instructions
     #  - The main agent's role
     role_instruction_main = get_role_instruction(config, placeholders, agent_name)
-    #  - The cross-check agent's role
-    role_instruction_cross_check = get_role_instruction(config, placeholders, cross_check_agent_name)
 
+    if cross_check_enabled:
+        #  - The cross-check agent's role
+        role_instruction_cross_check = get_role_instruction(config, placeholders, cross_check_agent_name)
+    else:
+        role_instruction_cross_check = None
     # Initialize the client
     client = initialize_openai_client()
 
@@ -393,13 +401,16 @@ def run_pipeline(
 
         # Process each row with main agent once
         logger.info("Processing each row with main agent (SINGLE-RUN).")
-        non_nan_df = df[
-            (df['year_relavency'] == 'yes') &
-            (df['review_paper'] != 'yes') &
-            (df['experimental'].isna()) &
-            (df['pdf_name'].notna()) &
-            (df['pdf_name'] != "no_pdf")
-            ]
+
+
+        # non_nan_df = df[
+        #     (df['year_relevancy'] == 'yes') &
+        #     (df['review_paper'] != 'yes') &
+        #     (df['experimental'].isna()) &
+        #     (df['pdf_name'].notna()) &
+        #     (df['pdf_name'] != "no_pdf")
+        #     ]
+        non_nan_df=df       # at this stage, im not filtering the rows
         for _, row in tqdm(non_nan_df.iterrows(), total=len(non_nan_df), leave=False):
             process_main_agent_row_single_run(
                 row,
@@ -492,12 +503,13 @@ def main():
     """
 
 
-
-    path_dic=project_folder()
+    # project_review='eeg_review'
+    project_review='partial_discharge'
+    path_dic=project_folder(project_review=project_review)
     main_folder = path_dic['main_folder']
 
-    agent_name = "methodology_extractor_agent"
-    column_name = "experimental"
+    agent_name = "abstract_pd_discharge_relevance_sorter"
+    column_name = "ai_output"
     yaml_path = "agent/agent_ml.yaml"
 
 
@@ -513,14 +525,15 @@ def main():
     }
 
     # Editable variables
-    model_name = "gpt-4o-mini"  # or "gpt-4o"
-
+    # model_name = "gpt-4o-mini"  # or "gpt-4o"
+    model_name='gemini-exp-1206'
 
 
     # Single-run
 
 
     # Cross-check logic
+
     cross_check_enabled = False
     cross_check_runs = 3
     cross_check_agent_name = "agent_cross_check"

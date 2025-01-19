@@ -19,7 +19,7 @@ genai.configure(api_key="AIzaSyB3I9SDP83-CZSdUsQsTIPum6FhY61NXkk")
 # response = model.generate_content("Explain how AI works")
 # print(response.text)
 
-def get_info_gemini(bibtex_val,user_request, instruction, model_name='gemini-1.5-pro-latest'):
+def get_info_gemini(bibtex_val,user_request, system_instruction, model_name='gemini-1.5-pro-latest'):
     # Create the model
     generation_config = {
         "temperature": 1,
@@ -33,7 +33,7 @@ def get_info_gemini(bibtex_val,user_request, instruction, model_name='gemini-1.5
         # model_name="gemini-2.0-flash-exp",
         model_name=model_name,
         generation_config=generation_config,
-        system_instruction=instruction
+        system_instruction=system_instruction
 
         )
 
