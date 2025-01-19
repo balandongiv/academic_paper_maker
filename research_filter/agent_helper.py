@@ -1,14 +1,52 @@
-import json
+import os
 import re
 from typing import Any, Dict, Union
 
 import yaml
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_openai import ChatOpenAI
 from pydantic import RootModel
 
 
 # Pydantic model for validation using RootModel
 class AIOutputModel(RootModel[Union[str, Dict[str, Any]]]):
     pass
+
+
+import json
+
+def parse_ai_output(ai_output, column_name):
+    if isinstance(ai_output, dict):
+        # If ai_output is already a dictionary, no need to parse it
+        parsed_data = ai_output
+    else:
+        try:
+            # Check for simple JSON-like literals manually (e.g., 'True', 'False', 'null')
+            if ai_output in ('True', 'False'):
+                parsed_data = {
+                    column_name: ai_output
+                }
+
+                # parsed_data = json.loads(ai_output.lower())
+                return parsed_data
+            else:
+                # Attempt to parse ai_output if it's a JSON string
+                parsed_data = json.loads(ai_output)
+        except json.JSONDecodeError:
+            # Handle JSON decoding errors gracefully
+            parsed_data = {
+                column_name: {
+                    "error_msg": f"Error parsing JSON: {ai_output}"
+                }
+            }
+        except Exception as e:
+            # Handle unexpected errors gracefully
+            parsed_data = {
+                column_name: {
+                    "error_msg": f"Unexpected error: {str(e)}"
+                }
+            }
+    return parsed_data
 
 
 def extract_json_between_markers(llm_output):
@@ -38,8 +76,7 @@ def extract_json_between_markers(llm_output):
 
     return None  # No valid JSON found
 
-
-def get_info_ai(bibtex_val,user_request, system_instruction, client, model_name="gpt-4o-mini"):
+def get_info_ai_chatgpt(bibtex_val,user_request, system_instruction, client, model_name="gpt-4o-mini"):
     """
     Get AI response for the given abstract using the provided instruction.
     Returns True, False, or 'Uncertain'.
@@ -64,35 +101,56 @@ def get_info_ai(bibtex_val,user_request, system_instruction, client, model_name=
     except Exception as e:
         return f"Error when processing {bibtex_val}: {e}"
 
+def setup_ai_model(model_name="gpt-4o-mini"):
 
-def parse_ai_output(user_json_input: str):
-    """Attempt to parse the user's JSON input into a bool or dict using Pydantic."""
+
+    if model_name in ["gpt-4o-mini", "gpt-4o"]:
+        model = ChatOpenAI(model=model_name)
+    else:
+
+        if "GOOGLE_API_KEY" not in os.environ:
+            GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+            os.environ["GOOGLE_API_KEY"] = GEMINI_API_KEY
+
+        from langchain_google_genai import ChatGoogleGenerativeAI
+
+        model = ChatGoogleGenerativeAI(
+            model=model_name,   #"gemini-1.5-pro",
+            temperature=0,
+            max_tokens=None,
+            timeout=None,
+            max_retries=2,
+            # other params...
+        )
+    return model
+
+
+def get_info_ai(bibtex_val,user_request, system_instruction, client):
+    """
+    Get AI response for the given abstract using the provided instruction.
+    Returns True, False, or 'Uncertain'.
+    """
+    # model = ChatOpenAI(model=model_name)
+
+    messages = [
+        SystemMessage(system_instruction),
+        HumanMessage(user_request),
+    ]
+
+
     try:
-        data = json.loads(user_json_input)
-    except json.JSONDecodeError:
-        data = user_json_input.strip().lower()
+        response =client.invoke(messages)
 
-
-    # If data is a string "True"/"False", convert it to boolean
-    if isinstance(data, str):
-        lower_str = data.strip().lower()
-        if lower_str == "true":
-            data = 'relevance'
-        elif lower_str == "false":
-            data = 'not_relevance'
-        else:
-            raise ValueError("String provided is not 'True' or 'False'.")
-
-
-
-    # Now data should be either a bool or a dict
-    # Pydantic validation
-    try:
-        validated = AIOutputModel.parse_obj(data)
-        return validated.root  # returns the underlying bool or dict
     except Exception as e:
-        # Validation error from Pydantic
-        raise ValueError(f"Pydantic validation error: {str(e)}")
+        return f"Error when processing {bibtex_val}: {e}"
+    try:
+        output = response.content
+
+        return output
+    except Exception as e:
+        return f"Error when processing {bibtex_val}: {e}"
+
+
 
 def validate_json_data(user_json_input, system_prompt):
     """
@@ -155,63 +213,4 @@ def combine_role_instruction(config, placeholders, agent_name):
 
     return combined_instruction
 
-
-
-def main():
-    import yaml
-
-    # Simulating YAML loading
-    yaml_content = """
-    abstract_filter:
-      role: >
-        An expert evaluator specializing in the relevance of research abstracts 
-        related to {topic}. 
-        You possess advanced knowledge of machine learning applications 
-        specifically tailored to {topic_context}.
-    
-      goal: >
-        Determine whether the provided abstract is directly relevant to the 
-        research topic: "{topic}". 
-        The evaluation should focus on identifying:
-        - The use of machine learning techniques.
-        - A specific application to {topic}.
-    
-      backstory: >
-        You are a seasoned researcher with extensive expertise in the intersection 
-        of machine learning and {topic_context}, particularly in identifying 
-        and classifying {topic}. Your task is to filter abstracts, 
-        ensuring that only those that contribute significantly to the specified 
-        research topic are considered relevant.
-    
-      evaluation_criteria:
-        - The abstract explicitly focuses on {topic}.
-        - Machine learning methods or algorithms are clearly applied to the {topic} process.
-        - The abstract contributes directly to the stated research focus without excessive divergence.
-    
-      expected_output: >
-        A boolean value:
-        - True if the abstract is directly relevant to the specified topic, 
-          addressing both {topic} and machine learning techniques.
-        - False if the abstract does not meet the criteria or lacks sufficient relevance 
-          to the specified topic.
-    
-      additional_notes: >
-        Provide concise and clear justifications for the evaluation decision, if required.
-    """
-
-    # Load YAML data
-    config = yaml.safe_load(yaml_content)
-
-    # Define placeholders
-    placeholders = {
-        "topic": "EEG-based fatigue classification",
-        "topic_context": "neurophysiological analysis"
-    }
-
-    # Call the function
-    system_prompt = combine_role_instruction(config, placeholders, "abstract_filter")
-    print(system_prompt)
-
-if __name__ == "__main__":
-    main()
 

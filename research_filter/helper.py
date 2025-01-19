@@ -1,15 +1,19 @@
 import json
 import logging
 import os
-import time
 from datetime import datetime
 
 import pandas as pd
 import yaml
-from dotenv import load_dotenv
-from openai import OpenAI
-from research_filter.agent_helper import combine_role_instruction, load_yaml,validate_json_data
 from PyPDF2 import PdfReader  # Make sure PyPDF2 is installed
+from openai import OpenAI
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[logging.StreamHandler()]
+)
+logger = logging.getLogger(__name__)
 def extract_pdf_text(pdf_path):
     pdf_text=''
     try:

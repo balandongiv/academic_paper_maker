@@ -9,14 +9,12 @@ from tqdm import tqdm
 
 from research_filter.agent_helper import (
     combine_role_instruction,
-    get_info_ai,
+    get_info_ai, setup_ai_model,
     load_yaml
 )
-
-from research_filter.gemini_helper import get_info_gemini
+from research_filter.agent_helper import parse_ai_output
 from research_filter.helper import (
     load_partial_results_from_json,
-    initialize_openai_client,
     generate_new_filename,
     save_result_to_json,
     update_df_from_json,
@@ -24,6 +22,7 @@ from research_filter.helper import (
     extract_pdf_text
 )
 from setting.project_path import project_folder
+
 # --------------------------------------------------------------------------------
 # Logger Setup
 # --------------------------------------------------------------------------------
@@ -116,32 +115,17 @@ def process_main_agent_row_single_run(
 
     # If text extraction was successful
     if status:
-        model_name='gemini-exp-1206'
-        logger.info(f"Processing {bibtex_val} with using model {model_name}.")
+
         ai_output = get_info_ai(
             bibtex_val,
             pdf_text,
             role_instruction,
-            client,
-            model_name=model_name
+            client
         )
+        parsed_data  = parse_ai_output(ai_output, column_name)
 
-        ai_output=get_info_gemini(bibtex_val,pdf_text,role_instruction,model_name=model_name)
 
-        if isinstance(ai_output, dict):
-            # If ai_output is already a dictionary, no need to parse it
-            parsed_data = ai_output
-        else:
-            try:
-                # Attempt to parse ai_output if it's a JSON string
-                parsed_data = json.loads(ai_output)
-            except:
-                # Handle JSON decoding errors gracefully
-                parsed_data = {
-                    column_name: {
-                        "error_msg": f"Error parsing JSON: {ai_output}"
-                    }
-                }
+
     else:
         parsed_data = {
             column_name: {
@@ -199,40 +183,13 @@ def process_main_agent_row_multi_runs(
         if os.path.exists(json_path):
             continue
 
-        # ai_output = get_info_ai(
-        #     bibtex_val,
-        #     pdf_text,
-        #     role_instruction,
-        #     client,
-        #     model_name=model_name
-        # )
-        model_name='gemini-exp-1206'
-        logger.info(f"Processing {bibtex_val} with using model {model_name}.")
-        # ai_output = get_info_ai(
-        #     bibtex_val,
-        #     pdf_text,
-        #     role_instruction,
-        #     client,
-        #     model_name=model_name
-        # )
-
-        ai_output=get_info_gemini(bibtex_val,pdf_text,role_instruction,model_name=model_name)
-
-
-        if isinstance(ai_output, dict):
-            # If ai_output is already a dictionary, no need to parse it
-            parsed_data = ai_output
-        else:
-            try:
-                # Attempt to parse ai_output if it's a JSON string
-                parsed_data = json.loads(ai_output)
-            except:
-                # Handle JSON decoding errors gracefully
-                parsed_data = {
-                    column_name: {
-                        "error_msg": f"Error parsing JSON: {ai_output}"
-                    }
-                }
+        ai_output = get_info_ai(
+            bibtex_val,
+            pdf_text,
+            role_instruction,
+            client
+        )
+        parsed_data  = parse_ai_output(ai_output, column_name)
         # parsed_data=ai_output
 
         save_result_to_json(bibtex_val, parsed_data, json_path, column_name)
@@ -296,28 +253,16 @@ def finalize_cross_check_output(
             continue
         # Convert combined data to a JSON string
         combined_str = json.dumps(combined_data, indent=2)
-
-        # Now call the cross-check agent with the combined data
         ai_output = get_info_ai(
             bibtex_val,
             combined_str,
             role_instruction,
-            client,
-            model_name=model_name
+            client
         )
-        try:
-            final_json = json.loads(ai_output)
-        except json.JSONDecodeError:
-            final_json = {
-                column_name: {
-                    "error_msg": f"error text {ai_output}"
-                }
-            }
-        # final_json=ai_output
-        # Save final JSON
+        parsed_data  = parse_ai_output(ai_output, column_name)
 
         with open(final_json_path, 'w', encoding='utf-8') as f:
-            json.dump(final_json, f, indent=4)
+            json.dump(parsed_data, f, indent=4)
 
     # Finally, update the DF from final_folder
     updated_df = update_df_from_json(df, final_folder, column_name)
@@ -378,18 +323,13 @@ def run_pipeline(
         role_instruction_cross_check = get_role_instruction(config, placeholders, cross_check_agent_name)
     else:
         role_instruction_cross_check = None
-    # Initialize the client
-    client = initialize_openai_client()
+
+    client = setup_ai_model(model_name=model_name)
 
     # Load DataFrame from Excel
     logger.info(f"Loading DataFrame from {csv_path}")
     df = pd.read_excel(csv_path)
-    # df=df[df['year_relavency']=='yes']
-    # df=df[df['review_paper']!='yes']
-    # df = df[df['experimental'].isna()]
-    # unique_val=df['review_paper'].unique()
-    # If cross_check_enabled is False, do single-run approach
-    # df=df.head(2)
+
 
 
     if not cross_check_enabled:
@@ -488,8 +428,8 @@ def run_pipeline(
             # cleanup_json_files(df, final_cross_check_folder)
 
     # (Optional) Save final DF to Excel
-    # logger.info(f"Saving updated DataFrame to {csv_path}")
-    # df.to_excel(csv_path, index=False)
+    logger.info(f"Saving updated DataFrame to {csv_path}")
+    df.to_excel(csv_path, index=False)
 
     logger.info(f"Pipeline execution complete in {time.time() - start_time:.2f} s.")
 
@@ -525,8 +465,11 @@ def main():
     }
 
     # Editable variables
-    # model_name = "gpt-4o-mini"  # or "gpt-4o"
-    model_name='gemini-exp-1206'
+    model_name = "gpt-4o-mini"  # or "gpt-4o"
+    # model_name="gpt-4o-mini"
+    # model_name='gemini-1.5-pro'
+
+    # model_name='gemini-exp-1206'
 
 
     # Single-run
