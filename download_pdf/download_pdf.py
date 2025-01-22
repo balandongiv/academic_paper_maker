@@ -7,6 +7,7 @@ import pandas as pd
 
 from pdf_ieee import do_download_ieee
 from pdf_scihub import do_download_scihub
+from pdf_sciencedirect import do_download_scincedirect
 from pdf_ieee_search import do_download_ieee_search
 from setting.project_path import project_folder
 # Configure logging
@@ -193,6 +194,18 @@ def process_fallback_mdpi(categories, data, output_folder):
         except Exception as e:
             logging.error(f"Error downloading from IEEE: {e}")
 
+def process_fallback_sciencedirect(categories, data, output_folder):
+    """Attempt to download PDFs from IEEE for entries not available on Sci-Hub."""
+    sciencedirect_keys_to_attempt = data[(data['scihub_pdf_download'] != 'success') & (data['bibtex'].isin(categories['sciencedirect'].keys()))]['bibtex'].unique()
+    fallback_sciencedirect_dict = {k: v for k, v in categories['sciencedirect'].items() if k in sciencedirect_keys_to_attempt}
+
+    if fallback_sciencedirect_dict:
+        logging.info("Attempting IEEE-specific downloads for entries not available on Sci-Hub...")
+        try:
+            do_download_scincedirect(fallback_sciencedirect_dict)
+        except Exception as e:
+            logging.error(f"Error downloading from IEEE: {e}")
+
 def save_data(data, file_path):
     """Save the updated data back to an Excel file."""
     output_excel_path = file_path.replace('.xlsx', '_updated_v3.xlsx')
@@ -224,6 +237,8 @@ if __name__ == "__main__":
 
     # process_fallback_ieee_search(categories, data_filtered, output_folder)
 
-    process_fallback_mdpi(categories, data_filtered, output_folder)
+    # process_fallback_mdpi(categories, data_filtered, output_folder)
 
+    # The sciencedirect only allow to extract the url, but not able to download the pdf due to the tight security feature
+    process_fallback_sciencedirect(categories, data_filtered, output_folder)
     save_data(data_filtered, file_path)
