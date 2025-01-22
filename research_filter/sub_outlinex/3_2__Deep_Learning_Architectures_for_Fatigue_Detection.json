@@ -1,0 +1,175 @@
+{
+  "title": "Deep Learning Architectures for Fatigue Detection",
+  "section_id": "3.2 Deep Learning Architectures for Fatigue Detection",
+  "description": "Discuss in detail the architectures mentioned in section 4.2 (CNNs, RNNs, Autoencoders, DBNs, GANs, GCNs), providing specific examples of their application in fatigue detection.",
+  "machine_learning_techniques": {
+    "CNN": [
+      {
+        "reference": "Alghanim_M_2024",
+        "description": "Utilizes a modified Inception-dilated ResNet for EEG-based fatigue detection."
+      },
+      {
+        "reference": "Balam_V_2021",
+        "description": "Employs a CNN for automated drowsiness detection from single-channel EEG."
+      },
+      {
+        "reference": "Chaabene_S_2021",
+        "description": "Uses a CNN architecture for drowsiness detection from EEG signals."
+      },
+      {
+        "reference": "Chen_J_2021",
+        "description": "Applies a 12-layer ConvNets model for automated fatigue recognition."
+      },
+      {
+        "reference": "Chen_J_2022_2",
+        "description": "Uses CNNs to analyze EEG signals for fatigue detection without manual feature extraction."
+      },
+      {
+        "reference": "Chen_J_2023",
+        "description": "Combines phase-based functional connectivity with CNN for detecting unfavorable driving states."
+      },
+      {
+        "reference": "Cheng_E_2019",
+        "description": "Transforms EEG signals into spatial RGB images for CNN-based drowsiness prediction."
+      },
+      {
+        "reference": "Cui_J_2021",
+        "description": "Introduces an interpretable CNN-LSTM model for subject-independent drowsiness recognition."
+      },
+      {
+        "reference": "Cui_J_2022",
+        "description": "Presents a compact and interpretable CNN for cross-subject driver drowsiness detection."
+      },
+      {
+        "reference": "Cui_J_2023_1",
+        "description": "Proposes an interpretable CNN for calibration-free EEG-based driver drowsiness recognition."
+      },
+      {
+        "reference": "Ding_S_2019",
+        "description": "Utilizes a cascaded CNN with an attention mechanism for mobile EEG-based drowsiness detection."
+      },
+      {
+        "reference": "Ghadami_A_2022",
+        "description": "Presents a 1D-CNN and pre-trained neural networks for automatic drowsiness detection."
+      }
+    ],
+    "RNN": [
+      {
+        "reference": "An_J_2024",
+        "description": "Introduces ACF-GCN, improving reaction time estimations based on EEG signals."
+      },
+      {
+        "reference": "Budak_U_2019",
+        "description": "Employs LSTM networks as classifiers in a hybrid model for drowsiness detection."
+      },
+      {
+        "reference": "Chen_C_2023",
+        "description": "Proposes SACC-CapsNet for EEG-based driving fatigue detection, utilizing LSTM for improved learning."
+      },
+      {
+        "reference": "Cui_J_2021",
+        "description": "Uses an interpretable CNN-LSTM model for subject-independent drowsiness recognition."
+      },
+      {
+        "reference": "Etemad_G_2019",
+        "description": "Introduces an LSTM network with a capsule attention mechanism for driver vigilance estimation."
+      },
+      {
+        "reference": "Etemad_G_2021",
+        "description": "Proposes an LSTM network with a capsule attention mechanism for driver vigilance estimation."
+      },
+      {
+        "reference": "Cao_L_2024",
+        "description": "Integrates LSTM for sequential data learning in a multimodal tensor fusion network for fatigue recognition."
+      }
+    ],
+    "Autoencoder": [
+      {
+        "reference": "Ayyagari_S_2021",
+        "description": "Includes an autoencoder among dimensionality reduction techniques for microsleep detection from EEG."
+      },
+      {
+        "reference": "Cao_Z_2021",
+        "description": "Presents a neural network ensemble using stacked denoising autoencoders (SDAEs) for cognitive load identification from EEG."
+      },
+      {
+        "reference": "Etemad_G_2019",
+        "description": "Discusses an architecture that could be extended to include autoencoders for unsupervised feature learning."
+      }
+    ],
+    "DBN": [
+      {
+        "reference": "Chai_R_2017_1",
+        "description": "Employs sparse-DBN for EEG-based driver fatigue detection, showing improved classification performance."
+      }
+    ],
+    "GAN": [
+      {
+        "reference": "Zhang_J_2025",
+        "description": "Uses a GAN (mTGAN) for data augmentation to enhance drowsiness recognition."
+      },
+      {
+        "reference": "He_L_2024",
+        "description": "Incorporates a GAN to augment data in the GARMFCN-LSTM model, addressing class imbalance."
+      }
+    ],
+    "GCN": [
+      {
+        "reference": "An_J_2024",
+        "description": "Utilizes ACF-GCN for EEG signal analysis, targeting fatigue-related frequency bands."
+      },
+      {
+        "reference": "Chen_K_2024",
+        "description": "Proposes a GCN-based approach for detecting mental fatigue by analyzing EEG inter-channel connectivity."
+      },
+      {
+        "reference": "Cui_W_2022",
+        "description": "Introduces MAFNs, utilizing GCNs implicitly through network analysis for fatigue and brain disease diagnosis."
+      }
+    ],
+    "Hybrid": [
+      {
+        "reference": "Alghanim_M_2024",
+        "description": "Proposes a hybrid deep neural network approach using a modified Inception-dilated ResNet for fatigue detection."
+      },
+      {
+        "reference": "Budak_U_2019",
+        "description": "Introduces a hybrid model combining statistical and deep learning features for EEG-based drowsiness detection."
+      },
+      {
+        "reference": "Chen_C_2023",
+        "description": "Presents SACC-CapsNet, a hybrid model for EEG-based driving fatigue detection."
+      },
+      {
+        "reference": "Cui_J_2021",
+        "description": "Proposes an interpretable CNN-LSTM model for subject-independent drowsiness recognition."
+      },
+      {
+        "reference": "Etemad_G_2019",
+        "description": "Proposes a hybrid model integrating LSTM with a capsule attention mechanism."
+      },
+      {
+        "reference": "Etemad_G_2021",
+        "description": "Proposes a hybrid model integrating LSTM with a capsule attention mechanism."
+      },
+      {
+        "reference": "Ghadami_A_2022",
+        "description": "Proposes a hybrid model of pre-trained neural networks and a custom 1D-CNN for drowsiness detection."
+      },
+      {
+        "reference": "He_L_2024",
+        "description": "Introduces ARMFCN-LSTM and GARMFCN-LSTM, hybrid models for fatigue detection."
+      }
+    ]
+  },
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "The Role of Deep Learning and Hybrid Models",
+      "section_id": "3. The Role of Deep Learning and Hybrid Models",
+      "description": "not available"
+    }
+  ]
+}

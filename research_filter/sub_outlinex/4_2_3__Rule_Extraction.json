@@ -1,0 +1,28 @@
+{
+  "title": "Rule Extraction",
+  "section_id": "4.2.3 Rule Extraction",
+  "description": "Explore techniques for extracting human-interpretable rules from complex models.",
+  "examples": [
+    {
+      "reference": "Mesbah_A_2018",
+      "description": "Uses a fuzzy rule-based system to create interpretable decision rules for alertness classification.",
+      "note": "Added for its use of a fuzzy rule-based system, which enhances interpretability by creating clear decision rules for alertness classification."
+    }
+  ],
+  "trend": "Translating model decisions into understandable rules that can be validated by domain experts.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Explainability and Interpretability",
+      "section_id": "4 Explainability and Interpretability",
+      "description": "not available"
+    },
+    {
+      "title": "Techniques for Enhancing Model Interpretability",
+      "section_id": "4.2 Techniques for Enhancing Model Interpretability",
+      "description": "not available"
+    }
+  ]
+}

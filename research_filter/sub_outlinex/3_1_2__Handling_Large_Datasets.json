@@ -1,0 +1,27 @@
+{
+  "title": "Handling Large Datasets",
+  "section_id": "3.1.2 Handling Large Datasets",
+  "description": "Discuss the suitability of deep learning for handling large and complex EEG datasets.",
+  "example": [
+    {
+      "reference": "Hultman_M_2021",
+      "description": "Utilizes a large dataset of 1187 driving sessions to train a sleepiness detection model."
+    }
+  ],
+  "why_introduced": "To leverage the increasing availability of EEG data and improve model performance.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "The Role of Deep Learning and Hybrid Models",
+      "section_id": "3. The Role of Deep Learning and Hybrid Models",
+      "description": "not available"
+    },
+    {
+      "title": "Advantages of Deep Learning in EEG Analysis",
+      "section_id": "3.1 Advantages of Deep Learning in EEG Analysis",
+      "description": "not available"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "title": "Techniques for Handling Class Imbalance",
+  "section_id": "7.4 Techniques for Handling Class Imbalance",
+  "examples": [
+    {
+      "reference": "An_P_2021",
+      "description": "Addresses class imbalance issues in sleep stage classification using hybrid-channel EEG signals and specialized feature extraction techniques.",
+      "note": "Added for its approach to handling class imbalance, a common problem in fatigue detection datasets, using specialized feature extraction from hybrid-channel EEG signals."
+    }
+  ],
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Addressing Data Scarcity and Class Imbalance",
+      "section_id": "7 Addressing Data Scarcity and Class Imbalance",
+      "description": "not available"
+    }
+  ]
+}

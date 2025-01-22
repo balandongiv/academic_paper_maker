@@ -1,0 +1,29 @@
+{
+  "title": "Fusion of Deep Learning and Traditional Machine Learning",
+  "section_id": "3.4 Fusion of Deep Learning and Traditional Machine Learning",
+  "description": "Discuss approaches that combine deep learning with traditional machine learning techniques.Analyze the benefits of integrating hand-crafted features with deep-learned features.",
+  "example": [
+    {
+      "reference": "Chen_J_2018_3",
+      "description": "Combines functional brain networks and power spectral density (PSD) features with an Extreme Learning Machine (ELM) classifier."
+    },
+    {
+      "reference": "Zhao_C_2011_1",
+      "description": "Combines wavelet packet energy with a KPCA-SVM model, showcasing improved recognition accuracy over traditional methods."
+    },
+    {
+      "reference": "Mohammedi_M_2023",
+      "description": "Combines EEG, EDA, and video signals with machine learning algorithms, specifically the decision tree model, for enhanced fatigue classification."
+    }
+  ],
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "The Role of Deep Learning and Hybrid Models",
+      "section_id": "3. The Role of Deep Learning and Hybrid Models",
+      "description": "not available"
+    }
+  ]
+}

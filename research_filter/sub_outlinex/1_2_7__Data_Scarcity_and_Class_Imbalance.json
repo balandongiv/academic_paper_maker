@@ -1,0 +1,20 @@
+{
+  "title": "Data Scarcity and Class Imbalance",
+  "section_id": "1.2.7 Data Scarcity and Class Imbalance",
+  "example": "Highlights the difficulties in obtaining large, balanced datasets for training robust models.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Introduction",
+      "section_id": "1. Introduction",
+      "description": "not available"
+    },
+    {
+      "title": "Core Challenges in EEG-Based Fatigue Detection",
+      "section_id": "1.2 Core Challenges in EEG-Based driver Fatigue Detection",
+      "description": "not available"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "title": "Advanced Deep Learning Architectures",
+  "section_id": "8.1 Advanced Deep Learning Architectures",
+  "description": "Explore the potential of novel architectures like Transformers, Capsule Networks, and Spiking Neural Networks for EEG-based fatigue detection.",
+  "examples": [
+    {
+      "reference": "Chen_C_2023",
+      "description": "Introduces a Capsule Network (SACC-CapsNet) for improved learning from limited EEG data in fatigue detection.",
+      "note": "Added for its exploration of Capsule Networks, a novel architecture with potential for EEG-based fatigue detection."
+    },
+    {
+      "reference": "Tang_M_2024",
+      "description": "Highlights the potential of Transformers for capturing long-range dependencies in EEG signals.",
+      "note": "Added for its mention of Transformers, a novel architecture with potential for capturing long-range dependencies in EEG signals, relevant for advanced fatigue detection models."
+    },
+    {
+      "reference": "Gu_T_2024",
+      "description": "Proposes a low-power model combining SOM and SNN, indicating an exploration of spiking neural networks for efficiency.",
+      "note": "Added for its exploration of spiking neural networks, which is a promising direction for energy-efficient fatigue detection systems."
+    }
+  ],
+  "trend": "Investigation of new deep learning architectures tailored for EEG signal analysis and fatigue detection.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Promising Directions for Future Research",
+      "section_id": "8 Promising Directions for Future Research",
+      "description": "not available"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "title": "Data Augmentation Techniques",
+  "section_id": "7.2 Data Augmentation Techniques",
+  "examples": [
+    {
+      "reference": "Zhang_J_2025",
+      "description": "Employs GANs to synthesize additional EEG samples, addressing data scarcity.",
+      "note": "Added for its use of GANs to address data scarcity by synthesizing EEG samples. Note: The reference year (2025) suggests this is a future work and might need to be considered for the scope of this review."
+    }
+  ],
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Addressing Data Scarcity and Class Imbalance",
+      "section_id": "7 Addressing Data Scarcity and Class Imbalance",
+      "description": "not available"
+    }
+  ]
+}

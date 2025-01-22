@@ -1,0 +1,20 @@
+{
+  "title": "Background",
+  "section_id": "1.1 Background",
+  "level": 2,
+  "example": [
+    "Defines driver fatigue and its impact on road safety.",
+    "Emphasizes need for real-time fatigue detection systems.",
+    "Introduces EEG as a promising physiological signal for fatigue monitoring."
+  ],
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Introduction",
+      "section_id": "1. Introduction",
+      "description": "not available"
+    }
+  ]
+}

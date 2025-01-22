@@ -1,0 +1,33 @@
+{
+  "title": "Early Fusion (Feature-Level Fusion)",
+  "section_id": "5.2.1 Early Fusion (Feature-Level Fusion)",
+  "description": "Discuss different approaches for combining multimodal data, such as early fusion (feature-level), late fusion (decision-level), and hybrid fusion.",
+  "examples": [
+    {
+      "reference": "Gao_D_2023_1",
+      "description": "Utilizes a fusion-separation mechanism to combine EEG and ECG modalities, allowing independent utilization of features from both for enhanced accuracy (hybrid fusion).",
+      "note": "Added for its use of a fusion-separation mechanism to effectively combine EEG and ECG modalities, demonstrating a hybrid fusion approach."
+    },
+    {
+      "reference": "Hu_F_2024",
+      "description": "Employs a feature fusion module (FFM) that integrates spatial and temporal features using channel attention mechanisms (hybrid fusion).",
+      "note": "Added for its employment of a feature fusion module that integrates spatial and temporal features, illustrating a hybrid fusion approach."
+    }
+  ],
+  "trend": "Exploration of various fusion strategies to maximize the benefits of multimodal data integration.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Integration of Multimodal Data",
+      "section_id": "5 Integration of Multimodal Data",
+      "description": "not available"
+    },
+    {
+      "title": "Fusion Strategies",
+      "section_id": "5.2 Fusion Strategies",
+      "description": "not available"
+    }
+  ]
+}

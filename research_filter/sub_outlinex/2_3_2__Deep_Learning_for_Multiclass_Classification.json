@@ -1,0 +1,35 @@
+{
+  "title": "Deep Learning for Multiclass Classification",
+  "section_id": "2.3.2 Deep Learning for Multiclass Classification",
+  "description": "Discuss how deep learning architectures are adapted for multiclass problems.",
+  "examples": [
+    {
+      "reference": "Cao_Z_2021",
+      "description": "Utilizes a neural network ensemble (SE-SDAE) to identify different levels of cognitive load from EEG signals."
+    },
+    {
+      "reference": "Jeong_J_2019",
+      "description": "Proposes a Deep Spatio-Temporal Convolutional Bidirectional LSTM Network (DSTCLN) for classifying multiple mental states, including five levels of drowsiness."
+    },
+    {
+      "reference": "Chong_H_2016",
+      "description": "Classifies alertness and drowsy states with a multi-layer perceptron (MLP) neural network, suggesting potential for detecting varying levels of drowsiness."
+    }
+  ],
+  "why_introduced": "To leverage the feature learning capabilities of deep learning for complex multiclass classification tasks.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Addressing Core Challenges with Machine Learning",
+      "section_id": "2. Addressing Core Challenges with Machine Learning",
+      "description": "not available"
+    },
+    {
+      "title": "Multiclass Sleepiness Classification",
+      "section_id": "2.3 Multiclass Sleepiness Classification",
+      "description": "Methods for classifying multiple levels of fatigue driving using EEG based approach."
+    }
+  ]
+}

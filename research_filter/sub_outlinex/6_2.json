@@ -1,0 +1,38 @@
+{
+  "title": "Edge Computing for On-Device Processing",
+  "section_id": "6.2",
+  "description": "Introduce the concept of edge computing and its advantages for EEG-based systems.",
+  "examples": [
+    {
+      "reference": "Bencsik_B_2023",
+      "description": "Proposes an embedded feature selection algorithm, suggesting a move towards edge computing for efficient processing.",
+      "note": "Added for its proposal of an embedded feature selection algorithm, indicating a move towards edge computing for efficient processing in EEG-based systems."
+    },
+    {
+      "reference": "Nguyen_H_2023",
+      "description": "Utilizes on-device machine learning for real-time drowsiness detection.",
+      "note": "Added for its use of on-device machine learning, demonstrating the application of edge computing in real-time drowsiness detection."
+    },
+    {
+      "reference": "Nguyen_H_2023_1",
+      "description": "Employs on-chip processing for real-time drowsiness detection using tiny ML techniques.",
+      "note": "Added for its employment of on-chip processing, highlighting the use of tiny ML techniques for real-time drowsiness detection on edge devices."
+    }
+  ],
+  "trend": "Shift towards on-device processing to reduce reliance on cloud connectivity, minimize latency, and enhance privacy.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Promising Directions for Future Research",
+      "section_id": "8 Promising Directions for Future Research",
+      "description": "not available"
+    },
+    {
+      "title": "Real-Time Implementation and Edge Computing",
+      "section_id": "6",
+      "description": "not available"
+    }
+  ]
+}

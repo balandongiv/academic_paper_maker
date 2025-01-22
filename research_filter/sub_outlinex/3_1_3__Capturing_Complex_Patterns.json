@@ -1,0 +1,43 @@
+{
+  "title": "Capturing Complex Patterns",
+  "section_id": "3.1.3 Capturing Complex Patterns",
+  "description": "Analyze the ability of deep networks to capture nonlinear relationships and complex patterns in EEG signals.",
+  "example": [
+    {
+      "reference": "An_J_2024",
+      "description": "Utilizes ACF-GCN to capture spatial-temporal-frequency relationships in EEG, enhancing fatigue level estimation."
+    },
+    {
+      "reference": "An_P_2021",
+      "description": "Presents a multi-model fusion method for classifying EEG-based sleep stages, addressing under-detection of S1 and REM stages."
+    },
+    {
+      "reference": "Balam_V_2021",
+      "description": "Uses a CNN to automate feature extraction from raw EEG, demonstrating high accuracy in drowsiness detection."
+    },
+    {
+      "reference": "Barua_S_2018",
+      "description": "Integrates wavelets, ICA, and hierarchical clustering for automatic EEG artifact handling, improving fatigue classification."
+    },
+    {
+      "reference": "Chaabene_S_2021",
+      "description": "Uses CNN for drowsiness detection from EEG, achieving high accuracy."
+    }
+  ],
+  "why_introduced": "Why Introduced: To model the intricate dynamics of brain activity associated with fatigue.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "The Role of Deep Learning and Hybrid Models",
+      "section_id": "3. The Role of Deep Learning and Hybrid Models",
+      "description": "not available"
+    },
+    {
+      "title": "Advantages of Deep Learning in EEG Analysis",
+      "section_id": "3.1 Advantages of Deep Learning in EEG Analysis",
+      "description": "not available"
+    }
+  ]
+}

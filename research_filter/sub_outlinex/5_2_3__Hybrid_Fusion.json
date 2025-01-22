@@ -1,0 +1,33 @@
+{
+  "title": "Hybrid Fusion",
+  "section_id": "5.2.3 Hybrid Fusion",
+  "description": "Explore methods that combine both feature-level and decision-level fusion.",
+  "examples": [
+    {
+      "reference": "Gao_D_2023_1",
+      "description": "Utilizes a fusion-separation mechanism to combine EEG and ECG modalities, allowing independent utilization of features from both for enhanced accuracy.",
+      "note": "Added for its use of a fusion-separation mechanism to effectively combine EEG and ECG modalities, demonstrating a hybrid fusion approach."
+    },
+    {
+      "reference": "Hu_F_2024",
+      "description": "Employs a feature fusion module (FFM) that integrates spatial and temporal features using channel attention mechanisms.",
+      "note": "Added for its employment of a feature fusion module that integrates spatial and temporal features, illustrating a hybrid fusion approach."
+    }
+  ],
+  "trend": "Maximizing the benefits of both early and late fusion strategies.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Integration of Multimodal Data",
+      "section_id": "5 Integration of Multimodal Data",
+      "description": "not available"
+    },
+    {
+      "title": "Fusion Strategies",
+      "section_id": "5.2 Fusion Strategies",
+      "description": "not available"
+    }
+  ]
+}

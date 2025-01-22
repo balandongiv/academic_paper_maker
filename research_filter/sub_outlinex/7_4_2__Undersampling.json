@@ -1,0 +1,17 @@
+{
+  "title": "Undersampling",
+  "section_id": "7.4.2 Undersampling",
+  "example": [
+    "Review techniques for undersampling the majority class to balance the dataset."
+  ],
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Addressing Data Scarcity and Class Imbalance",
+      "section_id": "7 Addressing Data Scarcity and Class Imbalance",
+      "description": "not available"
+    }
+  ]
+}

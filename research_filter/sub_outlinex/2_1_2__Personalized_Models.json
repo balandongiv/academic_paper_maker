@@ -1,0 +1,36 @@
+{
+  "title": "Personalized Models",
+  "section_id": "2.1.2 Personalized Models",
+  "description": "Discuss approaches for building personalized fatigue detection models.Explore techniques like adaptive learning and model fine-tuning.",
+  "examples": [
+    {
+      "reference": "Wu_D_2017",
+      "description": "Presents an adaptive algorithm that adjusts to individual EEG differences, improving fatigue detection accuracy."
+    },
+    {
+      "reference": "Bose_R_2020",
+      "description": "Utilizes a regression-based framework for continuous driving fatigue estimation, showing improved feasibility compared to traditional methods by adapting to individual physiological responses."
+    },
+    {
+      "reference": "Lin_C_2018",
+      "description": "Employs an adaptive Hermite decomposition method with evolutionary algorithms for EEG feature extraction, enhancing drowsiness detection by adapting to individual EEG signal characteristics."
+    }
+  ],
+  "why_introduced": "To account for individual differences in EEG responses to fatigue. To improve model accuracy by tailoring predictions to individual users.To address subject variability and improve model performance by adapting to individual physiological responses.",
+  "trend": "Growing interest in tailoring models to individual users for improved accuracy.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Addressing Core Challenges with Machine Learning",
+      "section_id": "2. Addressing Core Challenges with Machine Learning",
+      "description": "not available"
+    },
+    {
+      "title": "Tackling Subject Variability",
+      "section_id": "2.1 Tackling Subject Variability",
+      "description": "Methods to address subject variability in EEG based driving fatigue detection."
+    }
+  ]
+}

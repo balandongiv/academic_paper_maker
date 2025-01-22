@@ -1,0 +1,41 @@
+{
+  "title": "Challenges of Real-Time Fatigue Detection",
+  "section_id": "6.1 Challenges of Real-Time Fatigue Detection",
+  "examples": [
+    {
+      "reference": "Nguyen_H_2023",
+      "description": "Presents a behind-the-ear EEG-based system for real-time drowsiness detection, offering a more user-friendly solution.",
+      "note": "Added for its emphasis on developing a wearable, user-friendly EEG system suitable for practical, real-world fatigue monitoring."
+    },
+    {
+      "reference": "Nguyen_H_2023_1",
+      "description": "Explores improvements in behind-the-ear EEG systems for better usability.",
+      "note": "Added for its focus on enhancing the usability of wearable EEG systems, which is crucial for the acceptance and effectiveness of real-world fatigue detection applications."
+    },
+    {
+      "reference": "Kaveh_R_2024",
+      "description": "Introduces a wireless in-ear EEG system using dry electrodes, demonstrating a more practical approach for continuous monitoring.",
+      "note": "Added for its innovative approach to non-intrusive, continuous EEG monitoring using a wireless in-ear system, which addresses usability in real-world applications."
+    },
+    {
+      "reference": "Yin_J_2017",
+      "description": "Develops a mobile detection network using a personal EEG node for collecting signals, emphasizing real-time capabilities.",
+      "note": "Added for its contribution to mobile EEG technology, which is crucial for developing real-time fatigue detection systems that can be deployed in practical settings."
+    },
+    {
+      "reference": "Wei_C_2018",
+      "description": "Investigates non-hair-bearing (NHB) EEG for practical drowsiness detection, simplifying setup and improving comfort.",
+      "note": "Added for its focus on practical and user-friendly EEG acquisition methods, which is a key consideration for real-world usability of fatigue detection systems."
+    }
+  ],
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Real-Time Implementation and Edge Computing",
+      "section_id": "6 Real-Time Implementation and Edge Computing",
+      "description": "not available"
+    }
+  ]
+}

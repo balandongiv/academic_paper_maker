@@ -1,0 +1,21 @@
+{
+  "title": "Reduced Channel Count",
+  "section_id": "1.2.2 Reduced Channel Count",
+  "level": 3,
+  "example": "Explains the need for practical systems with fewer electrodes.",
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Introduction",
+      "section_id": "1. Introduction",
+      "description": "not available"
+    },
+    {
+      "title": "Core Challenges in EEG-Based Fatigue Detection",
+      "section_id": "1.2 Core Challenges in EEG-Based driver Fatigue Detection",
+      "description": "not available"
+    }
+  ]
+}

@@ -217,13 +217,13 @@ if __name__ == "__main__":
     data_filtered  = load_data(file_path)
     # data_filtered = filter_relevant_data(data_filtered)
     categories = categorize_publisher(data_filtered)
-    process_scihub_downloads(categories, output_folder, data_filtered)
+    # process_scihub_downloads(categories, output_folder, data_filtered)
 
     # Skipping the IEEE fallback step for testing
     # process_fallback_ieee(categories, data_filtered, output_folder)
 
     # process_fallback_ieee_search(categories, data_filtered, output_folder)
 
-    # process_fallback_mdpi(categories, data_filtered, output_folder)
+    process_fallback_mdpi(categories, data_filtered, output_folder)
 
     save_data(data_filtered, file_path)

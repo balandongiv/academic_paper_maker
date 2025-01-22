@@ -1,0 +1,31 @@
+{
+  "title": "Channel Selection Algorithms",
+  "section_id": "2.2.1 Channel Selection Algorithms",
+  "examples": [
+    {
+      "reference": "Asl_N_2022",
+      "description": "Examines consumer-grade EEG headsets for practical drowsiness detection systems.",
+      "note": "Added for its focus on the practical application and usability of consumer-grade EEG headsets in real-world drowsiness detection systems."
+    },
+    {
+      "reference": "Eldeib_A_2016",
+      "description": "Develops a pBCI system for classifying drowsy and alert states using only a single EEG channel, enhancing practicality.",
+      "note": "Added for its contribution to practical, non-intrusive EEG-based fatigue detection systems with a focus on simplified hardware requirements."
+    }
+  ],
+  "all_upper_levels": [
+    {
+      "description": "not available"
+    },
+    {
+      "title": "Addressing Core Challenges with Machine Learning",
+      "section_id": "2. Addressing Core Challenges with Machine Learning",
+      "description": "not available"
+    },
+    {
+      "title": "Reducing the Number of EEG Channels",
+      "section_id": "2.2 Reducing the Number of EEG Channels",
+      "description": "not available"
+    }
+  ]
+}

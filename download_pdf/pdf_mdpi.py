@@ -101,9 +101,9 @@ def setup_paths():
     """
     Sets up necessary paths for the webdriver, download folder, and triage folder.
     """
-    geckodriver_path = r'D:\geckodrive\geckodriver.exe'
+    geckodriver_path = r'C:\Users\balan\IdeaProjects\academic_paper_maker\browser\geckodriver.exe'
     firefox_binary_path = r'C:\Program Files\Mozilla Firefox\firefox.exe'
-    download_folder = r"C:\Users\balan\OneDrive - ums.edu.my\research_related\0 eeg_trend_till24\eeg_review"
+    download_folder = r"C:\Users\balan\OneDrive - ums.edu.my\research_related\corona_discharge\pdf"
     main_temp_folder = os.path.join(download_folder, "temp_downloads")
     os.makedirs(main_temp_folder, exist_ok=True)
     triage_folder = os.path.join(download_folder, "triage")
@@ -392,7 +392,7 @@ def do_download_mdpi(input_urls):
         geckodriver_path, firefox_binary_path, download_folder, triage_folder, main_temp_folder = setup_paths()
 
         # Single login driver
-        firefox_profile_path = r"C:\\Users\\balan\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\ssjd4eo7.default-release"
+        firefox_profile_path = r"C:\Users\balan\AppData\Roaming\Mozilla\Firefox\Profiles\ssjd4eo7.default-release"
         initial_driver = create_driver_with_profile(geckodriver_path, firefox_binary_path, firefox_profile_path)
 
         login_mdpi(initial_driver)

@@ -89,8 +89,9 @@ def do_download_scihub(scihub_dict,pdf_folder):
         for bibtex, details in scihub_dict.items():
 
             output_path = os.path.join(pdf_folder, bibtex + ".pdf")
+            json_path = os.path.join(pdf_folder, bibtex + ".json")
 
-            if os.path.exists(output_path):
+            if os.path.exists(output_path) or os.path.exists(json_path):
                 pbar.update(1)
                 logger.info(f"PDF already exists: {output_path}")
                 continue
