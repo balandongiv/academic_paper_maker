@@ -1,6 +1,17 @@
 import os
 from grobid_client.grobid_client import GrobidClient, ServerUnavailableException
 
+# from grobid_client.grobid_client import GrobidClient
+# input_path = r"C:\Users\balan\OneDrive - ums.edu.my\research_related\corona_discharge\cc"
+# output_path = r"C:\Users\balan\OneDrive - ums.edu.my\research_related\corona_discharge"
+#
+# client = GrobidClient(config_path="./config.json")
+# client.process("processFulltextDocument", input_path, output=output_path, consolidate_citations=True, tei_coordinates=True, force=True)
+# if __name__ == "__main__":
+#     client = GrobidClient(config_path="./config.json")
+#     client.process("processFulltextDocument", input_path, output=output_path, consolidate_citations=True, tei_coordinates=True, force=True)
+
+
 def main():
     try:
         # Instantiate the client
@@ -42,6 +53,26 @@ def main():
         force=True,
         verbose=True
     )
+def process_xml():
+    import json
+    from grobid_tei_xml.parsed_gorbid import parse_document_xml
+
+    xml_path = r"C:\Users\balan\IdeaProjects\academic_paper_maker\Abubakar_MasUd_A_2014.grobid.tei.xml"
+
+    with open(xml_path, 'r') as xml_file:
+        doc = parse_document_xml(xml_file.read())
+
+    # print(json.dumps(doc.to_dict(), indent=2))
+    print(doc.header)
+    print(doc.citations)
+    print(doc.language_code)
+    print(doc.abstract)
+    print(doc.body)
+    print(doc.acknowledgement)
+    print(doc.annex)
+    print(doc.sections)
+
 
 if __name__ == "__main__":
-    main()
+    # main()
+    process_xml()
