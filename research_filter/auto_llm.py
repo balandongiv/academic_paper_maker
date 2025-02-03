@@ -85,13 +85,15 @@ def process_main_agent_row_single_run(
     3. Call the AI agent to get the response.
     4. Save result to a JSON file in output_folder.
     """
-    filter_abstract=True
+    filter_abstract=False
 
     if filter_abstract:
         pdf_filename='no_pdf'
     else:
         pdf_filename = row.get('pdf_name', '')
+
     bibtex_val = row.get('bibtex', None)
+    pdf_filename = f"{bibtex_val}..grobid.tei.xml"
     if not pdf_filename or pd.isna(bibtex_val):
         return
 
@@ -102,13 +104,18 @@ def process_main_agent_row_single_run(
         # Already processed
         return
 
-    pdf_path = os.path.join(main_folder, pdf_filename)
+    pdf_path = os.path.join(main_folder, "xml",pdf_filename)
     if pdf_filename == 'no_pdf':
         # Fallback to 'abstract' column if no PDF
         pdf_text = row.get('abstract', None)
         status = True
-        # return
+        return
     elif pdf_filename and os.path.exists(pdf_path):
+        from grobid_client.grobid_client import GrobidClient, ServerUnavailableException
+        from grobid_tei_xml.parsed_gorbid import parse_document_xml
+        with open(pdf_path, 'r') as xml_file:
+            doc = parse_document_xml(xml_file.read())
+
         pdf_text, status = extract_pdf_text(pdf_path)
     else:
         # If PDF path is invalid or missing, skip
@@ -344,13 +351,7 @@ def run_pipeline(
         logger.info("Processing each row with main agent (SINGLE-RUN).")
 
 
-        # non_nan_df = df[
-        #     (df['year_relevancy'] == 'yes') &
-        #     (df['review_paper'] != 'yes') &
-        #     (df['experimental'].isna()) &
-        #     (df['pdf_name'].notna()) &
-        #     (df['pdf_name'] != "no_pdf")
-        #     ]
+
         non_nan_df=df       # at this stage, im not filtering the rows
         for _, row in tqdm(non_nan_df.iterrows(), total=len(non_nan_df), leave=False):
             process_main_agent_row_single_run(
@@ -445,7 +446,7 @@ def main():
 
 
     # project_review='eeg_review'
-    project_review='partial_discharge'
+    project_review='eeg_review'
     path_dic=project_folder(project_review=project_review)
     main_folder = path_dic['main_folder']
 

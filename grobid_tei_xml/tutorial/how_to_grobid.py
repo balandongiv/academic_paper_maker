@@ -1,6 +1,7 @@
 import os
 from grobid_client.grobid_client import GrobidClient, ServerUnavailableException
-
+import json
+from grobid_tei_xml.parsed_gorbid import parse_document_xml
 # from grobid_client.grobid_client import GrobidClient
 # input_path = r"C:\Users\balan\OneDrive - ums.edu.my\research_related\corona_discharge\cc"
 # output_path = r"C:\Users\balan\OneDrive - ums.edu.my\research_related\corona_discharge"
@@ -30,8 +31,8 @@ def main():
 
     # Now you can call any of the methods from GrobidClient
     # For example, process a directory of PDFs with 'processFulltextDocument'
-    input_path = r"C:\Users\balan\OneDrive - ums.edu.my\research_related\corona_discharge\cc"
-    output_path = r"C:\Users\balan\OneDrive - ums.edu.my\research_related\corona_discharge"
+    input_path = r"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review\pdf"
+    output_path = r"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review\xml"
 
     # Ensure output_path exists
     if not os.path.isdir(output_path):
@@ -54,8 +55,7 @@ def main():
         verbose=True
     )
 def process_xml():
-    import json
-    from grobid_tei_xml.parsed_gorbid import parse_document_xml
+
 
     xml_path = r"C:\Users\balan\IdeaProjects\academic_paper_maker\Abubakar_MasUd_A_2014.grobid.tei.xml"
 

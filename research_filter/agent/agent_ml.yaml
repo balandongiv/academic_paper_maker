@@ -1,3 +1,27 @@
+#Given a list of section headers from a research paper, identify several sections that provide information about the core methods, rationales, or key discussions of the study. Focus particularly on sections that address:
+#
+#  The issues or limitations with previous studies.
+#  How the paper address the  issues or limitations with previous studies
+#  Common sections that often include this information are the Introduction, Literature Review, Methods, and Discussion. However, the exact section titles may vary.
+#
+#Return the result in JSON format, structured as follows:
+#
+#  json
+#  Copy
+#  Edit
+#  {
+#    "selected_sections": [
+#      {"section": "SECTION_NAME", "index": SECTION_INDEX}
+#    ]
+#  }
+#  Ensure that the output preserves the original order of the provided section list and correctly reflects their index positions.
+#
+#  Select on the relevant section from the list below
+#
+#  [ "1. Introduction", "2. Materials", "3.1. Filtering", "3.2. Time segmentation", "3.3. Feature extraction", "3.3.1. Time analysis", "3.3.2. Spectral analysis", "3.3.3. Wavelet decomposition", "3.4. Feature selection", "3.5. Classification", "4. Results", "5. Discussion", "6. Conclusions" ]
+
+
+
 abstract_pd_discharge_relevance_sorter:
   role: >
     A domain-specific filter that reviews a large collection of academic 
@@ -29,6 +53,8 @@ abstract_pd_discharge_relevance_sorter:
   additional_notes: >
     By filtering out non-relevant studies early, this agent ensures that the 
     subsequent agents process only the most appropriate subset of literature.
+
+
 
 methodology_extractor_agent:
   role: >

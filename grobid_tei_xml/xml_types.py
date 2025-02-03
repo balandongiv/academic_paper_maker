@@ -1,6 +1,5 @@
 from dataclasses import asdict, dataclass
-from typing import List, Optional
-from typing import AnyStr, Dict, List, Optional
+from typing import Dict, List, Optional
 @dataclass
 class GrobidCitation:
     """

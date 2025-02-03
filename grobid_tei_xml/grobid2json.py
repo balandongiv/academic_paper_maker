@@ -30,7 +30,7 @@ import json
 import xml.etree.ElementTree as ET
 from typing import Any, AnyStr, Dict, List, Optional
 
-from .types import *
+from .xml_types import *
 
 xml_ns = "http://www.w3.org/XML/1998/namespace"
 ns = "http://www.tei-c.org/ns/1.0"

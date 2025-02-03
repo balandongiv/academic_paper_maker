@@ -6,4 +6,4 @@ from .parse import (
     parse_citations_xml,
     parse_document_xml,
 )
-from .types import GrobidBiblio, GrobidDocument
+from .xml_types import GrobidBiblio, GrobidDocument
