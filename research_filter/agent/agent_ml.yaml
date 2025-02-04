@@ -19,8 +19,22 @@
 #  Select on the relevant section from the list below
 #
 #  [ "1. Introduction", "2. Materials", "3.1. Filtering", "3.2. Time segmentation", "3.3. Feature extraction", "3.3.1. Time analysis", "3.3.2. Spectral analysis", "3.3.3. Wavelet decomposition", "3.4. Feature selection", "3.5. Classification", "4. Results", "5. Discussion", "6. Conclusions" ]
+iterative_validation:
+    # When placing the agent, the order is important. The first agent in the list will be the first to execute
+  second_phase: >
+    # This is a Second Phase of Cross-Checking.
+    This is a Second Phase of Cross-Checking.Your task is to review the JSON output generated in the previous response. cross check with the human input and please verify that:
+    1. All information is accurate to the original or human input and adheres to the original requirements.
+    2. The JSON structure is valid, complete, and properly formatted.
+    3. No critical details are missing from the output.
+    If you find any errors, omissions, or areas that require further details, update the existing JSON output accordingly.
 
-
+  third_phase: >
+    This is a third  Phase of Cross-Checking. Your task is to perform a final review of the JSON output from the previous response. Ensure that:
+    1. The content is correct, comprehensive, and fully aligned with the initial instructions.
+    2. The JSON structure remains consistent and includes any updates or corrections made during earlier phases.
+    3. All necessary adjustments or additions have been incorporated into the existing JSON output.
+    If further modifications or additional information is needed, please update the JSON output directly.
 
 abstract_pd_discharge_relevance_sorter:
   role: >
@@ -56,7 +70,7 @@ abstract_pd_discharge_relevance_sorter:
 
 
 
-methodology_extractor_agent:
+methodology_gap_extractor:
   role: >
     An analytical agent specialized in extracting methodological details 
     (e.g., classification algorithms, feature engineering approaches, evaluation metrics) 
@@ -117,8 +131,18 @@ methodology_extractor_agent:
             "comparison_with_existing_methods": {
               "key_differences": "A long detailed comparison with other machine learning or state-of-the-art (SOTA) techniques, including their names, highlighting improvements, innovations, or weaknesses. If there is value associated, give"
             }
+          },,
+        "discussion": {
+          "limitations_and_future_work": {
+            "current_limitations": [
+              "list of limitation of the proposed study"
+            ],
+            "future_directions": [
+              "list of future direction that you can think"
+            ]
           }
         }
+    }
 
   additional_notes: >
     The outputs from this agent feed into the comparative_synthesizer_agent, 

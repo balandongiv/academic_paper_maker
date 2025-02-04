@@ -8,19 +8,19 @@ from dotenv import load_dotenv
 from tqdm import tqdm
 
 from research_filter.agent_helper import (
-    combine_role_instruction,
     get_info_ai, setup_ai_model,
-    load_yaml
+    get_source_text
 )
-from research_filter.agent_helper import parse_ai_output
+from research_filter.agent_helper import parse_ai_output, create_folder_if_not_exists, load_config_file, \
+    get_role_instruction
 from research_filter.helper import (
     load_partial_results_from_json,
-    generate_new_filename,
     save_result_to_json,
     update_df_from_json,
     cleanup_json_files,
-    extract_pdf_text
+    extract_pdf_text,
 )
+from research_filter.iterative_llm import run_iterative_confirmation
 from setting.project_path import project_folder
 
 # --------------------------------------------------------------------------------
@@ -33,42 +33,55 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+expected_json_output ={
+    "introduction": {
+        "problem_statement": "string",
+        "proposed_solution": "explanation about the proposed solution",
+        "gap_in_previous_study": "long discussion about the technical gap identified in previous studies",
+        "issue_being_addressed": "choose either one of the four following themes: 1. Tackling Subject Variability, 2. Reducing the Number of EEG Channels, 3. Multiclass Sleepiness Classification, 4. Enhancing Robustness and Generalization",
+        "justification": "long explanation on why you choose the theme in the issue_being_addressed"
+    },
+    "methodology": {
+        "methods_used": [
+            "<Method 1>",
+            "<Method 2>",
+            "<list of other methods if available>"
+        ],
+        "exact_reasons_for_selection": {
+            "<Method 1>": "multiple lines of the exact text from the input about the reason or motivation to use Method 1.",
+            "<Method 2>": "multiple lines of the exact text from the input about the reason or motivation to use Method 2",
+            "<list of other methods if available>": ""
+        },
+        "reasons_for_selection": {
+            "<Method 1>": "Long and detailed explanation about the reason or motivation to use Method 1.",
+            "<Method 2>": "Long and detailed explanation about the reason or motivation to use Method 2.",
+            "<list of other methods if available>": ""
+        },
+        "performance_metrics": {
+            "accuracy": "<Value or 'N/A'>",
+            "precision": "<Value or 'N/A'>",
+            "recall": "<Value or 'N/A'>",
+            "f1_score": "<Value or 'N/A'>",
+            "other_metrics": {
+                "<Metric name>": "<Value>"
+            }
+        },
+        "comparison_with_existing_methods": {
+            "key_differences": "A long detailed comparison with other machine learning or state-of-the-art (SOTA) techniques, including their names, highlighting improvements, innovations, or weaknesses. If there is value associated, give"
+        }
+    },
+    "discussion": {
+        "limitations_and_future_work": {
+            "current_limitations": [
+                "list of limitation of the proposed study"
+            ],
+            "future_directions": [
+                "list of future direction that you can think"
+            ]
+        }
+    }
+}
 
-# --------------------------------------------------------------------------------
-# Utility Functions
-# --------------------------------------------------------------------------------
-def compile_path(path: str) -> str:
-    """Return an absolute path by joining current working directory with given path."""
-    return os.path.join(os.getcwd(), path)
-
-
-def load_config_file(yaml_path: str) -> dict:
-    """Load YAML configuration file and return as a dictionary."""
-    logger.info(f"Loading YAML configuration from {yaml_path}.")
-    return load_yaml(yaml_path)
-
-
-def generate_output_xlsx_path(csv_path: str) -> str:
-    """Generate a new filename based on the csv_path and return the XLSX output path."""
-    new_filename = generate_new_filename(csv_path)
-    return f"../research_filter/{new_filename}.xlsx"
-
-
-def create_folder_if_not_exists(folder_path: str) -> None:
-    """Create the folder if it does not exist."""
-    if not os.path.exists(folder_path):
-        os.makedirs(folder_path,exist_ok=True)
-
-
-def get_role_instruction(config: dict, placeholders: dict, agent_name: str) -> str:
-    """Combine role instructions from config based on placeholders and agent name."""
-    logger.info(f"Combining role instruction for agent: {agent_name}.")
-    return combine_role_instruction(config, placeholders, agent_name)
-
-
-# --------------------------------------------------------------------------------
-# Single-Run Main Agent
-# --------------------------------------------------------------------------------
 def process_main_agent_row_single_run(
         row: pd.Series,
         main_folder: str,
@@ -85,59 +98,25 @@ def process_main_agent_row_single_run(
     3. Call the AI agent to get the response.
     4. Save result to a JSON file in output_folder.
     """
-    filter_abstract=False
 
-    if filter_abstract:
-        pdf_filename='no_pdf'
-    else:
-        pdf_filename = row.get('pdf_name', '')
-
-    bibtex_val = row.get('bibtex', None)
-    pdf_filename = f"{bibtex_val}..grobid.tei.xml"
-    if not pdf_filename or pd.isna(bibtex_val):
-        return
-
-    # Build path for the final JSON
-    json_path = os.path.join(output_folder, f"{bibtex_val}.json")
-    if os.path.exists(json_path):
-        logger.info(f"Already processed: {json_path}")
-        # Already processed
-        return
-
-    pdf_path = os.path.join(main_folder, "xml",pdf_filename)
-    if pdf_filename == 'no_pdf':
-        # Fallback to 'abstract' column if no PDF
-        pdf_text = row.get('abstract', None)
-        status = True
-        return
-    elif pdf_filename and os.path.exists(pdf_path):
-        from grobid_client.grobid_client import GrobidClient, ServerUnavailableException
-        from grobid_tei_xml.parsed_gorbid import parse_document_xml
-        with open(pdf_path, 'r') as xml_file:
-            doc = parse_document_xml(xml_file.read())
-
-        pdf_text, status = extract_pdf_text(pdf_path)
-    else:
-        # If PDF path is invalid or missing, skip
-        return
-
+    source_text,status,bibtex_val,json_path=get_source_text(row,main_folder, output_folder)
     # If text extraction was successful
     if status:
-
+        logger.info(f"Processing {bibtex_val} with AI agent {model_name}.")
         ai_output = get_info_ai(
             bibtex_val,
-            pdf_text,
+            source_text,
             role_instruction,
             client
         )
-        parsed_data  = parse_ai_output(ai_output, column_name)
+        parsed_data  = parse_ai_output(ai_output, column_name,model_name)
 
 
 
     else:
         parsed_data = {
             column_name: {
-                "error_msg": f"error text {pdf_text}"
+                "error_msg": f"error text {source_text}"
             }
         }
 
@@ -321,7 +300,7 @@ def run_pipeline(
     # Load env & config
     load_dotenv()
     config = load_config_file(yaml_path)
-
+    # gg=config['methodology_gap_extractor']['expected_output']
     # Prepare role instructions
     #  - The main agent's role
     role_instruction_main = get_role_instruction(config, placeholders, agent_name)
@@ -337,10 +316,12 @@ def run_pipeline(
     # Load DataFrame from Excel
     logger.info(f"Loading DataFrame from {csv_path}")
     df = pd.read_excel(csv_path)
+    df=df.head(2)
+    batch_process=True
+    deepseek=False
+    iterative_confirmation=True
 
-
-
-    if not cross_check_enabled:
+    if not cross_check_enabled and not batch_process:
         # Ensure main output folder exists
         create_folder_if_not_exists(methodology_json_folder)
 
@@ -366,6 +347,98 @@ def run_pipeline(
 
         # Update DF from final single-run JSON
         df = update_df_from_json(df, methodology_json_folder, column_name)
+
+    elif iterative_confirmation:
+        # yaml_file_path = r"C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\agent\cross_check.yaml"
+        expected_json_output=config['methodology_gap_extractor']['expected_output']
+        iterative_agent=config['iterative_validation']
+        run_iterative_confirmation(
+            df,
+            main_folder,
+            methodology_json_folder,
+            model_name,
+            role_instruction_main,
+            client,
+            column_name,
+            expected_json_output,
+            # yaml_file_path,
+            iterative_agent
+        )
+
+
+    elif deepseek:
+        '''
+        In this approach, we process each row individually and save the JSON files in the deepseek folder.
+        '''
+        non_nan_df=df
+        # Ensure the deepseek folder is set up outside the loop
+        deepseek_json_folder = os.path.join(methodology_json_folder, 'deepseek')
+        os.makedirs(deepseek_json_folder, exist_ok=True)
+        for index, row in tqdm(non_nan_df.iterrows(), total=len(non_nan_df), leave=False):
+
+            source_text,status,bibtex_val,json_path=get_source_text(row, main_folder, deepseek_json_folder)
+
+            if os.path.exists(json_path):
+                continue
+            task = {"messages": [
+                {
+                    "role": "system",
+                    "content": role_instruction_main
+                },
+                {
+                    "role": "user",
+                    "content": source_text
+                }
+            ]}
+
+
+            # Save the task dictionary as a JSON file with pretty-printing
+            with open(json_path, 'w', encoding='utf-8') as file:
+                json.dump(task, file, ensure_ascii=False, indent=4)
+
+    elif batch_process:
+        tasks = []
+        # https://cookbook.openai.com/examples/batch_processing
+        non_nan_df=df       # at this stage, im not filtering the rows
+
+
+        for index, row in tqdm(non_nan_df.iterrows(), total=len(non_nan_df), leave=False):
+
+            source_text,status,bibtex_val,json_path=get_source_text(row, main_folder, methodology_json_folder)
+
+            if status is False:
+                continue
+            task = {
+                "custom_id": f"task-{bibtex_val}",
+                "method": "POST",
+                "url": "/v1/chat/completions",
+                "body": {
+                    # This is what you would have in your Chat Completions API call
+                    "model": model_name,
+                    "temperature": 0.1,
+                    "response_format": {
+                        "type": "json_object"
+                    },
+                    "messages": [
+                        {
+                            "role": "system",
+                            "content": role_instruction_main
+                        },
+                        {
+                            "role": "user",
+                            "content": source_text
+                        }
+                    ],
+                }
+            }
+            tasks.append(task)
+        os.makedirs(methodology_json_folder, exist_ok=True)
+        file_name = os.path.join(methodology_json_folder, "tasks.jsonl")
+
+        with open(file_name, 'w') as file:
+            for obj in tasks:
+                file.write(json.dumps(obj) + '\n')
+
 
     else:
         # If cross_check_enabled is True, do multi-run approach
@@ -450,8 +523,8 @@ def main():
     path_dic=project_folder(project_review=project_review)
     main_folder = path_dic['main_folder']
 
-    agent_name = "abstract_pd_discharge_relevance_sorter"
-    column_name = "ai_output"
+    agent_name = "methodology_gap_extractor"
+    column_name = "methodology_gap_extractor"
     yaml_path = "agent/agent_ml.yaml"
 
 
@@ -467,11 +540,12 @@ def main():
     }
 
     # Editable variables
-    model_name = "gpt-4o-mini"  # or "gpt-4o"
+    # model_name = "gpt-4o"  # or "gpt-4o"
     # model_name="gpt-4o-mini"
+    # model_name="gpt-o3-mini"
     # model_name='gemini-1.5-pro'
 
-    # model_name='gemini-exp-1206'
+    model_name='gemini-exp-1206'
 
 
     # Single-run

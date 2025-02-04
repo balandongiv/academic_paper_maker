@@ -1,3 +1,5 @@
+import json
+import logging
 import os
 import re
 from typing import Any, Dict, Union
@@ -7,15 +9,60 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 from pydantic import RootModel
 
+from research_filter.helper import (
+    generate_new_filename
+)
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[logging.StreamHandler()]
+)
+logger = logging.getLogger(__name__)
+from grobid_tei_xml.xml_json import process_xml_file  # Update the module name if needed
+
+def compile_path(path: str) -> str:
+    """Return an absolute path by joining current working directory with given path."""
+    return os.path.join(os.getcwd(), path)
+
+
+def load_config_file(yaml_path: str) -> dict:
+    """Load YAML configuration file and return as a dictionary."""
+    logger.info(f"Loading YAML configuration from {yaml_path}.")
+    return load_yaml(yaml_path)
+
+
+def generate_output_xlsx_path(csv_path: str) -> str:
+    """Generate a new filename based on the csv_path and return the XLSX output path."""
+    new_filename = generate_new_filename(csv_path)
+    return f"../research_filter/{new_filename}.xlsx"
+
+
+def create_folder_if_not_exists(folder_path: str) -> None:
+    """Create the folder if it does not exist."""
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path,exist_ok=True)
+
+
+def get_role_instruction(config: dict, placeholders: dict, agent_name: str) -> str:
+    """Combine role instructions from config based on placeholders and agent name."""
+    logger.info(f"Combining role instruction for agent: {agent_name}.")
+    return combine_role_instruction(config, placeholders, agent_name)
+
+
 
 # Pydantic model for validation using RootModel
 class AIOutputModel(RootModel[Union[str, Dict[str, Any]]]):
     pass
 
 
-import json
 
-def parse_ai_output(ai_output, column_name):
+
+def parse_ai_output(ai_output, column_name,model_name):
+
+    # if model_name in ["gemini-exp-1206", "gemini-1.5-pro"]:
+
+
     if isinstance(ai_output, dict):
         # If ai_output is already a dictionary, no need to parse it
         parsed_data = ai_output
@@ -31,7 +78,8 @@ def parse_ai_output(ai_output, column_name):
                 return parsed_data
             else:
                 # Attempt to parse ai_output if it's a JSON string
-                parsed_data = json.loads(ai_output)
+                parsed_data=extract_json_between_markers(ai_output)
+                # parsed_data = json.loads(ai_output)
         except json.JSONDecodeError:
             # Handle JSON decoding errors gracefully
             parsed_data = {
@@ -48,6 +96,61 @@ def parse_ai_output(ai_output, column_name):
             }
     return parsed_data
 
+
+def get_source_text(row, main_folder,output_folder):
+    """
+    Extracts or processes text from a given source, handling PDF or XML files.
+
+    Parameters:
+        row (dict): A dictionary containing metadata, including 'pdf_name', 'bibtex', and 'abstract'.
+        output_folder (str): Path where processed JSON files are stored.
+        main_folder (str): Root directory containing source XML files.
+
+    Returns:
+        tuple: (str or None, bool, str or None, str) ->
+               Extracted text (or None if not found),
+               status (True if processed, False otherwise),
+               bibtex_val (or None if missing),
+               json_path (expected path for processed JSON output).
+    """
+    filter_abstract = False  # Set this flag if only abstracts should be used
+
+    pdf_filename = 'no_pdf' if filter_abstract else row.get('pdf_name', '')
+    bibtex_val = row.get('bibtex')
+
+    if not bibtex_val:  # Ensure bibtex value exists
+        logger.warning("Missing 'bibtex' value, skipping processing.")
+        return None, False, None, ""
+
+    json_path = os.path.join(output_folder, f"{bibtex_val}.json")
+
+    # Check if JSON output already exists
+    if os.path.exists(json_path):
+        logger.info(f"Already processed: {json_path}")
+        return None, False, bibtex_val, json_path  # No need to process again
+
+    source_filename = f"{bibtex_val}.grobid.tei.xml"
+    source_path = os.path.join(main_folder, "xml", source_filename)
+
+    if pdf_filename == 'no_pdf':
+        # Use abstract as fallback if no PDF
+        source_text = row.get('abstract')
+        if source_text:
+            logger.info(f"Using abstract text for {bibtex_val}.")
+            return source_text, True, bibtex_val, json_path
+        else:
+            logger.warning(f"No abstract available for {bibtex_val}.")
+            return None, False, bibtex_val, json_path
+
+    elif os.path.exists(source_path):
+        # Process XML file if available
+        source_text = process_xml_file(source_path, save_json=False)
+        return json.dumps(source_text, indent=2), True, bibtex_val, json_path
+
+    else:
+        # If no valid PDF or XML file, log and return failure
+        logger.warning(f"Source file missing: {source_path}")
+        return None, False, bibtex_val, json_path
 
 def extract_json_between_markers(llm_output):
     # Regular expression pattern to find JSON content between ```json and ```
