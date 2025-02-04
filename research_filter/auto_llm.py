@@ -316,7 +316,7 @@ def run_pipeline(
     # Load DataFrame from Excel
     logger.info(f"Loading DataFrame from {csv_path}")
     df = pd.read_excel(csv_path)
-    df=df.head(2)
+    df=df.head(10)
     batch_process=True
     deepseek=False
     iterative_confirmation=True

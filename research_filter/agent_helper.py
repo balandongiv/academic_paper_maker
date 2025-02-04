@@ -218,7 +218,7 @@ def setup_ai_model(model_name="gpt-4o-mini"):
         from langchain_google_genai import ChatGoogleGenerativeAI
 
         model = ChatGoogleGenerativeAI(
-            model=model_name,   #"gemini-1.5-pro",
+            model=model_name,
             temperature=0,
             max_tokens=None,
             timeout=None,
