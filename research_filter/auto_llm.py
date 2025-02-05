@@ -517,10 +517,10 @@ def run_pipeline(
             # cleanup_json_files(df, final_cross_check_folder)
 
         # (Optional) Save final DF to Excel
-        logger.info(f"Saving updated DataFrame to {csv_path}")
-        df.to_excel(csv_path, index=False)
+        # logger.info(f"Saving updated DataFrame to {csv_path}")
+        # df.to_excel(csv_path, index=False)
 
-        logger.info(f"Pipeline execution complete in {time.time() - start_time:.2f} s.")
+    logger.info(f"Pipeline execution complete in {time.time() - start_time:.2f} s.")
 
 
 # --------------------------------------------------------------------------------
