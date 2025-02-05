@@ -99,8 +99,17 @@ def process_main_agent_row_single_run(
     4. Save result to a JSON file in output_folder.
     """
 
+    bibtex_val = row.get('bibtex')
+    json_path = os.path.join(output_folder, f"{bibtex_val}.json")
+
+    if os.path.exists(json_path):
+        logger.info(f"Already processed the {bibtex_val} and being saved at {json_path}")
+        return
+
+
     source_text,status,bibtex_val,json_path=get_source_text(row,main_folder, output_folder)
-    # If text extraction was successful
+
+        # If text extraction was successful
     if status:
         logger.info(f"Processing {bibtex_val} with AI agent {model_name}.")
         ai_output = get_info_ai(
@@ -119,7 +128,11 @@ def process_main_agent_row_single_run(
                 "error_msg": f"error text {source_text}"
             }
         }
+    if os.path.exists(json_path):
+        logger.info(f"Already processed the {bibtex_val} and being saved at {json_path}")
+        return
 
+    logger.info(f"Saving the result for {bibtex_val} at {json_path}")
     save_result_to_json(bibtex_val, parsed_data, json_path, column_name)
 
 
@@ -316,17 +329,18 @@ def run_pipeline(
     # Load DataFrame from Excel
     logger.info(f"Loading DataFrame from {csv_path}")
     df = pd.read_excel(csv_path)
-    df=df.head(10)
-    batch_process=True
+    # df=df.head(10)
+    batch_process=False
     deepseek=False
-    iterative_confirmation=True
+    iterative_confirmation=False
 
     if not cross_check_enabled and not batch_process:
         # Ensure main output folder exists
-        create_folder_if_not_exists(methodology_json_folder)
-
+        # create_folder_if_not_exists(methodology_json_folder)
+        methodology_json_folder=os.path.join(methodology_json_folder, model_name)
+        os.makedirs(methodology_json_folder,exist_ok=True)
         # Update DF from any existing JSON (previous partial runs)
-        df = load_partial_results_from_json(df, methodology_json_folder)
+        # df = load_partial_results_from_json(df, methodology_json_folder)
 
         # Process each row with main agent once
         logger.info("Processing each row with main agent (SINGLE-RUN).")
@@ -346,7 +360,7 @@ def run_pipeline(
             )
 
         # Update DF from final single-run JSON
-        df = update_df_from_json(df, methodology_json_folder, column_name)
+        # df = update_df_from_json(df, methodology_json_folder, column_name)
 
     elif iterative_confirmation:
         # yaml_file_path = r"C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\agent\cross_check.yaml"
@@ -545,7 +559,8 @@ def main():
     # model_name="gpt-o3-mini"
     # model_name='gemini-1.5-pro'
 
-    model_name='gemini-exp-1206'
+    # model_name='gemini-exp-1206'
+    model_name='gemini-2.0-flash-thinking-exp-01-21'
 
 
     # Single-run

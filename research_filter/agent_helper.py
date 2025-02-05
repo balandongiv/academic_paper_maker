@@ -113,9 +113,10 @@ def get_source_text(row, main_folder,output_folder):
                bibtex_val (or None if missing),
                json_path (expected path for processed JSON output).
     """
-    filter_abstract = False  # Set this flag if only abstracts should be used
+    use_abstract = True  # If there is not pdf file, we will use the abstract instead, set to True to use abstract infromation in the event no pdf is available
 
-    pdf_filename = 'no_pdf' if filter_abstract else row.get('pdf_name', '')
+
+    pdf_filename = 'no_pdf' if use_abstract else row.get('pdf_name', '')
     bibtex_val = row.get('bibtex')
 
     if not bibtex_val:  # Ensure bibtex value exists

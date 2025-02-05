@@ -1,5 +1,4 @@
 import json
-import json
 import logging
 import os
 
@@ -74,22 +73,22 @@ def iterative_refinement(bibtex_val,
     ai_output = get_info_ai(bibtex_val, source_text, role_instruction_main, client)
     parsed_data = parse_ai_output(ai_output, column_name, model_name)
 
-    # 2) For each subsequent instruction in iterative_agent
-    for key_agent, instruction_me in iterative_agent.items():
-        logger.info(f"Validating the output using {key_agent} for {bibtex_val} ")
-        expected_output_str = json.dumps(expected_json_output, indent=2)
-        previous_output_str = json.dumps(parsed_data, indent=2)
-
-        # Build a single combined instruction
-        combined_instruction = (
-            f"{instruction_me}\n"
-            f"The Expected Output: {expected_output_str}\n"
-            f"The previous json is:\n{previous_output_str}\n\n"
-            f"The manuscript is as follows:"
-        )
-
-        ai_output_second = get_info_ai(bibtex_val, source_text, combined_instruction, client)
-        parsed_data = parse_ai_output(ai_output_second, column_name, model_name)
+    # 2) For each subsequent instruction in iterative_agent (turn out this is an expensive approach)
+    # for key_agent, instruction_me in iterative_agent.items():
+    #     logger.info(f"Validating the output using {key_agent} for {bibtex_val} ")
+    #     expected_output_str = json.dumps(expected_json_output, indent=2)
+    #     previous_output_str = json.dumps(parsed_data, indent=2)
+    #
+    #     # Build a single combined instruction
+    #     combined_instruction = (
+    #         f"{instruction_me}\n"
+    #         f"The Expected Output: {expected_output_str}\n"
+    #         f"The previous json is:\n{previous_output_str}\n\n"
+    #         f"The manuscript is as follows:"
+    #     )
+    #
+    #     ai_output_second = get_info_ai(bibtex_val, source_text, combined_instruction, client)
+    #     parsed_data = parse_ai_output(ai_output_second, column_name, model_name)
 
     return parsed_data
 
