@@ -1,13 +1,10 @@
-# TO remove this code,to avoid confusion, once we confident the run_gorbid_pdf work like charm
 
 import os
 
 from grobid_client.grobid_client import GrobidClient, ServerUnavailableException
 
-from grobid_tei_xml.parsed_gorbid import parse_document_xml
 
-
-def main():
+def run_gorbid_pdf(input_path, output_path):
     try:
         # Instantiate the client
         client = GrobidClient(
@@ -23,10 +20,7 @@ def main():
         print("GROBID server is not available:", e)
         return
 
-    # Now you can call any of the methods from GrobidClient
-    # For example, process a directory of PDFs with 'processFulltextDocument'
-    input_path = r"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review\pdf"
-    output_path = r"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review\xml"
+
 
     # Ensure output_path exists
     if not os.path.isdir(output_path):
@@ -49,29 +43,13 @@ def main():
         verbose=True
     )
 
-def process_xml():
+def main():
+    # Now you can call any of the methods from GrobidClient
+    # For example, process a directory of PDFs with 'processFulltextDocument'
+    input_path = r"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review\pdf"
+    output_path = r"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review\xml"
 
-    '''
-    This is just example for we are not going to use this approach, but we are going to use the code
-    in convert_xml_json.py instead
-    :return:
-    '''
-    xml_path = r"C:\Users\balan\IdeaProjects\academic_paper_maker\Abubakar_MasUd_A_2014.grobid.tei.xml"
+    run_gorbid_pdf(input_path, output_path)
 
-    with open(xml_path, 'r') as xml_file:
-        doc = parse_document_xml(xml_file.read())
-
-    # print(json.dumps(doc.to_dict(), indent=2))
-    print(doc.header)
-    print(doc.citations)
-    print(doc.language_code)
-    print(doc.abstract)
-    print(doc.body)
-    print(doc.acknowledgement)
-    print(doc.annex)
-    print(doc.sections)
-
-
-if __name__ == "__main__":
+if __name__ == "__main__":  # Corrected this line
     main()
-    # process_xml()

@@ -168,11 +168,7 @@ def process_xml_file(xml_path: str,
         print(f"Error processing {xml_path}: {e}")
         return None
 
-
-# --- Example usage (main script) ---
-if __name__ == "__main__":
-    # Folder paths (update these as needed)
-    FOLDER_PATH = r"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review\xml"
+def run_pipeline(FOLDER_PATH):
     JSON_FOLDER = os.path.join(FOLDER_PATH, 'json')
     NO_INTRO_CONCL_FOLDER = os.path.join(JSON_FOLDER, 'no_intro_conclusion')
     UNTITLED_SECTION_FOLDER = os.path.join(JSON_FOLDER, 'untitled_section')
@@ -193,3 +189,10 @@ if __name__ == "__main__":
                          json_folder=JSON_FOLDER,
                          no_intro_concl_folder=NO_INTRO_CONCL_FOLDER,
                          untitled_section_folder=UNTITLED_SECTION_FOLDER)
+
+# --- Example usage (main script) ---
+if __name__ == "__main__":
+    # Folder paths (update these as needed)
+    FOLDER_PATH = r"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review\xml"
+    run_pipeline(FOLDER_PATH)
+
