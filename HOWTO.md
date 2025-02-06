@@ -1,8 +1,12 @@
+
+
 # Step 1
 The first step, is to download all the references from scopus and store into endnote
 Then,remove all the conferences type.
 Then, export
 we will use `database_preparation.py` to prepare the database
+
+# Register for Google AI API
 
 # autollm
 We will use the autollm.py to automate

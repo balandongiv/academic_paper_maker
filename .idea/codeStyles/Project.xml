@@ -1,0 +1,12 @@
+<component name="ProjectCodeStyleConfiguration">
+  <code_scheme name="Project" version="173">
+    <JSON>
+      <option name="PROPERTY_ALIGNMENT" value="2" />
+    </JSON>
+    <codeStyleSettings language="JSON">
+      <option name="RIGHT_MARGIN" value="50" />
+      <option name="WRAP_LONG_LINES" value="true" />
+      <option name="WRAP_ON_TYPING" value="1" />
+    </codeStyleSettings>
+  </code_scheme>
+</component>

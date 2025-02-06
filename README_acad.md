@@ -32,4 +32,6 @@ Activate the virtualenv environment with:
 To install the dependencies listed in the `requirements.txt` file, use:
 
 pip install -r requirements.txt
-#
+# Access Scopus
+
+https://www.scopus.com/home.uri
