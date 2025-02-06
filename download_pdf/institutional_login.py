@@ -1,18 +1,8 @@
-import json
 import logging
-import os
-import shutil
 import sys
-import time
-import tkinter as tk
-from tkinter import messagebox
 
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
-from tqdm import tqdm
 
 # Configure logger
 logger = logging.getLogger("pdf_ieee")

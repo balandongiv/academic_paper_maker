@@ -33,6 +33,6 @@ To install the dependencies listed in the `requirements.txt` file, use:
 
 pip install -r requirements.txt
 # Access Scopus
-![Scopus CSV Export](image/scopus_csv_export.png)
+![Scopus CSV Export](../image/scopus_csv_export.png)
 
 https://www.scopus.com/home.uri
