@@ -1,1 +1,0 @@
-find the technical motivation that lead the author suggest their propose solution. if there are text that mentioned about this, give the word and enclose them in quote quote:

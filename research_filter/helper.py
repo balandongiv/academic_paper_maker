@@ -101,10 +101,7 @@ def save_result_to_json(bibtex_val, ai_output, json_path,column_name):
     if pd.isna(bibtex_val):
         # If bibtex is not available, skip saving.
         return
-    #
-    # data = {column_name: ai_output}
-    # with open(json_path, "w") as f:
-    #     json.dump(data, f, indent=2)
+
 
     # data = {column_name: ai_output}
     with open(json_path, "w") as f:

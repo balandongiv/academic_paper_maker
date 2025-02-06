@@ -89,7 +89,7 @@ def save_deepest_sections(
 
 def main():
     # 1. Set your input JSON path
-    input_path = r"..\research_filter\outline_eeg_review.json"
+    input_path = r"outline_eeg_review.json"
     folder_name='sub_outlinex'
     # 2. Load the JSON
     with open(input_path, 'r', encoding='utf-8') as f:

@@ -2,9 +2,9 @@ import json
 import os
 
 # File paths
-OUTLINE_FILE = r"C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\outline_eeg_review.json"
-ADDITION_FILE = r"C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\addition_ref.json"
-REPORT_FILE = r"C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\migration_report.txt"
+OUTLINE_FILE = r"/outline_eeg/outline_eeg_review.json"
+ADDITION_FILE = r"/research_filter/addition_ref.json"
+REPORT_FILE = r"/research_filter/migration_report.txt"
 
 def load_json(file_path):
     """Load JSON from a file."""
