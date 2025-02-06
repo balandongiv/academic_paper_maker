@@ -273,23 +273,13 @@ def finalize_cross_check_output(
 # Main Pipeline
 # --------------------------------------------------------------------------------
 def run_pipeline(
+        agentic_setting ,process_setup,
         placeholders: dict,
-        model_name: str,
         csv_path: str,
-        agent_name: str,
-        column_name: str,
-        yaml_path: str,
         main_folder: str,
-        # Single-run output (if cross_check_enabled=False)
         methodology_json_folder: str,
-        # Cross-check related
-        cross_check_enabled: bool = False,
-        cross_check_runs: int = 3,
-        cross_check_agent_name: str = "agent_cross_check",
         multiple_runs_folder: str = None,
         final_cross_check_folder: str = None,
-        # Cleanup
-        cleanup_json: bool = False
 ):
     """
     Orchestrate the entire flow:
@@ -312,15 +302,16 @@ def run_pipeline(
 
     # Load env & config
     load_dotenv()
-    config = load_config_file(yaml_path)
-    # gg=config['methodology_gap_extractor']['expected_output']
+    config = load_config_file(agentic_setting['yaml_path'])
+    model_name = agentic_setting['model_name']
+    column_name = agentic_setting['column_name']
     # Prepare role instructions
-    #  - The main agent's role
-    role_instruction_main = get_role_instruction(config, placeholders, agent_name)
 
-    if cross_check_enabled:
+    role_instruction_main = get_role_instruction(config, placeholders, agentic_setting['agent_name'])
+
+    if process_setup['cross_check_enabled']:
         #  - The cross-check agent's role
-        role_instruction_cross_check = get_role_instruction(config, placeholders, cross_check_agent_name)
+        role_instruction_cross_check = get_role_instruction(config, placeholders, process_setup['cross_check_agent_name'])
     else:
         role_instruction_cross_check = None
 
@@ -330,11 +321,8 @@ def run_pipeline(
     logger.info(f"Loading DataFrame from {csv_path}")
     df = pd.read_excel(csv_path)
     # df=df.head(10)
-    batch_process=False
-    deepseek=False
-    iterative_confirmation=False
 
-    if not cross_check_enabled and not batch_process:
+    if not process_setup['cross_check_enabled']:
         # Ensure main output folder exists
         # create_folder_if_not_exists(methodology_json_folder)
         methodology_json_folder=os.path.join(methodology_json_folder, model_name)
@@ -360,9 +348,9 @@ def run_pipeline(
             )
 
         # Update DF from final single-run JSON
-        # df = update_df_from_json(df, methodology_json_folder, column_name)
+        df = update_df_from_json(df, methodology_json_folder, column_name)
 
-    elif iterative_confirmation:
+    elif process_setup['iterative_confirmation']:
         # yaml_file_path = r"C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\agent\cross_check.yaml"
         expected_json_output=config['methodology_gap_extractor']['expected_output']
         iterative_agent=config['iterative_validation']
@@ -380,7 +368,7 @@ def run_pipeline(
         )
 
 
-    elif deepseek:
+    elif process_setup['manual_paste_llm']:
         '''
         In this approach, we process each row individually and save the JSON files in the deepseek folder.
         '''
@@ -410,7 +398,7 @@ def run_pipeline(
             with open(json_path, 'w', encoding='utf-8') as file:
                 json.dump(task, file, ensure_ascii=False, indent=4)
 
-    elif batch_process:
+    elif process_setup['batch_process']:
         tasks = []
         # https://cookbook.openai.com/examples/batch_processing
         non_nan_df=df       # at this stage, im not filtering the rows
@@ -488,7 +476,7 @@ def run_pipeline(
                 client,
                 model_name,
                 column_name,
-                cross_check_runs
+                process_setup['cross_check_runs']
             )
 
         # Step 2: Combine partial outputs & run cross-check agent
@@ -497,7 +485,7 @@ def run_pipeline(
             non_nan_df,
             multiple_runs_folder,
             final_cross_check_folder,
-            cross_check_agent_name,
+            process_setup['cross_check_agent_name'],
             role_instruction_cross_check,
             client,
             model_name,
@@ -505,8 +493,8 @@ def run_pipeline(
         )
 
     # Cleanup if needed
-    if cleanup_json:
-        if not cross_check_enabled:
+    if process_setup['cleanup_json']:
+        if not process_setup['cross_check_enabled']:
             logger.info("Cleanup: removing JSON files in methodology_json_folder.")
             cleanup_json_files(df, methodology_json_folder)
         else:
@@ -517,8 +505,10 @@ def run_pipeline(
             # cleanup_json_files(df, final_cross_check_folder)
 
         # (Optional) Save final DF to Excel
-        # logger.info(f"Saving updated DataFrame to {csv_path}")
-        # df.to_excel(csv_path, index=False)
+
+    if process_setup['overwrite_csv']:
+        logger.info(f"Saving updated DataFrame to {csv_path}")
+        df.to_excel(csv_path, index=False)
 
     logger.info(f"Pipeline execution complete in {time.time() - start_time:.2f} s.")
 
@@ -533,18 +523,30 @@ def main():
 
 
     # project_review='eeg_review'
-    project_review='eeg_review'
+    project_review='wafer_defect'
     path_dic=project_folder(project_review=project_review)
     main_folder = path_dic['main_folder']
 
-    agent_name = "methodology_gap_extractor"
-    column_name = "methodology_gap_extractor"
-    yaml_path = "agent/agent_ml.yaml"
+    # Editable variables
+    # model_name = "gpt-4o"  # or "gpt-4o"
+    model_name="gpt-4o-mini"
+    # model_name="gpt-o3-mini"
+    # model_name='gemini-1.5-pro'
+
+    # model_name='gemini-exp-1206'
+    # model_name='gemini-2.0-flash-thinking-exp-01-21'
 
 
-    methodology_json_folder=os.path.join(main_folder,agent_name,'json_output')
-    multiple_runs_folder =os.path.join(main_folder,agent_name,'multiple_runs_folder')
-    final_cross_check_folder = os.path.join(main_folder,agent_name,'final_cross_check_folder')
+    agentic_setting = {
+        "agent_name": "abstract_wafer_abstract_filter",
+        "column_name": "abstract_wafer_abstract_filter",
+        "yaml_path": "agent/agent_ml.yaml",
+        "model_name": model_name
+    }
+
+    methodology_json_folder=os.path.join(main_folder,agentic_setting['agent_name'],'json_output')
+    multiple_runs_folder =os.path.join(main_folder,agentic_setting['agent_name'],'multiple_runs_folder')
+    final_cross_check_folder = os.path.join(main_folder,agentic_setting['agent_name'],'final_cross_check_folder')
 
     csv_path = path_dic['csv_path']
     # Basic placeholders for roles
@@ -553,42 +555,27 @@ def main():
         "topic_context": "neurophysiological analysis"
     }
 
-    # Editable variables
-    # model_name = "gpt-4o"  # or "gpt-4o"
-    # model_name="gpt-4o-mini"
-    # model_name="gpt-o3-mini"
-    # model_name='gemini-1.5-pro'
 
-    # model_name='gemini-exp-1206'
-    model_name='gemini-2.0-flash-thinking-exp-01-21'
-
-
-    # Single-run
-
-
-    # Cross-check logic
-
-    cross_check_enabled = False
-    cross_check_runs = 3
-    cross_check_agent_name = "agent_cross_check"
-    cleanup_json = False
+    process_setup={
+        'batch_process':False,  # This is for the batch processing which have 50% discount. use with the code research_filter/check_batch_process.py
+        'manual_paste_llm':False,       # This is for the manual paste of the LLM
+        'iterative_confirmation':False,
+        'overwrite_csv':True,      # careful when set to true as this will overwrite the csv file
+        'cross_check_enabled':False,
+        'cross_check_runs':3,
+        'cross_check_agent_name':'agent_cross_check',
+        'cleanup_json':False
+    }
 
     # Run pipeline
     run_pipeline(
+        agentic_setting ,process_setup,
         placeholders=placeholders,
-        model_name=model_name,
         csv_path=csv_path,
-        agent_name=agent_name,
-        column_name=column_name,
-        yaml_path=yaml_path,
         main_folder=main_folder,
         methodology_json_folder=methodology_json_folder,
-        cross_check_enabled=cross_check_enabled,
-        cross_check_runs=cross_check_runs,
-        cross_check_agent_name=cross_check_agent_name,
         multiple_runs_folder=multiple_runs_folder,
         final_cross_check_folder=final_cross_check_folder,
-        cleanup_json=cleanup_json
     )
 
 

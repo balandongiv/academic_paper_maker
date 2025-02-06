@@ -127,17 +127,28 @@ def map_publisher_long(df):
     return df
 
 
-def format_name(name: str) -> str:
+def format_name(name: str, style: str = "underscore") -> str:
     """
     Normalize author name to remove diacritics and special characters.
-    Return the cleaned name parts joined by underscores.
+    Returns the cleaned name parts formatted according to the chosen style.
+
+    :param name: The input name string.
+    :param style: Formatting style ("underscore" or "concat").: underscore >> Piao_M,Piao_ML,Piao_MLK :: concat >> PiaoM,PiaoML,PiaoMLK
+    :return: Formatted string based on the selected style.
     """
     # Normalize text to remove diacritics (alien characters)
     name = unicodedata.normalize('NFD', name).encode('ascii', 'ignore').decode('utf-8')
+
     # Split the name on spaces, hyphens, and dots
     parts = re.split(r'[ \.-]+', name)
-    # Combine all parts with underscores
-    return '_'.join(parts)
+
+    # Apply the chosen style
+    if style == "underscore":
+        return '_'.join(parts[:1] + [''.join(parts[1:])])  # First part + joined remainder with underscore
+    elif style == "concat":
+        return ''.join(parts)  # Direct concatenation of all parts
+    else:
+        raise ValueError("Invalid style: Choose 'underscore' or 'concat'.")
 
 def gather_csv_files(folder_path: str) -> list:
     """

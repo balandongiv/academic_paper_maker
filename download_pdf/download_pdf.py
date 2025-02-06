@@ -212,10 +212,16 @@ def save_data(data, file_path):
     data.to_excel(output_excel_path, index=False)
     logging.info(f"Updated data has been saved to {output_excel_path}")
 
+def run_pipeline(file_path):
+    # Workflow
+    data_filtered  = load_data(file_path)
+    # data_filtered = filter_relevant_data(data_filtered)
+    categories = categorize_publisher(data_filtered)
+    return categories,data_filtered
 
 if __name__ == "__main__":
     # Paths and constants
-    project_review='partial_discharge'
+    project_review='wafer_defect'
     path_dic=project_folder(project_review=project_review)
     main_folder = path_dic['main_folder']
 
@@ -226,11 +232,10 @@ if __name__ == "__main__":
     file_path = path_dic['csv_path']
     output_folder =  os.path.join(main_folder, 'pdf')
 
-    # Workflow
-    data_filtered  = load_data(file_path)
-    # data_filtered = filter_relevant_data(data_filtered)
-    categories = categorize_publisher(data_filtered)
-    # process_scihub_downloads(categories, output_folder, data_filtered)
+
+    categories,data_filtered=run_pipeline(file_path)
+    # First step, we will always use the scihub to download the pdf
+    process_scihub_downloads(categories, output_folder, data_filtered)
 
     # Skipping the IEEE fallback step for testing
     # process_fallback_ieee(categories, data_filtered, output_folder)
@@ -240,5 +245,5 @@ if __name__ == "__main__":
     # process_fallback_mdpi(categories, data_filtered, output_folder)
 
     # The sciencedirect only allow to extract the url, but not able to download the pdf due to the tight security feature
-    process_fallback_sciencedirect(categories, data_filtered, output_folder)
-    save_data(data_filtered, file_path)
+    # process_fallback_sciencedirect(categories, data_filtered, output_folder)
+    # save_data(data_filtered, file_path)
