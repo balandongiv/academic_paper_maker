@@ -14,7 +14,6 @@ from research_filter.agent_helper import (
 from research_filter.agent_helper import parse_ai_output, create_folder_if_not_exists, load_config_file, \
     get_role_instruction
 from research_filter.helper import (
-    load_partial_results_from_json,
     save_result_to_json,
     update_df_from_json,
     cleanup_json_files,
