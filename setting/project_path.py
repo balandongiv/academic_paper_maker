@@ -1,13 +1,9 @@
 import os
 def project_folder(project_review=None):
 
-    username='balan'
-
     if project_review is None:
         raise ValueError("Please specify the project_review parameter.")
     if project_review=='eeg_review':
-
-
         main_folder = rf"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review"
         csv_path=os.path.join(main_folder,'database','eeg_review.xlsx')
     elif project_review=='corona_discharge':
@@ -18,9 +14,6 @@ def project_folder(project_review=None):
         csv_path= os.path.join(main_folder ,'database','wafer_database.xlsx')
     path_dict = dict(
         main_folder=main_folder,
-        # methodology_json_folder=methodology_json_folder,
-        # multiple_runs_folder=multiple_runs_folder,
-        # final_cross_check_folder=final_cross_check_folder,
         csv_path=csv_path
     )
     return path_dict

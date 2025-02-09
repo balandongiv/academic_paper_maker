@@ -2,7 +2,7 @@ import json
 import logging
 import os
 import time
-
+from collections import OrderedDict
 import pandas as pd
 from dotenv import load_dotenv
 from tqdm import tqdm
@@ -88,7 +88,8 @@ def process_main_agent_row_single_run(
         role_instruction: str,
         client,
         model_name: str,
-        column_name: str
+        column_name: str,
+        process_setup: dict,
 ) -> None:
     """
     Process a single row with the main agent (ONE run):
@@ -101,13 +102,19 @@ def process_main_agent_row_single_run(
     bibtex_val = row.get('bibtex')
     json_path = os.path.join(output_folder, f"{bibtex_val}.json")
 
-    if os.path.exists(json_path):
-        logger.info(f"Already processed the {bibtex_val} and being saved at {json_path}")
-        return
+    # if os.path.exists(json_path):
+    #     logger.info(f"Already processed the {bibtex_val} and being saved at {json_path}")
+    #     return
 
 
-    source_text,status,bibtex_val,json_path=get_source_text(row,main_folder, output_folder)
+    source_text,status,bibtex_val,json_path=get_source_text(row,main_folder, output_folder,process_setup)
+    # New key-value pair to add at the beginning
+    # new_entry = {"bibtext": bibtex_val}
 
+    # Merge the new entry as the first key
+    # source_text = OrderedDict({**new_entry, **source_text})
+
+    # source_text = f"The bibtex is {bibtex_val} and the manuscript is {source_text}"
         # If text extraction was successful
     if status:
         logger.info(f"Processing {bibtex_val} with AI agent {model_name}.")
@@ -343,7 +350,8 @@ def run_pipeline(
                 role_instruction_main,
                 client,
                 model_name,
-                column_name
+                column_name,
+                process_setup
             )
 
         # Update DF from final single-run JSON
@@ -522,23 +530,30 @@ def main():
 
 
     # project_review='eeg_review'
-    project_review='wafer_defect'
+    project_review='eeg_review'
     path_dic=project_folder(project_review=project_review)
     main_folder = path_dic['main_folder']
 
     # Editable variables
     # model_name = "gpt-4o"  # or "gpt-4o"
-    model_name="gpt-4o-mini"
+    # model_name="gpt-4o-mini"
     # model_name="gpt-o3-mini"
     # model_name='gemini-1.5-pro'
 
     # model_name='gemini-exp-1206'
-    # model_name='gemini-2.0-flash-thinking-exp-01-21'
+    model_name='gemini-2.0-flash-thinking-exp-01-21'
 
 
+    # agentic_setting = {
+    #     "agent_name": "abstract_wafer_abstract_filter",
+    #     "column_name": "abstract_wafer_abstract_filter",
+    #     "yaml_path": "agent/agent_ml.yaml",
+    #     "model_name": model_name
+    # }
+    agent_name="section_sorter"
     agentic_setting = {
-        "agent_name": "abstract_wafer_abstract_filter",
-        "column_name": "abstract_wafer_abstract_filter",
+        "agent_name": agent_name,
+        "column_name": agent_name,
         "yaml_path": "agent/agent_ml.yaml",
         "model_name": model_name
     }
@@ -563,7 +578,8 @@ def main():
         'cross_check_enabled':False,
         'cross_check_runs':3,
         'cross_check_agent_name':'agent_cross_check',
-        'cleanup_json':False
+        'cleanup_json':False,
+        'used_abstract':False
     }
 
     # Run pipeline

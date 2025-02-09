@@ -3,12 +3,12 @@ import logging
 import os
 import re
 from typing import Any, Dict, Union
-
+from collections import OrderedDict
 import yaml
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 from pydantic import RootModel
-
+import traceback
 from research_filter.helper import (
     generate_new_filename
 )
@@ -97,7 +97,7 @@ def parse_ai_output(ai_output, column_name,model_name):
     return parsed_data
 
 
-def get_source_text(row, main_folder,output_folder):
+def get_source_text(row, main_folder,output_folder,process_setup):
     """
     Extracts or processes text from a given source, handling PDF or XML files.
 
@@ -113,12 +113,11 @@ def get_source_text(row, main_folder,output_folder):
                bibtex_val (or None if missing),
                json_path (expected path for processed JSON output).
     """
-    use_abstract = True  # If there is not pdf file, we will use the abstract instead, set to True to use abstract infromation in the event no pdf is available
+    # use_abstract = process_setup['used_abstract']  # we only use abstract for filtering either the manuscript is suitable for futher processing or not
 
-
-    pdf_filename = 'no_pdf' if use_abstract else row.get('pdf_name', '')
+    pdf_filename = 'no_pdf' if process_setup['used_abstract']  else row.get('pdf_name', '')
     bibtex_val = row.get('bibtex')
-
+    bibtex_data = {"bibtext": bibtex_val}
     if not bibtex_val:  # Ensure bibtex value exists
         logger.warning("Missing 'bibtex' value, skipping processing.")
         return None, False, None, ""
@@ -137,6 +136,7 @@ def get_source_text(row, main_folder,output_folder):
         # Use abstract as fallback if no PDF
         source_text = row.get('abstract')
         if source_text:
+            source_text = dict(bibtex_data, **{"abstract": source_text})
             logger.info(f"Using abstract text for {bibtex_val}.")
             return source_text, True, bibtex_val, json_path
         else:
@@ -146,6 +146,7 @@ def get_source_text(row, main_folder,output_folder):
     elif os.path.exists(source_path):
         # Process XML file if available
         source_text = process_xml_file(source_path, save_json=False)
+        source_text = OrderedDict({**bibtex_data, **source_text})
         return json.dumps(source_text, indent=2), True, bibtex_val, json_path
 
     else:
@@ -235,24 +236,28 @@ def get_info_ai(bibtex_val,user_request, system_instruction, client):
     Returns True, False, or 'Uncertain'.
     """
     # model = ChatOpenAI(model=model_name)
-
-    messages = [
-        SystemMessage(system_instruction),
-        HumanMessage(user_request),
-    ]
-
+    try:
+        messages = [
+            SystemMessage(system_instruction),
+            HumanMessage(user_request),
+        ]
+    except Exception as e:
+        error_trace = traceback.format_exc()
+        return f"Error when processing {bibtex_val}:\n{error_trace}"
 
     try:
         response =client.invoke(messages)
 
     except Exception as e:
-        return f"Error when processing {bibtex_val}: {e}"
+        error_trace = traceback.format_exc()
+        return f"Error when processing {bibtex_val}:\n{error_trace}"
     try:
         output = response.content
 
         return output
     except Exception as e:
-        return f"Error when processing {bibtex_val}: {e}"
+        error_trace = traceback.format_exc()
+        return f"Error when processing {bibtex_val}:\n{error_trace}"
 
 
 
