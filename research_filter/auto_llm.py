@@ -81,6 +81,12 @@ expected_json_output ={
     }
 }
 
+import os
+import logging
+import pandas as pd
+
+logger = logging.getLogger(__name__)
+
 def process_main_agent_row_single_run(
         row: pd.Series,
         main_folder: str,
@@ -96,58 +102,65 @@ def process_main_agent_row_single_run(
     1. Checks whether a JSON file already exists. If yes, skip.
     2. Extract text from PDF (or abstract if PDF unavailable).
     3. Call the AI agent to get the response.
-    4. Save result to a JSON file in output_folder.
+    4. Parse AI output and handle errors.
+    5. Save result to a JSON file in output_folder.
     """
 
     bibtex_val = row.get('bibtex')
     json_path = os.path.join(output_folder, f"{bibtex_val}.json")
-    json_path_issue=os.path.join(output_folder,"issue",f"{bibtex_val}.json")
+    json_path_issue = os.path.join(output_folder, "issue", f"{bibtex_val}.json")
 
+    # Skip processing if output already exists
     if os.path.exists(json_path):
-        logger.info(f"Already processed the {bibtex_val} and being saved at {json_path}")
+        logger.info(f"Already processed: {bibtex_val}, saved at {json_path}")
         return
     if os.path.exists(json_path_issue):
-        logger.info(f"Already processed the {bibtex_val} and being saved at {json_path_issue}")
+        logger.info(f"Already processed: {bibtex_val}, saved at {json_path_issue}")
         return
 
-    source_text,status,bibtex_val,json_path=get_source_text(row,main_folder, output_folder,process_setup)
-    # New key-value pair to add at the beginning
-    # new_entry = {"bibtext": bibtex_val}
+    # Extract source text
+    source_text, status_text, bibtex_val, json_path = get_source_text(row, main_folder, output_folder, process_setup)
 
-    # Merge the new entry as the first key
-    # source_text = OrderedDict({**new_entry, **source_text})
-
-    # source_text = f"The bibtex is {bibtex_val} and the manuscript is {source_text}"
-        # If text extraction was successful
-    if status:
+    if status_text:
         logger.info(f"Processing {bibtex_val} with AI agent {model_name}.")
+
+        # Call AI agent for response
         ai_output = get_info_ai(
             bibtex_val,
             source_text,
             role_instruction,
             client
         )
-        parsed_data  = parse_ai_output(ai_output, column_name,model_name)
 
-
-
+        # Parse AI output
+        parsed_data, status_parsing = parse_ai_output(ai_output, column_name, model_name)
+        if status_parsing is False:
+            json_path = json_path_issue
+            parsed_data = {
+                column_name: {
+                    "error_msg": f"not able to parse {source_text}",
+                    "system_message":role_instruction,
+                    "user_message":source_text
+                }
+            }
     else:
         parsed_data = {
             column_name: {
-                "error_msg": f"error text {source_text}"
+                "error_msg": f"Error extracting text: {source_text}"
             }
         }
-        json_path=json_path_issue
-        status=False
+        json_path = json_path_issue
+        status_text= False
 
-    # if os.path.exists(json_path):
-    #     logger.info(f"Already processed the {bibtex_val} and being saved at {json_path}")
-    #     return
-    if status is False:
-        logger.info(f"Unfortunately, there is issue, but i still save the  {bibtex_val} at {json_path}")
+    # Save results based on status
+    if status_text is False or status_parsing is False:
+        logger.warning(f"Issue encountered, saving {bibtex_val} at {json_path_issue}")
+        save_result_to_json(bibtex_val, parsed_data, json_path_issue, column_name)
+    elif status_parsing is True and status_text is True:
+        logger.info(f"Successfully processed {bibtex_val}, saving at {json_path}")
         save_result_to_json(bibtex_val, parsed_data, json_path, column_name)
     else:
-        logger.info(f"Saving the result for {bibtex_val} at {json_path}")
+        logger.info(f"Successfully processed {bibtex_val}, saving at {json_path}")
         save_result_to_json(bibtex_val, parsed_data, json_path, column_name)
 
 

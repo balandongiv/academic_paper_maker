@@ -58,45 +58,53 @@ class AIOutputModel(RootModel[Union[str, Dict[str, Any]]]):
 
 
 
-def parse_ai_output(ai_output, column_name,model_name):
+import json
+from typing import Any, Dict, Tuple
 
+def parse_ai_output(ai_output: Any, column_name: str, model_name: str) -> Tuple[Dict, bool]:
+    """
+    Parses the AI output and returns a tuple of (parsed_data, status).
 
+    Parameters:
+        ai_output (Any): The output from the AI, which may be a dictionary or a JSON string.
+        column_name (str): The key to use in the resulting dictionary.
+        model_name (str): The name of the model (currently unused, but kept for future use).
 
-    status=True
+    Returns:
+        Tuple[Dict, bool]: A tuple where the first element is the parsed data as a dictionary,
+                           and the second element is a boolean status (True if parsing succeeded, False otherwise).
+    """
+    status = True
+
+    # If ai_output is already a dictionary, return it immediately.
     if isinstance(ai_output, dict):
-        # If ai_output is already a dictionary, no need to parse it
-        parsed_data = ai_output
-    else:
-        try:
-            # Check for simple JSON-like literals manually (e.g., 'True', 'False', 'null')
-            if ai_output in ('True', 'False'):
-                parsed_data = {
-                    column_name: ai_output
-                }
+        return ai_output, status
 
-                # parsed_data = json.loads(ai_output.lower())
-                return parsed_data,status
-            else:
-                # Attempt to parse ai_output if it's a JSON string
-                parsed_data=extract_json_between_markers(ai_output)
-                # parsed_data = json.loads(ai_output)
-        except json.JSONDecodeError:
-            # Handle JSON decoding errors gracefully
-            status=False
-            parsed_data = {
-                column_name: {
-                    "error_msg": f"Error parsing JSON: {ai_output}"
-                }
+    try:
+        # Check for simple JSON-like literals.
+        if ai_output in ('True', 'False'):
+            parsed_data = {column_name: ai_output}
+            return parsed_data, status
+
+        # Attempt to extract JSON content between markers.
+        parsed_data = extract_json_between_markers(ai_output)
+
+    except json.JSONDecodeError:
+        status = False
+        parsed_data = {
+            column_name: {
+                "error_msg": f"Error parsing JSON: {ai_output}"
             }
-        except Exception as e:
-            # Handle unexpected errors gracefully
-            status=False
-            parsed_data = {
-                column_name: {
-                    "error_msg": f"Unexpected error: {str(e)}"
-                }
+        }
+    except Exception as e:
+        status = False
+        parsed_data = {
+            column_name: {
+                "error_msg": f"Unexpected error: {str(e)}"
             }
-    return parsed_data
+        }
+
+    return parsed_data, status
 
 
 def get_source_text(row, main_folder,output_folder,process_setup):
