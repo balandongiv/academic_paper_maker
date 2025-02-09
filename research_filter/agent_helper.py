@@ -60,9 +60,9 @@ class AIOutputModel(RootModel[Union[str, Dict[str, Any]]]):
 
 def parse_ai_output(ai_output, column_name,model_name):
 
-    # if model_name in ["gemini-exp-1206", "gemini-1.5-pro"]:
 
 
+    status=True
     if isinstance(ai_output, dict):
         # If ai_output is already a dictionary, no need to parse it
         parsed_data = ai_output
@@ -75,13 +75,14 @@ def parse_ai_output(ai_output, column_name,model_name):
                 }
 
                 # parsed_data = json.loads(ai_output.lower())
-                return parsed_data
+                return parsed_data,status
             else:
                 # Attempt to parse ai_output if it's a JSON string
                 parsed_data=extract_json_between_markers(ai_output)
                 # parsed_data = json.loads(ai_output)
         except json.JSONDecodeError:
             # Handle JSON decoding errors gracefully
+            status=False
             parsed_data = {
                 column_name: {
                     "error_msg": f"Error parsing JSON: {ai_output}"
@@ -89,6 +90,7 @@ def parse_ai_output(ai_output, column_name,model_name):
             }
         except Exception as e:
             # Handle unexpected errors gracefully
+            status=False
             parsed_data = {
                 column_name: {
                     "error_msg": f"Unexpected error: {str(e)}"

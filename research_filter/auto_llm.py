@@ -101,11 +101,14 @@ def process_main_agent_row_single_run(
 
     bibtex_val = row.get('bibtex')
     json_path = os.path.join(output_folder, f"{bibtex_val}.json")
+    json_path_issue=os.path.join(output_folder,"issue",f"{bibtex_val}.json")
 
-    # if os.path.exists(json_path):
-    #     logger.info(f"Already processed the {bibtex_val} and being saved at {json_path}")
-    #     return
-
+    if os.path.exists(json_path):
+        logger.info(f"Already processed the {bibtex_val} and being saved at {json_path}")
+        return
+    if os.path.exists(json_path_issue):
+        logger.info(f"Already processed the {bibtex_val} and being saved at {json_path_issue}")
+        return
 
     source_text,status,bibtex_val,json_path=get_source_text(row,main_folder, output_folder,process_setup)
     # New key-value pair to add at the beginning
@@ -134,12 +137,18 @@ def process_main_agent_row_single_run(
                 "error_msg": f"error text {source_text}"
             }
         }
-    if os.path.exists(json_path):
-        logger.info(f"Already processed the {bibtex_val} and being saved at {json_path}")
-        return
+        json_path=json_path_issue
+        status=False
 
-    logger.info(f"Saving the result for {bibtex_val} at {json_path}")
-    save_result_to_json(bibtex_val, parsed_data, json_path, column_name)
+    # if os.path.exists(json_path):
+    #     logger.info(f"Already processed the {bibtex_val} and being saved at {json_path}")
+    #     return
+    if status is False:
+        logger.info(f"Unfortunately, there is issue, but i still save the  {bibtex_val} at {json_path}")
+        save_result_to_json(bibtex_val, parsed_data, json_path, column_name)
+    else:
+        logger.info(f"Saving the result for {bibtex_val} at {json_path}")
+        save_result_to_json(bibtex_val, parsed_data, json_path, column_name)
 
 
 # --------------------------------------------------------------------------------
@@ -333,6 +342,7 @@ def run_pipeline(
         # create_folder_if_not_exists(methodology_json_folder)
         methodology_json_folder=os.path.join(methodology_json_folder, model_name)
         os.makedirs(methodology_json_folder,exist_ok=True)
+        os.makedirs(os.path.join(methodology_json_folder,'issue'),exist_ok=True)
         # Update DF from any existing JSON (previous partial runs)
         # df = load_partial_results_from_json(df, methodology_json_folder)
 
