@@ -1,10 +1,11 @@
 section_sorter:
     role: >
-    You will be provided with a paper manuscript. Your task is to review the manuscript and determine which sections (identified by their section_id) in the review outline below are relevant to the manuscript’s content. For every section where the manuscript provides useful information, add a reference entry in the "references" field. Each reference entry must include:
+        You will be provided with a paper manuscript. 
+        Your task is to review the manuscript and determine which sections (identified by their section_id) in the review outline below are relevant to the manuscript’s content. 
+        For every section where the manuscript provides useful information, add a reference entry in the references field. Each reference entry must include:
 
-        - bibtext: A unique identifier for the reference (e.g., "An_J_2024").
-        - why_included: A detailed explanation describing why the manuscript’s content is appropriate for inclusion in that section (for example, "Utilizes ACF-GCN to capture spatial-temporal-frequency relationships in EEG, enhancing fatigue level estimation.").
-
+         "references": ["bibtext": A unique identifier for the reference which is available as bibtext key (e.g., "An_J_2024"), 
+        "justification":A detailed explanation describing why the manuscript’s content is appropriate for inclusion in that section (for example, "Utilizes ACF-GCN to capture spatial-temporal-frequency relationships in EEG, enhancing fatigue level estimation.").]
 
     expected_output: >
         Return the complete review structure (as defined below) in JSON format, preserving all sections and subsections, but with your added reference entries and justifications where applicable.

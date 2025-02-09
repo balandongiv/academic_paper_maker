@@ -125,7 +125,7 @@ def get_source_text(row, main_folder,output_folder,process_setup):
     """
     # use_abstract = process_setup['used_abstract']  # we only use abstract for filtering either the manuscript is suitable for futher processing or not
 
-    pdf_filename = 'no_pdf' if process_setup['used_abstract']  else row.get('pdf_name', '')
+    # pdf_filename = 'no_pdf' if process_setup['used_abstract']  else row.get('pdf_name', '')
     bibtex_val = row.get('bibtex')
     bibtex_data = {"bibtext": bibtex_val}
     if not bibtex_val:  # Ensure bibtex value exists
@@ -134,35 +134,25 @@ def get_source_text(row, main_folder,output_folder,process_setup):
 
     json_path = os.path.join(output_folder, f"{bibtex_val}.json")
 
-    # Check if JSON output already exists
-    if os.path.exists(json_path):
-        logger.info(f"Already processed: {json_path}")
-        return None, False, bibtex_val, json_path  # No need to process again
+    # # Check if JSON output already exists
+    # if os.path.exists(json_path):
+    #     logger.info(f"Already processed: {json_path}")
+    #     return None, False, bibtex_val, json_path  # No need to process again
 
     source_filename = f"{bibtex_val}.grobid.tei.xml"
     source_path = os.path.join(main_folder, "xml", source_filename)
 
-    if pdf_filename == 'no_pdf':
-        # Use abstract as fallback if no PDF
-        source_text = row.get('abstract')
-        if source_text:
-            source_text = dict(bibtex_data, **{"abstract": source_text})
-            logger.info(f"Using abstract text for {bibtex_val}.")
-            return source_text, True, bibtex_val, json_path
-        else:
-            logger.warning(f"No abstract available for {bibtex_val}.")
-            return None, False, bibtex_val, json_path
 
-    elif os.path.exists(source_path):
+    if os.path.exists(source_path):
         # Process XML file if available
         source_text = process_xml_file(source_path, save_json=False)
         source_text = OrderedDict({**bibtex_data, **source_text})
         return json.dumps(source_text, indent=2), True, bibtex_val, json_path
 
     else:
-        # If no valid PDF or XML file, log and return failure
-        logger.warning(f"Source file missing: {source_path}")
-        return None, False, bibtex_val, json_path
+        logger.info(f"Using abstract text for {bibtex_val}.")
+        source_text = dict(bibtex_data, **{"abstract": row.get('abstract')})
+        return json.dumps(source_text, indent=2), True, bibtex_val, json_path
 
 def extract_json_between_markers(llm_output):
     # Regular expression pattern to find JSON content between ```json and ```

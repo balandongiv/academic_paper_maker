@@ -2,7 +2,7 @@ import json
 import logging
 import os
 import time
-from collections import OrderedDict
+
 import pandas as pd
 from dotenv import load_dotenv
 from tqdm import tqdm
@@ -32,58 +32,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-expected_json_output ={
-    "introduction": {
-        "problem_statement": "string",
-        "proposed_solution": "explanation about the proposed solution",
-        "gap_in_previous_study": "long discussion about the technical gap identified in previous studies",
-        "issue_being_addressed": "choose either one of the four following themes: 1. Tackling Subject Variability, 2. Reducing the Number of EEG Channels, 3. Multiclass Sleepiness Classification, 4. Enhancing Robustness and Generalization",
-        "justification": "long explanation on why you choose the theme in the issue_being_addressed"
-    },
-    "methodology": {
-        "methods_used": [
-            "<Method 1>",
-            "<Method 2>",
-            "<list of other methods if available>"
-        ],
-        "exact_reasons_for_selection": {
-            "<Method 1>": "multiple lines of the exact text from the input about the reason or motivation to use Method 1.",
-            "<Method 2>": "multiple lines of the exact text from the input about the reason or motivation to use Method 2",
-            "<list of other methods if available>": ""
-        },
-        "reasons_for_selection": {
-            "<Method 1>": "Long and detailed explanation about the reason or motivation to use Method 1.",
-            "<Method 2>": "Long and detailed explanation about the reason or motivation to use Method 2.",
-            "<list of other methods if available>": ""
-        },
-        "performance_metrics": {
-            "accuracy": "<Value or 'N/A'>",
-            "precision": "<Value or 'N/A'>",
-            "recall": "<Value or 'N/A'>",
-            "f1_score": "<Value or 'N/A'>",
-            "other_metrics": {
-                "<Metric name>": "<Value>"
-            }
-        },
-        "comparison_with_existing_methods": {
-            "key_differences": "A long detailed comparison with other machine learning or state-of-the-art (SOTA) techniques, including their names, highlighting improvements, innovations, or weaknesses. If there is value associated, give"
-        }
-    },
-    "discussion": {
-        "limitations_and_future_work": {
-            "current_limitations": [
-                "list of limitation of the proposed study"
-            ],
-            "future_directions": [
-                "list of future direction that you can think"
-            ]
-        }
-    }
-}
 
-import os
-import logging
-import pandas as pd
+
 
 logger = logging.getLogger(__name__)
 
@@ -134,8 +84,11 @@ def process_main_agent_row_single_run(
 
         # Parse AI output
         parsed_data, status_parsing = parse_ai_output(ai_output, column_name, model_name)
-        if status_parsing is False:
+        if status_parsing is False or parsed_data is None:
+            status_text= False
             json_path = json_path_issue
+            # Attempt to extract JSON content between markers.
+
             parsed_data = {
                 column_name: {
                     "error_msg": f"not able to parse {source_text}",
@@ -602,7 +555,7 @@ def main():
         'cross_check_runs':3,
         'cross_check_agent_name':'agent_cross_check',
         'cleanup_json':False,
-        'used_abstract':False
+        'used_abstract':True    # when working with pdf, always set this option to True, so that we use the abstract on behlaf of the pdf
     }
 
     # Run pipeline
