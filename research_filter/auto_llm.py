@@ -550,7 +550,7 @@ def main():
         'batch_process':False,  # This is for the batch processing which have 50% discount. use with the code research_filter/check_batch_process.py
         'manual_paste_llm':False,       # This is for the manual paste of the LLM
         'iterative_confirmation':False,
-        'overwrite_csv':True,      # careful when set to true as this will overwrite the csv file
+        'overwrite_csv':False,      # careful when set to true as this will overwrite the csv file
         'cross_check_enabled':False,
         'cross_check_runs':3,
         'cross_check_agent_name':'agent_cross_check',
