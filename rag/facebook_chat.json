@@ -1,0 +1,83 @@
+{
+  "chat_thread": {
+    "title": "User 1 and User 2 Chat",
+    "thread_path": "inbox/User_1_and_User_2_chat",
+    "participants": [
+      { "name": "User 1" },
+      { "name": "User 2" }
+    ],
+    "is_still_participant": true,
+    "joinable_mode": {
+      "link": "",
+      "mode": 1
+    },
+    "image": {
+      "creation_timestamp": "2023-02-04T12:30:16Z",
+      "uri": "image_of_the_chat.jpg"
+    },
+    "messages": [
+      {
+        "timestamp": "2023-02-05T10:30:22.851Z",
+        "sender": "User 2",
+        "content": "Bye!"
+      },
+      {
+        "timestamp": "2023-02-05T10:30:35.669Z",
+        "sender": "User 1",
+        "content": "Oh no worries! Bye"
+      },
+      {
+        "timestamp": "2023-02-05T10:11:17.579Z",
+        "sender": "User 2",
+        "content": "No, I'm sorry, it was my mistake. The blue one is not for sale."
+      },
+      {
+        "timestamp": "2023-02-05T09:52:20.251Z",
+        "sender": "User 1",
+        "content": "I thought you were selling the blue one!"
+      },
+      {
+        "timestamp": "2023-02-05T09:51:49.305Z",
+        "sender": "User 1",
+        "content": "I'm not interested in this bag. I'm interested in the blue one!"
+      },
+      {
+        "timestamp": "2023-02-05T09:51:08.468Z",
+        "sender": "User 2",
+        "content": "Here is $129"
+      },
+      {
+        "timestamp": "2023-02-05T09:50:50.730Z",
+        "sender": "User 2",
+        "attachments": [
+          {
+            "type": "photo",
+            "creation_timestamp": "2023-02-05T09:50:59Z",
+            "uri": "url_of_some_picture.jpg"
+          }
+        ]
+      },
+      {
+        "timestamp": "2023-02-05T09:50:45.152Z",
+        "sender": "User 2",
+        "content": "Online is at least $100."
+      },
+      {
+        "timestamp": "2023-02-05T09:46:39.696Z",
+        "sender": "User 1",
+        "content": "How much do you want?"
+      },
+      {
+        "timestamp": "2023-02-05T05:57:56.645Z",
+        "sender": "User 2",
+        "content": "Good morning! $50 is too low."
+      },
+      {
+        "timestamp": "2023-02-04T12:30:22.673Z",
+        "sender": "User 1",
+        "content": "Hi! I'm interested in your bag. I'm offering $50. Let me know if you are interested. Thanks!"
+      }
+    ],
+    "magic_words": "dayamn"
+  }
+}
