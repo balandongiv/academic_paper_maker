@@ -287,7 +287,7 @@ def run_pipeline(
     model_name = agentic_setting['model_name']
     column_name = agentic_setting['column_name']
     # Prepare role instructions
-
+    logger.info(f"Preparing role instructions for {agentic_setting['agent_name']}.")
     role_instruction_main = get_role_instruction(config, placeholders, agentic_setting['agent_name'])
 
     if process_setup['cross_check_enabled']:
@@ -506,7 +506,7 @@ def main():
 
 
     # project_review='eeg_review'
-    project_review='eeg_review'
+    project_review='corona_discharge'
     path_dic=project_folder(project_review=project_review)
     main_folder = path_dic['main_folder']
 
@@ -526,7 +526,7 @@ def main():
     #     "yaml_path": "agent/agent_ml.yaml",
     #     "model_name": model_name
     # }
-    agent_name="section_sorter"
+    agent_name="methodology_gap_extractor_partial_discharge"
     agentic_setting = {
         "agent_name": agent_name,
         "column_name": agent_name,

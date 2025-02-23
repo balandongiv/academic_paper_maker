@@ -25,8 +25,9 @@ def main():
 
     # Now you can call any of the methods from GrobidClient
     # For example, process a directory of PDFs with 'processFulltextDocument'
-    input_path = r"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review\pdf"
-    output_path = r"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review\xml"
+    main_folder=r"G:\My Drive\research_related\corona_discharge"
+    input_path = os.path.join(main_folder, "pdf")
+    output_path =os.path.join(main_folder, "xml")
 
     # Ensure output_path exists
     if not os.path.isdir(output_path):
