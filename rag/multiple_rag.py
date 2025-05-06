@@ -15,6 +15,8 @@ import json
 
 from langchain_community.document_loaders import DirectoryLoader, JSONLoader
 
+# from personal_note.tutorial import FOLDER_PATH, main_folder
+
 
 def clean_jq_schema(schema_str: str) -> str:
     """
@@ -95,19 +97,32 @@ def save_to_json(data, output_file):
 
 if __name__ == "__main__":
     # Define input/output paths
-    FOLDER_PATH = r"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review\methodology_gap_extractor\json_output\gemini-2.0-flash-thinking-exp-01-21_updated"
-    TXT_OUTPUT_FILE = r"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review\methodology_gap_extractor\json_output\gap_extracted_output.txt"
-    JSON_OUTPUT_FILE = r"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review\methodology_gap_extractor\json_output\gap_extracted_output.json"
+    # input_dir = r'G:\My Drive\research_related\corona_discharge\methodology_gap_extractor_partial_discharge\json_output\gemini-2.0-flash-thinking-exp-01-21'
+    # output_dir = r'G:\My Drive\research_related\corona_discharge\methodology_gap_extractor_partial_discharge\json_output\gemini-2.0-flash-thinking-exp-01-21_updated'
+
+    # main_folder=r"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review\methodology_gap_extractor\json_output"
+    main_folder=r"G:\My Drive\research_related\corona_discharge\methodology_gap_extractor_partial_discharge\json_output"
+
+    FOLDER_PATH = os.path.join(main_folder, "gemini-2.0-flash-thinking-exp-01-21_updated")
+    TXT_OUTPUT_FILE=os.path.join(main_folder, "gap_extracted_output.txt")
+    JSON_OUTPUT_FILE = os.path.join(main_folder, "lit_review_pd.json")
+
 
     # Define the jq_schema with a commented-out line for troubleshooting
+    # jq_schema = """
+    #     {
+    #         bibtex: .bibtex,
+    #         current_limitations: .discussion.limitations_and_future_work.current_limitations,
+    #         # comparison_with_existing_methods: .methodology.comparison_with_existing_methods
+    #     }
+    # """
     jq_schema = """
         {
             bibtex: .bibtex,
-            current_limitations: .discussion.limitations_and_future_work.current_limitations,
-            # comparison_with_existing_methods: .methodology.comparison_with_existing_methods
+            introduction: .introduction,
+            methods: .methodology
         }
     """
-
     # Load and extract data using the provided (and cleaned) jq_schema
     extracted_data = load_json_files(FOLDER_PATH, jq_schema)
 

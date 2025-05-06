@@ -13,7 +13,7 @@ BIBTEX_FIELDS = {
     "pages": ["pages", "page"],
     "doi": ["doi"],
     "publisher": ["publisher"],
-    "url": ["url", "link"],
+    # "url": ["url", "link"],
 }
 
 def format_authors(author_str):
@@ -85,8 +85,8 @@ def generate_bibtex(df, output_file="ascexmpl-new.bib"):
 
 if __name__ == "__main__":
     # Load the Excel file
-    file_path = r"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review\database\eeg_review.xlsx"
-    output_path=r"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review\database\eeg_review.bib"
+    file_path = r"G:\My Drive\research_related\corona_discharge\database\combined_filtered.xlsx"
+    output_path=r"G:\My Drive\research_related\corona_discharge\database\combined_filtered.bib"
     if not os.path.exists(file_path):
         print(f"Excel file not found at {file_path}!")
     else:
