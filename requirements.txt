@@ -19,6 +19,7 @@ pip install pymupdf
 python3 -m pip install googlesearch-python
 frontend
 selenium
+bibtexparser
 pip install grobid_tei_xml
 # pip install google-generativeai
 # install -qU langchain-openai

@@ -85,8 +85,8 @@ def generate_bibtex(df, output_file="ascexmpl-new.bib"):
 
 if __name__ == "__main__":
     # Load the Excel file
-    file_path = r"G:\My Drive\research_related\corona_discharge\database\combined_filtered.xlsx"
-    output_path=r"G:\My Drive\research_related\corona_discharge\database\combined_filtered.bib"
+    file_path = r"C:\Users\balan\IdeaProjects\academic_paper_maker\bib_example\combined_filtered.xlsx"
+    output_path=r"C:\Users\balan\IdeaProjects\academic_paper_maker\bib_example\xcombined_filtered.bib"
     if not os.path.exists(file_path):
         print(f"Excel file not found at {file_path}!")
     else:

@@ -8,7 +8,7 @@ import glob
 import pandas as pd
 import re
 import unicodedata
-
+from download_pdf.bib_exporter import parse_scopus_bib_files
 def map_publisher_long(df):
     # Create a full dictionary for mapping
     publisher_mapping = {
@@ -200,12 +200,13 @@ def filter_rows(df: pd.DataFrame) -> pd.DataFrame:
     Only keep 'English' in 'language_of_original_document' if present.
     """
     if 'document_type' in df.columns:
-        df = df[df['document_type'].isin(['Article', 'Review'])]
+        df = df[df['document_type'].fillna('').str.lower().isin(['article', 'review'])]
+
     else:
         print("Warning: 'document_type' column not found. No filtering on document_type applied.")
 
-    if 'language_of_original_document' in df.columns:
-        df = df[df['language_of_original_document'].isin(['English'])]
+    if 'language' in df.columns:
+        df = df[df['language'].str.lower() == 'english']
     else:
         print("Warning: 'language_of_original_document' column not found. No filtering on language applied.")
 
@@ -217,6 +218,8 @@ def remove_duplicates_by_doi_and_title(df: pd.DataFrame) -> pd.DataFrame:
     If both 'doi' and 'title' are present, use both columns.
     If only one is present, use that.
     """
+    original_len = len(df)
+    print(f'Initial number of rows: {original_len}')
     has_doi = 'doi' in df.columns
     has_title = 'title' in df.columns
 
@@ -228,7 +231,7 @@ def remove_duplicates_by_doi_and_title(df: pd.DataFrame) -> pd.DataFrame:
         df = df.drop_duplicates(subset=['title'], keep='first')
     else:
         print("Warning: Neither 'doi' nor 'title' found. No duplicate removal based on doi/title.")
-
+    print(f'Number of rows after duplicate removal: {len(df)}. Total duplicates removed: {original_len - len(df)}')
     return df
 
 def extract_first_author(df: pd.DataFrame) -> pd.DataFrame:
@@ -296,7 +299,11 @@ def create_bibtex_column(df: pd.DataFrame) -> pd.DataFrame:
 def rename_columns_for_final_schema(df: pd.DataFrame) -> pd.DataFrame:
     """
     Map original column names to final schema where necessary.
-    Example: 'authors' -> 'author', 'source_title' -> 'journal'.
+    Example:
+        'authors' -> 'author',
+        'source_title' -> 'journal'.
+        'link' -> 'url',
+        'publisher' -> 'publisher_long',
     """
     rename_map = {
         'authors': 'author',
@@ -357,13 +364,14 @@ def combine_scopus_csvs_to_excel(folder_path: str, output_excel_path: str) -> No
     applies cleaning/formatting, removes duplicates, and saves to Excel.
     """
     # 1. Gather all CSV files
-    csv_files = gather_csv_files(folder_path)
-    if not csv_files:
-        print(f"No CSV files found in {folder_path}. Process aborted.")
-        return
+    # csv_files = gather_csv_files(folder_path)
+    df=parse_scopus_bib_files(folder_path)
+    # if not csv_files:
+    #     print(f"No CSV files found in {folder_path}. Process aborted.")
+    #     return
 
     # 2. Load CSV files into a single DataFrame
-    df = load_csv_files(csv_files)
+    # df = load_csv_files(csv_files)
     if df.empty:
         print("No valid data to process. Process aborted.")
         return
@@ -383,7 +391,7 @@ def combine_scopus_csvs_to_excel(folder_path: str, output_excel_path: str) -> No
     # 7. Extract the first author
     df = extract_first_author(df)
     unique_val=df['publisher_long'].unique()
-    print(unique_val)
+    print(f'These are the unique publisher_long values: {unique_val}')
     df = map_publisher_long(df)
 
     unique_val=df['publisher'].unique()
