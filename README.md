@@ -1,35 +1,96 @@
-# Project Setup
+---
 
-This project requires certain dependencies to be installed for proper functioning. Follow the instructions below to set up your environment.
+# 🤖 Automating Research Workflows with LLMs
 
-## Conda Environment
+This repository provides a modular framework for using **Large Language Models (LLMs)** to automate key stages of academic and technical research — from literature filtering and methodology extraction to drafting summaries and generating BibTeX files.
 
-To create a conda environment with Python 3.12, use the following command:
+> ⚡ Powered by OpenAI, Google Gemini, and agentic pipelines.
 
+---
+
+## 🧭 What This Project Does
+
+This repo helps researchers and engineers offload repetitive or complex research tasks to LLM agents. Example tasks include:
+
+* 🔍 Filtering and classifying research papers
+* 📄 Extracting methodology details from full texts or abstracts
+* 📊 Summarizing results into structured tables
+* ✍️ Drafting literature review sections from combined findings
+* 📚 Exporting final selections to `.bib` files for citation
+
+All components are **LLM-augmented**, and designed to work with your own corpus of PDFs, abstracts, and filtered Excel files.
+
+---
+
+## 🛠️ Environment Setup
+
+This project supports both `conda` and `virtualenv`. Choose your preferred setup:
+
+### 🐍 With Conda
+
+```bash
 conda create --name crewai-flows python=3.12
-
-To activate the conda environment, use:
-
 conda activate crewai-flows
+```
 
-## Virtualenv
+### 🌀 With Virtualenv
 
-If you prefer using virtualenv, first install it:
-
+```bash
 pip install virtualenv
-
-Then create a virtual environment with Python 3.12:
-
 virtualenv -p python3.12 myenv
+```
 
-Activate the virtualenv environment with:
+Activate:
 
-- On Windows: myenv\Scripts\activate
-- On macOS/Linux: source myenv/bin/activate
+* Windows: `myenv\Scripts\activate`
+* macOS/Linux: `source myenv/bin/activate`
 
-## Installing Dependencies
+---
 
-To install the dependencies listed in the `requirements.txt` file, use:
+## 📁 Project Structure
 
-pip install -r requirements.txt
-#
+```
+project_root/
+├── execution_guide.ipynb                 # Install dependencies & setup API keys
+├── helper/                               # Utility functions (e.g., combine_json.py)
+├── setting/                              # Project path configs
+├── requirements.txt                      # Python dependencies
+└── .env                                  # API keys (see notebook for how to create)
+```
+
+> 💡 The actual installation and API configuration steps are detailed in `execution_guide.ipynb `.
+
+---
+
+## 🔐 API Keys Required
+
+To use LLMs (OpenAI or Gemini), you’ll need API keys. The notebook provides exact setup instructions, including how to store them safely in a `.env` file.
+
+---
+
+## 🧠 LLM Applications Included
+
+| Step | Task                           | Output                             |
+| ---- | ------------------------------ | ---------------------------------- |
+| 5–6  | Filter papers (Excel)          | LLM-augmented relevance            |
+| 9    | Extract methodology            | JSON (1 per paper)                 |
+| 10   | Combine JSON & draft summaries | Combined insights / narrative      |
+| 11   | Export to BibTeX               | `.bib` for LaTeX or citation tools |
+
+---
+
+## 📓 Getting Started
+
+Start with the notebook:
+
+```
+main.ipynb
+```
+
+It walks you through:
+
+* Installing packages
+* Creating a `.env` file for API keys
+* Testing your LLM setup
+
+---

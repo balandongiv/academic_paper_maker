@@ -1,34 +1,46 @@
-# List your project dependencies below. For example:
+
+# === Install All Dependencies ===
+# Run the following command in your terminal:
+#
 # pip install -r requirements.txt
-# pip install python-dotenv
-crewai>=0.76.9
-python-dotenv>=1.0.1
+#
+# Make sure your virtual environment is activated before running the command.
+
+# === Core Dependencies ===
+crewai
+python-dotenv
 pyperclip
 PyPDF2
 duckduckgo-search
 googlesearch-python
 tqdm
 pandas
-pyperclip
 PyYAML
 pydantic
 openpyxl
 flask
 beautifulsoup4
-# pip install pymupdf
-# python3 -m pip install googlesearch-python
-frontend
-selenium
 bibtexparser
 loguru
+pymupdf
+
+# === LangChain & LLM Integration ===
 langchain-core
-langchain_openai
-langchain_google_genai
-# pip install grobid_tei_xml
-# pip install google-generativeai
-# install -qU langchain-openai
-# pip install -qU langchain-google-genai
+langchain-openai
+langchain-google-genai
 
-# pip3 install -U scidownl  : https://github.com/Tishacy/SciDownl
+# === Frontend (optional or project-specific) ===
+frontend
+selenium
 
+# === Optional Tools ===
+# python3 -m pip install googlesearch-python
 
+# For parsing GROBID TEI XML files
+# grobid_tei_xml
+
+# For Google Gemini API access
+# google-generativeai
+
+# For academic paper download automation
+# scidownl  # https://github.com/Tishacy/SciDownl or pip3 install -U scidownl
