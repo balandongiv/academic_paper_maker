@@ -2,13 +2,14 @@ import glob
 import json
 import logging
 import os
-from pdf_mdpi import do_download_mdpi
+
 import pandas as pd
 
-from pdf_ieee import do_download_ieee
-from pdf_scihub import do_download_scihub
-from pdf_sciencedirect import do_download_scincedirect
-from pdf_ieee_search import do_download_ieee_search
+from .pdf_ieee import do_download_ieee
+from .pdf_mdpi import do_download_mdpi
+from .pdf_scihub import do_download_scihub
+from .pdf_sciencedirect import do_download_scincedirect
+from .pdf_ieee_search import do_download_ieee_search
 from setting.project_path import project_folder
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')

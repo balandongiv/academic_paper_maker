@@ -403,32 +403,26 @@ def combine_scopus_bib_to_excel(folder_path: str, output_excel_path: str) -> Non
     Main function that combines multiple Scopus bib files in a folder,
     applies cleaning/formatting, removes duplicates, and saves to Excel.
     """
-    # 1. Gather all CSV files
-    # csv_files = gather_csv_files(folder_path)
+    # 1. Gather all bibtex files
     df=parse_scopus_bib_files(folder_path)
-    # if not csv_files:
-    #     print(f"No CSV files found in {folder_path}. Process aborted.")
-    #     return
 
-    # 2. Load CSV files into a single DataFrame
-    # df = load_csv_files(csv_files)
     if df.empty:
         print("No valid data to process. Process aborted.")
         return
 
-    # 3. Clean column names
+    # 2. Clean column names
     df = clean_column_names(df)
 
-    # 4. Filter rows based on conditions
+    # 3. Filter rows based on conditions
     df = filter_rows(df)
 
-    # 5. Remove duplicates by DOI and Title
+    # 4. Remove duplicates by DOI and Title
     df = remove_duplicates_by_doi_and_title(df)
 
-    # 6. Rename columns to final schema
+    # 5. Rename columns to final schema
     df = rename_columns_for_final_schema(df)
 
-    # 7. Extract the first author
+    # 6. Extract the first author
     df = extract_first_author(df)
     unique_val=df['publisher_long'].unique()
     print(f'These are the unique publisher_long values: {unique_val}')
@@ -436,13 +430,13 @@ def combine_scopus_bib_to_excel(folder_path: str, output_excel_path: str) -> Non
 
     unique_val=df['publisher'].unique()
     print(unique_val)
-    # 8. Create bibtex column
+    # 7. Create bibtex column
     df = create_bibtex_column(df)
 
-    # 9. Ensure final columns exist and reorder
+    # 8. Ensure final columns exist and reorder
     df = ensure_and_reorder_columns(df)
 
-    # 10. Write the combined DataFrame to Excel
+    # 9. Write the combined DataFrame to Excel
     df.to_excel(output_excel_path, index=False, engine='openpyxl')
     print(f"Combined file has been saved to: {output_excel_path}")
 

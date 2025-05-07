@@ -104,9 +104,12 @@ def project_folder(project_review=None, main_folder=None):
             )
 
     # Build path to the Excel file
-    csv_path = main_folder / 'database' / f'{project_review}_database.xlsx'
-
+    csv_path = os.path.join(main_folder, 'database', f'{project_review}_database.xlsx')
+    scopus_path= os.path.join(main_folder, 'database', 'scopus')
+    xml_path= os.path.join(main_folder, 'xml')
     return {
-        'main_folder': str(main_folder),
-        'csv_path': str(csv_path)
+        'main_folder': main_folder,
+        'database_path': csv_path,
+        'scopus_path': scopus_path,
+        'xml_path': xml_path
     }

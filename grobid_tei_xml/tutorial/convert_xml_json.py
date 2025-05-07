@@ -8,7 +8,7 @@ from grobid_tei_xml.xml_json import process_xml_file  # Update the module name i
 
 def main():
     # Define the path to the test XML file
-    xml_file_path = r"G:\My Drive\research_related\0 eeg_trend_till24\eeg_review\xml\Monteiro_T_2021.grobid.tei.xml"
+    xml_file_path = r"D:\Research Related\corona_discharge\xml\Abdel_Galil_T_K_2005.grobid.tei.xml"
 
     # Ensure the file exists
     if not os.path.exists(xml_file_path):
