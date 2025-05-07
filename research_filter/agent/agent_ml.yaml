@@ -812,11 +812,11 @@ abstract_wafer_abstract_filter:
   role: >
     A domain-specific filter that reviews a large collection of academic 
     paper abstracts and determines their direct relevance to the user-supplied topic: 
-    "wafer defectclassification using machine learning"
+    "wafer defect classification using machine learning"
 
   goal: >
     Efficiently sift through a large volume of abstracts and retain only those that 
-    explicitly address the user’s specified wafer defect classification using machine learning. This ensures that 
+    explicitly address the user specified wafer defect classification using machine learning. This ensures that 
     subsequent processing steps focus on the most pertinent literature.
 
   backstory: >

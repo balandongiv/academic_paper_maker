@@ -1,7 +1,7 @@
 from research_filter.auto_llm import run_pipeline
 from setting.project_path import project_folder
 import os
-# project_review='eeg_review'
+
 project_review='corona_discharge'
 path_dic=project_folder(project_review=project_review)
 main_folder = path_dic['main_folder']
@@ -27,7 +27,7 @@ methodology_json_folder=os.path.join(main_folder,agentic_setting['agent_name'],'
 multiple_runs_folder =os.path.join(main_folder,agentic_setting['agent_name'],'multiple_runs_folder')
 final_cross_check_folder = os.path.join(main_folder,agentic_setting['agent_name'],'final_cross_check_folder')
 
-csv_path = path_dic['csv_path']
+csv_path = path_dic['database_path']
 # Basic placeholders for roles
 placeholders = {} # we just ignore this as im to lazy to generalize things
 
