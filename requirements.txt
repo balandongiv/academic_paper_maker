@@ -15,12 +15,16 @@ pydantic
 openpyxl
 flask
 beautifulsoup4
-pip install pymupdf
-python3 -m pip install googlesearch-python
+# pip install pymupdf
+# python3 -m pip install googlesearch-python
 frontend
 selenium
 bibtexparser
-pip install grobid_tei_xml
+loguru
+langchain-core
+langchain_openai
+langchain_google_genai
+# pip install grobid_tei_xml
 # pip install google-generativeai
 # install -qU langchain-openai
 # pip install -qU langchain-google-genai

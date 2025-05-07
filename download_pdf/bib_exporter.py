@@ -46,7 +46,8 @@ def parse_scopus_bib_files(folder_path, output_csv=None):
 
 # Example usage:
 if __name__ == "__main__":
-    folder = r"C:\Users\balan\IdeaProjects\academic_paper_maker\bib_example"
+    folder = r"..\..\academic_paper_maker\bib_example"
     df = parse_scopus_bib_files(folder, output_csv="merged_scopus_output.csv")
-    df.to_excel("merged_scopus_output.xlsx", index=False)
+    save_path=os.path.join(folder, "merged_scopus_output.xlsx")
+    df.to_excel(save_path, index=False)
     print(df.head())
