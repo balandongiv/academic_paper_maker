@@ -112,6 +112,7 @@ def update_df_from_json(df, temp_folder,column_name):
     After all processing is completed, update the DataFrame from the JSON files again to ensure
     all processed rows are reflected in the DataFrame.
     """
+    logger.info('Now we going to update the DataFrame from the JSON files')
     for i, row in df.iterrows():
         bibtex_val = row.get('bibtex', None)
         if pd.notna(bibtex_val):
