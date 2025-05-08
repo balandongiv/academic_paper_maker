@@ -122,8 +122,8 @@ def update_df_from_json(df, temp_folder,column_name):
                     with open(json_path, "r") as f:
                         data = json.load(f)
                     # Update the row with the saved ai_output if available
-                    if column_name in data:
-                        df.at[i, column_name] = data[column_name]
+                    # if column_name in data:
+                    df.at[i, column_name] = data
                 except Exception as e:
                     logger.warning(f"Unable to re-load {json_path}: {e}")
     return df

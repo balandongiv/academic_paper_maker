@@ -530,8 +530,8 @@ def run_pipeline(
         # (Optional) Save final DF to Excel
 
     if process_setup['overwrite_csv']:
-        logger.info(f"Saving updated DataFrame to {csv_path}")
-        df.to_excel(csv_path, index=False)
+        from helper.combine_json import save_with_backup
+        save_with_backup(df, csv_path)
 
     logger.info(f"Pipeline execution complete in {time.time() - start_time:.2f} s.")
 
@@ -559,18 +559,23 @@ def main():
     # model_name='gemini-exp-1206'
     model_name='gemini-2.0-flash-thinking-exp-01-21'
 
+    # Get the directory where the current script is located
+    base_dir = os.path.dirname(__file__)
+
+    # Construct the relative path to the YAML file
+    yaml_path = os.path.join(base_dir, "research_filter", "agent", "agent_ml.yaml")
 
     # agentic_setting = {
     #     "agent_name": "abstract_wafer_abstract_filter",
     #     "column_name": "abstract_wafer_abstract_filter",
-    #     "yaml_path": "agent/agent_ml.yaml",
+    #     "yaml_path": yaml_path,
     #     "model_name": model_name
     # }
     agent_name="methodology_gap_extractor_partial_discharge"
     agentic_setting = {
         "agent_name": agent_name,
         "column_name": agent_name,
-        "yaml_path": "agent/agent_ml.yaml",
+        "yaml_path": yaml_path,
         "model_name": model_name
     }
 
@@ -590,7 +595,7 @@ def main():
         'batch_process':False,  # This is for the batch processing which have 50% discount. use with the code research_filter/check_batch_process.py
         'manual_paste_llm':False,       # This is for the manual paste of the LLM
         'iterative_confirmation':False,
-        'overwrite_csv':False,      # careful when set to true as this will overwrite the csv file
+        'overwrite_csv':True,      # careful when set to true as this will overwrite the csv file, but we will create a backup
         'cross_check_enabled':False,
         'cross_check_runs':3,
         'cross_check_agent_name':'agent_cross_check',
