@@ -249,7 +249,171 @@ def finalize_cross_check_output(
     updated_df = update_df_from_json(df, final_folder, column_name)
     return updated_df
 
+def process_single_run(df: pd.DataFrame,
+                       main_folder: str,
+                       methodology_json_folder: str,
+                       role_instruction: str,
+                       client,
+                       model_name: str,
+                       column_name: str,
+                       process_setup: dict) -> pd.DataFrame:
+    """Process each row once with the main agent and update the DF."""
+    # Ensure main output folder exists
+    os.makedirs(methodology_json_folder, exist_ok=True)
+    os.makedirs(os.path.join(methodology_json_folder, 'issue'), exist_ok=True)
 
+    for _, row in tqdm(df.iterrows(), total=len(df), leave=False):
+        process_main_agent_row_single_run(
+            row,
+            main_folder,
+            methodology_json_folder,
+            role_instruction,
+            client,
+            model_name,
+            column_name,
+            process_setup
+        )
+
+    return update_df_from_json(df, methodology_json_folder, column_name)
+
+
+def process_iterative_confirmation_branch(df: pd.DataFrame,
+                                          main_folder: str,
+                                          methodology_json_folder: str,
+                                          model_name: str,
+                                          role_instruction: str,
+                                          client,
+                                          column_name: str,
+                                          config: dict,
+                                          process_setup: dict) -> pd.DataFrame:
+    """Kick off the iterative confirmation approach."""
+    expected_output = config['methodology_gap_extractor']['expected_output']
+    iterative_agent = config['iterative_validation']
+    run_iterative_confirmation(
+        df,
+        main_folder,
+        methodology_json_folder,
+        model_name,
+        role_instruction,
+        client,
+        column_name,
+        expected_output,
+        iterative_agent
+    )
+
+
+
+def process_manual_paste_llm(df: pd.DataFrame,
+                             main_folder: str,
+                             deepseek_json_folder: str,
+                             role_instruction: str) -> pd.DataFrame:
+    """Prepare JSON files for manual paste into the LLM playground."""
+    os.makedirs(deepseek_json_folder, exist_ok=True)
+
+    for _, row in tqdm(df.iterrows(), total=len(df), leave=False):
+        source_text, status, bibtex_val, json_path = get_source_text(
+            row, main_folder, deepseek_json_folder
+        )
+        if os.path.exists(json_path):
+            continue
+
+        task = {
+            "messages": [
+                {"role": "system", "content": role_instruction},
+                {"role": "user",   "content": source_text}
+            ]
+        }
+        with open(json_path, 'w', encoding='utf-8') as file:
+            json.dump(task, file, ensure_ascii=False, indent=4)
+
+
+def process_batch_process(df: pd.DataFrame,
+                          main_folder: str,
+                          methodology_json_folder: str,
+                          role_instruction: str,
+                          model_name: str) -> pd.DataFrame:
+    """Build a tasks.jsonl file for OpenAI batch processing."""
+    os.makedirs(methodology_json_folder, exist_ok=True)
+    tasks = []
+
+    for _, row in tqdm(df.iterrows(), total=len(df), leave=False):
+        source_text, status, bibtex_val, _ = get_source_text(
+            row, main_folder, methodology_json_folder
+        )
+        if not status:
+            continue
+
+        task = {
+            "custom_id": f"task-{bibtex_val}",
+            "method": "POST",
+            "url": "/v1/chat/completions",
+            "body": {
+                "model": model_name,
+                "temperature": 0.1,
+                "response_format": {"type": "json_object"},
+                "messages": [
+                    {"role": "system", "content": role_instruction},
+                    {"role": "user",   "content": source_text}
+                ],
+            }
+        }
+        tasks.append(task)
+
+    file_name = os.path.join(methodology_json_folder, "tasks.jsonl")
+    with open(file_name, 'w') as f:
+        for obj in tasks:
+            f.write(json.dumps(obj) + "\n")
+
+
+def process_multi_run_cross_check(df: pd.DataFrame,
+                                  main_folder: str,
+                                  methodology_json_folder: str,
+                                  multiple_runs_folder: str,
+                                  final_cross_check_folder: str,
+                                  role_instruction_main: str,
+                                  role_instruction_cross: str,
+                                  client,
+                                  model_name: str,
+                                  column_name: str,
+                                  process_setup: dict) -> pd.DataFrame:
+    """Run the multi-run + cross-check logic and return the updated DF."""
+    # ensure folders
+    create_folder_if_not_exists(multiple_runs_folder)
+    create_folder_if_not_exists(final_cross_check_folder)
+
+    # Step 1: partial runs
+    non_nan_df = df[
+        (df['year_relavency'] == 'yes') &
+        (df['review_paper'] != 'yes') &
+        (df['experimental'].isna()) &
+        (df['pdf_name'].notna()) &
+        (df['pdf_name'] != "no_pdf")
+        ]
+    # you can parameterize head(n) if you want
+    for _, row in tqdm(non_nan_df.iterrows(), total=len(non_nan_df)):
+        process_main_agent_row_multi_runs(
+            row,
+            main_folder,
+            multiple_runs_folder,
+            role_instruction_main,
+            client,
+            model_name,
+            column_name,
+            process_setup['cross_check_runs']
+        )
+
+    # Step 2: combine + cross-check
+    updated_df = finalize_cross_check_output(
+        non_nan_df,
+        multiple_runs_folder,
+        final_cross_check_folder,
+        process_setup['cross_check_agent_name'],
+        role_instruction_cross,
+        client,
+        model_name,
+        column_name
+    )
+    return updated_df
 # --------------------------------------------------------------------------------
 # Main Pipeline
 # --------------------------------------------------------------------------------
@@ -304,176 +468,52 @@ def run_pipeline(
 
 
     if not process_setup['cross_check_enabled']:
-        # Ensure main output folder exists
-        # create_folder_if_not_exists(methodology_json_folder)
-        methodology_json_folder=os.path.join(methodology_json_folder, model_name)
-        os.makedirs(methodology_json_folder,exist_ok=True)
-        os.makedirs(os.path.join(methodology_json_folder,'issue'),exist_ok=True)
-        # Update DF from any existing JSON (previous partial runs)
-        # df = load_partial_results_from_json(df, methodology_json_folder)
-
-        # Process each row with main agent once
-        logger.info("Processing each row with main agent (SINGLE-RUN).")
-
-
-
-        non_nan_df=df       # at this stage, im not filtering the rows
-        for _, row in tqdm(non_nan_df.iterrows(), total=len(non_nan_df), leave=False):
-            process_main_agent_row_single_run(
-                row,
-                main_folder,
-                methodology_json_folder,
-                role_instruction_main,
-                client,
-                model_name,
-                column_name,
-                process_setup
-            )
-
-        # Update DF from final single-run JSON
-        df = update_df_from_json(df, methodology_json_folder, column_name)
+        df = process_single_run(
+            df, main_folder, methodology_json_folder,
+            role_instruction_main, client,
+            model_name, column_name, process_setup
+        )
 
     elif process_setup['iterative_confirmation']:
-        # yaml_file_path = r"C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\agent\cross_check.yaml"
-        expected_json_output=config['methodology_gap_extractor']['expected_output']
-        iterative_agent=config['iterative_validation']
-        run_iterative_confirmation(
-            df,
-            main_folder,
-            methodology_json_folder,
-            model_name,
-            role_instruction_main,
-            client,
-            column_name,
-            expected_json_output,
-            # yaml_file_path,
-            iterative_agent
-        )
 
+        logger.info("→ Iterative confirmation branch")
+        process_iterative_confirmation_branch(
+            df, main_folder, methodology_json_folder,
+            model_name, role_instruction_main,
+            client, column_name, config, process_setup
+        )
 
     elif process_setup['manual_paste_llm']:
-        '''
-        In this approach, we process each row individually and save the JSON files in the deepseek folder.
-        '''
-        non_nan_df=df
-        # Ensure the deepseek folder is set up outside the loop
-        deepseek_json_folder = os.path.join(methodology_json_folder, 'deepseek')
-        os.makedirs(deepseek_json_folder, exist_ok=True)
-        for index, row in tqdm(non_nan_df.iterrows(), total=len(non_nan_df), leave=False):
 
-            source_text,status,bibtex_val,json_path=get_source_text(row, main_folder, deepseek_json_folder)
-
-            if os.path.exists(json_path):
-                continue
-            task = {"messages": [
-                {
-                    "role": "system",
-                    "content": role_instruction_main
-                },
-                {
-                    "role": "user",
-                    "content": source_text
-                }
-            ]}
-
-
-            # Save the task dictionary as a JSON file with pretty-printing
-            with open(json_path, 'w', encoding='utf-8') as file:
-                json.dump(task, file, ensure_ascii=False, indent=4)
+        logger.info("→ Manual-paste-LLM branch")
+        deepseek_folder = os.path.join(methodology_json_folder, 'deepseek')
+        process_manual_paste_llm(
+            df, main_folder, deepseek_folder, role_instruction_main
+        )
 
     elif process_setup['batch_process']:
-        tasks = []
-        # https://cookbook.openai.com/examples/batch_processing
-        non_nan_df=df       # at this stage, im not filtering the rows
-
-
-        for index, row in tqdm(non_nan_df.iterrows(), total=len(non_nan_df), leave=False):
-
-            source_text,status,bibtex_val,json_path=get_source_text(row, main_folder, methodology_json_folder)
-
-            if status is False:
-                continue
-            task = {
-                "custom_id": f"task-{bibtex_val}",
-                "method": "POST",
-                "url": "/v1/chat/completions",
-                "body": {
-                    # This is what you would have in your Chat Completions API call
-                    "model": model_name,
-                    "temperature": 0.1,
-                    "response_format": {
-                        "type": "json_object"
-                    },
-                    "messages": [
-                        {
-                            "role": "system",
-                            "content": role_instruction_main
-                        },
-                        {
-                            "role": "user",
-                            "content": source_text
-                        }
-                    ],
-                }
-            }
-            tasks.append(task)
-        os.makedirs(methodology_json_folder, exist_ok=True)
-        file_name = os.path.join(methodology_json_folder, "tasks.jsonl")
-
-        with open(file_name, 'w') as file:
-            for obj in tasks:
-                file.write(json.dumps(obj) + '\n')
-
+        logger.info("→ Batch-process branch")
+        process_batch_process(
+            df, main_folder, methodology_json_folder,
+            role_instruction_main, model_name
+        )
 
     else:
-        # If cross_check_enabled is True, do multi-run approach
+
+        logger.info("→ Multi-run + cross-check branch")
         if not multiple_runs_folder or not final_cross_check_folder:
-            raise ValueError("When cross_check_enabled is True, you must provide multiple_runs_folder and final_cross_check_folder.")
-
-        # Ensure these folders exist
-        create_folder_if_not_exists(multiple_runs_folder)
-        create_folder_if_not_exists(final_cross_check_folder)
-
-        # No partial runs to load for multi-run scenario, or you could do so if desired:
-        # df = load_partial_results_from_json(df, multiple_runs_folder)
-
-        # Step 1: Run main agent cross_check_runs times for each row
-        logger.info(f"Processing each row with main agent MULTI-RUNS = {cross_check_runs}")
-        # non_nan_df = df[~df['pdf_name'].isna()]
-        # non_nan_df=non_nan_df.head(10)
-
-        non_nan_df = df[
-            (df['year_relavency'] == 'yes') &
-            (df['review_paper'] != 'yes') &
-            (df['experimental'].isna()) &
-            (df['pdf_name'].notna()) &
-            (df['pdf_name'] != "no_pdf")
-            ]
-        non_nan_df=non_nan_df.head(2)
-        for _, row in tqdm(non_nan_df.iterrows(), total=len(non_nan_df)):
-            process_main_agent_row_multi_runs(
-                row,
-                main_folder,
-                multiple_runs_folder,
-                role_instruction_main,
-                client,
-                model_name,
-                column_name,
-                process_setup['cross_check_runs']
+            raise ValueError(
+                "When cross_check_enabled is True, you must provide "
+                "multiple_runs_folder and final_cross_check_folder."
             )
-
-        # Step 2: Combine partial outputs & run cross-check agent
-        logger.info("Combining partial outputs and finalizing with cross-check agent.")
-        df = finalize_cross_check_output(
-            non_nan_df,
-            multiple_runs_folder,
-            final_cross_check_folder,
-            process_setup['cross_check_agent_name'],
-            role_instruction_cross_check,
-            client,
-            model_name,
-            column_name
+        role_instruction_cross='im not sure what is role_instruction_cross'
+        df = process_multi_run_cross_check(
+            df, main_folder, methodology_json_folder,
+            multiple_runs_folder, final_cross_check_folder,
+            role_instruction_main, role_instruction_cross,
+            client, model_name, column_name, process_setup
         )
+
 
     # Cleanup if needed
     if process_setup['cleanup_json']:
