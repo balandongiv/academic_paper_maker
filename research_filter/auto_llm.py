@@ -11,8 +11,8 @@ from research_filter.agent_helper import (
     get_info_ai, setup_ai_model,
     get_source_text
 )
-from research_filter.agent_helper import parse_ai_output, create_folder_if_not_exists, load_config_file, \
-    get_role_instruction
+from research_filter.agent_helper import parse_ai_output, load_config_file
+from research_filter.role_instruction_builder import construct_agent_profile
 from research_filter.helper import (
     save_result_to_json,
     update_df_from_json,
@@ -378,8 +378,10 @@ def process_multi_run_cross_check(df: pd.DataFrame,
                                   process_setup: dict) -> pd.DataFrame:
     """Run the multi-run + cross-check logic and return the updated DF."""
     # ensure folders
-    create_folder_if_not_exists(multiple_runs_folder)
-    create_folder_if_not_exists(final_cross_check_folder)
+
+    os.makedirs(multiple_runs_folder,exist_ok=True)
+    os.makedirs(multiple_runs_folder,exist_ok=True)
+
 
     # Step 1: partial runs
     non_nan_df = df[
@@ -452,11 +454,11 @@ def run_pipeline(
     column_name = agentic_setting['column_name']
     # Prepare role instructions
     logger.info(f"Preparing role instructions for {agentic_setting['agent_name']}.")
-    role_instruction_main = get_role_instruction(config, placeholders, agentic_setting['agent_name'])
-
+    role_instruction_main = construct_agent_profile(config, placeholders, agentic_setting['agent_name'])
+    # C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\agent\agent_ml.yaml
     if process_setup['cross_check_enabled']:
         #  - The cross-check agent's role
-        role_instruction_cross_check = get_role_instruction(config, placeholders, process_setup['cross_check_agent_name'])
+        role_instruction_cross_check = construct_agent_profile(config, placeholders, process_setup['cross_check_agent_name'])
     else:
         role_instruction_cross_check = None
 
@@ -547,7 +549,8 @@ def main():
 
     # project_review='eeg_review'
     project_review='corona_discharge'
-    path_dic=project_folder(project_review=project_review)
+    main_folder=r'C:\Users\balan\IdeaProjects\academic_paper_maker\setting'
+    path_dic=project_folder(project_review=project_review,main_folder=main_folder)
     main_folder = path_dic['main_folder']
 
     # Editable variables
@@ -563,8 +566,8 @@ def main():
     base_dir = os.path.dirname(__file__)
 
     # Construct the relative path to the YAML file
-    yaml_path = os.path.join(base_dir, "research_filter", "agent", "agent_ml.yaml")
-
+    # yaml_path = os.path.join(base_dir, "research_filter", "agent", "agent_ml.yaml")
+    yaml_path=r'C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\agent\agent_ml.yaml'
     # agentic_setting = {
     #     "agent_name": "abstract_wafer_abstract_filter",
     #     "column_name": "abstract_wafer_abstract_filter",
@@ -583,7 +586,7 @@ def main():
     multiple_runs_folder =os.path.join(main_folder,agentic_setting['agent_name'],'multiple_runs_folder')
     final_cross_check_folder = os.path.join(main_folder,agentic_setting['agent_name'],'final_cross_check_folder')
 
-    csv_path = path_dic['csv_path']
+    csv_path = path_dic['database_path']
     # Basic placeholders for roles
     placeholders = {
         "topic": "EEG-based fatigue classification",

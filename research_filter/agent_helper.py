@@ -2,16 +2,16 @@ import json
 import logging
 import os
 import re
-from typing import Any, Dict, Union
+import traceback
 from collections import OrderedDict
+from typing import Any, Dict, Tuple
+from typing import Union
+
 import yaml
 from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_openai import ChatOpenAI
 from pydantic import RootModel
-import traceback
-from research_filter.helper import (
-    generate_new_filename
-)
+
+from grobid_tei_xml.xml_json import process_xml_file  # Update the module name if needed
 
 logging.basicConfig(
     level=logging.INFO,
@@ -19,7 +19,6 @@ logging.basicConfig(
     handlers=[logging.StreamHandler()]
 )
 logger = logging.getLogger(__name__)
-from grobid_tei_xml.xml_json import process_xml_file  # Update the module name if needed
 
 def compile_path(path: str) -> str:
     """Return an absolute path by joining current working directory with given path."""
@@ -32,34 +31,10 @@ def load_config_file(yaml_path: str) -> dict:
     return load_yaml(yaml_path)
 
 
-def generate_output_xlsx_path(csv_path: str) -> str:
-    """Generate a new filename based on the csv_path and return the XLSX output path."""
-    new_filename = generate_new_filename(csv_path)
-    return f"../research_filter/{new_filename}.xlsx"
-
-
-def create_folder_if_not_exists(folder_path: str) -> None:
-    """Create the folder if it does not exist."""
-    if not os.path.exists(folder_path):
-        os.makedirs(folder_path,exist_ok=True)
-
-
-def get_role_instruction(config: dict, placeholders: dict, agent_name: str) -> str:
-    """Combine role instructions from config based on placeholders and agent name."""
-    logger.info(f"Combining role instruction for agent: {agent_name}.")
-    return combine_role_instruction(config, placeholders, agent_name)
-
-
-
 # Pydantic model for validation using RootModel
 class AIOutputModel(RootModel[Union[str, Dict[str, Any]]]):
     pass
 
-
-
-
-import json
-from typing import Any, Dict, Tuple
 
 def parse_ai_output(ai_output: Any, column_name: str, model_name: str) -> Tuple[Dict, bool]:
     """
@@ -123,9 +98,7 @@ def get_source_text(row, main_folder,output_folder,process_setup):
                bibtex_val (or None if missing),
                json_path (expected path for processed JSON output).
     """
-    # use_abstract = process_setup['used_abstract']  # we only use abstract for filtering either the manuscript is suitable for futher processing or not
 
-    # pdf_filename = 'no_pdf' if process_setup['used_abstract']  else row.get('pdf_name', '')
     bibtex_val = row.get('bibtex')
     bibtex_data = {"bibtext": bibtex_val}
     if not bibtex_val:  # Ensure bibtex value exists
@@ -133,11 +106,6 @@ def get_source_text(row, main_folder,output_folder,process_setup):
         return None, False, None, ""
 
     json_path = os.path.join(output_folder, f"{bibtex_val}.json")
-
-    # # Check if JSON output already exists
-    # if os.path.exists(json_path):
-    #     logger.info(f"Already processed: {json_path}")
-    #     return None, False, bibtex_val, json_path  # No need to process again
 
     source_filename = f"{bibtex_val}.grobid.tei.xml"
     source_path = os.path.join(main_folder, "xml", source_filename)
@@ -209,13 +177,10 @@ def get_info_ai_chatgpt(bibtex_val,user_request, system_instruction, client, mod
 def setup_ai_model(model_name="gpt-4o-mini"):
 
 
-    if model_name in ["gpt-4o-mini", "gpt-4o"]:
+    if "gpt" in model_name.lower():
+        from langchain_openai import ChatOpenAI
         model = ChatOpenAI(model=model_name)
-    else:
-
-        if "GOOGLE_API_KEY" not in os.environ:
-            GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
-            os.environ["GOOGLE_API_KEY"] = GEMINI_API_KEY
+    elif "gemini" in model_name.lower():
 
         from langchain_google_genai import ChatGoogleGenerativeAI
 
@@ -227,6 +192,8 @@ def setup_ai_model(model_name="gpt-4o-mini"):
             max_retries=2,
             # other params...
         )
+    else:
+        raise ValueError(f"Unsupported model name: {model_name}")
     return model
 
 
@@ -281,45 +248,3 @@ def load_yaml(file_path):
     """Load a YAML file and return its contents."""
     with open(file_path, "r") as file:
         return yaml.safe_load(file)
-
-def combine_role_instruction(config, placeholders, agent_name):
-    """
-    Combine role, goal, backstory, evaluation_criteria, expected_output, and additional_notes
-    into a single role instruction, dynamically replacing placeholders, and excluding any empty or blank keys.
-
-    Args:
-        config (dict): The configuration loaded from YAML.
-        placeholders (dict): The placeholders to replace in the templates (e.g., {topic}, {topic_context}).
-        agent_name (str): The name of the agent whose configuration to use.
-
-    Returns:
-        str: The combined role instruction.
-    """
-
-    # Helper function to handle strings and lists
-    def process_component(component):
-        if isinstance(component, list):
-            return "\n".join(item.format(**placeholders) for item in component)
-        # Escape curly braces in components that are JSON-like
-        if '{' in component and '}' in component:
-            return component  # Return as is to avoid formatting errors
-        return component.format(**placeholders).strip()
-
-    # Extract and format the components, skipping empty keys
-    components = {
-        "role": process_component(config[agent_name].get("role", "")),
-        "goal": process_component(config[agent_name].get("goal", "")),
-        "backstory": process_component(config[agent_name].get("backstory", "")),
-        "evaluation_criteria": process_component(config[agent_name].get("evaluation_criteria", [])),
-        "expected_output": process_component(config[agent_name].get("expected_output", "")),
-        "additional_notes": process_component(config[agent_name].get("additional_notes", "")),
-    }
-
-    # Combine non-empty components
-    combined_instruction = "\n\n".join(
-        f"{key}: {value}" for key, value in components.items() if value
-    )
-
-    return combined_instruction
-
-
