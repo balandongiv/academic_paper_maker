@@ -390,39 +390,3 @@ pdf_align_with_title:
   additional_notes: >
     
 
-#  Highlighting breakthroughs
-#
-#  I’m tackling innovations in EEG-based deep learning, focusing on architectures like Inception-dilated ResNet and τNet, as well as graph neural networks for brain connectivity and generative models for data enhancement.
-#
-#  "Piecing together the insights from the knowledge base, I’m focusing on clarity and precise structure, ensuring factual accuracy and correct citations throughout."
-#
-#  Spotting useful articles
-#
-#  I’m digging into the knowledge base to find articles on innovative deep learning architectures for EEG-based detection. Specifically, I’m looking for pieces on Inception-dilated ResNet, τNet, spatio-temporal fusion networks, Graph Neural Networks, multiscale methods, transformers, and generative models for data augmentation.
-#
-#  Identifying relevant models
-
-
-#  In recent years, the field of brain connectivity analysis has seen a significant shift toward leveraging advanced machine learning techniques to uncover intricate patterns in neural activity. Traditional methods, while effective in certain contexts, often struggle to capture the complex, non-Euclidean relationships inherent in brain networks. These limitations have driven researchers to explore graph-based approaches, which excel at modeling the interconnectedness and spatial-temporal dependencies of brain regions. Among these approaches, Graph Neural Networks (GNNs) have emerged as a powerful tool for analyzing brain connectivity, offering the ability to learn and generalize from graph-structured data effectively.
-#
-#  In the context of mental fatigue detection, where understanding the dynamic interplay between different brain regions is crucial, GNNs provide a promising avenue for extracting meaningful features from EEG data. By integrating connectivity patterns in both time and frequency domains, these networks offer a holistic view of the brain’s functional architecture, enabling more precise classification and interpretation of fatigue states.
-#
-
-Task 1: Suggest Subsections for Literature Review
-  The first agent is tasked with analyzing the literature review content and proposing an appropriate number of subsections. These subsections should be logically organized to comprehensively cover the topic, ensuring clarity and cohesion. Each subsection title should reflect its focus area (e.g., historical context, methodologies, thematic analysis).
-
-Task 2: Reorganize Content into Subsections
-  The second agent is responsible for sorting and moving the provided content into the suggested subsections. The agent must ensure that each piece of information is assigned to the correct section without altering the original wording or meaning.
-
-Task 3: Write Abstract and Conclusion
-  The third agent will create a concise abstract summarizing the entire document, emphasizing the purpose, methodology, main findings, and significance. Additionally, the agent will write a conclusion section that synthesizes the key insights and implications of the literature review, offering a clear closing statement that ties the work together.
-
-Guidelines:
-
-  Maintain the integrity and originality of the content when moving it into subsections.
-  Ensure the abstract is no longer than 250 words and provides a clear overview.
-  The conclusion should succinctly restate the critical findings and their implications, remaining concise yet comprehensive.
-
-
-
-

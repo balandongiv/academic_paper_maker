@@ -1,0 +1,807 @@
+section_sorter:
+  role: >
+    You will be provided with a paper manuscript. 
+    Your task is to review the manuscript and determine which sections (identified by their section_id) in the review outline below are relevant to the manuscript’s content. 
+    For every section where the manuscript provides useful information, add a reference entry in the references field. Each reference entry must include:
+    
+     "references": ["bibtext": A unique identifier for the reference which is available as bibtext key (e.g., "An_J_2024"), 
+    "justification":A detailed explanation describing why the manuscript’s content is appropriate for inclusion in that section (for example, "Utilizes ACF-GCN to capture spatial-temporal-frequency relationships in EEG, enhancing fatigue level estimation.").]
+
+  expected_output: >
+    Return the complete review structure (as defined below) in JSON format, preserving all sections and subsections, but with your added reference entries and justifications where applicable.
+    
+    {
+    "sections": [
+      {
+        "title": "Introduction",
+        "section_id": "1. Introduction",
+        "level": 1,
+        "subsections": [
+          {
+            "title": "Background",
+            "section_id": "1.1 Background",
+            "level": 2,
+            "description": [
+              "Defines driver fatigue and its impact on road safety.",
+              "Emphasizes need for real-time fatigue detection systems.",
+              "Introduces EEG as a promising physiological signal for fatigue monitoring."
+            ],
+            "references": [ ]
+          },
+          {
+            "title": "Core Challenges in EEG-Based Fatigue Detection",
+            "section_id": "1.2 Core Challenges in EEG-Based driver Fatigue Detection",
+            "level": 2,
+            "subsections": [
+              {
+                "title": "Subject Variability",
+                "section_id": "1.2.1 Subject Variability",
+                "level": 3,
+                "description": "Discusses the inherent differences in EEG signals between individuals.",
+                "references": [ ]
+              },
+              {
+                "title": "Reduced Channel Count",
+                "section_id": "1.2.2 Reduced Channel Count",
+                "level": 3,
+                "description": "Explains the need for practical systems with fewer electrodes.",
+                "references": [ ]
+              },
+              {
+                "title": "Multiclass Sleepiness Classification",
+                "section_id": "1.2.3 Multiclass Sleepiness Classification",
+                "level": 3,
+                "description": "Emphasizes the importance of detecting different levels of fatigue beyond binary classification.",
+                "references": [ ]
+              },
+              {
+                "title": "Robustness and Generalization",
+                "section_id": "1.2.4 Robustness and Generalization",
+                "level": 3,
+                "description": "Addresses the need for models that perform well in real-world conditions and across diverse populations.",
+                "references": [ ]
+              },
+              {
+                "title": "Explainability and Interpretability",
+                "section_id": "1.2.5 Explainability and Interpretability",
+                "description": "Underscores the necessity of understanding model decisions for trust and adoption in safety-critical applications.",
+                "references": [ ]
+              },
+              {
+                "title": "Real-world Application and Usability",
+                "section_id": "1.2.6 Real-world Application and Usability",
+                "description": "Discusses the challenges of deploying EEG-based systems in practical, real-world driving scenarios.",
+                "references": [ ]
+              },
+              {
+                "title": "Data Scarcity and Class Imbalance",
+                "section_id": "1.2.7 Data Scarcity and Class Imbalance",
+                "description": "Highlights the difficulties in obtaining large, balanced datasets for training robust models.",
+                "references": [ ]
+              }
+            ]
+          },
+          {
+            "title": "Motivation and Objectives",
+            "section_id": "1.3 Motivation and Objectives",
+            "level": 3,
+            "description": [
+              "Highlight the need for a review that focuses on how research has addressed these core challenges.",
+              "State the objectives, emphasizing the analysis of machine learning trends and their impact on these challenges."
+            ],
+            "references": [ ]
+          },
+          {
+            "title": "Scope and Structure of the Review",
+            "section_id": "1.4 Scope and Structure of the Review",
+            "level": 3,
+            "description": [
+              "Defines temporal scope (past 10 years).",
+              "Outlines specific topics and roadmap."
+            ],
+            "references": [ ]
+          }
+        ]
+      },
+      {
+        "title": "Addressing Core Challenges with Machine Learning",
+        "section_id": "2. Addressing Core Challenges with Machine Learning",
+        "level": 1,
+        "subsections": [
+          {
+            "title": "Tackling Subject Variability",
+            "section_id": "2.1 Tackling Subject Variability",
+            "level": 2,
+            "description": "Methods to address subject variability in EEG based driving fatigue detection.",
+            "methods": [
+              {
+                "title": "Transfer Learning and Domain Adaptation",
+                "section_id": "2.1.1 Transfer Learning and Domain Adaptation",
+                "description": "Discuss domain adaptation techniques (e.g., Maximum Mean Discrepancy, adversarial methods) to align EEG distributions across subjects.",
+                "references": [ ],
+                "why_introduced": "To leverage knowledge from multiple subjects and reduce the need for extensive data collection for each new user.To reduce the need for subject-specific calibration and improve model generalization across individuals.",
+                "trend": "Increasing use of transfer learning to leverage data from multiple subjects and reduce the need for extensive data collection for each new user."
+              },
+              {
+                "title": "Personalized Models",
+                "section_id": "2.1.2 Personalized Models",
+                "description": "Discuss approaches for building personalized fatigue detection models.Explore techniques like adaptive learning and model fine-tuning.",
+                "references": [ ],
+                "why_introduced": "To account for individual differences in EEG responses to fatigue. To improve model accuracy by tailoring predictions to individual users.To address subject variability and improve model performance by adapting to individual physiological responses.",
+                "trend": "Growing interest in tailoring models to individual users for improved accuracy."
+              },
+              {
+                "title": "Feature Engineering for Invariant Representations",
+                "section_id": "2.1.3 Feature Engineering for Invariant Representations",
+                "description": "Discuss feature extraction methods that are less sensitive to subject variability.",
+                "references": [ ],
+                "why_introduced": " To extract features that are more robust to individual differences in EEG signals"
+              }
+            ]
+          },
+          {
+            "title": "Reducing the Number of EEG Channels",
+            "section_id": "2.2 Reducing the Number of EEG Channels",
+            "description": "Methods to reduce the number of EEG channels while maintaining detection accuracy.",
+            "methods": [ ]
+          },
+          {
+            "title": "Multiclass Sleepiness Classification",
+            "section_id": "2.3 Multiclass Sleepiness Classification",
+            "description": "Methods for classifying multiple levels of fatigue driving using EEG based approach.",
+            "methods": [
+              { "title": "Improve the feature extraction or selection",
+                "section_id": "2.3.1 Improve the feature extraction or selection",
+                "description": "Discuss the use of advanced classifiers capable of handling multiple classes beyond binary classification.",
+                "references": [ ],
+                "why_introduced": "To provide a more nuanced understanding of driver state and improve the accuracy of fatigue detection." },
+              {
+                "title": "Advanced Machine Learning Classifiers",
+                "section_id": "2.3.1 Advanced Machine Learning Classifiers",
+                "description": "Discuss the use of advanced classifiers capable of handling multiple classes beyond binary classification.",
+                "references": [ ],
+                "why_introduced": "To provide a more nuanced understanding of driver state and improve the accuracy of fatigue detection.",
+                "trend": "Moving beyond binary classification to differentiate between multiple levels of drowsiness for a more nuanced understanding of driver state."
+              },
+              {
+                "title": "Deep Learning for Multiclass Classification",
+                "section_id": "2.3.2 Deep Learning for Multiclass Classification",
+                "description": "Discuss how deep learning architectures are adapted for multiclass problems.",
+                "references": [ ],
+                "why_introduced": "To leverage the feature learning capabilities of deep learning for complex multiclass classification tasks."
+              }
+            ]
+          },
+          {
+            "title": "Enhancing Robustness and Generalization",
+            "section_id": "2.4 Enhancing Robustness and Generalization",
+            "methods": [
+              {
+                "title": "Data Augmentation Techniques",
+                "section_id": "2.4.1 Data Augmentation Techniques",
+                "description": "Review techniques for generating synthetic EEG data to increase dataset size and variability.",
+                "references": [ ],
+                "why_introduced": "To overcome data scarcity and improve model performance by increasing dataset size and diversity. To improve model robustness and generalization by training on more diverse data",
+                "trend": "Increasing use of data augmentation to overcome data scarcity and improve model performance."
+              },
+              {
+                "title": "Regularization Techniques",
+                "section_id": "2.4.2 Regularization Techniques",
+                "description": "Discuss techniques like L1/L2 regularization, dropout, and early stopping to prevent overfitting.",
+                "references": [ ],
+                "why_introduced": "To prevent overfitting and improve model generalization by reducing model complexity and training on diverse data.",
+                "trend": "Standard practices in deep learning to enhance model robustness and prevent overfitting."
+              },
+              {
+                "title": "Cross-Validation and Validation Strategies",
+                "section_id": "2.4.3 Cross-Validation and Validation Strategies",
+                "description": "Emphasize the importance of rigorous validation for assessing model generalizability.",
+                "references": [ ],
+                "trend": "Adoption of best practices in machine learning to ensure robust model evaluation and generalization."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "The Role of Deep Learning and Hybrid Models",
+        "section_id": "3. The Role of Deep Learning and Hybrid Models",
+        "subsections": [
+          {
+            "title": "Advantages of Deep Learning in EEG Analysis",
+            "section_id": "3.1 Advantages of Deep Learning in EEG Analysis",
+            "subsections": [
+              {
+                "title": "Automatic Feature Learning",
+                "section_id": "3.1.1 Automatic Feature Learning",
+                "description": "Discuss the ability of deep learning models to automatically learn relevant features from raw EEG data.",
+                "references": [ ]
+                ,
+                "why_introduced": "To reduce reliance on manual feature engineering and potentially discover novel fatigue-related features."
+              },
+              {
+                "title": "Handling Large Datasets",
+                "section_id": "3.1.2 Handling Large Datasets",
+                "description": "Discuss the suitability of deep learning for handling large and complex EEG datasets.",
+                "references": [ ]
+                ,
+                "why_introduced": "To leverage the increasing availability of EEG data and improve model performance."
+              },
+              {
+                "title": "Capturing Complex Patterns",
+                "section_id": "3.1.3 Capturing Complex Patterns",
+                "description": "Analyze the ability of deep networks to capture nonlinear relationships and complex patterns in EEG signals.",
+                "references": [ ],
+                "why_introduced": "Why Introduced: To model the intricate dynamics of brain activity associated with fatigue."
+              }
+            ]
+          },
+          {
+            "title": "Deep Learning Architectures for Fatigue Detection",
+            "section_id": "3.2 Deep Learning Architectures for Fatigue Detection",
+            "description": "Discuss in detail the architectures mentioned in section 4.2 (CNNs, RNNs, Autoencoders, DBNs, GANs, GCNs), providing specific examples of their application in fatigue detection.",
+            "machine_learning_techniques": {
+              "CNN": { "references": [ ] },
+              "RNN": { "references": [ ] },
+              "Autoencoder": { "references": [ ] },
+              "DBN": { "references": [ ] },
+              "GAN": { "references": [ ] },
+              "GCN": { "references": [ ] },
+              "Hybrid": { "references": [ ] }
+            }
+          },
+          {
+            "title": "Hybrid Models and Their Advantages",
+            "section_id": "3.3 Hybrid Models and Their Advantages",
+            "description": "Explain the rationale behind combining different deep learning architectures..Discuss the benefits of hybrid models in capturing diverse aspects of EEG signals (e.g., spatial, temporal, spectral).",
+            "references": [ ]
+    
+          },
+          {
+            "title": "Fusion of Deep Learning and Traditional Machine Learning",
+            "section_id": "3.4 Fusion of Deep Learning and Traditional Machine Learning",
+            "description": "Discuss approaches that combine deep learning with traditional machine learning techniques.Analyze the benefits of integrating hand-crafted features with deep-learned features.",
+            "references": [ ]
+    
+          },
+          {
+            "title": "Addressing the Limitations of Deep Learning",
+            "section_id": "3.5 Addressing the Limitations of Deep Learning",
+            "description": [
+              "Discuss strategies to mitigate potential drawbacks of deep learning, such as the need for large datasets and computational resources.",
+              "Explore techniques like transfer learning, data augmentation, and model compression to address these limitations."
+            ],
+            "references": [ ]
+          }
+        ]
+      },
+      {
+        "title": "Explainability and Interpretability",
+        "section_id": "4 Explainability and Interpretability",
+        "subsections": [
+          {
+            "title": "The Need for Explainable AI (XAI) in Fatigue Detection",
+            "section_id": "4.1 The Need for Explainable AI (XAI) in Fatigue Detection",
+            "description": "To build trust, ensure fairness, and facilitate debugging and improvement of fatigue detection models.",
+            "references": [ ]
+          },
+          {
+            "title": "Techniques for Enhancing Model Interpretability",
+            "section_id": "4.2 Techniques for Enhancing Model Interpretability",
+            "subsections": [
+              {
+                "title": "Attention Mechanisms",
+                "section_id": "4.2.1 Attention Mechanisms",
+                "description": "Explain how attention mechanisms can highlight important features or time points in EEG signals.",
+                "references": [ ],
+                "trend": "Providing insights into the model's decision-making process by highlighting influential features."
+              },
+              {
+                "title": "Visualization Techniques",
+                "section_id": "4.2.2 Visualization Techniques",
+                "description": "Discuss methods for visualizing learned features and model activations (e.g., t-SNE, heatmaps).",
+                "references": [ ],
+                "trend": "Making the model's internal representations and decision boundaries more understandable."
+              },
+              {
+                "title": "Rule Extraction",
+                "section_id": "4.2.3 Rule Extraction",
+                "description": "Explore techniques for extracting human-interpretable rules from complex models.",
+                "trend": "Translating model decisions into understandable rules that can be validated by domain experts.",
+                "references": [ ]
+              },
+              {
+                "title": "Model-Agnostic Methods",
+                "section_id": "4.2.4 Model-Agnostic Methods",
+                "description": "Discuss methods like SHAP (SHapley Additive exPlanations) and LIME (Local Interpretable Model-agnostic Explanations) that can be applied to any machine learning model.",
+                "trend": "Providing post-hoc explanations for model predictions without being tied to a specific model architecture."   ,
+                "references": [ ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Integration of Multimodal Data",
+        "section_id": "5 Integration of Multimodal Data",
+        "methods": [
+          {
+            "title": "Rationale for Multimodal Fusion",
+            "section_id": "5.1 Rationale for Multimodal Fusion",
+            "description": "Discuss the limitations of relying solely on EEG for fatigue detection and the potential benefits of incorporating other physiological signals and behavioral measures. Highlight the potential benefits of incorporating other physiological signals (e.g., ECG, EOG, EMG) and behavioral measures (e.g., eye tracking, facial expressions, vehicle dynamics)",
+            "references": [ ],
+            "trend": "Growing interest in multimodal data fusion to provide a more comprehensive and robust assessment of driver fatigue."
+          },
+          {
+            "title": "Fusion Strategies",
+            "section_id": "5.2 Fusion Strategies",
+            "subsections": [
+              {
+                "title": "Early Fusion (Feature-Level Fusion)",
+                "section_id": "5.2.1 Early Fusion (Feature-Level Fusion)",
+                "description": "Discuss different approaches for combining multimodal data, such as early fusion (feature-level), late fusion (decision-level), and hybrid fusion.",
+                "references": [ ],
+                "trend": "Exploration of various fusion strategies to maximize the benefits of multimodal data integration."
+              },
+              {
+                "title": "Late Fusion (Decision-Level Fusion)",
+                "section_id": "5.2.2 Late Fusion (Decision-Level Fusion)",
+                "description": "Analyze approaches that combine the outputs of separate classifiers trained on each modality.",
+                "references": [ ],
+                "trend": "Leveraging the strengths of individual classifiers and improving overall decision accuracy."
+              },
+              {
+                "title": "Hybrid Fusion",
+                "section_id": "5.2.3 Hybrid Fusion",
+                "description": "Explore methods that combine both feature-level and decision-level fusion.",
+                "references": [ ],
+                "trend": "Maximizing the benefits of both early and late fusion strategies."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Real-Time Implementation and Edge Computing",
+        "section_id": "6 Real-Time Implementation and Edge Computing",
+        "methods": [
+          {
+            "title": "Challenges of Real-Time Fatigue Detection",
+            "section_id": "6.1 Challenges of Real-Time Fatigue Detection",
+            "description": "Discuss the need for low latency and fast processing in real-time applications. Analyze the computational demands of complex machine learning models.",
+            "references": [ ],
+            "trend": "Focus on real-time processing and low latency for immediate feedback in safety-critical applications."
+          },
+          {
+            "title": "Edge Computing for On-Device Processing",
+            "section_id": "6.2 Edge Computing for On-Device Processing",
+            "description": "Introduce the concept of edge computing and its advantages for EEG-based systems.",
+            "references": [ ],
+            "trend": "Shift towards on-device processing to reduce reliance on cloud connectivity, minimize latency, and enhance privacy."
+          },
+          {
+            "title": "Model Optimization for Resource-Constrained Devices",
+            "section_id": "6.3 Model Optimization for Resource-Constrained Devices",
+            "description": "Discuss techniques for model compression, quantization, and pruning to reduce model size and computational cost.",
+            "references": [ ],
+            "trend": "Development of lightweight and efficient models suitable for deployment on wearable devices and in-vehicle systems. To enable deployment of fatigue detection models on wearable devices and in-vehicle systems with limited resources."
+          }
+        ]
+      },
+      {
+        "title": "Addressing Data Scarcity and Class Imbalance",
+        "section_id": "7 Addressing Data Scarcity and Class Imbalance",
+        "subsections": [
+          {
+            "title": "Challenges of Data Acquisition",
+            "section_id": "7.1 Challenges of Data Acquisition",
+            "description": [
+              "Discuss the difficulties in collecting large, labeled EEG datasets for fatigue detection, particularly in real-world driving scenarios."
+            ],
+            "references": [ ]
+          },
+          {
+            "title": "Data Augmentation Techniques",
+            "section_id": "7.2 Data Augmentation Techniques",
+            "description": "Review methods for generating synthetic EEG data to increase dataset size and diversity. Discuss techniques like noise injection, time warping, and Generative Adversarial Networks (GANs).",
+            "references": [ ],
+            "trend": "Increasing use of data augmentation to overcome data scarcity and improve model performance."
+          },
+          {
+            "title": "Class Imbalance Problem",
+            "section_id": "7.3 Class Imbalance Problem",
+            "description": [
+              "Analyze the issue of imbalanced datasets in fatigue detection, where alert states often outnumber drowsy states."
+            ],
+            "references": [ ]
+          },
+          {
+            "title": "Techniques for Handling Class Imbalance",
+            "section_id": "7.4 Techniques for Handling Class Imbalance",
+            "description": "Discuss methods for addressing class imbalance in fatigue detection datasets.",
+            "references": [ ],
+            "trend": "Application of techniques like oversampling, undersampling, and cost-sensitive learning to improve model performance on the minority class."
+          },
+          {
+            "title": "Oversampling",
+            "section_id": "7.4.1 Oversampling",
+            "description": [
+              "Discuss methods like SMOTE (Synthetic Minority Over-sampling Technique) for oversampling the minority class."
+            ],
+            "references": [ ]
+          },
+          {
+            "title": "Undersampling",
+            "section_id": "7.4.2 Undersampling",
+            "description": [
+              "Review techniques for undersampling the majority class to balance the dataset."
+            ],
+            "references": [ ]
+          },
+          {
+            "title": "Cost-Sensitive Learning",
+            "section_id": "7.4.3 Cost-Sensitive Learning",
+            "description": [
+              "Explain how cost-sensitive learning can be used to penalize misclassification of the minority class more heavily." ],
+            "references": [ ]
+          }
+        ]
+      },
+      {
+        "title": "Promising Directions for Future Research",
+        "section_id": "8 Promising Directions for Future Research",
+        "sections": [
+          {
+            "title": "Advanced Deep Learning Architectures",
+            "section_id": "8.1 Advanced Deep Learning Architectures",
+            "description": "Explore the potential of novel architectures like Transformers, Capsule Networks, and Spiking Neural Networks for EEG-based fatigue detection.",
+            "references": [ ],
+            "trend": "Investigation of new deep learning architectures tailored for EEG signal analysis and fatigue detection."
+          },
+          {
+            "title": "Enhanced Feature Extraction and Selection",
+            "section_id": "8.2 Enhanced Feature Extraction and Selection",
+            "description": "Develop advanced feature extraction and selection methods to capture the most relevant information from EEG signals.",
+            "references": [ ],
+            "trend": "Development of feature extraction techniques tailored for multi-modal EEG analysis and fatigue detection."
+          },
+          {
+            "title": "Multimodal Fusion and Contextual Information",
+            "section_id": "8.3 Multimodal Fusion and Contextual Information",
+            "description": "Advocate for integrating EEG with other physiological signals and contextual data (e.g., driving environment, time of day).",
+            "references": [ ],
+            "trend": "Development of advanced fusion algorithms combining multi-modal and contextual data for robust fatigue detection."
+          },
+          {
+            "title": "Personalized and Adaptive Models",
+            "description": "Emphasize the need for personalized fatigue detection models that adapt to individual differences in EEG patterns.",
+            "references": [ ],
+            "trend": "Exploration of adaptive and transfer learning techniques for individualized EEG-based fatigue detection."
+          },
+          {
+            "title": "Real-World Validation and Deployment",
+            "description": "Advocate for more real-world driving studies to validate models under realistic conditions.",
+            "references": [ ],
+            "trend": "Focus on lightweight, user-friendly, non-intrusive EEG acquisition systems for practical applications."
+          },
+          {
+            "title": "Enhanced Explainability and Transparency",
+            "description": "Focus on XAI techniques to improve interpretability of deep learning models for EEG-based fatigue detection.",
+            "references": [ ],
+            "trend": "Development of explainable models providing actionable feedback and interpretable predictions."
+          },
+          {
+            "title": "Ethical Considerations",
+            "description": "Discuss ethical implications, including data privacy, security, and biases in algorithms.",
+            "trend": "Establishment of guidelines ensuring fairness, transparency, and accountability in fatigue detection technology."
+          },
+          {
+            "title": "Edge Computing",
+            "description": "Explore the use of edge computing to perform data processing and analysis on the device itself, reducing latency and dependence on cloud connectivity.",
+            "references": [ ],
+            "trend": "Shift towards on-device processing to reduce reliance on cloud connectivity, minimize latency, and enhance privacy."
+          },
+          {
+            "title": "Real-Time Implementation and Edge Computing",
+            "section_id": "6",
+            "subsections": [
+              {
+                "title": "Challenges of Real-Time Fatigue Detection",
+                "section_id": "6.1",
+                "description": "Discuss the need for low latency and fast processing in real-time applications. Analyze the computational demands of complex machine learning models.",
+                "references": [ ],
+                "trend": "Focus on real-time processing and low latency for immediate feedback in safety-critical applications."
+              },
+              {
+                "title": "Edge Computing for On-Device Processing",
+                "section_id": "6.2",
+                "description": "Introduce the concept of edge computing and its advantages for EEG-based systems.",
+                "references": [ ],
+                "trend": "Shift towards on-device processing to reduce reliance on cloud connectivity, minimize latency, and enhance privacy."
+              },
+              {
+                "title": "Model Optimization for Resource-Constrained Devices",
+                "section_id": "6.3",
+                "description": "Discuss techniques for model compression, quantization, and pruning to reduce model size and computational cost.",
+                "references": [ ],
+                "trend": "Development of lightweight and efficient models suitable for deployment on wearable devices and in-vehicle systems."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Addressing Core Challenges with Machine Learning",
+        "section_id": "2. Addressing Core Challenges with Machine Learning",
+        "subsections": [
+          {
+            "title": "Tackling Subject Variability",
+            "section_id": "2.1 Tackling Subject Variability",
+            "methods": [
+              {
+                "title": "Transfer Learning and Domain Adaptation",
+                "section_id": "2.1.1 Transfer Learning and Domain Adaptation",
+                "references": [ ]
+              }
+            ]
+          },
+          {
+            "title": "Reducing the Number of EEG Channels",
+            "section_id": "2.2 Reducing the Number of EEG Channels",
+            "methods": [
+              {
+                "title": "Channel Selection Algorithms",
+                "section_id": "2.2.1 Channel Selection Algorithms",
+                "references": [ ]
+              }
+            ]
+          },
+          {
+            "title": "Enhancing Robustness and Generalization",
+            "section_id": "2.4 Enhancing Robustness and Generalization",
+            "methods": [
+              {
+                "title": "Data Augmentation Techniques",
+                "section_id": "2.4.1 Data Augmentation Techniques",
+                "references": [ ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Real-Time Implementation and Edge Computing",
+        "section_id": "6 Real-Time Implementation and Edge Computing",
+        "methods": [
+          {
+            "title": "Challenges of Real-Time Fatigue Detection",
+            "section_id": "6.1 Challenges of Real-Time Fatigue Detection",
+            "references": [ ]
+          },
+          {
+            "title": "Edge Computing for On-Device Processing",
+            "section_id": "6.2 Edge Computing for On-Device Processing",
+            "references": [ ]
+          },
+          {
+            "title": "Model Optimization for Resource-Constrained Devices",
+            "section_id": "6.3 Model Optimization for Resource-Constrained Devices",
+            "references": [ ]
+          }
+        ]
+      },
+      {
+        "title": "Addressing Data Scarcity and Class Imbalance",
+        "section_id": "7 Addressing Data Scarcity and Class Imbalance",
+        "subsections": [
+          {
+            "title": "Data Augmentation Techniques",
+            "section_id": "7.2 Data Augmentation Techniques",
+            "references": [ ]
+          },
+          {
+            "title": "Techniques for Handling Class Imbalance",
+            "section_id": "7.4 Techniques for Handling Class Imbalance",
+            "references": [ ]
+          }
+        ]
+      },
+      {
+        "title": "Promising Directions for Future Research",
+        "section_id": "8 Promising Directions for Future Research",
+        "sections": [
+          {
+            "title": "Advanced Deep Learning Architectures",
+            "section_id": "8.1 Advanced Deep Learning Architectures",
+            "description": "Explore the potential of novel architectures like Transformers, Capsule Networks, and Spiking Neural Networks for EEG-based fatigue detection.",
+            "references": [ ],
+            "trend": "Investigation of new deep learning architectures tailored for EEG signal analysis and fatigue detection."
+          },
+          {
+            "title": "Enhanced Feature Extraction and Selection",
+            "section_id": "8.2 Enhanced Feature Extraction and Selection",
+            "description": "Develop advanced feature extraction and selection methods to capture the most relevant information from EEG signals.",
+            "references": [ ],
+            "trend": "Development of feature extraction techniques tailored for multi-modal EEG analysis and fatigue detection."
+          },
+          {
+            "title": "Multimodal Fusion and Contextual Information",
+            "section_id": "8.3 Multimodal Fusion and Contextual Information",
+            "description": "Advocate for integrating EEG with other physiological signals and contextual data (e.g., driving environment, time of day).",
+            "references": [ ],
+            "trend": "Development of advanced fusion algorithms combining multi-modal and contextual data for robust fatigue detection."
+          },
+          {
+            "title": "Personalized and Adaptive Models",
+            "description": "Emphasize the need for personalized fatigue detection models that adapt to individual differences in EEG patterns.",
+            "references": [ ],
+            "trend": "Exploration of adaptive and transfer learning techniques for individualized EEG-based fatigue detection."
+          },
+          {
+            "title": "Real-World Validation and Deployment",
+            "description": "Advocate for more real-world driving studies to validate models under realistic conditions.",
+            "references": [ ],
+            "trend": "Focus on lightweight, user-friendly, non-intrusive EEG acquisition systems for practical applications."
+          },
+          {
+            "title": "Enhanced Explainability and Transparency",
+            "description": "Focus on XAI techniques to improve interpretability of deep learning models for EEG-based fatigue detection.",
+            "references": [ ],
+            "trend": "Development of explainable models providing actionable feedback and interpretable predictions."
+          },
+          {
+            "title": "Edge Computing",
+            "description": "Explore the use of edge computing to perform data processing and analysis on the device itself, reducing latency and dependence on cloud connectivity.",
+            "references": [ ],
+            "trend": "Shift towards on-device processing to reduce reliance on cloud connectivity, minimize latency, and enhance privacy."
+          },
+          {
+            "title": "Real-Time Implementation and Edge Computing",
+            "section_id": "6",
+            "subsections": [
+              {
+                "title": "Challenges of Real-Time Fatigue Detection",
+                "section_id": "6.1",
+                "description": "Discuss the need for low latency and fast processing in real-time applications. Analyze the computational demands of complex machine learning models.",
+                "references": [ ],
+                "trend": "Focus on real-time processing and low latency for immediate feedback in safety-critical applications."
+              },
+              {
+                "title": "Edge Computing for On-Device Processing",
+                "section_id": "6.2",
+                "description": "Introduce the concept of edge computing and its advantages for EEG-based systems.",
+                "references": [ ],
+                "trend": "Shift towards on-device processing to reduce reliance on cloud connectivity, minimize latency, and enhance privacy."
+              },
+              {
+                "title": "Model Optimization for Resource-Constrained Devices",
+                "section_id": "6.3",
+                "description": "Discuss techniques for model compression, quantization, and pruning to reduce model size and computational cost.",
+                "references": [ ],
+                "trend": "Development of lightweight and efficient models suitable for deployment on wearable devices and in-vehicle systems."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Explainability and Interpretability",
+        "section_id": "4 Explainability and Interpretability",
+        "subsections": [
+          {
+            "title": "Techniques for Enhancing Model Interpretability",
+            "section_id": "4.2 Techniques for Enhancing Model Interpretability",
+            "subsections": [
+              {
+                "title": "Attention Mechanisms",
+                "section_id": "4.2.1 Attention Mechanisms",
+                "description": "Explain how attention mechanisms can highlight important features or time points in EEG signals.",
+                "references": [ ],
+                "trend": "Providing insights into the model's decision-making process by highlighting influential features."
+              },
+              {
+                "title": "Visualization Techniques",
+                "section_id": "4.2.2 Visualization Techniques",
+                "description": "Discuss methods for visualizing learned features and model activations (e.g., t-SNE, heatmaps).",
+                "references": [ ],
+                "trend": "Making the model's internal representations and decision boundaries more understandable."
+              },
+              {
+                "title": "Rule Extraction",
+                "section_id": "4.2.3 Rule Extraction",
+                "description": "Explore techniques for extracting human-interpretable rules from complex models.",
+                "references": [ ],
+                "trend": "Translating model decisions into understandable rules that can be validated by domain experts."
+              },
+              {
+                "title": "Model-Agnostic Methods",
+                "section_id": "4.2.4 Model-Agnostic Methods",
+                "description": "Discuss methods like SHAP (SHapley Additive exPlanations) and LIME (Local Interpretable Model-agnostic Explanations) that can be applied to any machine learning model.",
+                "references": [ ],
+                "trend": "Providing post-hoc explanations for model predictions without being tied to a specific model architecture."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Integration of Multimodal Data",
+        "section_id": "5 Integration of Multimodal Data",
+        "methods": [
+          {
+            "title": "Rationale for Multimodal Fusion",
+            "section_id": "5.1 Rationale for Multimodal Fusion",
+            "description": "Discuss the limitations of relying solely on EEG for fatigue detection and the potential benefits of incorporating other physiological signals and behavioral measures. Highlight the potential benefits of incorporating other physiological signals (e.g., ECG, EOG, EMG) and behavioral measures (e.g., eye tracking, facial expressions, vehicle dynamics)",
+            "references": [ ],
+            "trend": "Growing interest in multimodal data fusion to provide a more comprehensive and robust assessment of driver fatigue."
+          },
+          {
+            "title": "Fusion Strategies",
+            "section_id": "5.2 Fusion Strategies",
+            "subsections": [
+              {
+                "title": "Early Fusion (Feature-Level Fusion)",
+                "section_id": "5.2.1 Early Fusion (Feature-Level Fusion)",
+                "description": "Discuss different approaches for combining multimodal data, such as early fusion (feature-level), late fusion (decision-level), and hybrid fusion.",
+                "references": [ ],
+                "trend": "Exploration of various fusion strategies to maximize the benefits of multimodal data integration."
+              },
+              {
+                "title": "Late Fusion (Decision-Level Fusion)",
+                "section_id": "5.2.2 Late Fusion (Decision-Level Fusion)",
+                "description": "Analyze approaches that combine the outputs of separate classifiers trained on each modality.",
+                "references": [ ],
+                "trend": "Leveraging the strengths of individual classifiers and improving overall decision accuracy."
+              },
+              {
+                "title": "Hybrid Fusion",
+                "section_id": "5.2.3 Hybrid Fusion",
+                "description": "Explore methods that combine both feature-level and decision-level fusion.",
+                "references": [ ],
+                "trend": "Maximizing the benefits of both early and late fusion strategies."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Promising Directions for Future Research",
+        "section_id": "8 Promising Directions for Future Research",
+        "sections": [
+          {
+            "title": "Enhanced Explainability and Transparency",
+            "description": "Focus on XAI techniques to improve interpretability of deep learning models for EEG-based fatigue detection.",
+            "references": [ ],
+            "trend": "Development of explainable models providing actionable feedback and interpretable predictions."
+          },
+          {
+            "title": "Real-Time Implementation and Edge Computing",
+            "section_id": "6",
+            "subsections": [
+              {
+                "title": "Challenges of Real-Time Fatigue Detection",
+                "section_id": "6.1",
+                "description": "Discuss the need for low latency and fast processing in real-time applications. Analyze the computational demands of complex machine learning models.",
+                "references": [ ],
+                "trend": "Focus on real-time processing and low latency for immediate feedback in safety-critical applications."
+              },
+              {
+                "title": "Edge Computing for On-Device Processing",
+                "section_id": "6.2",
+                "description": "Introduce the concept of edge computing and its advantages for EEG-based systems.",
+                "references": [ ],
+                "trend": "Shift towards on-device processing to reduce reliance on cloud connectivity, minimize latency, and enhance privacy."
+              },
+              {
+                "title": "Model Optimization for Resource-Constrained Devices",
+                "section_id": "6.3",
+                "description": "Discuss techniques for model compression, quantization, and pruning to reduce model size and computational cost.",
+                "references": [ ],
+                "trend": "Development of lightweight and efficient models suitable for deployment on wearable devices and in-vehicle systems."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+    }

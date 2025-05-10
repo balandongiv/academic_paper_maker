@@ -455,7 +455,7 @@ def run_pipeline(
     # Prepare role instructions
     logger.info(f"Preparing role instructions for {agentic_setting['agent_name']}.")
     role_instruction_main = construct_agent_profile(config, placeholders, agentic_setting['agent_name'])
-    # C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\agent\agent_ml.yaml
+    logger.info(f'The agent instruction is: {role_instruction_main}, and this will be process for the document {csv_path}')
     if process_setup['cross_check_enabled']:
         #  - The cross-check agent's role
         role_instruction_cross_check = construct_agent_profile(config, placeholders, process_setup['cross_check_agent_name'])
@@ -529,7 +529,14 @@ def run_pipeline(
             # Also remove final JSON if needed:
             # cleanup_json_files(df, final_cross_check_folder)
 
-        # (Optional) Save final DF to Excel
+
+    # Only clean if column name contains 'abstract_filter' and column exists
+    if 'abstract_filter' in column_name and column_name in df.columns:
+        # Extract the value from the dictionary and normalize it
+        df[column_name] = df[column_name].apply(
+            lambda x: str(x.get('abstract_filter', '')).strip().capitalize() if isinstance(x, dict) else None
+        )
+
 
     if process_setup['overwrite_csv']:
         from helper.combine_json import save_with_backup

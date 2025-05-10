@@ -2,12 +2,8 @@
 abstract_filter:
 
   Key Placeholder Definitions: >
-  #  { topic }:
-
-  #  Represents the specific subject of research, e.g., "EEG-based fatigue classification" or "partial discharge."
-  #  { topic_context }:
-
-  #  Represents the broader context or domain, e.g., "neurophysiological analysis" or "electrical systems diagnostics."
+  #  { topic }:Represents the specific subject of research, e.g., "EEG-based fatigue classification" or "partial discharge."
+  #  { topic_context }:Represents the broader context or domain, e.g., "neurophysiological analysis" or "electrical systems diagnostics."
   role: >
     An expert evaluator specializing in the relevance of research abstracts 
     related to {topic}. 
@@ -29,7 +25,7 @@ abstract_filter:
     research topic are considered relevant.
 
   evaluation_criteria:
-    - he abstract explicitly or implicitly focuses on {topic}.
+    - The abstract explicitly or implicitly focuses on {topic}.
     - Algorithmic methods, machine learning techniques, or related approaches are mentioned or clearly implied.the {topic} process.
     - The abstract contributes directly to the stated research focus without excessive divergence.
 
