@@ -2,6 +2,7 @@ import json
 import logging
 import os
 import shutil
+from collections import OrderedDict
 from datetime import datetime
 
 from tqdm import tqdm
@@ -68,9 +69,17 @@ def combine_json_files(input_directory, output_file):
         file_path = os.path.join(input_directory, filename)
         try:
             with open(file_path, 'r', encoding='utf-8') as file:
-                data = json.load(file)
+                original_data = json.load(file)
+                bibtex_key = os.path.splitext(filename)[0]
+
+                # Create OrderedDict with bibtex first
+                data = OrderedDict()
+                data['bibtex'] = bibtex_key
+                for key, value in original_data.items():
+                    data[key] = value
+
                 combined_data.append(data)
-                logging.debug(f"Loaded: {filename}")
+                logging.debug(f"Loaded and annotated: {filename}")
         except json.JSONDecodeError as e:
             logging.warning(f"Skipping {filename} due to JSON decode error: {e}")
         except Exception as e:
