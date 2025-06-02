@@ -454,8 +454,12 @@ def run_pipeline(
     column_name = agentic_setting['column_name']
     # Prepare role instructions
     logger.info(f"Preparing role instructions for {agentic_setting['agent_name']}.")
+
     role_instruction_main = construct_agent_profile(config, placeholders, agentic_setting['agent_name'])
     logger.info(f'The agent instruction is: {role_instruction_main}, and this will be process for the document {csv_path}')
+
+    # im using print to debug in colab
+    print(f'The agent instruction is: {role_instruction_main}, and this will be process for the document {csv_path}')
     if process_setup['cross_check_enabled']:
         #  - The cross-check agent's role
         role_instruction_cross_check = construct_agent_profile(config, placeholders, process_setup['cross_check_agent_name'])
