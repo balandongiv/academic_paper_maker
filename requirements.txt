@@ -44,3 +44,4 @@ selenium
 
 # For academic paper download automation
 # scidownl  # https://github.com/Tishacy/SciDownl or pip3 install -U scidownl
+openai

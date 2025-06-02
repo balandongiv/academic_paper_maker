@@ -5,6 +5,8 @@ import sys
 from pathlib import Path
 
 import pandas as pd
+from dotenv import load_dotenv
+from openai import OpenAI
 from academic_paper_maker.setting.project_path import project_folder
 from dotenv import load_dotenv
 from openai import AuthenticationError, RateLimitError, APIConnectionError
