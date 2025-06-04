@@ -62,8 +62,8 @@ def generate_bibtex_entry(row, column_mapping, bibtex_column):
     for field, col_name in column_mapping.items():
         if col_name in row and pd.notna(row[col_name]):
             value = row[col_name]
-            if field == "author":
-                value = format_authors(value)  # Apply author formatting
+            # if field == "author":
+            #     value = format_authors(value)  # Apply author formatting
             bibtex_entry += f"  {field} = {{{value}}},\n"
     bibtex_entry += "}\n"
     return bibtex_entry
@@ -88,9 +88,12 @@ if __name__ == "__main__":
     file_path = r"C:\Users\balan\IdeaProjects\academic_paper_maker\bib_example\combined_filtered.xlsx"
     output_path=r"C:\Users\balan\IdeaProjects\academic_paper_maker\bib_example\combined_filtered.bib"
     if not os.path.exists(file_path):
+        from download_pdf.database_preparation import combine_scopus_bib_to_excel
+        folder_path=r"C:\Users\balan\IdeaProjects\academic_paper_maker\bib_example"
+        combine_scopus_bib_to_excel(folder_path, file_path)
         print(f"Excel file not found at {file_path}!")
-    else:
-        df = pd.read_excel(file_path)
 
-        # Generate BibTeX
-        generate_bibtex(df,output_file=output_path)
+    df = pd.read_excel(file_path)
+
+    # Generate BibTeX
+    generate_bibtex(df,output_file=output_path)
