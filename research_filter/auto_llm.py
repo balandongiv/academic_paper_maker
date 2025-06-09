@@ -91,9 +91,11 @@ def process_main_agent_row_single_run(
 
             parsed_data = {
                 column_name: {
+                    "possible_error": "Sometimes the AI output is not a valid JSON.",
                     "error_msg": f"not able to parse {source_text}",
                     "system_message":role_instruction,
-                    "user_message":source_text
+                    "user_message":source_text,
+                    "ai_output": ai_output,
                 }
             }
     else:
@@ -565,13 +567,13 @@ def main():
     main_folder = path_dic['main_folder']
 
     # Editable variables
-    # model_name = "gpt-4o"  # or "gpt-4o"
+    model_name = "gpt-4o"  # or "gpt-4o"
     # model_name="gpt-4o-mini"
     # model_name="gpt-o3-mini"
     # model_name='gemini-1.5-pro'
 
     # model_name='gemini-exp-1206'
-    model_name='gemini-2.0-flash-thinking-exp-01-21'
+    # model_name='gemini-2.0-flash-thinking-exp-01-21'
 
     # Get the directory where the current script is located
     base_dir = os.path.dirname(__file__)
