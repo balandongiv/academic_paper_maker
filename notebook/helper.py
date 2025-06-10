@@ -1,6 +1,8 @@
 import logging
 import os
 import sys
+import warnings
+from os.path import join
 from pathlib import Path
 
 import pandas as pd
@@ -15,6 +17,95 @@ from setting.project_path import project_folder
 
 
 # Path to the directory where "research_filter" lives
+
+
+
+def build_project_config(
+        project_name,
+        yaml_path_abstract=None,
+        yaml_path_methodology=None,
+        base_dir=None
+):
+    """
+    Constructs a configuration dictionary for initializing a research project.
+
+    In this step, you'll register the **main project folder**, so the system knows
+    where to store and retrieve all files related to your project.
+
+    This setup automatically creates a structured folder system under your specified
+    `main_folder`, and stores the configuration in a central JSON file. This ensures
+    your projects remain organized, especially when working with multiple studies or datasets.
+
+    Parameters
+    ----------
+    project_name : str
+        The name of the project or review (e.g., "wafer"). Used to organize files and folders.
+
+    yaml_path_abstract : str, optional
+        Optional path to the YAML file for abstract filtering logic.
+        Defaults to: ./research_filter/agent/abstract_check.yaml
+
+    yaml_path_methodology : str, optional
+        Optional path to the YAML file for methodology filtering logic.
+        Defaults to: ./research_filter/agent/agent_ml.yaml
+
+    base_dir : str, optional
+        Base directory where the project folder structure will be created.
+        **Warning:** If not provided, the current working directory is used. This can lead
+        to confusion when running notebooks from different locations. It is strongly
+        recommended to explicitly define this value to ensure consistent file paths.
+
+    Returns
+    -------
+    dict
+        A configuration dictionary containing resolved paths and project metadata. Keys include:
+
+        - 'project_review'
+        - 'env_path'
+        - 'main_folder'
+        - 'project_root'
+        - 'yaml_path_abstract'
+        - 'yaml_path_methodology'
+        - 'config_file'
+        - 'methodology_gap_extractor_path'
+
+    Examples
+    --------
+    >>> cfg = build_project_config("wafer")
+
+    >>> cfg = build_project_config(
+            "wafer",
+            yaml_path_abstract="D:/configs/my_abstract.yaml",
+            yaml_path_methodology="D:/configs/my_method.yaml",
+            base_dir="D:/my_projects"
+        )
+    """
+
+    if base_dir is None:
+        warnings.warn(
+            "No 'base_dir' provided. Falling back to the current working directory.\n"
+            "This may lead to inconsistent paths if notebooks are run from different locations.\n"
+            "It is highly recommended to explicitly provide a base_dir.",
+            stacklevel=2
+        )
+        base_dir = os.getcwd()
+
+    main_folder = join(base_dir, "project_files")
+    default_yaml_path = join(base_dir, "research_filter", "agent")
+
+    yaml_path_abstract = yaml_path_abstract or join(default_yaml_path, "abstract_check.yaml")
+    yaml_path_methodology = yaml_path_methodology or join(default_yaml_path, "agent_ml.yaml")
+
+    return {
+        "project_review": project_name,
+        "env_path": join(main_folder, ".env"),
+        "main_folder": main_folder,
+        "project_root": join(main_folder, "database"),
+        "yaml_path_abstract": yaml_path_abstract,
+        "yaml_path_methodology": yaml_path_methodology,
+        "config_file": join(main_folder, "project_folders.json"),
+        "methodology_gap_extractor_path": join(main_folder, "methodology_gap_extractor", "json_output"),
+    }
 
 
 def generate_bibtex_from_excel_colab(cfg: dict) -> None:
@@ -243,7 +334,7 @@ def run_abstract_filtering_colab(model_name: str, placeholders: dict, cfg: dict)
         agentic_setting = {
             "agent_name": "abstract_filter",
             "column_name": "abstract_filter",
-            "yaml_path": cfg['yaml_path'],
+            "yaml_path": cfg['yaml_path_abstract'],
             "model_name": model_name
         }
 
@@ -319,7 +410,8 @@ def run_methodology_extraction_colab(
         agentic_setting = {
             "agent_name": agent_name,
             "column_name": "methodology_gap",
-            "yaml_path": cfg['yaml_path'],
+            "yaml_path": cfg['yaml_path_methodology'],
+            # "yaml_path": r"C:\Users\balan\IdeaProjects\academic_paper_maker\research_filter\agent\agent_ml.yaml",
             "model_name": model_name_method_extractor
         }
 
@@ -361,7 +453,15 @@ def run_methodology_extraction_colab(
         logging.error(f"❌ An error occurred during the methodology extraction: {e}")
 
 
+def sanitize_filename(name):
+    """
+    Sanitizes a string to be safe for use as a filename on all OSes, especially Windows.
+    Removes or replaces invalid characters.
+    """
+    # Replace any invalid Windows filename character with underscore
+    import re
 
+    return re.sub(r'[<>:"/\\|?*]', '_', name)
 
 def combine_methodology_output_colab(model_name_method_extractor: str, cfg: dict) -> None:
     """
@@ -388,7 +488,13 @@ def combine_methodology_output_colab(model_name_method_extractor: str, cfg: dict
 
         # Define input and output paths
         input_dir = Path(cfg['methodology_gap_extractor_path']) / model_name_method_extractor
-        output_file = os.path.join(path_dict['main_folder'], 'combined_output.json')
+        # output_file = os.path.join(path_dict['main_folder'], f'methodology_extraction_{model_name_method_extractor}_combined.json')
+        safe_model_name = sanitize_filename(model_name_method_extractor)
+
+        output_file = os.path.join(
+            path_dict['main_folder'],
+            f"methodology_extraction_{safe_model_name}_combined.json"
+        )
 
         # Validate input directory
         if not input_dir.exists():
