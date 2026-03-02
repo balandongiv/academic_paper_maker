@@ -7,31 +7,31 @@
 # Make sure your virtual environment is activated before running the command.
 
 # === Core Dependencies ===
-crewai
-python-dotenv
-pyperclip
-PyPDF2
-duckduckgo-search
-googlesearch-python
-tqdm
-pandas
-PyYAML
-pydantic
-openpyxl
-flask
-beautifulsoup4
-bibtexparser
-loguru
-pymupdf
+# crewai
+# python-dotenv
+# pyperclip
+# PyPDF2
+# duckduckgo-search
+# googlesearch-python
+# tqdm
+# pandas
+# PyYAML
+# pydantic
+# openpyxl
+# flask
+# beautifulsoup4
+# bibtexparser
+# loguru
+# pymupdf
 
 # === LangChain & LLM Integration ===
-langchain-core
-langchain-openai
-langchain-google-genai
+# langchain-core
+# langchain-openai
+# langchain-google-genai
 
 # === Frontend (optional or project-specific) ===
-frontend
-selenium
+# frontend
+# selenium
 
 # === Optional Tools ===
 # python3 -m pip install googlesearch-python
@@ -44,4 +44,4 @@ selenium
 
 # For academic paper download automation
 # scidownl  # https://github.com/Tishacy/SciDownl or pip3 install -U scidownl
-openai
+# openai

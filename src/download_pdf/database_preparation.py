@@ -240,13 +240,14 @@ def filter_rows(df: pd.DataFrame) -> pd.DataFrame:
     Only keep 'English' in 'language_of_original_document' if present.
     """
     if 'document_type' in df.columns:
-        df = df[df['document_type'].fillna('').str.lower().isin(['article', 'review'])]
+        df = df[df['document_type'].fillna('').str.lower().isin(['article', 'review', 'data paper'])]
 
     else:
         print("Warning: 'document_type' column not found. No filtering on document_type applied.")
 
     if 'language' in df.columns:
-        df = df[df['language'].str.lower() == 'english']
+        # Fill NaN with 'english' to retain rows where language is missing (e.g., from CSVs without the column)
+        df = df[df['language'].fillna('english').str.lower() == 'english']
     else:
         print("Warning: 'language_of_original_document' column not found. No filtering on language applied.")
 
@@ -433,15 +434,106 @@ def combine_scopus_bib_to_excel(folder_path: str, output_excel_path: str) -> Non
     # 7. Create bibtex column
     df = create_bibtex_column(df)
 
-    # 8. Ensure final columns exist and reorder
+    # Ensure final columns exist and reorder
     df = ensure_and_reorder_columns(df)
 
     # 9. Write the combined DataFrame to Excel
     df.to_excel(output_excel_path, index=False, engine='openpyxl')
     print(f"Combined file has been saved to: {output_excel_path}")
 
-if __name__ == "__main__":
-    folder_path = r"C:\Users\balan\IdeaProjects\academic_paper_maker\bib_example"
-    output_excel =  r"C:\Users\balan\IdeaProjects\academic_paper_maker\bib_example\xcombined_filtered.xlsx"
 
-    combine_scopus_bib_to_excel(folder_path, output_excel)
+def combine_csv_files(folder_path: str) -> pd.DataFrame:
+    """
+    Gather all CSV files in the folder and combine them into a single DataFrame.
+    """
+    csv_files = glob.glob(os.path.join(folder_path, "*.csv"))
+    print(f'Found {len(csv_files)} .csv files in {folder_path}')
+    df_list = []
+    for csv_file in csv_files:
+        try:
+            df = pd.read_csv(csv_file)
+            df_list.append(df)
+        except Exception as e:
+            print(f"Error reading {csv_file}: {e}")
+
+    if df_list:
+        return pd.concat(df_list, ignore_index=True)
+    return pd.DataFrame()
+
+
+def combine_data_to_excel(folder_path: str, output_excel_path: str) -> None:
+    """
+    Master function that combines multiple Scopus bib AND/OR csv files in a folder,
+    applies cleaning/formatting, removes duplicates, and saves to Excel.
+    """
+    # 1. Gather files
+    df_bib = parse_scopus_bib_files(folder_path)
+    print(f"DEBUG: Loaded {len(df_bib)} records from BibTeX files.")
+    
+    df_csv = combine_csv_files(folder_path)
+    print(f"DEBUG: Loaded {len(df_csv)} records from CSV files.")
+
+    if df_bib.empty and df_csv.empty:
+        print("No valid data (BibTeX or CSV) to process. Process aborted.")
+        return
+
+    # 2. Harmonize CSV columns to match BibTeX parser output (if CSV exists)
+    if not df_csv.empty:
+        # Clean CSV columns first (e.g., "Source title" -> "source_title")
+        df_csv = clean_column_names(df_csv)
+        
+        # Rename specific Scopus CSV columns to match 'fields' from parse_scopus_bib_files
+        # Bib fields: author, title, year, journal, volume, number, doi, url, ...
+        # CSV cleaned: authors, title, year, source_title, ...
+        csv_to_bib_map = {
+            'authors': 'author',
+            'source_title': 'journal',
+            'link': 'url',
+            'language_of_original_document': 'language',
+            # 'document_type' is usually 'document_type' in both after clean
+            # 'publisher' is 'publisher' in both after clean
+        }
+        df_csv = df_csv.rename(columns=csv_to_bib_map)
+
+    # 3. Combine DataFrames
+    # We use ignore_index=True to reset index
+    df = pd.concat([df_bib, df_csv], ignore_index=True)
+
+    # 4. Clean column names (again, for safety on the combined DF)
+    df = clean_column_names(df)
+
+    # 5. Filter rows based on conditions
+    df = filter_rows(df)
+
+    # 6. Remove duplicates by DOI and Title
+    df = remove_duplicates_by_doi_and_title(df)
+
+    # 7. Rename columns to final schema (e.g. publisher -> publisher_long)
+    df = rename_columns_for_final_schema(df)
+
+    # 8. Extract the first author
+    df = extract_first_author(df)
+    
+    # Map publishers
+    unique_val = df['publisher_long'].unique() if 'publisher_long' in df.columns else []
+    print(f'These are the unique publisher_long values: {unique_val}')
+    df = map_publisher_long(df)
+
+    # 9. Create bibtex column
+    df = create_bibtex_column(df)
+
+    # 10. Ensure final columns exist and reorder
+    df = ensure_and_reorder_columns(df)
+
+    # 11. Write the combined DataFrame to Excel
+    df.to_excel(output_excel_path, index=False, engine='openpyxl')
+    print(f"Combined file has been saved to: {output_excel_path}")
+
+
+def combine_scopus_bib_to_excel(folder_path: str, output_excel_path: str) -> None:
+    """
+    Legacy wrapper for backward compatibility. 
+    Redirects to combine_data_to_excel to support both BibTeX and CSV.
+    """
+    combine_data_to_excel(folder_path, output_excel)
+
