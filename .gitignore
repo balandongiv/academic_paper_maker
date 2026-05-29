@@ -1,0 +1,49 @@
+# Generated outputs — recreated by running the tool
+output/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+myenv/
+*.conda/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment / secrets
+.env
+*.env.local
+
+# Logs
+*.log
+process.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Test cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ChromeDriver binary (downloaded separately)
+browser/chromedriver.exe
+browser/chromedriver

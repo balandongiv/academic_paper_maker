@@ -1,0 +1,344 @@
+TY  - JOUR
+AU  - Ali, M.U.
+AU  - Zafar, A.
+AU  - Kim, S.H.
+AU  - Kim, K.S.
+AU  - Won Lee, S.
+TI  - Intelligent Driver Drowsiness Detection Using Brain Imaging: A Systematic Review for Enhanced Road Safety in Intelligent Transportation Systems
+PY  - 2026
+T2  - IEEE Transactions on Intelligent Transportation Systems
+DO  - 10.1109/TITS.2026.3660698
+UR  - https://www.scopus.com/pages/publications/105030842865?origin=resultslist
+AD  - Department of Artificial Intelligence and Robotics, Sejong University, Seoul, 05006, South Korea
+AD  - Department of Scientific Computing, Pukyong National University, Busan, 48513, South Korea
+AD  - Sungkyunkwan University, School of Medicine, Department of Precision Medicine, Seoul, 03181, South Korea
+AD  - Sungkyunkwan University School of Medicine, Department of Artificial Intelligence, Seoul, 03181, South Korea
+AD  - Sungkyunkwan University School of Medicine, Personalized Cancer Immunotherapy Research Center, Department of Metabiohealth, Seoul, 03181, South Korea
+AD  - Sungkyunkwan University School of Medicine, Department of Family Medicine, Kangbuk Samsung Hospital, Seoul, 03181, South Korea
+AB  - Driver drowsiness poses a significant threat to road safety, contributing to numerous accidents globally, according to historical statistical data. This study provides an exhaustive overview of driver drowsiness, encompassing its symptoms, causes, prevention strategies, and underlying physiological and neural changes that occur when transitioning from wakefulness to a drowsy state. This review paper explores the complexities of detecting driver drowsiness, with a focus on brain imaging-based methodologies, and addresses four key research questions. We systematically analyze and review existing research on driver drowsiness detection using machine learning algorithms at both macro and micro levels, following the Preferred Reporting Items for Systematic Reviews and Meta-Analyses guidelines. We categorize brain imaging modalities into four main groups: electroencephalography (EEG), functional near-infrared spectroscopy (fNIRS), functional magnetic resonance imaging, and magnetoencephalography. Micro analysis (from 2020 to 2025) explores the application of these modalities in detecting driver drowsiness, discussing their strengths and limitations, and evaluating their effectiveness in simulated and real-world driving experiments. Our evaluation reveals that EEG and fNIRS have emerged as the most prevalent brain imaging methodologies for detecting driver drowsiness, due to their non-invasive and portable nature, high temporal and spatial resolution, and real-time capability. However, challenges persist, including the need for more robust machine learning algorithms, improved signal processing techniques, and enhanced sensor technologies. Furthermore, there is a need for more comprehensive studies that integrate multiple brain imaging modalities and machine learning approaches to detect driver drowsiness. By addressing these key areas, future research can advance the field of driver drowsiness detection and pave the way for safer and more efficient transportation systems. © 2000-2011 IEEE.
+KW  - Brain imaging modalities
+KW  - drowsiness
+KW  - electroencephalography
+KW  - fatigue
+KW  - functional magnetic resonance imaging
+KW  - functional near-infrared spectroscopy
+KW  - machine learning
+KW  - sleep
+KW  - sleepiness
+KW  - Accident prevention
+KW  - Automobile drivers
+KW  - Biomedical signal processing
+KW  - Brain
+KW  - Brain mapping
+KW  - Electrophysiology
+KW  - Infrared devices
+KW  - Intelligent vehicle highway systems
+KW  - Learning algorithms
+KW  - Learning systems
+KW  - Machine learning
+KW  - Magnetic resonance imaging
+KW  - Magnetoencephalography
+KW  - Motor transportation
+KW  - Near infrared spectroscopy
+KW  - Roads and streets
+KW  - Sleep research
+KW  - Brain imaging
+KW  - Brain imaging modality
+KW  - Driver drowsiness
+KW  - Drowsiness
+KW  - Functional magnetic resonance imaging
+KW  - Functional near infrared spectroscopy
+KW  - Imaging modality
+KW  - Machine-learning
+KW  - Sleep
+KW  - Sleepiness
+KW  - Electroencephalography
+KW  - Fatigue of materials
+PB  - Institute of Electrical and Electronics Engineers Inc.
+SN  - 15249050 (ISSN)
+LA  - English
+J2  - IEEE Trans. Intell. Transp. Syst.
+M3  - Review
+DB  - Scopus
+N1  - Export Date: 29 May 2026; Cited By: 0; Correspondence Address: S.H. Kim; Department of Artificial Intelligence and Robotics, Sejong University, Seoul, 05006, South Korea; email: shkim8@sejong.ac.kr; K.S. Kim; Department of Scientific Computing, Pukyong National University, Busan, 48513, South Korea; email: kwangsukim@pknu.ac.kr; S. Won Lee; Sungkyunkwan University, School of Medicine, Department of Precision Medicine, Seoul, 03181, South Korea; email: swleemd@g.skku.edu
+ER  -
+
+TY  - JOUR
+AU  - Gao, B.
+AU  - Yan, Y.
+AU  - Cai, J.
+AU  - Huangfu, C.
+TI  - Enhanced Driver Fatigue Classification via a Novel Residual Polynomial Network with EEG Signal Analysis
+PY  - 2026
+T2  - Algorithms
+VL  - 19
+IS  - 1
+C7  - 36
+DO  - 10.3390/a19010036
+UR  - https://www.scopus.com/pages/publications/105028565803?origin=resultslist
+AD  - Engineering Techniques Training Center, Civil Aviation University of China, Tianjin, 300300, China
+AD  - School of Automation, Nanjing University of Information Science and Technology, Nanjing, 210044, China
+AB  - Driver fatigue detection based on electroencephalography (EEG) signals has gained increasing attention for enhancing road safety. However, existing deep learning models often treat EEG data as generic time-series inputs, neglecting the inherent hierarchical and spatial–temporal structure of brain activity, which limits their interpretability and generalization. To address this, we propose a novel Residual Polynomial Network (RPN) that explicitly models the positive and negative activation patterns in EEG signals through a polarity-aware architecture. The RPN integrates polarity decomposition, residual learning, and hierarchical feature fusion to capture discriminative neurophysiological dynamics while maintaining model transparency. Extensive experiments are conducted on a real-world driving fatigue dataset using a subject-wise 10-fold cross-validation protocol. Results show that the proposed RPN achieves an average classification accuracy of 97.65%, outperforming conventional machine learning and deep learning baselines including SVM, KNN, DT, and LSTM. Ablation studies confirm the effectiveness of each component, and Sankey diagram analysis provides interpretable insights into feature-to-class mappings. This work not only advances the state of the art in EEG-based fatigue detection but also offers a more transparent and physiologically plausible deep learning framework for brain signal analysis. © 2026 by the authors.
+KW  - driver fatigue detection and classification
+KW  - EEG signal analysis
+KW  - residual polynomial network
+KW  - Biomedical signal processing
+KW  - Brain
+KW  - Classification (of information)
+KW  - Deep learning
+KW  - Electrophysiology
+KW  - Learning systems
+KW  - Motor transportation
+KW  - Neurophysiology
+KW  - Polynomials
+KW  - Signal analysis
+KW  - Driver fatigue
+KW  - Driver fatigue detection and classification
+KW  - Electroencephalography signal analyze
+KW  - Fatigue classifications
+KW  - Fatigue detection
+KW  - Learning models
+KW  - Polynomial networks
+KW  - Residual polynomial network
+KW  - Road safety
+KW  - Signals analysis
+KW  - Electroencephalography
+PB  - Multidisciplinary Digital Publishing Institute (MDPI)
+SN  - 19994893 (ISSN)
+LA  - English
+J2  - Algorithms
+M3  - Article
+DB  - Scopus
+N1  - Export Date: 29 May 2026; Cited By: 0; Correspondence Address: Y. Yan; School of Automation, Nanjing University of Information Science and Technology, Nanjing, 210044, China; email: ying.yan@nuist.edu.cn
+ER  -
+
+TY  - JOUR
+AU  - Cao, Y.
+AU  - Chen, T.
+AU  - Han, K.
+AU  - Chung, H.
+AU  - Huang, Z.
+AU  - Ding, H.
+TI  - SET-DGCN: An end-to-end electroencephalography-based fatigue detection method for young drivers
+PY  - 2026
+T2  - Accident Analysis and Prevention
+VL  - 225
+C7  - 108311
+DO  - 10.1016/j.aap.2025.108311
+UR  - https://www.scopus.com/pages/publications/105021606484?origin=resultslist
+AD  - Institute of Smart City and Intelligent Transportation, Southwest Jiaotong University, Sichuan, Chengdu, 611756, China
+AD  - Cho Chun Shik Graduate School of Mobility, Korea Advanced Institute of Science and Technology, South Korea
+AD  - School of Economics and Management, Southwest Jiaotong University, Chengdu, 610031, China
+AD  - Urban Planning and Design, Xi'an Jiaotong-Liverpool University, 111 Ren'ai Road, Suzhou Industrial Park, Suzhou, 215123, China
+AD  - School of Traffic and Transportation, Lanzhou Jiaotong University, Lanzhou, 730070, China
+AB  - Driver fatigue poses a critical threat to global road safety, particularly among young drivers. Nevertheless, policy-level interventions remain fragmented due to the lack of reliable and deployable detection technologies. Bridging this gap requires accurate, interpretable, and real-time fatigue monitoring systems capable of informing practical decision-making in transportation safety management. To address this challenge, we propose an end-to-end EEG-based fatigue detection model, Scale-Enhanced Transformer and Dynamic Graph Convolutional Network (SET-DGCN). The model captures multi-scale temporal dependencies and spatial brain-region interactions by integrating convolutional embeddings, attention mechanisms, and learnable graph structures. Extensive evaluations on both a driving simulation dataset and the publicly available SEED-VIG dataset confirm that SET-DGCN outperforms mainstream convolutional neural network (CNN)-based, graph convolutional network (GCN)-based, and Transformer-based models in terms of accuracy and F1-score, while maintaining strong cross-subject generalization. To enhance both interpretability and application relevance, a component-level attribution method (COAR) is employed to evaluate the functional contribution of model modules, while SHapley Additive exPlanations (SHAP) analysis is used to uncover brain region–specific patterns across fatigue stages. Based on these neural insights, a set of multi-level policy and design recommendations is proposed, ranging from infrastructure enhancements to adaptive in-vehicle systems and individualized interventions, to provide a comprehensive framework for mitigating fatigue among young drivers in real-world transportation contexts. © 2025 Elsevier Ltd
+KW  - Driving fatigue detection
+KW  - EEG
+KW  - Safety policy
+KW  - Spatiotemporal deep learning
+KW  - Young driver
+KW  - Adolescent
+KW  - Adult
+KW  - Attention
+KW  - Automobile Driving
+KW  - Electroencephalography
+KW  - Fatigue
+KW  - Female
+KW  - Humans
+KW  - Male
+KW  - Neural Networks, Computer
+KW  - Young Adult
+KW  - Accident prevention
+KW  - Automobile drivers
+KW  - Brain
+KW  - Brain mapping
+KW  - Convolution
+KW  - Convolutional neural networks
+KW  - Decision making
+KW  - Graph theory
+KW  - Graphic methods
+KW  - Human computer interaction
+KW  - Motor transportation
+KW  - Real time systems
+KW  - Brain regions
+KW  - Convolutional networks
+KW  - Driving fatigue
+KW  - Driving fatigue detection
+KW  - Dynamic graph
+KW  - End to end
+KW  - Fatigue detection
+KW  - Safety policies
+KW  - Spatiotemporal deep learning
+KW  - Young driver
+KW  - algorithm
+KW  - Article
+KW  - artificial neural network
+KW  - brain region
+KW  - cognition
+KW  - convolutional neural network
+KW  - decision making
+KW  - deep learning
+KW  - dynamic graph convolutional network
+KW  - electroencephalography
+KW  - fatigue
+KW  - human
+KW  - human experiment
+KW  - learning algorithm
+KW  - machine learning
+KW  - nerve cell network
+KW  - Shapley additive explanation
+KW  - signal noise ratio
+KW  - signal processing
+KW  - simulation
+KW  - training
+KW  - visual stimulation
+KW  - working memory
+KW  - adolescent
+KW  - adult
+KW  - attention
+KW  - car driving
+KW  - diagnosis
+KW  - female
+KW  - male
+KW  - procedures
+KW  - psychology
+KW  - young adult
+KW  - Electrophysiology
+PB  - Elsevier Ltd
+SN  - 00014575 (ISSN)
+C2  - 41240740
+LA  - English
+J2  - Accid. Anal. Prev.
+M3  - Article
+DB  - Scopus
+N1  - Export Date: 29 May 2026; Cited By: 1; Correspondence Address: H. Ding; Institute of Smart City and Intelligent Transportation, Southwest Jiaotong University, Chengdu, Sichuan, 611756, China; email: hongliang.ding@swjtu.edu.cn; CODEN: AAPVB
+ER  -
+
+TY  - JOUR
+AU  - Jui, J.J.
+AU  - Hettiarachchi, I.T.
+AU  - Nguyen, T.T.
+TI  - Hybrid attention-based temporal convolutional networks for driver fatigue detection using physiological signal
+PY  - 2026
+T2  - Biomedical Signal Processing and Control
+VL  - 113
+C7  - 109125
+DO  - 10.1016/j.bspc.2025.109125
+UR  - https://www.scopus.com/pages/publications/105021869515?origin=resultslist
+AD  - Institute for Intelligent Systems Research and Innovation, Deakin University, Australia
+AD  - Faculty of Information Technology, Monash University, Victoria, 3800, Melbourne, Australia
+AB  - Fatigue detection remains a major challenge in safety-critical domains such as transportation and aviation, where timely and reliable monitoring is essential to prevent accidents and performance degradation. This study introduces a novel dual-architecture hybrid framework that leverages deep temporal modelling and attention mechanisms for real-time EEG-based fatigue classification. Specifically, two enhanced Temporal Convolutional Network (TCN) variants, TCN with Self-Attention (TCN-SA) and TCN integrated with Transformer Encoders (TTCN), are developed to capture both short- and long-range dependencies in EEG signals. To enhance decision-making robustness, high-level features extracted by these deep models are further classified using traditional machine learning algorithms, including Support Vector Machines (SVM), k-Nearest Neighbours (KNN), Random Forests (RF), and Multi-Layer Perceptrons (MLP). Experimental results demonstrate that the hybrid TTCN+RF model achieves superior performance, reaching 98.47% accuracy in participant-wise evaluation and 93.25% in aggregated analysis. The proposed models are rigorously validated using 10-fold cross-validation repeated over 10 runs and leave-one-subject-out (LOSO) analysis. Furthermore, comprehensive statistical evaluations, including Friedman and Wilcoxon signed-rank tests, confirm the significant performance advantage of the proposed hybrid models across datasets. These findings underscore the potential of hybrid deep learning frameworks for real-time cognitive monitoring in high-stakes environments. © 2025
+KW  - Automatic and tunable artifact removal
+KW  - Deep learning
+KW  - Electroencephalography signals
+KW  - Fatigue detection
+KW  - Machine learning
+KW  - Temporal convolutional networks
+KW  - Accident prevention
+KW  - Behavioral research
+KW  - Biomedical signal processing
+KW  - Convolution
+KW  - Decision trees
+KW  - Electrophysiology
+KW  - Fatigue of materials
+KW  - Learning algorithms
+KW  - Learning systems
+KW  - Nearest neighbor search
+KW  - Statistical tests
+KW  - Support vector machines
+KW  - Artifact removal
+KW  - Automatic and tunable artifact removal
+KW  - Convolutional networks
+KW  - Deep learning
+KW  - Electroencephalography signal
+KW  - Fatigue detection
+KW  - Machine-learning
+KW  - Real- time
+KW  - Temporal convolutional network
+KW  - Tunables
+KW  - adolescent
+KW  - adult
+KW  - Article
+KW  - attention
+KW  - conceptual framework
+KW  - controlled study
+KW  - convolutional neural network
+KW  - decision making
+KW  - deep learning
+KW  - diagnostic accuracy
+KW  - diagnostic test accuracy study
+KW  - driver
+KW  - electroencephalography
+KW  - fatigue
+KW  - fatigue assessment
+KW  - feature extraction
+KW  - female
+KW  - human
+KW  - k fold cross validation
+KW  - k nearest neighbor
+KW  - leave one out cross validation
+KW  - machine learning algorithm
+KW  - male
+KW  - multilayer perceptron
+KW  - physiological process
+KW  - random forest
+KW  - signal processing
+KW  - support vector machine
+KW  - Deep learning
+KW  - Electroencephalography
+PB  - Elsevier Ltd
+SN  - 17468094 (ISSN)
+LA  - English
+J2  - Biomed. Signal Process. Control
+M3  - Article
+DB  - Scopus
+N1  - Export Date: 29 May 2026; Cited By: 1; Correspondence Address: J.J. Jui; Institute for Intelligent Systems Research and Innovation, Deakin University, Australia; email: j.jui@deakin.edu.au
+ER  -
+
+TY  - JOUR
+AU  - Li, A.
+AU  - Wang, Z.
+AU  - Xu, T.
+AU  - Zhou, T.
+AU  - Zhao, X.
+AU  - Hu, H.
+AU  - Van Hulle, M.M.
+TI  - A Cross-Subject Band-Power Complexity Metric for Detecting Mental Fatigue Through EEG
+PY  - 2026
+T2  - Brain Sciences
+VL  - 16
+IS  - 2
+C7  - 199
+DO  - 10.3390/brainsci16020199
+UR  - https://www.scopus.com/pages/publications/105031292039?origin=resultslist
+AD  - Shanghai Advanced Research Institute, Chinese Academy of Sciences, Shanghai, 201210, China
+AD  - University of Chinese Academy of Sciences, Beijing, 100049, China
+AD  - Laboratory for Neuro- & Psychophysiology, Department of Neurosciences, KU Leuven—University of Leuven, Leuven, B-3000, Belgium
+AD  - School of Microelectronics, Shanghai University, Shanghai, 200444, China
+AB  - Highlights: What are the main findings? The proposed Short-Term Second-Order Differential Entropy (ST-SODE) can capture fatigue from short-term band-power dynamics. ST-SODE improves the robustness of cross-domain EEG fatigue detection. What are the implications of the main findings? ST-SODE reduces calibration burden for real-world fatigue monitoring. ST-SODE enables lightweight cross-subject deployment. Background/Objectives: Electroencephalography (EEG) is a promising modality for fatigue detection because it directly reflects neural states; however, it is hindered by the need for subject-specific calibration and its reliance on unstable labeling. Moreover, classical EEG features are sensitive to intrinsic brain rhythm variations, causing pronounced domain shifts that degrade performance across sessions and subjects. Methods: Motivated by the biological fatigue rebound mechanism, we propose a robust cross-subject metric which we name Short-Term Second-Order Differential Entropy (ST-SODE). ST-SODE effectively suppresses the interference of background brain rhythms, enhancing robustness to cross-domain drift; consequently, its one-dimensional output can provide an indication of fatigue states without additional model training. Results: ST-SODE is validated on the public driving fatigue regression dataset SEED-VIG and on a private Vigilance classification dataset based on the N-Back task. ST-SODE achieves a correlation coefficient of 0.56 on SEED-VIG dataset (vs. 0.4 for differential entropy, DE) and a binary classification accuracy of 93.75% on the Vigilance dataset, outperforming other EEG-based fatigue metrics. Conclusions: ST-SODE offers a reliable solution for deployment in fields such as driving, manufacturing, and healthcare, where it could reduce safety incidents caused by fatigue. © 2026 by the authors.
+KW  - cross-subject fatigue detection
+KW  - driving fatigue
+KW  - EEG
+KW  - electroencephalography
+KW  - mental fatigue
+KW  - N-Back task
+KW  - Article
+KW  - cognitive load
+KW  - cross subject band power complexity metric
+KW  - deep learning
+KW  - electroencephalogram
+KW  - electroencephalography
+KW  - feature extraction
+KW  - human
+KW  - learning algorithm
+KW  - machine learning
+KW  - mental fatigue
+PB  - Multidisciplinary Digital Publishing Institute (MDPI)
+SN  - 20763425 (ISSN)
+LA  - English
+J2  - Brain Sci.
+M3  - Article
+DB  - Scopus
+N1  - Export Date: 29 May 2026; Cited By: 0; Correspondence Address: H. Hu; Shanghai Advanced Research Institute, Chinese Academy of Sciences, Shanghai, 201210, China; email: huhl@sari.ac.cn; M.M. Van Hulle; Laboratory for Neuro- & Psychophysiology, Department of Neurosciences, KU Leuven—University of Leuven, Leuven, B-3000, Belgium; email: marc.vanhulle@kuleuven.be
+ER  -
+

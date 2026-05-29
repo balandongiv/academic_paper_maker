@@ -31,7 +31,16 @@ langchain-google-genai
 
 # === Frontend (optional or project-specific) ===
 frontend
-selenium
+selenium>=4.20.0
+webdriver-manager>=4.0.0
+
+# === Scopus Automation ===
+requests>=2.31.0
+rispy>=0.9.0
+click>=8.1.0
+pytest>=8.0.0
+pytest-timeout>=2.3.0
+lxml>=5.0.0
 
 # === Optional Tools ===
 # python3 -m pip install googlesearch-python

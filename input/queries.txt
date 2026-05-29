@@ -1,0 +1,4 @@
+# Scopus Advanced Search Queries — one per line
+# Lines starting with # are ignored
+
+TITLE-ABS-KEY("machine learning" AND EEG AND fatigue AND driving) AND PUBYEAR = 2026

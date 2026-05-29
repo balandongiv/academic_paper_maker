@@ -1,0 +1,10 @@
+{
+  "chromedriver_path": "browser\\chromedriver.exe",
+  "chrome_profile_path": "C:\\Users\\balan\\AppData\\Local\\Google\\Chrome\\User Data",
+  "chrome_profile_name": "Default",
+  "output_dir": "output",
+  "download_timeout_sec": 120,
+  "page_load_timeout_sec": 60,
+  "element_wait_sec": 30,
+  "headless": false
+}

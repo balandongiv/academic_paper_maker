@@ -1,96 +1,162 @@
 ---
 
-# 🤖 Automating Research Workflows with LLMs
+# Academic Paper Maker
 
-This repository provides a modular framework for using **Large Language Models (LLMs)** to automate key stages of academic and technical research — from literature filtering and methodology extraction to drafting summaries and generating BibTeX files.
-
-> ⚡ Powered by OpenAI, Google Gemini, and agentic pipelines.
+A toolkit for automating academic research workflows — from **Scopus literature collection** to **LLM-powered analysis and synthesis**.
 
 ---
 
-## 🧭 What This Project Does
+## What This Project Does
 
-This repo helps researchers and engineers offload repetitive or complex research tasks to LLM agents. Example tasks include:
+Two complementary automation layers:
 
-* 🔍 Filtering and classifying research papers
-* 📄 Extracting methodology details from full texts or abstracts
-* 📊 Summarizing results into structured tables
-* ✍️ Drafting literature review sections from combined findings
-* 📚 Exporting final selections to `.bib` files for citation
+**Scopus Automation** — drive your browser to search Scopus, export RIS files, and build cited-by paper sets, with no API key needed (uses your existing institutional login).
 
-All components are **LLM-augmented**, and designed to work with your own corpus of PDFs, abstracts, and filtered Excel files.
+**LLM Research Pipeline** — filter, classify, extract methodology, summarize, and export to BibTeX using OpenAI or Gemini agents.
 
 ---
 
-## 🛠️ Environment Setup
+## Scopus Automation
 
-This project supports both `conda` and `virtualenv`. Choose your preferred setup:
+> Full walkthrough: [docs/tutorial.md](docs/tutorial.md)
 
-### 🐍 With Conda
+### Features
+
+| Feature | Command | What it does |
+|---------|---------|--------------|
+| Advanced search + RIS export | `python main.py search` | Run a Scopus advanced query and download results as a `.ris` file |
+| Cited-by download | `python main.py cited-by` | For each paper in a CSV, download all papers that cite it |
+| Combine + deduplicate | `python main.py combine-ris` | Merge multiple `.ris` files and remove duplicates |
+
+### Quick start
+
+**1. Install dependencies**
 
 ```bash
-conda create --name crewai-flows python=3.12
-conda activate crewai-flows
+pip install -r requirements.txt
 ```
 
-### 🌀 With Virtualenv
+**2. Set up a Chrome profile with your Scopus login**
+
+```bash
+"C:\Program Files\Google\Chrome\Application\chrome.exe" ^
+  --user-data-dir=C:\selenium\chrome-profile --profile-directory=Default
+```
+
+Log in to Scopus, then close Chrome.
+
+**3. Configure**
+
+Create `scopus_config.json`:
+
+```json
+{
+  "chrome_profile_path": "C:\\selenium\\chrome-profile",
+  "chrome_profile_name": "Default",
+  "output_dir": "output"
+}
+```
+
+**4. Search and export**
+
+```bash
+python main.py search --query "TITLE-ABS-KEY(\"machine learning\" AND EEG AND fatigue) AND PUBYEAR = 2026"
+```
+
+**5. Download cited-by papers**
+
+```bash
+python main.py cited-by --input my_papers.csv
+```
+
+The input CSV needs a `Link` column with Scopus publication URLs. Output:
+- `my_papers_cite_paper.ris` — combined RIS of all citing papers
+- `my_papers_cite_status.csv` — per-paper download status
+
+---
+
+## LLM Research Pipeline
+
+> Powered by OpenAI and Google Gemini.
+
+| Step | Task | Output |
+|------|------|--------|
+| 5–6 | Filter and classify papers | LLM-augmented relevance scoring |
+| 9 | Extract methodology from full text | JSON per paper |
+| 10 | Combine JSON and draft summaries | Narrative insights |
+| 11 | Export to BibTeX | `.bib` for LaTeX |
+
+---
+
+## Environment Setup
+
+### With Conda
+
+```bash
+conda create --name research-tools python=3.12
+conda activate research-tools
+pip install -r requirements.txt
+```
+
+### With Virtualenv
 
 ```bash
 pip install virtualenv
 virtualenv -p python3.12 myenv
+# Windows
+myenv\Scripts\activate
+# macOS/Linux
+source myenv/bin/activate
+pip install -r requirements.txt
 ```
-
-Activate:
-
-* Windows: `myenv\Scripts\activate`
-* macOS/Linux: `source myenv/bin/activate`
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
-project_root/
-├── execution_guide.ipynb                 # Install dependencies & setup API keys
-├── helper/                               # Utility functions (e.g., combine_json.py)
-├── setting/                              # Project path configs
-├── requirements.txt                      # Python dependencies
-└── .env                                  # API keys (see notebook for how to create)
+academic_paper_maker/
+├── main.py                        # Scopus automation CLI
+├── scopus_automation/             # Automation package
+│   ├── search_export.py           # Feature 1: advanced search + RIS export
+│   ├── cited_by.py                # Feature 2: cited-by download
+│   ├── dedupe.py                  # Feature 3: combine + deduplicate RIS
+│   ├── browser.py                 # Chrome driver setup
+│   ├── config.py                  # ScopusConfig dataclass
+│   ├── login.py                   # Scopus login detection
+│   └── ris.py                     # RIS file parsing utilities
+├── tests/
+│   ├── test_unit_features.py      # Unit tests (no browser required)
+│   ├── test_feature_search_export.py  # E2E tests for Feature 1
+│   └── test_feature_cited_by.py   # E2E tests for Feature 2
+├── test_file/                     # Development fixtures
+│   ├── ml_eeg_fatigue_driving_2026.ris
+│   ├── jui2026.csv
+│   ├── jui2026_cite_paper.ris
+│   └── jui2026_cite_status.csv
+├── docs/
+│   └── tutorial.md                # Step-by-step feature guide
+├── scopus_config.json             # Chrome + output configuration
+├── execution_guide.ipynb          # LLM pipeline setup and API key guide
+├── helper/                        # Utility functions
+├── setting/                       # Project path configs
+└── requirements.txt
 ```
-
-> 💡 The actual installation and API configuration steps are detailed in `execution_guide.ipynb `.
 
 ---
 
-## 🔐 API Keys Required
+## Running Tests
 
-To use LLMs (OpenAI or Gemini), you’ll need API keys. The notebook provides exact setup instructions, including how to store them safely in a `.env` file.
+```bash
+# Unit tests — no browser, no Scopus session needed
+pytest tests/test_unit_features.py -v
 
----
-
-## 🧠 LLM Applications Included
-
-| Step | Task                           | Output                             |
-| ---- | ------------------------------ | ---------------------------------- |
-| 5–6  | Filter papers (Excel)          | LLM-augmented relevance            |
-| 9    | Extract methodology            | JSON (1 per paper)                 |
-| 10   | Combine JSON & draft summaries | Combined insights / narrative      |
-| 11   | Export to BibTeX               | `.bib` for LaTeX or citation tools |
-
----
-
-## 📓 Getting Started
-
-Start with the notebook:
-
-```
-main.ipynb
+# End-to-end tests — requires Scopus session
+pytest -m e2e tests/ -v
 ```
 
-It walks you through:
-
-* Installing packages
-* Creating a `.env` file for API keys
-* Testing your LLM setup
-
 ---
+
+## API Keys (LLM features only)
+
+To use the LLM pipeline, add your keys to a `.env` file. See `execution_guide.ipynb` for setup instructions.
