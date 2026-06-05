@@ -1,0 +1,33 @@
+run:
+  mode: citation_discovery
+  force_rerun: false
+  # Set output_filename to use a fixed name; leave null for auto-generated timestamp name
+  output_filename: null
+
+input:
+  mode: csv
+  csv_path: get_children_050626.csv
+
+  # --- Zotero API input (alternative to CSV) ---
+  # mode: zotero_api
+  # zotero:
+  #   library_type: user
+  #   library_id: "1234567"
+  #   api_key: "your_zotero_api_key_here"
+  #   collection_key: "ABCD1234"
+  #   include_subcollections: true
+
+zotero:
+  deduplicate_against_master_list: true
+  export_format: ris
+
+master_list:
+  path: setting/scopus_setup/complete_file_available_in_zotero.csv
+  reuse_existing: true
+
+output:
+  directory: output/citation_discovery/
+  filename: null
+
+# Path to scopus_config.json (Chrome profile, timeouts, etc.)
+scopus_config_path: setting/scopus_setup/scopus_config.json

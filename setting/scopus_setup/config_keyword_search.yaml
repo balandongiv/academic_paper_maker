@@ -1,0 +1,33 @@
+run:
+  mode: keyword_search
+  force_rerun: false
+  output_filename: null
+
+# Each keyword is a Scopus advanced search query string.
+keywords:
+  - >-
+    TITLE-ABS-KEY(
+      (eeg OR electroencephalogra*)
+      AND
+      ("driver fatigue" OR "driver drowsiness" OR "driving fatigue"
+       OR "drowsiness detection" OR "fatigue detection")
+      AND
+      (driving OR driver* OR "driving simulator*"
+       OR "real driving" OR "on-road driving")
+    ) AND PUBYEAR = 2026
+  - >-
+    TITLE-ABS-KEY(
+      "eye blink" AND (eeg OR electroencephalogram) AND artifact
+    ) AND PUBYEAR > 2022
+  # Add more queries here:
+  # - TITLE-ABS-KEY("your next query")
+
+master_list:
+  path: setting/scopus_setup/complete_file_available_in_zotero.csv
+  reuse_existing: true
+
+output:
+  directory: output/keyword_search/
+  filename: null
+
+scopus_config_path: setting/scopus_setup/scopus_config.json

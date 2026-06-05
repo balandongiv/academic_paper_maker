@@ -7,7 +7,7 @@ import os
 from dataclasses import dataclass, asdict
 from pathlib import Path
 
-DEFAULT_CONFIG_FILE = "scopus_config.json"
+DEFAULT_CONFIG_FILE = "setting/scopus_setup/scopus_config.json"
 
 _WINDOWS_CHROME_PROFILE = os.path.expandvars(
     r"%LOCALAPPDATA%\Google\Chrome\User Data"

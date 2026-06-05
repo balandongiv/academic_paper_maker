@@ -305,7 +305,12 @@ def _get_result_count(driver) -> int:
     for pat in _RESULT_COUNT_PATTERNS:
         m = re.search(pat, text, re.IGNORECASE)
         if m:
-            return int(m.group(1).replace(",", ""))
+            digits = m.group(1).replace(",", "").strip()
+            if digits:
+                try:
+                    return int(digits)
+                except ValueError:
+                    continue
     return 0
 
 
