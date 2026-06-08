@@ -1,0 +1,21 @@
+project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+
+input:
+  master_file: "complete_file_available_in_zotero.csv"
+  prompt_file: "promp_check_blink.md"
+
+output:
+  json_output_folder: "chatgpt_outputs"
+
+processing:
+  batch_size: 10
+  machine_id: ""            # leave blank to auto-detect from hostname
+  max_retries: 3
+  stale_lock_hours: 2.0    # reclaim rows locked longer than this (crashed machine recovery)
+
+selenium:
+  browser: "chrome"
+  headless: false
+  wait_seconds: 120         # max seconds to wait for ChatGPT to finish responding
+  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_profile: "C:/selenium/chrome-profile"
