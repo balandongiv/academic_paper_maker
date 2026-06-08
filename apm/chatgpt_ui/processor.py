@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import logging
 import sqlite3
+import time
 from pathlib import Path
 
 from selenium import webdriver
@@ -20,6 +21,17 @@ from .output_writer import build_output, save_output
 from .selenium_client import navigate_to_new_chat, send_prompt_and_wait
 
 log = logging.getLogger(__name__)
+
+# Seconds to wait between per-row retry attempts
+_RETRY_PAUSE = 10
+
+
+class ChatGPTServerError(RuntimeError):
+    """Raised when ChatGPT returns no response after all per-row retry attempts.
+
+    Signals the batch runner to stop processing further rows — the server is
+    likely rate-limited, down, or the session has expired.
+    """
 
 
 def _build_prompt(template: str, title: str, abstract: str) -> str:
@@ -38,7 +50,15 @@ def process_row(
     row: sqlite3.Row,
     prompt_template: str,
 ) -> bool:
-    """Process a single article row. Returns True on success, False on failure."""
+    """Process a single article row.
+
+    Retries up to ``cfg.selenium.per_row_retries`` times when ChatGPT returns
+    an empty response (timeout or server issue).  If every attempt fails,
+    marks the row Failed and raises ``ChatGPTServerError`` to terminate the
+    batch — the caller should stop sending further rows.
+
+    Returns True on success.
+    """
     row_id   = row["id"]
     doi      = row["doi"] or ""
     doi_hash = row["doi_hash"]
@@ -60,44 +80,58 @@ def process_row(
     except (json.JSONDecodeError, TypeError):
         raw_data = {}
 
-    prompt = _build_prompt(prompt_template, title, abstract)
+    prompt       = _build_prompt(prompt_template, title, abstract)
+    max_attempts = cfg.selenium.per_row_retries
+    last_error: Exception | None = None
 
-    try:
-        log.info("[%d] Sending to ChatGPT: %s", row_id, title[:70])
-        navigate_to_new_chat(driver)
+    for attempt in range(1, max_attempts + 1):
+        try:
+            log.info("[%d] Attempt %d/%d — sending to ChatGPT: %s",
+                     row_id, attempt, max_attempts, title[:70])
+            navigate_to_new_chat(driver)
 
-        response_text = send_prompt_and_wait(
-            driver,
-            prompt,
-            wait_seconds=cfg.selenium.wait_seconds,
-        )
+            response_text = send_prompt_and_wait(
+                driver,
+                prompt,
+                wait_seconds=cfg.selenium.wait_seconds,
+            )
 
-        if not response_text:
-            raise ValueError("ChatGPT returned an empty response.")
+            if not response_text:
+                raise ValueError("ChatGPT returned an empty response.")
 
-        output_data = build_output(
-            row_id=row_id,
-            doi=doi,
-            doi_hash=doi_hash,
-            title=title,
-            raw_data=raw_data,
-            response_text=response_text,
-            machine_id=cfg.processing.machine_id,
-        )
-        save_output(output_file, output_data)
+            # ---- success ----
+            output_data = build_output(
+                row_id=row_id,
+                doi=doi,
+                doi_hash=doi_hash,
+                title=title,
+                raw_data=raw_data,
+                response_text=response_text,
+                machine_id=cfg.processing.machine_id,
+            )
+            save_output(output_file, output_data)
+            update_status(conn, row_id, STATUS_COMPLETED, output_file=str(output_file))
+            log.info("[%d] Completed -> %s", row_id, output_file.name)
+            return True
 
-        update_status(conn, row_id, STATUS_COMPLETED, output_file=str(output_file))
-        log.info("[%d] Completed → %s", row_id, output_file.name)
-        return True
+        except Exception as exc:
+            last_error = exc
+            if attempt < max_attempts:
+                log.warning(
+                    "[%d] Attempt %d/%d failed (%s: %s) — retrying in %ds ...",
+                    row_id, attempt, max_attempts, type(exc).__name__, exc, _RETRY_PAUSE,
+                )
+                time.sleep(_RETRY_PAUSE)
+            else:
+                log.error(
+                    "[%d] All %d attempts failed. Last error: %s: %s",
+                    row_id, max_attempts, type(exc).__name__, exc,
+                )
 
-    except Exception as exc:
-        error_msg = f"{type(exc).__name__}: {exc}"
-        log.error("[%d] Failed — %s", row_id, error_msg)
-        update_status(
-            conn,
-            row_id,
-            STATUS_FAILED,
-            error_message=error_msg,
-            increment_retry=True,
-        )
-        return False
+    # All attempts exhausted — mark this row failed, then signal batch termination.
+    error_msg = f"{type(last_error).__name__}: {last_error}"
+    update_status(conn, row_id, STATUS_FAILED, error_message=error_msg, increment_retry=True)
+    raise ChatGPTServerError(
+        f"Row {row_id} ({title[:60]!r}): no response after {max_attempts} attempts. "
+        "Server may be down or rate-limited. Terminating batch."
+    )

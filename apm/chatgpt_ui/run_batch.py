@@ -30,7 +30,7 @@ from .database import (
     claim_rows,
     get_stats,
 )
-from .processor import process_row
+from .processor import process_row, ChatGPTServerError
 from .selenium_client import build_driver, ensure_logged_in, navigate_to_new_chat
 
 log = logging.getLogger(__name__)
@@ -82,6 +82,7 @@ def _claim_with_retry(conn, cfg, max_attempts: int = 5):
                 batch_size=cfg.processing.batch_size,
                 max_retries=cfg.processing.max_retries,
                 stale_lock_hours=cfg.processing.stale_lock_hours,
+                keyword_filter=cfg.processing.keyword_filter or None,
             )
         except sqlite3.OperationalError as exc:
             if "locked" in str(exc).lower() and attempt < max_attempts:
@@ -192,7 +193,12 @@ def main(argv: list[str] | None = None) -> int:
 
         for i, row in enumerate(rows, 1):
             log.info("--- Row %d / %d (id=%d) ---", i, len(rows), row["id"])
-            success = process_row(conn, driver, cfg, row, prompt_template)
+            try:
+                success = process_row(conn, driver, cfg, row, prompt_template)
+            except ChatGPTServerError as exc:
+                log.error("ChatGPT server unreachable — terminating batch early: %s", exc)
+                failed += 1
+                break
             if success:
                 completed += 1
             else:

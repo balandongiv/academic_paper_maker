@@ -1,0 +1,37 @@
+project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+
+input:
+  master_file: "complete_file_available_in_zotero.csv"
+  prompt_file: "prompt_check_eeg_fatigue_driving.md"
+
+output:
+  json_output_folder: "fatigue_eeg_outputs"
+  db_file: "chatgpt_fatigue_eeg.db"        # separate DB — does not touch the blink study run
+
+processing:
+  batch_size: 3             # set to 3 for the initial trial; increase to 10-20 for the full sweep
+  machine_id: ""            # leave blank to auto-detect from hostname
+  max_retries: 3
+  stale_lock_hours: 2.0
+  # Only claim rows where title/abstract mention EEG + fatigue/drowsiness + driver/driving
+  keyword_filter: >-
+    (LOWER(title) LIKE "%eeg%" OR LOWER(title) LIKE "%electroencephalog%"
+     OR LOWER(abstract) LIKE "%eeg%" OR LOWER(abstract) LIKE "%electroencephalog%")
+    AND
+    (LOWER(title) LIKE "%fatigue%" OR LOWER(title) LIKE "%drowsiness%"
+     OR LOWER(title) LIKE "%drowsy%" OR LOWER(title) LIKE "%sleepiness%"
+     OR LOWER(title) LIKE "%vigilance%" OR LOWER(title) LIKE "%alertness%"
+     OR LOWER(abstract) LIKE "%fatigue%" OR LOWER(abstract) LIKE "%drowsiness%"
+     OR LOWER(abstract) LIKE "%drowsy%" OR LOWER(abstract) LIKE "%sleepiness%"
+     OR LOWER(abstract) LIKE "%vigilance%" OR LOWER(abstract) LIKE "%alertness%")
+    AND
+    (LOWER(title) LIKE "%driver%" OR LOWER(title) LIKE "%driving%"
+     OR LOWER(abstract) LIKE "%driver%" OR LOWER(abstract) LIKE "%driving%")
+
+selenium:
+  browser: "chrome"
+  headless: false
+  wait_seconds: 300        # 5 minutes — if no response by then, retry
+  per_row_retries: 3       # retry attempts before terminating the whole batch
+  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_profile: "C:/selenium/chrome-profile"

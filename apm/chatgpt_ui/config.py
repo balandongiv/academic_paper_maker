@@ -18,6 +18,7 @@ class InputConfig:
 @dataclass
 class OutputConfig:
     json_output_folder: str
+    db_file: str = "chatgpt_processing.db"
 
 
 @dataclass
@@ -26,13 +27,15 @@ class ProcessingConfig:
     machine_id: str = ""
     max_retries: int = 3
     stale_lock_hours: float = 2.0
+    keyword_filter: str = ""   # SQL fragment AND-combined with status clause; empty = no filter
 
 
 @dataclass
 class SeleniumConfig:
     browser: str = "chrome"
     headless: bool = False
-    wait_seconds: int = 120
+    wait_seconds: int = 300        # max seconds to wait for ChatGPT to respond (5 minutes)
+    per_row_retries: int = 3       # retry attempts per row before raising ChatGPTServerError
     chrome_exe: str = r"C:\Users\balan\AppData\Local\Google\Chrome\Application\chrome.exe"
     chrome_profile: str = r"C:\selenium\chrome-profile"
 
@@ -64,7 +67,7 @@ class Config:
 
     @property
     def db_path(self) -> Path:
-        return self.project_path / "chatgpt_processing.db"
+        return self.project_path / self.output.db_file
 
     @property
     def output_path(self) -> Path:

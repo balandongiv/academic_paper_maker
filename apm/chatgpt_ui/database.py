@@ -151,6 +151,7 @@ def claim_rows(
     batch_size: int,
     max_retries: int,
     stale_lock_hours: float,
+    keyword_filter: Optional[str] = None,
 ) -> list[sqlite3.Row]:
     """Atomically claim up to *batch_size* rows for this machine.
 
@@ -158,22 +159,30 @@ def claim_rows(
     - status = 'Yet To Process'
     - status = 'Failed' and retry_count < max_retries
     - status = 'Already Processing' or 'In Progress' and locked_at is stale
+
+    If *keyword_filter* is a non-empty SQL fragment (a WHERE sub-clause), it is
+    AND-combined with the status conditions so only matching rows are claimed.
     """
     now          = datetime.utcnow().isoformat()
     stale_cutoff = (datetime.utcnow() - timedelta(hours=stale_lock_hours)).isoformat()
+
+    extra = f"AND ({keyword_filter})" if keyword_filter and keyword_filter.strip() else ""
 
     original_isolation = conn.isolation_level
     conn.isolation_level = None          # switch to manual transaction control
     conn.execute("BEGIN IMMEDIATE")
     try:
         rows = conn.execute(
-            """
+            f"""
             SELECT id, doi, doi_hash, title, abstract, raw_data, retry_count
             FROM articles
             WHERE
+            (
                 status = 'Yet To Process'
                 OR (status = 'Failed'                               AND retry_count < ?)
                 OR (status IN ('Already Processing','In Progress')  AND locked_at < ?)
+            )
+            {extra}
             ORDER BY id
             LIMIT ?
             """,
@@ -252,3 +261,32 @@ def get_stats(conn: sqlite3.Connection) -> dict[str, int]:
         r["status"]: r["cnt"]
         for r in conn.execute("SELECT status, COUNT(*) AS cnt FROM articles GROUP BY status")
     }
+
+
+# ---------------------------------------------------------------------------
+# Rescreen — reset completed rows so they can be claimed again
+# ---------------------------------------------------------------------------
+
+def reset_completed(
+    conn: sqlite3.Connection,
+    keyword_filter: Optional[str] = None,
+) -> int:
+    """Reset Completed rows back to 'Yet To Process' so they are re-screened.
+
+    If *keyword_filter* is provided, only matching rows are reset (same filter
+    used during normal claiming).  Returns the number of rows reset.
+    """
+    extra = f"AND ({keyword_filter})" if keyword_filter and keyword_filter.strip() else ""
+    sql   = f"""
+        UPDATE articles
+        SET status = ?, machine_id = NULL, locked_at = NULL,
+            processed_at = NULL, output_file = NULL,
+            error_message = NULL, retry_count = 0
+        WHERE status = 'Completed'
+        {extra}
+    """
+    with conn:
+        cur = conn.execute(sql, (STATUS_PENDING,))
+    n = cur.rowcount
+    log.info("Reset %d Completed rows back to 'Yet To Process'.", n)
+    return n
