@@ -1,0 +1,78 @@
+project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+
+input:
+  fatigue_eeg_outputs_folder: "fatigue_eeg_outputs"
+  candidates_csv: "candidates_eeg_fatigue_driver.csv"
+  writing_technique_file: "writing_technique.MD"
+  literature_review_theme_file: "literature_review_theme.md"
+
+output:
+  writing_folder: "writing"
+
+target:
+  theme_code: "K"
+  theme_name: "Multimodal Driver Fatigue Detection"
+  subtheme: ""
+
+selenium:
+  browser: "chrome"
+  headless: false
+  wait_seconds: 300
+  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_profile: "C:/selenium/chrome-profile"
+
+writing:
+  max_studies_per_paragraph: 15
+  max_paragraph_revisions: 10
+  max_section_critique_cycles: 20
+
+  paragraph_definitions:
+    - id: "p01_overview"
+      title: "Overview of Multimodal Approaches in Driver Fatigue Detection"
+      focus: >
+        Introduce multimodal driver fatigue detection combining EEG with other physiological
+        or behavioural signals. Motivate why EEG alone may be insufficient and what
+        complementary information other modalities provide. Survey the range of signal
+        combinations studied (EEG+EOG, EEG+ECG, EEG+EMG, EEG+eye tracking, EEG+driving
+        behaviour) from 2017 to 2026.
+      keyword_filter: []
+
+    - id: "p02_eeg_physiological"
+      title: "EEG Combined with Other Physiological Signals"
+      focus: >
+        Critically review studies combining EEG with other physiological signals (EOG, ECG,
+        EMG, PPG) for driver drowsiness detection. Compare fusion strategies (feature-level,
+        decision-level, data-level), the performance gains from adding each modality beyond
+        EEG alone, and whether the gains justify the additional sensor burden. Identify which
+        physiological pairings are most consistently beneficial.
+      keyword_filter: ["EOG", "ECG", "EMG", "PPG", "physiological", "fusion", "heart rate", "galvanic"]
+
+    - id: "p03_eeg_behavioural"
+      title: "EEG Combined with Behavioural and Vehicle Signals"
+      focus: >
+        Review studies that fuse EEG with behavioural measures — eye tracking (PERCLOS,
+        blink rate), facial expressions, head pose — and vehicle dynamics (lane deviation,
+        steering entropy). Critically compare which behavioural features add the most
+        discriminative value, the latency characteristics of behavioural vs. neural signals,
+        and whether EEG-behavioural fusion systems are closer to deployment than EEG alone.
+      keyword_filter: ["eye tracking", "PERCLOS", "blink", "facial", "lane deviation", "steering", "vehicle", "behavioural"]
+
+    - id: "p04_fusion_strategies"
+      title: "Fusion Architectures and Deep Multimodal Learning"
+      focus: >
+        Critically compare fusion architectures for multimodal EEG drowsiness detection:
+        early fusion (concatenated features), late fusion (ensemble of modality-specific
+        classifiers), and joint deep learning models with cross-modal attention. Discuss
+        how deep multimodal learning handles missing modalities, asynchronous sampling rates,
+        and modal dropout during real-world use.
+      keyword_filter: ["early fusion", "late fusion", "multimodal deep learning", "cross-modal", "attention", "missing modality"]
+
+    - id: "p05_synthesis"
+      title: "Practical Trade-offs and Critical Synthesis"
+      focus: >
+        Synthesise the practical trade-offs of multimodal EEG drowsiness detection. Discuss
+        the tension between detection performance and wearability/intrusiveness, the minimal
+        multimodal set that provides robust detection without excessive sensor burden, and the
+        lack of real-road multimodal validation studies. Conclude with a critical assessment
+        of whether multimodal systems are the right path for in-vehicle deployment.
+      keyword_filter: []

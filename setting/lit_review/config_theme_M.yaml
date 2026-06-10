@@ -1,0 +1,82 @@
+project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+
+input:
+  fatigue_eeg_outputs_folder: "fatigue_eeg_outputs"
+  candidates_csv: "candidates_eeg_fatigue_driver.csv"
+  writing_technique_file: "writing_technique.MD"
+  literature_review_theme_file: "literature_review_theme.md"
+
+output:
+  writing_folder: "writing"
+
+target:
+  theme_code: "M"
+  theme_name: "Real-Time and Practical ESDS Deployment"
+  subtheme: ""
+
+selenium:
+  browser: "chrome"
+  headless: false
+  wait_seconds: 300
+  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_profile: "C:/selenium/chrome-profile"
+
+writing:
+  max_studies_per_paragraph: 15
+  max_paragraph_revisions: 10
+  max_section_critique_cycles: 20
+
+  paragraph_definitions:
+    - id: "p01_overview"
+      title: "Overview of Real-Time EEG Drowsiness Detection Systems"
+      focus: >
+        Introduce the requirements and challenges of real-time EEG-based driver safety
+        systems (ESDS). Discuss the gap between offline classification accuracy and
+        operational deployment, the latency and computational constraints imposed by
+        in-vehicle hardware, and how the field has progressed from proof-of-concept
+        systems to practically deployable solutions from 2017 to 2026.
+      keyword_filter: []
+
+    - id: "p02_latency_compute"
+      title: "Latency, Computational Efficiency, and Hardware"
+      focus: >
+        Critically review the computational requirements of EEG drowsiness detection
+        systems proposed for real-time deployment. Compare processing latency across
+        studies, the hardware platforms used (desktop, microcontroller, FPGA, embedded
+        GPU, edge computing), and how model complexity is balanced against detection speed.
+        Identify which architectures have been demonstrated to meet the latency requirements
+        of real-time in-vehicle warning systems.
+      keyword_filter: ["latency", "real-time", "computational", "FPGA", "embedded", "edge", "hardware", "microcontroller"]
+
+    - id: "p03_wireless_wearable"
+      title: "Wireless EEG and Wearable System Integration"
+      focus: >
+        Review studies that integrate wireless EEG headsets and wearable systems into
+        real-time drowsiness detection pipelines. Compare consumer-grade vs.
+        research-grade wireless EEG in terms of signal quality, channel count, and
+        practical wearability for driving. Discuss Bluetooth/Wi-Fi transmission latency,
+        battery life constraints, and the impact of motion artefacts on real-time
+        classification accuracy.
+      keyword_filter: ["wireless", "wearable", "Bluetooth", "consumer", "headset", "dry electrode", "wearability"]
+
+    - id: "p04_online_learning"
+      title: "Online Learning and Adaptive Real-Time Systems"
+      focus: >
+        Critically review adaptive and online learning approaches for real-time EEG
+        drowsiness detection that update model parameters during operation to compensate
+        for signal drift. Discuss incremental learning strategies, adaptive thresholding,
+        and personalisation-on-the-fly approaches. Critically assess the stability-plasticity
+        trade-off and whether any adaptive system has been validated over realistic
+        multi-hour driving sessions.
+      keyword_filter: ["online learning", "adaptive", "incremental", "real-time adaptation", "drift", "personalisation"]
+
+    - id: "p05_synthesis"
+      title: "Deployment Gaps and Critical Synthesis"
+      focus: >
+        Synthesise the barriers between current EEG drowsiness research and practical ESDS
+        deployment. Identify the most critical gaps: absence of real-road validation, lack
+        of standardised latency reporting, limited battery/wearability testing, and the
+        disconnect between laboratory accuracy and field reliability. Conclude with an
+        evidence-based assessment of what is needed before EEG-based ESDS can be deployed
+        at scale.
+      keyword_filter: []

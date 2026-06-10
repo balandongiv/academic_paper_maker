@@ -1,0 +1,79 @@
+project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+
+input:
+  fatigue_eeg_outputs_folder: "fatigue_eeg_outputs"
+  candidates_csv: "candidates_eeg_fatigue_driver.csv"
+  writing_technique_file: "writing_technique.MD"
+  literature_review_theme_file: "literature_review_theme.md"
+
+output:
+  writing_folder: "writing"
+
+target:
+  theme_code: "L"
+  theme_name: "Experimental Design and Driving Protocol"
+  subtheme: ""
+
+selenium:
+  browser: "chrome"
+  headless: false
+  wait_seconds: 300
+  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_profile: "C:/selenium/chrome-profile"
+
+writing:
+  max_studies_per_paragraph: 15
+  max_paragraph_revisions: 10
+  max_section_critique_cycles: 20
+
+  paragraph_definitions:
+    - id: "p01_overview"
+      title: "Overview of Driving Paradigms in EEG Fatigue Research"
+      focus: >
+        Introduce the experimental paradigms used to induce and study driver fatigue in
+        EEG research, covering simulated driving, real-road driving, monotonous lane-keeping,
+        sleep deprivation protocols, and prolonged driving sessions. Critically compare the
+        ecological validity and practical constraints of each paradigm, and discuss how
+        experimental design choices affect the generalisability of study findings.
+      keyword_filter: []
+
+    - id: "p02_fatigue_induction"
+      title: "Fatigue Induction Methods and Labelling Protocols"
+      focus: >
+        Critically compare fatigue induction strategies: sleep deprivation, time-on-task,
+        night driving, and continuous monotonous driving. Review how studies operationalise
+        drowsiness labels — reaction time (PVT), KSS scores, PERCLOS thresholds, and
+        lane deviation events — and discuss the validity and reliability of each labelling
+        approach. Identify inconsistencies in labelling that limit cross-study comparison.
+      keyword_filter: ["sleep deprivation", "time-on-task", "KSS", "PVT", "PERCLOS", "reaction time", "labelling", "fatigue induction"]
+
+    - id: "p03_simulated_vs_real"
+      title: "Simulated vs. Real-Road Driving"
+      focus: >
+        Compare findings from simulated driving and real-road driving studies in EEG
+        drowsiness research. Discuss differences in EEG signal characteristics, artefact
+        profiles, and classification performance between environments. Critically evaluate
+        whether simulator-trained models transfer to real-road conditions and what evidence
+        exists for or against simulator fidelity as a proxy for real driving.
+      keyword_filter: ["simulator", "simulated", "real-road", "driving simulator", "ecological validity", "transfer"]
+
+    - id: "p04_participants_protocol"
+      title: "Participant Characteristics and Experimental Protocols"
+      focus: >
+        Review the participant recruitment and experimental protocol choices across EEG
+        drowsiness studies: sample sizes, age ranges, sex distribution, professional vs.
+        novice drivers, and within- vs. between-subjects designs. Critically assess whether
+        small and homogeneous samples limit external validity, how session length and
+        rest breaks interact with fatigue induction, and what the literature says about
+        minimum viable protocol duration.
+      keyword_filter: ["participants", "sample size", "subjects", "protocol duration", "session", "between-subjects", "within-subjects"]
+
+    - id: "p05_synthesis"
+      title: "Protocol Standardisation and Critical Synthesis"
+      focus: >
+        Synthesise the experimental design landscape in EEG driver fatigue research.
+        Identify the absence of a community-standard protocol as a key barrier to
+        reproducible benchmarking, discuss proposals for standardised fatigue induction
+        and labelling, and critically evaluate what the literature collectively implies
+        about the minimal experimental requirements for valid drowsiness detection research.
+      keyword_filter: []

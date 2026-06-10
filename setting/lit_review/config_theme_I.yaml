@@ -1,0 +1,80 @@
+project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+
+input:
+  fatigue_eeg_outputs_folder: "fatigue_eeg_outputs"
+  candidates_csv: "candidates_eeg_fatigue_driver.csv"
+  writing_technique_file: "writing_technique.MD"
+  literature_review_theme_file: "literature_review_theme.md"
+
+output:
+  writing_folder: "writing"
+
+target:
+  theme_code: "I"
+  theme_name: "Deep Learning Models"
+  subtheme: ""
+
+selenium:
+  browser: "chrome"
+  headless: false
+  wait_seconds: 300
+  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_profile: "C:/selenium/chrome-profile"
+
+writing:
+  max_studies_per_paragraph: 15
+  max_paragraph_revisions: 10
+  max_section_critique_cycles: 20
+
+  paragraph_definitions:
+    - id: "p01_overview"
+      title: "Overview of Deep Learning for EEG Drowsiness Detection"
+      focus: >
+        Introduce deep learning approaches for EEG-based driver drowsiness detection.
+        Discuss the shift from handcrafted feature pipelines to end-to-end learned
+        representations, the range of architectures applied (CNN, RNN, LSTM, GRU,
+        Transformer, hybrid), and how this subfield has grown and matured between
+        2017 and 2026.
+      keyword_filter: []
+
+    - id: "p02_cnn"
+      title: "Convolutional Neural Networks for EEG Drowsiness"
+      focus: >
+        Critically review CNN architectures applied to EEG drowsiness detection, including
+        1D temporal CNNs, 2D spectral-spatial CNNs, and EEGNet-derived lightweight
+        architectures. Compare how spatial filtering, temporal convolution, and depthwise
+        separable convolutions are adapted for EEG structure. Discuss performance
+        benchmarks and the trade-off between model depth and overfitting on small EEG datasets.
+      keyword_filter: ["CNN", "convolutional", "EEGNet", "spatial filter", "temporal convolution", "1D CNN", "2D CNN"]
+
+    - id: "p03_rnn_transformer"
+      title: "Recurrent Networks and Transformer Architectures"
+      focus: >
+        Review the application of recurrent architectures (LSTM, GRU, bidirectional RNN)
+        and Transformer-based models to EEG drowsiness detection. Compare how sequence
+        modelling captures temporal dynamics of fatigue, the advantages and limitations
+        of attention mechanisms for variable-length EEG segments, and whether Transformer
+        models have demonstrated a clear advantage over LSTM-based approaches in this domain.
+      keyword_filter: ["LSTM", "GRU", "RNN", "recurrent", "Transformer", "attention", "bidirectional"]
+
+    - id: "p04_hybrid_autoencoder"
+      title: "Hybrid Models, Autoencoders, and Representation Learning"
+      focus: >
+        Critically review hybrid deep learning architectures (CNN-LSTM, CNN-Transformer,
+        graph neural networks) and representation learning approaches (autoencoders, deep
+        belief networks, self-supervised pre-training) applied to EEG drowsiness detection.
+        Discuss what architectural combinations yield the best performance, whether the
+        added complexity is justified by gains over single-architecture models, and what
+        representation learning contributes in low-label settings.
+      keyword_filter: ["CNN-LSTM", "hybrid", "autoencoder", "graph neural", "GNN", "representation", "self-supervised", "deep belief"]
+
+    - id: "p05_synthesis"
+      title: "Lightweight Models, Real-Time Feasibility, and Critical Synthesis"
+      focus: >
+        Synthesise the state of deep learning for EEG drowsiness detection. Discuss the
+        trend towards lightweight and efficient architectures for deployment on embedded
+        or in-vehicle hardware, critically evaluate whether deep learning models are
+        ready for real-time deployment, and identify the most persistent gaps: lack of
+        cross-dataset evaluation, limited subject-independent benchmarking, and the
+        disconnect between laboratory accuracy and real-world reliability.
+      keyword_filter: ["lightweight", "efficient", "real-time", "embedded", "deployment", "model size"]

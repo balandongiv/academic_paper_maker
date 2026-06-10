@@ -1,0 +1,84 @@
+project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+
+input:
+  fatigue_eeg_outputs_folder: "fatigue_eeg_outputs"
+  candidates_csv: "candidates_eeg_fatigue_driver.csv"
+  writing_technique_file: "writing_technique.MD"
+  literature_review_theme_file: "literature_review_theme.md"
+
+output:
+  writing_folder: "writing"
+
+target:
+  theme_code: "A"
+  theme_name: "Limited Number of EEG Electrodes"
+  subtheme: "single-channel EEG"
+
+selenium:
+  browser: "chrome"
+  headless: false
+  wait_seconds: 300
+  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_profile: "C:/selenium/chrome-profile"
+
+writing:
+  max_studies_per_paragraph: 15
+  max_summary_chars: 1200
+  paragraph_definitions:
+    - id: "p01_overview"
+      title: "Overview and Motivation for Single-Channel EEG"
+      focus: >
+        Write a paragraph introducing and motivating single-channel EEG for driver fatigue
+        detection. Discuss the rationale for reducing electrode count, the fundamental trade-off
+        between wearability/practicality and signal richness, and provide a critical overview of
+        how this subfield has developed between 2017 and 2026.
+      keyword_filter: []
+
+    - id: "p02_electrode_sites"
+      title: "Electrode Site Selection and Neurophysiological Rationale"
+      focus: >
+        Write a paragraph critically analysing which single EEG electrode sites have been
+        favoured across studies (e.g., frontal Fz/Fp1/Fp2, occipital Oz, central Cz, parietal
+        Pz), comparing the neurophysiological justifications offered, and identifying whether
+        there is consensus or divergence in electrode selection across the reviewed studies.
+      keyword_filter: ["frontal", "occipital", "parietal", "Fz", "Fp", "Oz", "Cz", "electrode"]
+
+    - id: "p03_traditional_ml"
+      title: "Traditional Machine Learning Methods"
+      focus: >
+        Write a paragraph comparing traditional machine learning approaches applied to
+        single-channel EEG for driving fatigue detection, including SVM, random forest,
+        decision trees, and related methods. Critically compare feature extraction strategies
+        (spectral, entropy, time-frequency), performance results, and methodological strengths
+        and weaknesses.
+      keyword_filter: ["SVM", "support vector", "random forest", "machine learning", "feature"]
+
+    - id: "p04_deep_learning"
+      title: "Deep Learning Approaches"
+      focus: >
+        Write a paragraph critically reviewing deep learning architectures applied to
+        single-channel EEG for driver fatigue detection, including CNNs, LSTMs, and hybrid
+        models. Compare end-to-end learning versus feature-based approaches, discuss model
+        complexity relative to single-channel data limitations, and evaluate the methodological
+        quality of reported results.
+      keyword_filter: ["CNN", "LSTM", "deep learning", "convolutional", "recurrent", "neural network"]
+
+    - id: "p05_datasets_performance"
+      title: "Datasets and Performance Comparison"
+      focus: >
+        Write a paragraph comparing the public and private datasets used in single-channel EEG
+        fatigue-driving studies, the performance metrics reported (accuracy, F1, AUC), and
+        whether the reported results are directly comparable across studies. Critically assess
+        validation strategies (within-subject, cross-subject, k-fold), labelling protocols, and
+        what these methodological differences mean for interpreting reported performance.
+      keyword_filter: ["dataset", "accuracy", "F1", "AUC", "validation", "cross-subject"]
+
+    - id: "p06_limitations_synthesis"
+      title: "Limitations and Critical Synthesis"
+      focus: >
+        Write a synthesising paragraph that critically identifies the main methodological
+        limitations of single-channel EEG studies for driving fatigue detection, including
+        signal quality concerns, limited generalisability, small sample sizes, lack of
+        real-road validation, and absence of standardised benchmarking. Discuss what the
+        literature collectively implies for the future direction of single-channel EEG research.
+      keyword_filter: []

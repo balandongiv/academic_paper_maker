@@ -1,0 +1,81 @@
+project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+
+input:
+  fatigue_eeg_outputs_folder: "fatigue_eeg_outputs"
+  candidates_csv: "candidates_eeg_fatigue_driver.csv"
+  writing_technique_file: "writing_technique.MD"
+  literature_review_theme_file: "literature_review_theme.md"
+
+output:
+  writing_folder: "writing"
+
+target:
+  theme_code: "P"
+  theme_name: "Safety, Human Factors, and Intervention"
+  subtheme: ""
+
+selenium:
+  browser: "chrome"
+  headless: false
+  wait_seconds: 300
+  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_profile: "C:/selenium/chrome-profile"
+
+writing:
+  max_studies_per_paragraph: 15
+  max_paragraph_revisions: 10
+  max_section_critique_cycles: 20
+
+  paragraph_definitions:
+    - id: "p01_overview"
+      title: "Safety Context and Human Factors in Drowsy Driving"
+      focus: >
+        Introduce the safety context of drowsy driving: prevalence, crash statistics,
+        and the human factors perspective on fatigue as a contributor to road accidents.
+        Discuss how EEG-based drowsiness detection is positioned within the broader driver
+        assistance and safety system landscape, and why early warning and intervention
+        timing are critical design parameters from 2017 to 2026.
+      keyword_filter: ["safety", "accident", "crash", "human factors", "road safety", "drowsy driving"]
+
+    - id: "p02_warning_intervention"
+      title: "Warning System Design and Intervention Timing"
+      focus: >
+        Critically review the design and timing of driver warning and intervention systems
+        in EEG drowsiness detection research. Discuss lead-time prediction approaches that
+        forecast drowsiness onset before it reaches a dangerous level, compare alert
+        modalities (auditory, haptic, visual), and critically evaluate evidence for which
+        warning strategies are most effective at reversing drowsiness without startling
+        the driver.
+      keyword_filter: ["warning", "intervention", "alert", "lead-time", "onset prediction", "haptic", "auditory"]
+
+    - id: "p03_hmi_acceptance"
+      title: "Human-Machine Interaction and Driver Acceptance"
+      focus: >
+        Review studies that examine how drivers interact with and respond to EEG-based
+        drowsiness warning systems. Discuss driver acceptance factors (false alarm rate,
+        intrusiveness, trust), the impact of repeated alerts on habituation, and how system
+        design trade-offs between sensitivity and specificity translate into user experience.
+        Critically evaluate whether driver acceptance has been adequately studied relative
+        to detection algorithm development.
+      keyword_filter: ["acceptance", "driver", "HMI", "false alarm", "intrusiveness", "trust", "user study"]
+
+    - id: "p04_adaptive_automation"
+      title: "Adaptive Automation and Intervention Beyond Warnings"
+      focus: >
+        Critically review approaches that go beyond passive warnings: adaptive automation,
+        vehicle takeover, speed reduction, and lane-keeping assistance triggered by EEG
+        drowsiness signals. Discuss the technical and regulatory challenges of closed-loop
+        EEG-to-vehicle-control systems, the evidence base for their safety benefit, and
+        ethical considerations around automation authority and driver override.
+      keyword_filter: ["adaptive automation", "takeover", "closed-loop", "vehicle control", "automation", "intervention beyond warning"]
+
+    - id: "p05_synthesis"
+      title: "Gaps in Safety Validation and Critical Synthesis"
+      focus: >
+        Synthesise the gap between EEG drowsiness detection research and validated safety
+        benefit. Critically identify the absence of real-world crash-reduction evidence,
+        the reliance on simulated driving for system evaluation, the lack of regulatory
+        frameworks for EEG-based ESDS, and the under-representation of human factors
+        expertise in algorithm-focused studies. Conclude with what is needed to move from
+        detection accuracy to demonstrated safety impact.
+      keyword_filter: []

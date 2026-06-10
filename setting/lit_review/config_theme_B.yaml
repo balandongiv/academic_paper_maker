@@ -1,0 +1,83 @@
+project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+
+input:
+  fatigue_eeg_outputs_folder: "fatigue_eeg_outputs"
+  candidates_csv: "candidates_eeg_fatigue_driver.csv"
+  writing_technique_file: "writing_technique.MD"
+  literature_review_theme_file: "literature_review_theme.md"
+
+output:
+  writing_folder: "writing"
+
+target:
+  theme_code: "B"
+  theme_name: "Multiclass Sleepiness or Drowsiness Classification"
+  subtheme: ""
+
+selenium:
+  browser: "chrome"
+  headless: false
+  wait_seconds: 300
+  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_profile: "C:/selenium/chrome-profile"
+
+writing:
+  max_studies_per_paragraph: 15
+  max_summary_chars: 1200
+  max_paragraph_revisions: 10
+  max_section_critique_cycles: 20
+
+  paragraph_definitions:
+    - id: "p01_overview"
+      title: "Overview and Motivation for Multiclass Drowsiness Classification"
+      focus: >
+        Write a paragraph introducing and motivating multiclass drowsiness classification in
+        EEG-based driver fatigue research. Discuss why going beyond binary (alert vs. drowsy)
+        classification matters for real-world early-warning systems, the challenges of defining
+        and operationalising multiple drowsiness levels, and how this subfield has evolved
+        between 2017 and 2026.
+      keyword_filter: []
+
+    - id: "p02_classification_schemes"
+      title: "Drowsiness Level Definitions and Labelling Strategies"
+      focus: >
+        Write a paragraph critically comparing how different studies define and operationalise
+        multiple levels of sleepiness or drowsiness. Cover three-level schemes (alert,
+        transitional, drowsy), continuous vigilance scores, KSS-based labelling, reaction-time
+        proxies, and hybrid approaches. Identify whether there is consensus or fragmentation
+        across the reviewed studies, and discuss the implications of labelling inconsistency
+        for result comparability.
+      keyword_filter: ["multiclass", "three-level", "KSS", "vigilance", "arousal", "label", "continuous", "drowsiness level"]
+
+    - id: "p03_methods_approaches"
+      title: "Machine Learning and Deep Learning Methods for Multiclass Classification"
+      focus: >
+        Write a paragraph critically reviewing the machine learning and deep learning
+        approaches applied to multiclass EEG drowsiness classification. Compare traditional
+        methods (SVM, random forest, LDA) against deep learning architectures (CNN, LSTM,
+        Transformer, hybrid models) in this multiclass setting. Discuss how increasing the
+        number of output classes affects model complexity, training data requirements, and
+        reported performance.
+      keyword_filter: ["multiclass", "SVM", "CNN", "LSTM", "classification", "neural network", "three-class", "four-class"]
+
+    - id: "p04_datasets_performance"
+      title: "Datasets and Performance Comparison Across Multiclass Studies"
+      focus: >
+        Write a paragraph comparing the datasets and performance results reported across
+        multiclass drowsiness studies. Identify which public or private datasets are used,
+        how many classes are distinguished, what performance metrics are reported (accuracy,
+        F1, Cohen's kappa), and whether reported results are directly comparable. Critically
+        assess validation strategies and labelling protocols, and discuss what these
+        methodological differences mean for interpreting the state of the art.
+      keyword_filter: ["dataset", "accuracy", "F1", "kappa", "validation", "three-class", "multiclass"]
+
+    - id: "p05_challenges_synthesis"
+      title: "Challenges and Critical Synthesis"
+      focus: >
+        Write a synthesising paragraph that critically identifies the main challenges and
+        limitations of multiclass EEG drowsiness classification research, including the
+        difficulty of defining ground-truth drowsiness levels, class imbalance, small sample
+        sizes, lack of generalisation across subjects, and the absence of standardised
+        benchmarks for multiclass settings. Discuss what the literature collectively implies
+        for the future direction of multiclass drowsiness classification research.
+      keyword_filter: []

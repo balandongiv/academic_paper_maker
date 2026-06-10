@@ -1,0 +1,77 @@
+project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+
+input:
+  fatigue_eeg_outputs_folder: "fatigue_eeg_outputs"
+  candidates_csv: "candidates_eeg_fatigue_driver.csv"
+  writing_technique_file: "writing_technique.MD"
+  literature_review_theme_file: "literature_review_theme.md"
+
+output:
+  writing_folder: "writing"
+
+target:
+  theme_code: "C"
+  theme_name: "Explainable Artificial Intelligence"
+  subtheme: ""
+
+selenium:
+  browser: "chrome"
+  headless: false
+  wait_seconds: 300
+  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_profile: "C:/selenium/chrome-profile"
+
+writing:
+  max_studies_per_paragraph: 15
+  max_paragraph_revisions: 10
+  max_section_critique_cycles: 20
+
+  paragraph_definitions:
+    - id: "p01_overview"
+      title: "Overview and Motivation for XAI in Drowsiness Detection"
+      focus: >
+        Introduce and motivate the use of explainable artificial intelligence (XAI) in EEG-based
+        driver drowsiness detection. Discuss why interpretability matters in safety-critical
+        applications, the gap between black-box model performance and clinical/operational
+        trustworthiness, and how the field has evolved from 2017 to 2026.
+      keyword_filter: []
+
+    - id: "p02_methods"
+      title: "XAI Methods Applied to EEG Drowsiness Models"
+      focus: >
+        Critically compare the XAI methods applied to EEG drowsiness detection models, including
+        SHAP, LIME, attention mechanisms, saliency maps, and feature importance ranking. Discuss
+        what each method reveals about model decisions, their computational overhead, and their
+        suitability for EEG time-series data. Identify which methods are most widely adopted
+        and why.
+      keyword_filter: ["SHAP", "LIME", "attention", "saliency", "feature importance", "explainable", "interpretable"]
+
+    - id: "p03_neurophysiological"
+      title: "Neurophysiological Interpretability and EEG Band Insights"
+      focus: >
+        Write a paragraph on how XAI methods have been used to relate model decisions back to
+        neurophysiological EEG phenomena (theta, alpha, beta bands; frontal asymmetry; microsleep
+        events). Discuss whether XAI findings in these studies align with established EEG
+        biomarkers of fatigue, and what discrepancies reveal about model reliance on artefacts
+        or spurious correlations.
+      keyword_filter: ["theta", "alpha", "beta", "band", "neurophysiological", "biomarker", "frequency"]
+
+    - id: "p04_trust_deployment"
+      title: "Trust, Transparency, and Practical Deployment"
+      focus: >
+        Critically review how explainability contributes to trust and practical deployment of
+        EEG drowsiness detection systems. Discuss studies that evaluate user or operator
+        acceptance of model explanations, the difference between local and global explanations
+        for deployment contexts, and whether current XAI approaches are computationally
+        feasible for real-time in-vehicle systems.
+      keyword_filter: ["trust", "deployment", "real-time", "transparency", "user", "operator", "acceptance"]
+
+    - id: "p05_limitations_synthesis"
+      title: "Limitations and Critical Synthesis"
+      focus: >
+        Synthesise the limitations and open challenges in XAI for EEG-based drowsiness detection.
+        Address the lack of standardised evaluation metrics for explanation quality, the risk of
+        post-hoc rationalisation, limited ground-truth for neurophysiological validation, and
+        the gap between academic XAI demonstrations and operationally deployed systems. Conclude
+        with implications for future research directions.
+      keyword_filter: []

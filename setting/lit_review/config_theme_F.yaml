@@ -1,0 +1,80 @@
+project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+
+input:
+  fatigue_eeg_outputs_folder: "fatigue_eeg_outputs"
+  candidates_csv: "candidates_eeg_fatigue_driver.csv"
+  writing_technique_file: "writing_technique.MD"
+  literature_review_theme_file: "literature_review_theme.md"
+
+output:
+  writing_folder: "writing"
+
+target:
+  theme_code: "F"
+  theme_name: "EEG Feature Engineering"
+  subtheme: ""
+
+selenium:
+  browser: "chrome"
+  headless: false
+  wait_seconds: 300
+  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_profile: "C:/selenium/chrome-profile"
+
+writing:
+  max_studies_per_paragraph: 15
+  max_paragraph_revisions: 10
+  max_section_critique_cycles: 20
+
+  paragraph_definitions:
+    - id: "p01_spectral"
+      title: "Spectral Power Features and EEG Band Analysis"
+      focus: >
+        Critically review the use of spectral power features (delta, theta, alpha, beta, gamma
+        bands) and band-ratio indices (theta/alpha, alpha/beta) for EEG-based driver drowsiness
+        detection. Compare which frequency bands are most consistently implicated across studies,
+        how power spectral density estimation methods differ, and what the literature reveals
+        about the neurophysiological basis of these features.
+      keyword_filter: ["spectral", "theta", "alpha", "beta", "delta", "gamma", "band power", "PSD", "frequency"]
+
+    - id: "p02_entropy_nonlinear"
+      title: "Entropy and Nonlinear EEG Features"
+      focus: >
+        Review the application of entropy measures (sample entropy, approximate entropy,
+        permutation entropy, fuzzy entropy) and other nonlinear features to EEG drowsiness
+        detection. Compare their discriminative power against spectral features, discuss
+        computational cost and sensitivity to noise, and critically evaluate claims about
+        their superiority in capturing the complex dynamics of fatigue-related EEG.
+      keyword_filter: ["entropy", "sample entropy", "approximate entropy", "nonlinear", "complexity", "permutation"]
+
+    - id: "p03_timefreq_wavelet"
+      title: "Time-Frequency and Wavelet Features"
+      focus: >
+        Compare time-frequency analysis approaches (STFT, CWT, EMD, HHT) and wavelet-based
+        feature extraction methods applied to EEG drowsiness studies. Discuss the advantages
+        of capturing non-stationary EEG dynamics, how resolution trade-offs are handled, and
+        whether time-frequency features consistently outperform simple spectral features
+        in controlled comparisons.
+      keyword_filter: ["wavelet", "time-frequency", "STFT", "CWT", "EMD", "HHT", "Hilbert"]
+
+    - id: "p04_connectivity"
+      title: "Functional Connectivity and Cross-Channel Features"
+      focus: >
+        Review the use of EEG functional connectivity features — including coherence,
+        phase-locking value (PLV), mutual information, and graph-theoretic measures — in
+        driver drowsiness detection. Discuss which electrode pairs or networks show the
+        strongest drowsiness-related connectivity changes, and critically assess whether
+        connectivity features add discriminative value beyond single-channel spectral
+        features, particularly when channel count is limited.
+      keyword_filter: ["connectivity", "coherence", "PLV", "phase-locking", "mutual information", "graph", "network"]
+
+    - id: "p05_synthesis"
+      title: "Feature Selection, Dimensionality, and Critical Synthesis"
+      focus: >
+        Synthesise the state of EEG feature engineering for driver drowsiness detection.
+        Discuss feature selection strategies (filter, wrapper, embedded), the curse of
+        dimensionality, and comparative studies that rank feature families by discriminative
+        power. Critically evaluate whether handcrafted features remain competitive with
+        automatically learned representations from deep learning, and identify the most
+        persistent gaps in the feature engineering literature.
+      keyword_filter: ["feature selection", "dimensionality", "handcrafted", "comparison", "deep learning"]

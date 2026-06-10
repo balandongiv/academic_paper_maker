@@ -1,0 +1,79 @@
+project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+
+input:
+  fatigue_eeg_outputs_folder: "fatigue_eeg_outputs"
+  candidates_csv: "candidates_eeg_fatigue_driver.csv"
+  writing_technique_file: "writing_technique.MD"
+  literature_review_theme_file: "literature_review_theme.md"
+
+output:
+  writing_folder: "writing"
+
+target:
+  theme_code: "D"
+  theme_name: "Public Dataset Introduction and Benchmarking"
+  subtheme: ""
+
+selenium:
+  browser: "chrome"
+  headless: false
+  wait_seconds: 300
+  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_profile: "C:/selenium/chrome-profile"
+
+writing:
+  max_studies_per_paragraph: 15
+  max_paragraph_revisions: 10
+  max_section_critique_cycles: 20
+
+  paragraph_definitions:
+    - id: "p01_overview"
+      title: "Overview of Public EEG Datasets for Driver Drowsiness"
+      focus: >
+        Introduce and critically survey the public EEG datasets available for driver drowsiness
+        detection research. Identify the major datasets (e.g. SEED-VIG, MNE, DROZY, NCTU,
+        MIT/BIH, and others), describe their key characteristics (number of subjects, EEG
+        channels, labelling protocol, driving paradigm), and discuss how the availability of
+        open datasets has shaped the field between 2017 and 2026.
+      keyword_filter: ["dataset", "public", "open", "SEED", "DROZY", "NCTU", "benchmark"]
+
+    - id: "p02_performance_trends"
+      title: "Performance Trends Across Datasets and Years"
+      focus: >
+        Critically analyse performance trends (accuracy, F1, AUC, Cohen's kappa) reported
+        across studies using the major public datasets. Discuss whether classification
+        performance has improved year-on-year, identify which datasets yield consistently
+        higher or lower results, and examine whether reported improvements reflect genuine
+        advances or differences in validation strategy (k-fold, LOSO, hold-out). Highlight
+        any performance plateau or saturation.
+      keyword_filter: ["accuracy", "F1", "AUC", "kappa", "performance", "benchmark", "year", "trend"]
+
+    - id: "p03_evaluation_protocols"
+      title: "Evaluation Protocols and Reproducibility"
+      focus: >
+        Compare the evaluation protocols used across benchmarking studies: within-subject vs.
+        cross-subject splits, k-fold cross-validation vs. leave-one-subject-out, train/test
+        ratio choices, and data leakage risks. Discuss how inconsistent protocols make direct
+        performance comparisons across studies unreliable, and what the literature says about
+        standardised benchmarking practices and reproducibility.
+      keyword_filter: ["cross-subject", "leave-one-out", "LOSO", "k-fold", "validation", "reproducibility", "protocol"]
+
+    - id: "p04_dataset_comparison"
+      title: "Cross-Dataset Comparison and Generalisation"
+      focus: >
+        Critically review studies that evaluate model generalisation across different public
+        datasets. Discuss the challenges of cross-dataset transfer (differing EEG setups,
+        labelling schemes, and recording environments), which models show better cross-dataset
+        robustness, and what dataset characteristics most limit generalisation. Identify gaps
+        where cross-dataset evaluation has not been attempted.
+      keyword_filter: ["cross-dataset", "generalisation", "generalization", "transfer", "domain"]
+
+    - id: "p05_open_science_synthesis"
+      title: "Open Science Practices and Critical Synthesis"
+      focus: >
+        Synthesise the state of open science in EEG driver drowsiness benchmarking: availability
+        of public code, model weights, and pre-processing pipelines alongside datasets. Identify
+        which studies made their code or models publicly available, discuss the impact on
+        reproducibility, and critically evaluate what the field still lacks for rigorous
+        benchmark-driven progress. Conclude with implications for standardisation efforts.
+      keyword_filter: ["open source", "code", "reproducibility", "standardisation", "open science"]

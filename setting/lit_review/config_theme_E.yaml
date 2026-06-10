@@ -1,0 +1,79 @@
+project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+
+input:
+  fatigue_eeg_outputs_folder: "fatigue_eeg_outputs"
+  candidates_csv: "candidates_eeg_fatigue_driver.csv"
+  writing_technique_file: "writing_technique.MD"
+  literature_review_theme_file: "literature_review_theme.md"
+
+output:
+  writing_folder: "writing"
+
+target:
+  theme_code: "E"
+  theme_name: "Interindividual and Cross-Subject Considerations"
+  subtheme: ""
+
+selenium:
+  browser: "chrome"
+  headless: false
+  wait_seconds: 300
+  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_profile: "C:/selenium/chrome-profile"
+
+writing:
+  max_studies_per_paragraph: 15
+  max_paragraph_revisions: 10
+  max_section_critique_cycles: 20
+
+  paragraph_definitions:
+    - id: "p01_overview"
+      title: "Overview of Interindividual Variability in EEG Drowsiness Detection"
+      focus: >
+        Introduce the problem of interindividual variability in EEG-based driver drowsiness
+        detection. Discuss why EEG signals differ substantially between subjects, the
+        neurophysiological and demographic sources of this variability, and why subject-dependent
+        models often fail to generalise to unseen drivers. Provide a critical overview of how
+        the field has approached this challenge from 2017 to 2026.
+      keyword_filter: []
+
+    - id: "p02_subject_dependent_independent"
+      title: "Subject-Dependent vs. Subject-Independent Modelling"
+      focus: >
+        Critically compare subject-dependent and subject-independent modelling strategies across
+        studies. Discuss the performance gap between within-subject and cross-subject evaluations,
+        why subject-independent models consistently underperform, and what methodological choices
+        (calibration data, personalisation steps, model architecture) narrow this gap. Identify
+        the trade-off between calibration effort and generalisation performance.
+      keyword_filter: ["subject-dependent", "subject-independent", "cross-subject", "within-subject", "calibration", "personalisation"]
+
+    - id: "p03_transfer_domain"
+      title: "Transfer Learning and Domain Adaptation for Cross-Subject Generalisation"
+      focus: >
+        Review the transfer learning and domain adaptation approaches proposed to address
+        cross-subject variability in EEG drowsiness detection. Compare methods including
+        fine-tuning, adversarial domain adaptation, and self-supervised pre-training. Discuss
+        how much labelled target-subject data each approach requires and the performance gains
+        reported relative to non-adapted baselines.
+      keyword_filter: ["transfer learning", "domain adaptation", "fine-tuning", "adversarial", "self-supervised", "few-shot"]
+
+    - id: "p04_demographic_session"
+      title: "Demographic Effects and Cross-Session Variability"
+      focus: >
+        Critically analyse studies that examine demographic effects (age, sex, driving experience)
+        and cross-session variability on EEG drowsiness detection performance. Discuss how
+        non-stationarity across recording sessions affects model reliability, which studies
+        explicitly control for session effects, and what remains unknown about how demographic
+        factors interact with EEG drowsiness biomarkers.
+      keyword_filter: ["demographic", "age", "sex", "session", "cross-session", "non-stationarity", "variability"]
+
+    - id: "p05_synthesis"
+      title: "Limitations and Critical Synthesis"
+      focus: >
+        Synthesise the open challenges in handling interindividual variability for EEG-based
+        driver drowsiness detection. Identify the most persistent methodological gaps: small
+        sample sizes limiting cross-subject evaluation, lack of standardised calibration
+        protocols, and insufficient reporting of subject-level performance distributions.
+        Conclude with the implications for deploying personalised or universal drowsiness
+        detection systems in practice.
+      keyword_filter: []

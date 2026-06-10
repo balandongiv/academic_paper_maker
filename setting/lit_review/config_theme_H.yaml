@@ -1,0 +1,81 @@
+project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+
+input:
+  fatigue_eeg_outputs_folder: "fatigue_eeg_outputs"
+  candidates_csv: "candidates_eeg_fatigue_driver.csv"
+  writing_technique_file: "writing_technique.MD"
+  literature_review_theme_file: "literature_review_theme.md"
+
+output:
+  writing_folder: "writing"
+
+target:
+  theme_code: "H"
+  theme_name: "Traditional Machine Learning Models"
+  subtheme: ""
+
+selenium:
+  browser: "chrome"
+  headless: false
+  wait_seconds: 300
+  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_profile: "C:/selenium/chrome-profile"
+
+writing:
+  max_studies_per_paragraph: 15
+  max_paragraph_revisions: 10
+  max_section_critique_cycles: 20
+
+  paragraph_definitions:
+    - id: "p01_overview"
+      title: "Overview of Traditional ML in EEG Drowsiness Detection"
+      focus: >
+        Introduce the role of traditional machine learning in EEG-based driver drowsiness
+        detection. Discuss the feature-extraction-then-classify paradigm, the range of
+        classifiers applied (SVM, RF, LDA, KNN, naive Bayes, ANN, MLP), and critically
+        overview how this approach has evolved and competed with deep learning from
+        2017 to 2026.
+      keyword_filter: []
+
+    - id: "p02_svm_lda"
+      title: "SVM and Linear Discriminant Methods"
+      focus: >
+        Critically review the application of support vector machines (SVM) and linear
+        discriminant analysis (LDA) to EEG drowsiness detection. Compare kernel choices
+        (RBF, linear, polynomial), feature inputs (spectral, entropy, wavelet), reported
+        performance, and how these methods handle the high-dimensional, small-sample
+        character of EEG data. Identify performance ceilings and where SVM-based approaches
+        fail compared to ensemble or deep methods.
+      keyword_filter: ["SVM", "support vector", "LDA", "linear discriminant", "kernel"]
+
+    - id: "p03_ensemble"
+      title: "Ensemble Methods: Random Forest, Boosting, and Bagging"
+      focus: >
+        Review the use of ensemble methods — random forest, AdaBoost, gradient boosting,
+        XGBoost — for EEG drowsiness classification. Compare feature importance outputs,
+        robustness to overfitting relative to single-tree methods, and whether ensemble
+        methods consistently outperform SVM on the same datasets. Critically assess the
+        reporting quality of hyperparameter tuning and cross-validation in ensemble studies.
+      keyword_filter: ["random forest", "AdaBoost", "XGBoost", "gradient boosting", "ensemble", "bagging", "boosting"]
+
+    - id: "p04_feature_pipeline"
+      title: "Feature Engineering and Classification Pipeline Comparisons"
+      focus: >
+        Critically compare feature-classification pipeline studies that systematically
+        evaluate multiple traditional ML classifiers on the same EEG dataset. Discuss
+        which feature families (spectral, entropy, time-frequency) pair best with which
+        classifiers, the role of feature selection in reducing dimensionality before
+        classification, and whether any pipeline combination consistently dominates
+        across datasets and subject groups.
+      keyword_filter: ["feature selection", "pipeline", "comparison", "classifier", "handcrafted"]
+
+    - id: "p05_synthesis"
+      title: "Comparison with Deep Learning and Critical Synthesis"
+      focus: >
+        Synthesise the competitive position of traditional ML models relative to deep
+        learning in EEG drowsiness detection. Identify conditions under which traditional
+        ML remains competitive (small datasets, limited compute, need for interpretability)
+        and where deep learning has demonstrably surpassed it. Critically evaluate the
+        methodological quality of head-to-head comparisons and identify persistent gaps
+        in the traditional ML literature.
+      keyword_filter: ["deep learning", "comparison", "benchmark", "competitive"]

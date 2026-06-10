@@ -1,0 +1,79 @@
+project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+
+input:
+  fatigue_eeg_outputs_folder: "fatigue_eeg_outputs"
+  candidates_csv: "candidates_eeg_fatigue_driver.csv"
+  writing_technique_file: "writing_technique.MD"
+  literature_review_theme_file: "literature_review_theme.md"
+
+output:
+  writing_folder: "writing"
+
+target:
+  theme_code: "J"
+  theme_name: "Transfer Learning, Domain Adaptation, and Generalization"
+  subtheme: ""
+
+selenium:
+  browser: "chrome"
+  headless: false
+  wait_seconds: 300
+  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_profile: "C:/selenium/chrome-profile"
+
+writing:
+  max_studies_per_paragraph: 15
+  max_paragraph_revisions: 10
+  max_section_critique_cycles: 20
+
+  paragraph_definitions:
+    - id: "p01_overview"
+      title: "Overview of Transfer Learning for EEG Drowsiness Detection"
+      focus: >
+        Introduce the motivation for transfer learning in EEG drowsiness detection:
+        the cost of labelled EEG data, the non-stationarity of EEG signals across subjects
+        and sessions, and the need for models that generalise without full per-subject
+        calibration. Survey the landscape of transfer learning approaches applied in this
+        domain from 2017 to 2026.
+      keyword_filter: []
+
+    - id: "p02_domain_adaptation"
+      title: "Domain Adaptation Methods"
+      focus: >
+        Critically compare domain adaptation techniques applied to cross-subject and
+        cross-dataset EEG drowsiness detection, including adversarial training (DANN,
+        CDAN), maximum mean discrepancy minimisation, batch normalisation adaptation,
+        and distribution alignment strategies. Discuss how much target-domain data each
+        method requires and the performance gains over unadapted baselines.
+      keyword_filter: ["domain adaptation", "adversarial", "DANN", "MMD", "distribution", "alignment", "shift"]
+
+    - id: "p03_fine_tuning"
+      title: "Fine-Tuning, Few-Shot, and Self-Supervised Approaches"
+      focus: >
+        Review fine-tuning and few-shot adaptation strategies for EEG drowsiness detection
+        that reduce the calibration data required per new subject. Discuss self-supervised
+        pre-training on unlabelled EEG, contrastive learning approaches, and meta-learning
+        frameworks. Critically assess whether these approaches deliver practically sufficient
+        performance with minimal labelled data per subject.
+      keyword_filter: ["fine-tuning", "few-shot", "self-supervised", "contrastive", "meta-learning", "pre-training"]
+
+    - id: "p04_cross_dataset"
+      title: "Cross-Dataset Generalisation"
+      focus: >
+        Review studies that evaluate EEG drowsiness models trained on one dataset and tested
+        on another without retraining. Discuss which architectures and adaptation strategies
+        show the best cross-dataset robustness, what dataset characteristics (EEG setup,
+        labelling, driving protocol) most limit transfer, and critically examine whether
+        reported cross-dataset results are sufficiently rigorous and reproducible.
+      keyword_filter: ["cross-dataset", "generalisation", "generalization", "domain shift", "unseen dataset"]
+
+    - id: "p05_synthesis"
+      title: "Limitations and Critical Synthesis"
+      focus: >
+        Synthesise the limitations and open challenges in transfer learning for EEG
+        drowsiness detection. Address the lack of standard benchmarks for evaluating
+        transfer methods, inconsistent reporting of negative transfer, small effect sizes
+        in some cross-subject studies, and the gap between adaptation methods demonstrated
+        in lab settings and deployment-ready calibration protocols. Conclude with future
+        directions.
+      keyword_filter: []

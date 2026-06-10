@@ -1,0 +1,79 @@
+project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+
+input:
+  fatigue_eeg_outputs_folder: "fatigue_eeg_outputs"
+  candidates_csv: "candidates_eeg_fatigue_driver.csv"
+  writing_technique_file: "writing_technique.MD"
+  literature_review_theme_file: "literature_review_theme.md"
+
+output:
+  writing_folder: "writing"
+
+target:
+  theme_code: "G"
+  theme_name: "EEG Preprocessing and Artifact Removal"
+  subtheme: ""
+
+selenium:
+  browser: "chrome"
+  headless: false
+  wait_seconds: 300
+  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_profile: "C:/selenium/chrome-profile"
+
+writing:
+  max_studies_per_paragraph: 15
+  max_paragraph_revisions: 10
+  max_section_critique_cycles: 20
+
+  paragraph_definitions:
+    - id: "p01_overview"
+      title: "Overview of EEG Preprocessing Pipelines"
+      focus: >
+        Introduce the role of EEG preprocessing in driver drowsiness detection, covering
+        the standard pipeline stages: filtering (bandpass, notch), segmentation (epoch
+        length choices), baseline correction, and normalisation. Critically compare how
+        preprocessing choices differ across studies and how inconsistent pipelines
+        complicate cross-study performance comparison.
+      keyword_filter: ["preprocessing", "filtering", "segmentation", "epoch", "normalisation", "baseline"]
+
+    - id: "p02_artifact_removal"
+      title: "Ocular and Muscular Artifact Removal"
+      focus: >
+        Critically review the methods used to remove ocular (EOG) and muscular (EMG)
+        artefacts from EEG in driver drowsiness studies. Compare ICA-based approaches,
+        regression-based EOG correction, wavelet denoising, and adaptive filtering.
+        Discuss how artefact removal choices affect downstream feature quality and
+        classification performance, and identify studies that explicitly quantify this impact.
+      keyword_filter: ["ICA", "EOG", "EMG", "artifact", "artefact", "ocular", "muscle", "wavelet denoising"]
+
+    - id: "p03_realtime_preprocessing"
+      title: "Real-Time Preprocessing Constraints"
+      focus: >
+        Analyse the preprocessing approaches adapted for real-time or low-latency EEG
+        drowsiness detection. Discuss the trade-offs between artefact rejection quality
+        and computational latency, which artefact removal steps can be omitted or
+        simplified in online settings, and how studies validate that real-time
+        preprocessing does not introduce detection delays that reduce safety value.
+      keyword_filter: ["real-time", "online", "latency", "low-latency", "streaming", "causal"]
+
+    - id: "p04_impact_performance"
+      title: "Impact of Preprocessing on Classification Performance"
+      focus: >
+        Review studies that systematically compare the impact of different preprocessing
+        choices — filtering cut-off frequencies, epoch length, artefact rejection
+        thresholds — on downstream classification accuracy. Critically assess whether
+        the literature provides sufficient ablation evidence for preprocessing decisions,
+        and identify the most common preprocessing shortcuts that risk inflating
+        reported performance.
+      keyword_filter: ["epoch length", "filter", "ablation", "preprocessing comparison", "impact", "performance"]
+
+    - id: "p05_synthesis"
+      title: "Standardisation Gaps and Critical Synthesis"
+      focus: >
+        Synthesise the preprocessing landscape for EEG driver drowsiness detection.
+        Identify the lack of standardised pipelines as a key source of irreproducibility,
+        discuss what minimal preprocessing is required for robust drowsiness detection,
+        and critically evaluate calls for community-agreed preprocessing standards.
+        Conclude with recommendations for future reporting practices.
+      keyword_filter: []
