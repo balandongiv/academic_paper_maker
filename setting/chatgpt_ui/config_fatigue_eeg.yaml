@@ -1,4 +1,4 @@
-project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+project_root: "G:/My Drive/iterate_literature_review"
 
 input:
   master_file: "complete_file_available_in_zotero.csv"
@@ -33,5 +33,5 @@ selenium:
   headless: false
   wait_seconds: 300        # 5 minutes — if no response by then, retry
   per_row_retries: 3       # retry attempts before terminating the whole batch
-  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_exe: "C:/Program Files/Google/Chrome/Application/chrome.exe"
   chrome_profile: "C:/selenium/chrome-profile"

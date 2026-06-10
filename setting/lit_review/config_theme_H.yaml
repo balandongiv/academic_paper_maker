@@ -1,4 +1,4 @@
-project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+﻿project_root: "G:/My Drive/iterate_literature_review"
 
 input:
   fatigue_eeg_outputs_folder: "fatigue_eeg_outputs"
@@ -18,7 +18,7 @@ selenium:
   browser: "chrome"
   headless: false
   wait_seconds: 300
-  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_exe: "C:/Program Files/Google/Chrome/Application/chrome.exe"
   chrome_profile: "C:/selenium/chrome-profile"
 
 writing:
@@ -51,8 +51,8 @@ writing:
     - id: "p03_ensemble"
       title: "Ensemble Methods: Random Forest, Boosting, and Bagging"
       focus: >
-        Review the use of ensemble methods — random forest, AdaBoost, gradient boosting,
-        XGBoost — for EEG drowsiness classification. Compare feature importance outputs,
+        Review the use of ensemble methods â€” random forest, AdaBoost, gradient boosting,
+        XGBoost â€” for EEG drowsiness classification. Compare feature importance outputs,
         robustness to overfitting relative to single-tree methods, and whether ensemble
         methods consistently outperform SVM on the same datasets. Critically assess the
         reporting quality of hyperparameter tuning and cross-validation in ensemble studies.

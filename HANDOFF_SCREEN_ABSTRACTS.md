@@ -1,7 +1,8 @@
 # Handoff — Abstract Screening (EEG Driver Fatigue)
 
 **Created:** 2026-06-09 06:38  
-**Status at handoff:** Loop was running, interrupted by laptop restart
+**Status at handoff:** Loop was running, interrupted by laptop restart  
+**Resumed:** 2026-06-09 on machine `rpb` (G: drive mapped to Google Drive)
 
 ---
 
@@ -15,6 +16,19 @@
 | Completed | 6 |
 | Failed | 17 |
 | **Keyword candidates (968 total screened so far)** | **6 done, ~962 remaining** |
+
+## DB state at resume (2026-06-09, machine rpb)
+
+| Status | Count |
+|--------|-------|
+| Yet To Process | 10,696 (18 reclaimed from stuck) |
+| Completed | 129 |
+| Failed | 17 |
+
+Config paths updated for this machine:
+- `project_root` → `G:/My Drive/iterate_literature_review`
+- `chrome_exe` → `C:/Program Files/Google/Chrome/Application/chrome.exe`
+- Chrome profile dir created: `C:\selenium\chrome-profile`
 
 ---
 

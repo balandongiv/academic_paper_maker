@@ -1,4 +1,4 @@
-project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+﻿project_root: "G:/My Drive/iterate_literature_review"
 
 input:
   fatigue_eeg_outputs_folder: "fatigue_eeg_outputs"
@@ -18,7 +18,7 @@ selenium:
   browser: "chrome"
   headless: false
   wait_seconds: 300
-  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  chrome_exe: "C:/Program Files/Google/Chrome/Application/chrome.exe"
   chrome_profile: "C:/selenium/chrome-profile"
 
 writing:
@@ -60,8 +60,8 @@ writing:
     - id: "p04_connectivity"
       title: "Functional Connectivity and Cross-Channel Features"
       focus: >
-        Review the use of EEG functional connectivity features — including coherence,
-        phase-locking value (PLV), mutual information, and graph-theoretic measures — in
+        Review the use of EEG functional connectivity features â€” including coherence,
+        phase-locking value (PLV), mutual information, and graph-theoretic measures â€” in
         driver drowsiness detection. Discuss which electrode pairs or networks show the
         strongest drowsiness-related connectivity changes, and critically assess whether
         connectivity features add discriminative value beyond single-channel spectral

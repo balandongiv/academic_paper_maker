@@ -166,8 +166,11 @@ class PipelineLog:
         self._save()
 
     def _save(self) -> None:
-        self._path.parent.mkdir(parents=True, exist_ok=True)
-        self._path.write_text("\n".join(self._lines), encoding="utf-8")
+        try:
+            self._path.parent.mkdir(parents=True, exist_ok=True)
+            self._path.write_text("\n".join(self._lines), encoding="utf-8")
+        except OSError as _e:
+            log.warning("Could not save pipeline_log.md (Google Drive I/O?): %s", _e)
 
 
 # ---------------------------------------------------------------------------
@@ -218,7 +221,10 @@ def run_paragraph(
 
     raw_para = agent.write_paragraph(writing_prompt)
     paragraph_text = clean_paragraph_response(raw_para)
-    (prompts_folder / f"response_writing_{pid}.txt").write_text(raw_para, encoding="utf-8")
+    try:
+        (prompts_folder / f"response_writing_{pid}.txt").write_text(raw_para, encoding="utf-8")
+    except OSError as _e:
+        log.warning("Could not save response_writing_%s.txt (Google Drive I/O?): %s", pid, _e)
 
     # 3. Evidence Consistency Auditor loop
     for attempt in range(1, max_revisions + 1):
@@ -229,9 +235,12 @@ def run_paragraph(
         save_prompt(check_prompt, prompts_folder, f"consistency_{pid}_attempt{attempt}.md")
 
         auditor_feedback = agent.check_consistency(check_prompt)
-        (consistency_folder / f"report_{pid}_attempt{attempt}.txt").write_text(
-            auditor_feedback, encoding="utf-8"
-        )
+        try:
+            (consistency_folder / f"report_{pid}_attempt{attempt}.txt").write_text(
+                auditor_feedback, encoding="utf-8"
+            )
+        except OSError as _e:
+            log.warning("Could not save consistency report %s attempt %d (Google Drive I/O?): %s", pid, attempt, _e)
 
         passed = detect_pass(auditor_feedback)
         log.info("Paragraph %s — attempt %d — verdict: %s", pid, attempt, "PASS" if passed else "FAIL")
@@ -262,9 +271,12 @@ def run_paragraph(
 
         raw_revised = agent.revise_paragraph(revision_prompt)
         paragraph_text = clean_paragraph_response(raw_revised)
-        (prompts_folder / f"response_revision_{pid}_attempt{attempt}.txt").write_text(
-            raw_revised, encoding="utf-8"
-        )
+        try:
+            (prompts_folder / f"response_revision_{pid}_attempt{attempt}.txt").write_text(
+                raw_revised, encoding="utf-8"
+            )
+        except OSError as _e:
+            log.warning("Could not save response_revision_%s_attempt%d.txt (Google Drive I/O?): %s", pid, attempt, _e)
         pipeline_log.add(
             f"Paragraph {pid} — revised (attempt {attempt})",
             "Paragraph revised with auditor feedback.",
@@ -302,17 +314,12 @@ def run_pipeline(config: PipelineConfig) -> None:
     log.info("Loading studies from %s", outputs_folder)
     all_studies = load_filtered_studies(outputs_folder, config.theme_code, config.subtheme)
 
-    filtered_path = section_folder / "filtered_studies.json"
-    filtered_path.write_text(
-        json.dumps(all_studies, indent=2, ensure_ascii=False, default=str),
-        encoding="utf-8",
-    )
     pipeline_log.add(
         "Study filtering",
         f"Total studies found: {len(all_studies)}\n"
         f"Theme: {config.theme_code} — {config.theme_name}\n"
         f"Subtheme: {config.subtheme}\n"
-        f"Filtered list saved: {filtered_path}",
+        f"Filtered list saved: (skipped — Google Drive write suppressed)",
     )
     log.info("Loaded %d studies for theme %s / %s.", len(all_studies), config.theme_code, config.subtheme)
 

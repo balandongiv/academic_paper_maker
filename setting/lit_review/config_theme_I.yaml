@@ -1,4 +1,4 @@
-project_root: "C:/Users/balan/My Drive (balandong@ums.edu.my)/iterate_literature_review"
+﻿project_root: "G:/My Drive/iterate_literature_review"
 
 input:
   fatigue_eeg_outputs_folder: "fatigue_eeg_outputs"
@@ -17,8 +17,8 @@ target:
 selenium:
   browser: "chrome"
   headless: false
-  wait_seconds: 300
-  chrome_exe: "C:/Users/balan/AppData/Local/Google/Chrome/Application/chrome.exe"
+  wait_seconds: 120
+  chrome_exe: "C:/Program Files/Google/Chrome/Application/chrome.exe"
   chrome_profile: "C:/selenium/chrome-profile"
 
 writing:
