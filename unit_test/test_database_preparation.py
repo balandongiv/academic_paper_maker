@@ -17,17 +17,18 @@ class TestDatabasePreparation(unittest.TestCase):
     def setUp(self):
         # Setup persistent output directory
         self.base_dir = os.path.dirname(os.path.abspath(__file__))
-        self.test_dir = os.path.join(self.base_dir, "test_outputs")
+        self.test_dir = os.path.join(self.base_dir, "test_outputsx")
         
         # Clean up previous run artifacts
         if os.path.exists(self.test_dir):
             shutil.rmtree(self.test_dir)
             
         os.makedirs(self.test_dir, exist_ok=True)
-        self.output_excel = os.path.join(self.test_dir, "combined_sample_results.xlsx")
+        self.output_excel = os.path.join(self.test_dir, "combined_sample_results_xai.xlsx")
         
         # Path to sample files
-        self.sample_folder = os.path.join(project_root, "sample_file", "scopus")
+        # self.sample_folder = os.path.join(project_root, "sample_file", "scopus")
+        self.sample_folder = os.path.join(project_root, "sample_file", "scopus_imaging_xai")
 
     def test_simulate_step_7_with_sample_files(self):
         """

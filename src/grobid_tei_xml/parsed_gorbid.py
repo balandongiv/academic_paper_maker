@@ -8,15 +8,19 @@ ns = "http://www.tei-c.org/ns/1.0"
 xml_ns = "http://www.w3.org/XML/1998/namespace"
 
 
+def _find_title_text(biblio: ElementTree.Element, levels: tuple[str, ...]) -> str | None:
+    for level in levels:
+        title_el = biblio.find(f".//{{{ns}}}title[@level='{level}']")
+        if title_el is not None and title_el.text:
+            return title_el.text.strip()
+    return None
+
+
 
 def _parse_biblio(biblio: ElementTree.Element) -> GrobidCitation:
     """
     Parses a biblioStruct or fileDesc element into a GrobidCitation.
     """
-    title_el = biblio.find(
-        f".//{{{ns}}}title[@level='a'] | .//{{{ns}}}title[@level='m']"
-    )
-    journal_el = biblio.find(f".//{{{ns}}}title[@level='j']")
     date_el = biblio.find(f".//{{{ns}}}date")
     authors: List[str] = []
     for author_el in biblio.findall(f".//{{{ns}}}author"):
@@ -34,8 +38,8 @@ def _parse_biblio(biblio: ElementTree.Element) -> GrobidCitation:
             authors.append(" ".join(name_parts))
 
     return GrobidCitation(
-        title=title_el.text if title_el is not None else None,
-        journal=journal_el.text if journal_el is not None else None,
+        title=_find_title_text(biblio, ("a", "m")),
+        journal=_find_title_text(biblio, ("j",)),
         date=date_el.attrib.get("when") if date_el is not None else None,
         authors=authors,
     )

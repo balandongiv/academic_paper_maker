@@ -1,0 +1,91 @@
+import mne
+from pyblinker.blinker.pyblinker import BlinkDetector
+
+from pathlib import Path
+from src.pre_processing.combine_ear_eeg_eog import process_and_align_modalities
+base_path = Path("D:/dataset/drowsy_driving_raja_processed/S1/S01_20170519_043933_2")
+
+paths = {
+		"base_path": base_path,
+		# "out_dir": base_path / "seg_data",
+		"out_dir": base_path / "seg_data_viewer",
+		"ear_fp": base_path / "seg_data_raw" / "ear_raw.fif",
+		"eeg_fp": base_path / "seg_data_raw" / "eeg_eog_raw.fif",
+		"out_fp": base_path / "seg_data_viewer" / "ear_eog.fif",
+		"out_fp_ear": base_path / "seg_data_viewer" / "ear_raw.fif",
+		"out_fp_eeg_eog": base_path / "seg_data_viewer" / "eog_eeg_raw.fif",
+		"log_fp": base_path / "seg_data_viewer" / "ear_eog.log",
+		"out_annot": base_path / "seg_data_viewer" / "ear_eog.csv",
+		}
+out_csv=paths["out_annot"]
+settings = {
+		"batch_process_subjects": True,
+		"channels_to_show": ["E8", "E9", "E10"],
+		"do_save": True,
+		"eeg_channels": None,
+		"include_unvalidated": True,
+		"overwrite_fif": True,
+		"session_filter": None,
+		"viz_plot": False,
+		}
+# Ensure output folder exists before processing.
+paths["out_dir"].mkdir(parents=True, exist_ok=True)
+raw=process_and_align_modalities(paths, settings)
+#
+# from src.pre_processing.combine_ear_eeg_eog import process_and_align_modalities
+# raw_file=r"D:\dataset\drowsy_driving_raja_processed\S1\S01_20170519_043933_2\seg_data_raw\eeg_eog_raw.fif"
+#
+# raw = mne.io.read_raw_fif(raw_file, preload=True)
+#
+# # 4) Keep only EEG channels
+raw.pick_types(eeg=True)
+#
+# # 5) Filter the EEG signal between 0.5 Hz and 20.5 Hz
+raw.filter(0.5, 20.5, fir_design="firwin")
+#
+# # 6) Downsample the data to 100 Hz for faster processing
+# raw.resample(100)
+#
+# # 8) Create and configure the blink detector
+# print("Detecting blinks...")
+detector = BlinkDetector(
+	raw,
+	visualize=False,
+	annot_label=None,
+	filter_low=0.5,
+	filter_high=30.0,
+	resample_rate=100,
+	n_jobs=2,
+	use_multiprocessing=True,
+	)
+#
+# # 9) Run blink detection
+annotations, channel, _good, _df, _fig_data, _selected = detector.get_blink()
+#
+# # 10) Annotate detected blinks in the raw EEG data
+raw.set_annotations(annotations)
+
+# Save annotations to CSV for downstream review.
+# annotations.to_data_frame().to_csv(paths["out_annot"], index=False)
+#
+# # 11) Plot the EEG with blink annotations
+print(f"Displaying EEG with blink detections (based on channel {channel})...")
+# raw.plot(block=True, title=f"Eye close based on channel {channel}")
+out_csv.parent.mkdir(parents=True, exist_ok=True)
+# Ensure onset/duration are numeric seconds for downstream tools.
+import pandas as pd
+import pandas as pd
+
+df = pd.DataFrame({
+		"onset": annotations.onset,           # float seconds
+		"duration": annotations.duration,     # float seconds
+		"description": annotations.description,
+		})
+
+# Optional: force label name
+# df["description"] = "HB_CL"
+
+df.to_csv(paths["out_annot"], index=False, float_format="%.6f")
+#
+# # 12) Done
+# print("Blink detection complete. Close the plot window to finish.")

@@ -1,0 +1,1322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Ocular Artifacts Elimination From Multivariate EEG Signal Using Frequency-Spatial Filtering</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher>Institute of Electrical and Electronics Engineers (IEEE)</publisher>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2023-09-11">11 September 2023</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Abhijit</forename><surname>Bhattacharyya</surname></persName>
+							<email>abhijit@nith.ac.in</email>
+							<idno type="ORCID">0000-0003-2305-6878</idno>
+						</author>
+						<author>
+							<persName><forename type="first">Aarushi</forename><surname>Verma</surname></persName>
+							<idno type="ORCID">0000-0002-3985-798X</idno>
+						</author>
+						<author>
+							<persName><roleName>Member, IEEE</roleName><forename type="first">Radu</forename><surname>Ranta</surname></persName>
+							<idno type="ORCID">0000-0002-0893-8998</idno>
+						</author>
+						<author>
+							<persName><roleName>Senior Member, IEEE</roleName><forename type="first">Ram</forename><forename type="middle">Bilas</forename><surname>Pachori</surname></persName>
+							<idno type="ORCID">0000-0002-6061-4309</idno>
+						</author>
+						<author>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electronics and Communication Engineering</orgName>
+								<orgName type="institution">National Institute of Technology Hamirpur</orgName>
+								<address>
+									<postCode>177005</postCode>
+									<settlement>Hamirpur</settlement>
+									<country key="IN">India</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Electrical Engineering</orgName>
+								<orgName type="institution" key="instit1">Université de Lorraine</orgName>
+								<orgName type="institution" key="instit2">CNRS</orgName>
+								<orgName type="institution" key="instit3">CRAN</orgName>
+								<address>
+									<postCode>54000</postCode>
+									<settlement>Nancy</settlement>
+									<country key="FR">France</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="institution">Indian Institute of Technology Indore</orgName>
+								<address>
+									<postCode>453552</postCode>
+									<settlement>Indore</settlement>
+									<country key="IN">India</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Ocular Artifacts Elimination From Multivariate EEG Signal Using Frequency-Spatial Filtering</title>
+					</analytic>
+					<monogr>
+						<title level="j" type="main">IEEE Transactions on Cognitive and Developmental Systems</title>
+						<title level="j" type="abbrev">IEEE Trans. Cogn. Dev. Syst.</title>
+						<idno type="ISSN">2379-8920</idno>
+						<idno type="eISSN">2379-8939</idno>
+						<imprint>
+							<publisher>Institute of Electrical and Electronics Engineers (IEEE)</publisher>
+							<biblScope unit="volume">15</biblScope>
+							<biblScope unit="issue">3</biblScope>
+							<biblScope unit="page" from="1547" to="1559"/>
+							<date type="published" when="2023-09-11">11 September 2023</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">8D3802CB4BD4418DF5DAD1358808BD66</idno>
+					<idno type="DOI">10.1109/tcds.2022.3226775</idno>
+					<note type="submission">Manuscript received 8 March 2022; revised 31 July 2022 and 8 October 2022; accepted 30 November 2022. Date of publication 6 December 2022;</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.8.2-SNAPSHOT" ident="GROBID" when="2026-06-14T22:59+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Electroencephalogram (EEG)</term>
+					<term>empirical wavelet transform (EWT)</term>
+					<term>frequency-domain filtering</term>
+					<term>ocular artifacts (OAs)</term>
+					<term>spatial filtering</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The electroencephalogram (EEG) signals record electrical activities generated by the brain cells and are used as a state-of-the-art diagnosis tool for various neural disorders. However, the unwanted artifacts often contaminate the recorded EEG signals and disturb the interpretation of the neuronal activity. This article aims to propose an efficient automatic method to eliminate the ocular artifacts (OAs) from the multichannel EEG signals with novel frequency-spatial filtering. The method combines dictionary-based spatial filtering and frequency-based signal decomposition method, namely, empirical wavelet transform (EWT). The artifact dictionary needed for spatial filtering is isolated from the raw data by: 1) selecting the contaminated channels and 2) frequency-domain filtering. More precisely, the δ-rhythms of identified highly contaminated channels are selected and placed into an artifact dictionary. Afterward, the δ-rhythms of multichannel EEG signals are spatially filtered using the built dictionary to seclude the OAs within a limited number of components. Furthermore, the artifact components are eliminated and clean δ-rhythms are recovered using the inverse spatial filtering technique. Finally, the clean δ-rhythms are combined with other EEG rhythms to reconstruct the OAfree signals. The proposed method is applied to OA-contaminated synthetic and real multichannel EEG signals with a convincing performance as compared to state-of-the-art approaches. The proposed method removes the OAs without affecting the background EEG information. The proposed method can ease sensor signal interpretation and further processing, e.g., for BCI applications.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>positioning protocols <ref type="bibr" target="#b1">[2]</ref>. EEG is extensively used in many research fields, such as psychology, neuroscience, psychophysiology, and cognitive science. Apart from these, EEG also finds application in clinical research to identify and diagnose many brain pathology, such as epilepsy <ref type="bibr" target="#b2">[3]</ref> and Alzheimer's disease <ref type="bibr" target="#b3">[4]</ref>. However, unwanted signals or artifacts from nonneuronal sources intertwine with EEG recordings, hindering EEG interpretation and may even result in misleading conclusions <ref type="bibr" target="#b4">[5]</ref>, <ref type="bibr" target="#b5">[6]</ref>. The sources of artifacts can be either physiological (ocular, muscle, motion, cardiac) or nonphysiological (electrode displacement, cables, equipment, and stimulation) <ref type="bibr" target="#b6">[7]</ref>. The ocular artifacts (OAs) in the recorded EEG signal are attributed to the eye movements and blinks, which affect the electric field in the eyes and scalp surrounding regions <ref type="bibr" target="#b7">[8]</ref>. More precisely, the OA appear due to voltage variations resulting from cornea-retina dipoles and eye-lid movements <ref type="bibr" target="#b8">[9]</ref>.</p><p>Regression algorithms underpin the simplest techniques for OA removal in <ref type="bibr" target="#b9">[10]</ref>. However these algorithms require reference electrooculography (EOG) channels to detect the artifacts <ref type="bibr" target="#b10">[11]</ref>. Adaptive filtering is another approach for filtering the OA from EEG recordings. In this, the performance depends on selecting the reference signal used to estimate the artifact signal <ref type="bibr" target="#b11">[12]</ref>. Adaptive filtering is suited for online implementation with no prior calibration, but the requirement of reference signal still exists <ref type="bibr" target="#b10">[11]</ref>. The OA suppression based on blind source separation (BSS) estimates the sources of neural information and OAs without prior information of the mixing matrix. Once the sources are estimated, the artifactual sources can be removed <ref type="bibr" target="#b12">[13]</ref>. Independent component analysis (ICA), a BSS technique, decomposes multichannel contaminated EEG data from different sources into independent components (ICs). <ref type="foot" target="#foot_0">1</ref> The assumption is that the signals from different sources are independent and linearly mixed. OA-free sources are considered for the reconstruction of clean EEG data <ref type="bibr" target="#b12">[13]</ref>. Different methods are proposed in the literature in order to identify artifact sources after ICA. Mahajan and Morshed <ref type="bibr" target="#b14">[15]</ref> computed modified multiscale sample entropy (MMSE) and kurtosis for identifying ICA components with eye-blink artifacts that were further processed using wavelet thresholding to obtain clean EEG signals. One of the most known methods was introduced Pion-Tonachini et al. <ref type="bibr" target="#b15">[16]</ref> proposed a ICLabel classifier to categorize IC signals into brain, muscle, eye, heart, line noise, channel noise, and others. A supervised classification approach [combined with wavelet denoising (WD)] was also proposed by Vázquez et al. <ref type="bibr" target="#b16">[17]</ref> for identifying artifact sources. Still, even if automatic IC selection is indeed helpful in large-scale studies and real-time applications, such as brain-computer interface (BCI), these methods need training data to determine the model parameters and the quality of this data has significant impact on classifiers' ability to predict labels accurately. Note also that principal component analysis (PCA) can also be used for data decomposition. In <ref type="bibr" target="#b17">[18]</ref>, a comparative analysis is presented between ICA and PCA in removing EEG artifacts.</p><p>The assumption of orthogonality/independence is an important drawback for PCA/ICA methods, as it is not physiologically justified for brain sources (although acceptable for artifact sources). Kothe and Jung <ref type="bibr" target="#b18">[19]</ref> proposed artifact subspace reconstruction (ASR) for eliminating transient and large amplitude artifacts from multicannel EEG signals. Similar to PCA-based approaches, ASR reconstructs channel data from the remaining components after excluding large-variance components. The primary distinction is that ASR automatically identifies clean data segments and makes use of them as a benchmark to set thresholds for rejecting components <ref type="bibr" target="#b19">[20]</ref>.</p><p>Wavelet transform (WT) is another approach for filtering the OAs from EEG signals <ref type="bibr" target="#b20">[21]</ref>. Khatun et al. <ref type="bibr" target="#b21">[22]</ref> showed that discrete WT (DWT) and stationary WT (SWT) applied to a single-channel EEG signal succeeds in filtering the artifacts. However, the wavelet approach ceases if spectral properties of artifact overlap with the spectral properties of EEG signals.</p><p>Various hybrid approaches have also been proposed in the literature for effective filtering of artifacts <ref type="bibr" target="#b16">[17]</ref>, <ref type="bibr" target="#b22">[23]</ref>, <ref type="bibr" target="#b23">[24]</ref>, <ref type="bibr" target="#b24">[25]</ref>, <ref type="bibr" target="#b25">[26]</ref>, <ref type="bibr" target="#b26">[27]</ref>, <ref type="bibr" target="#b27">[28]</ref>. Vázquez et al. <ref type="bibr" target="#b16">[17]</ref> introduced an optimized automatic pipeline for artifact and noise cancelation combining BSS (SOBI), discriminant analysis (DA), and DWT-based denoising. Akhtar et al. <ref type="bibr" target="#b22">[23]</ref> proposed a multichannel OA removal technique combining spatially constrained ICA (SCICA) and WD method. Peng et al. <ref type="bibr" target="#b23">[24]</ref> combined DWT with adaptive noise cancelation (ANC) for OA removal. Their method overcomes the EOG reference signal's requirement as DWT is used to construct the OA reference signal. Maddirala and Shaik <ref type="bibr" target="#b24">[25]</ref> proposed a singlechannel OA filtering method by combining ANC with singular spectrum analysis (SSA). The SSA decomposition is used to estimate the reference signal for ANC. The performance of SSA-ANC is independent of the morphology of the OA, but it suffers from the problem of mode-mixing. In comparison to ICA, ANC requires more computation time but provides better performance in the portable environment <ref type="bibr" target="#b23">[24]</ref>. In <ref type="bibr" target="#b25">[26]</ref>, empirical mode decomposition (EMD) and canonical correlation analysis (CCA) are combined for suppressing OA artifacts. Patel et al. <ref type="bibr" target="#b26">[27]</ref> proposed an OA elimination technique in single-channel EEG by combining ensemble EMD (EEMD) and PCA methods. Saini et al. <ref type="bibr" target="#b27">[28]</ref> used variational mode decomposition (VMD) and excluded the requirement of reference EOG signal to remove the OA from single-channel EEG. Gajbhiye et al. <ref type="bibr" target="#b28">[29]</ref> have employed local polynomial approximation-based total variation (LPATV) technique to filter the OA from a single-channel EEG signal. Recently deep learning (DL) approaches have gained significant attention for EEG signal denoising. These models yield a similar performance to those of conventional methods. However, the creation of DL solutions for EEG denoising necessitates the use of well-organized, standardized data sets with certain benchmarks. Zhang et al. <ref type="bibr" target="#b29">[30]</ref> presented EEGdenoiseNet, a benchmark EEG data set and quantified the performance of DL models for removal of various EEG artifacts.</p><p>The literature reveals that most OA filtering methods remove the OAs in single-channel EEG signals and tend to affect the background EEG signals while cleaning the artifacts. Delta band being the highly contaminated rhythm from OAs <ref type="bibr" target="#b24">[25]</ref>, is severely affected in the filtering process, leading to loss of useful EEG information. This article proposes a new hybrid approach combining frequency and spatial filtering techniques to filter the OAs from multichannel EEG signals, preserving the necessary EEG information. The method combines the subspace correlation approach (SCA) <ref type="bibr" target="#b30">[31]</ref> with frequency-domain filtering techniques, namely, empirical WT (EWT) <ref type="bibr" target="#b31">[32]</ref>. The proposed method does not use additional signals as reference for the artifacts (e.g., EOG), but instead extracts a basis of the artifact space directly from the raw data. The performances of the method are assessed in both synthetic and real multichannel EEG signals contaminated with OAs. Our method's performance is compared with the combination of ICA and EWT-based frequency-domain filtering and also with the EWT-based monochannel method for OA removal. The proposed method eliminated the OAs from multichannel EEG recordings with minimal loss of background signal information.</p><p>The rest of this article has following sections: Section II describes the multichannel simulated and real EEG data sets used in this work. Section III explains the methodology used for multichannel OA elimination; Section IV presents the experimental results with a discussion on the effectiveness of the proposed filtering technique. Section V contains the conclusion.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>II. SIMULATED AND REAL EEG DATA SETS</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A. Simulated EEG Data Set</head><p>The semi-simulated data set <ref type="bibr" target="#b32">[33]</ref>    having different amplitudes for the artifacts on different channels. Each EEG signal was sampled at 200 samples per second. Fig. <ref type="figure" target="#fig_0">1</ref> shows the first 13 channels of an OA-contaminated sample EEG recording.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B. Real EEG Data Set</head><p>The EEG motor movement/imagery data set <ref type="bibr" target="#b33">[34]</ref> provided by Physionet <ref type="bibr" target="#b34">[35]</ref> is considered for evaluation of the proposed method. The 10-20 international electrode standard was followed for placing 64 electrodes on the scalp of 109 volunteers to obtain over 1500 recordings. Each EEG recording containing 64 EEG channels is of 1 or 2-min duration and sampled at 160 Hz. We have randomly selected 30 EEG recordings for evaluation of the proposed method. An example of a real OA-contaminated multichannel EEG signal is shown in Fig. <ref type="figure" target="#fig_1">2</ref>. Based on <ref type="bibr" target="#b24">[25]</ref>, OAs lead to high energy of delta waves. This is also confirmed by the analysis of our data (see Fig. <ref type="figure">3</ref> for brain topographies), which shows that high-amplitude delta rhythms are mainly present in the frontal areas, i.e., on the electrodes close to the eyes.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>III. METHODS</head><p>The flow diagram of the proposed OA elimination method is presented in Fig. <ref type="figure">4</ref>. It can be seen that EWT-based frequency-domain filtering decomposes the OA-contaminated multichannel EEG signal into rhythms (δ, θ , α, β, and γ ) <ref type="bibr" target="#b35">[36]</ref>. Even if OAs mostly contaminate the δ rhythms of frontal electrodes (see Fig. <ref type="figure">3</ref>), not all of them are necessarily corrupted, so we computed energy ratios (ERs) for δ rhythms to identify the contaminated channels [see <ref type="bibr" target="#b21">(22)</ref>]. This yields an artifact dictionary which comprises the δ rhythms of the contaminated channels with high ER values. In the next step, a common subspace of the built dictionary and the δ-rhythms of the multichannel EEG signal is found by rotating their respective basis matrices one onto the other using the SCA method. After rotation, the OAs and neural activities become spatially separated. The artifact containing components isolated by SCA are eliminated using a diagonal gain matrix followed by inverse spatial filtering for recovering the clean δ-rhythms of the multichannel EEG signal. Finally, the cleaned δ rhythms are combined with the remaining rhythms for obtaining the OAfree multichannel EEG signal. The following sections describe the proposed methods in detail and present the OA filtering pipeline employed in this work.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A. Empirical Wavelet Transform</head><p>EWT <ref type="bibr" target="#b31">[32]</ref> decomposes nonstationary signals into multiple subbands, belonging to different oscillatory levels. This is carried out by creating an adaptive wavelet-based filter bank. The steps involved in EWT are summarized as follows: 1) obtaining the signal spectrum using fast Fourier transform (FFT) in the range 0 to π ; 2) applying boundary detection techniques to segment the Fourier spectrum as per the spectral information content; and 3) using the concept of Littlewood-Paley and Meyer wavelets <ref type="bibr" target="#b36">[37]</ref>, to define empirical wavelets as bandpass filters on each segment. The scaling function and the wavelet function are mathematically expressed as</p><formula xml:id="formula_0">φ i (ω) = ⎧ ⎨ ⎩ 1, |ω| ≤ ω i -τ i cos(z i ), ω i -τ i ≤ |ω| ≤ ω i + τ i 0, otherwise<label>(2)</label></formula><p>and</p><formula xml:id="formula_1">ψ i (ω) = ⎧ ⎪ ⎪ ⎨ ⎪ ⎪ ⎩ 1, ω i + τ i ≤ |ω| ≤ ω i+1 -τ i+1 cos(z i+1 ), ω i+1 -τ i+1 ≤ |ω| ≤ ω i+1 + τ i+1 sin(z i ), ω i -τ i ≤ |ω| ≤ ω i + τ i 0, otherwise<label>(3)</label></formula><p>where</p><formula xml:id="formula_2">z i = π 2 ρ(ω i , τ i ) = π 2 ρ 1 2τ i (|ω| -ω i + τ i ) (4) such that ρ(r) = 0, r ≤ 0 1, r ≥ 1 and ρ(r) + ρ(1 -r) = 1 ∀r ∈ [0, 1]<label>(5)</label></formula><p>and 2τ i is the width of the transition phase centered around each boundary frequency, ω i . By proper selection of σ (τ i = σ ω i , 0 &lt; σ &lt; 1) tight frame of empirical wavelets are obtained. It has been proved in <ref type="bibr" target="#b31">[32]</ref> that σ following the condition in ( <ref type="formula" target="#formula_3">6</ref>) provides tight frame:</p><formula xml:id="formula_3">σ &lt; min i ω i+1 -ω i ω i+1 + ω i . (<label>6</label></formula><formula xml:id="formula_4">)</formula><p>Therefore, ( <ref type="formula" target="#formula_0">2</ref>) and ( <ref type="formula" target="#formula_1">3</ref>) can be expressed in the form of ( <ref type="formula" target="#formula_5">7</ref>) and ( <ref type="formula" target="#formula_6">8</ref>), respectively</p><formula xml:id="formula_5">φ i (ω) = ⎧ ⎨ ⎩ 1, if |ω| ≤ (1 -σ )ω i cos(z i ), if (1 -σ )ω i ≤ |ω| ≤ (1 + σ )ω i 0, otherwise<label>(7)</label></formula><p>and</p><formula xml:id="formula_6">ψ i (ω) = ⎧ ⎪ ⎪ ⎨ ⎪ ⎪ ⎩ 1, ( 1 + σ )ω i ≤ |ω| ≤ (1 -σ )ω i+1 cos(z i+1 ), (1 -σ )ω i+1 ≤ |ω| ≤ (1 + σ )ω i+1 sin(z i ), (1 -σ )ω i ≤ |ω| ≤ (1 + σ )ω i 0, otherwise<label>(8)</label></formula><p>where z i now expressed as</p><formula xml:id="formula_7">z i = π 2 ρ(ω i , σ ) = π 2 ρ 1 2σ ω i (|ω| -(1 -σ )ω i ) . (<label>9</label></formula><formula xml:id="formula_8">)</formula><p>The inner product of the signal with the empirical wavelet function and scaling function provides the detail and approximation coefficients, respectively.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B. Spatial Filtering</head><p>The multichannel OA-contaminated EEG signals can be expressed as a linear mixture model <ref type="bibr" target="#b0">(1)</ref>. In this context, spatial filtering techniques can be effectively applied to isolate the OAs into one or very few number of components/sources. Spatial filtering techniques have been frequently used for various EEG artifact cancelation <ref type="bibr" target="#b37">[38]</ref>. The underlying idea of spatial filtering is to separate the raw signal space (the set of all signals that can be generated through all arbitrary full-rank linear transforms applied to the actual recordings) into various subspaces specific to different activities, in this work, OAs (artifact space) and neural activity (clean signal space). One can only take into account the basis of the subspace specific to brain activity when reconstructing the clean EEG signal after separating the two subspaces (artifact and clean signal space) and, thus, their bases. In our work, we complement EWTbased monochannel filtering with different spatial filtering techniques, inspired either from subspace-based methods <ref type="bibr" target="#b30">[31]</ref> or from BSS methods <ref type="bibr" target="#b38">[39]</ref>.</p><p>1) Subspace Correlation Approach: The SCA can be described by the following steps.</p><p>In the first step, a basis for the signal space has been found by whitening. The basis Z for the multichannel signal S (samples by channels, N × C) can be obtained after eigen decomposition of scatter/covariance matrix T S T S = S T S = WDW T (10)</p><formula xml:id="formula_9">Z = SWD -1 2<label>(11)</label></formula><p>where W and D are the eigenvector and eigenvalue matrices of the covariance matrix T S . The rotation of basis Z by right multiplying a specified orthogonal matrix P will make the subspaces for artifacts and physiological activities as orthogonal as possible. Therefore, the next step is to derive the desired orthogonal matrix P, optimized for our objective. Note that the whitening step is common for the ICA-based methods also (see below), the main difference being that in ICA the P matrix is found by optimizing a different criterion, namely, statistical independence.</p><p>In the second step, a second data set A has been constructed with the filtered versions (δ-rhythms) of the one or few identified contaminated EEG channels, which can be considered as artifact dictionary. The inclusion of more than one filtered channel helps to bring the variability in the artifact characteristics. The basis Z a of the dictionary space can be found using whitening</p><formula xml:id="formula_10">Z a = AW a D -1 2 a . (<label>12</label></formula><formula xml:id="formula_11">)</formula><p>In the third step, a common subspace between the signal S and dictionary A have been derived by rotating the two bases Z a and Z onto each other, as proposed in <ref type="bibr" target="#b30">[31]</ref>.</p><p>1) Performing the singular value decomposition (SVD) of the matrix</p><formula xml:id="formula_12">C = Z T Z a C = P R T . (<label>13</label></formula><formula xml:id="formula_13">)</formula><p>2) Considering P and R as the desired rotation matrices for rotating the basis Z and Z a , respectively</p><formula xml:id="formula_14">Y = ZP = SWD -1 2 P (14) Y a = Z a R = AW a D -1 2 a R.<label>(15)</label></formula><p>The constructed spatial filters V and V a can be expressed as</p><formula xml:id="formula_15">V = WD -1 2 P (16) V a = W a D -1 2 a R.<label>(17)</label></formula><p>Finally, the rotated basis Y and Y a can be expressed as</p><formula xml:id="formula_16">Y = SV (18) Y a = AV a . (<label>19</label></formula><formula xml:id="formula_17">)</formula><p>One can verify that signal space and dictionary space Y and Y a have become aligned</p><formula xml:id="formula_18">Y T Y a = . (<label>20</label></formula><formula xml:id="formula_19">)</formula><p>The common subspace basis between the signal and dictionary can be identified by the singular values in , which are close to 1. The obtained components Y = SV after spatial filtering will be arranged starting with common basis vectors (i.e., OA components) of S and A. In contrast, uncommon physiological basis vectors will be present at last. Afterward, the OA-free multichannel signal S can be recomposed as follows:</p><formula xml:id="formula_20">S = SVGV -1 = YGV -1<label>(21)</label></formula><p>where G = diag(0, . . . , 0, 1, . . . 1) is the diagonal gain matrix for retaining the desired components only.</p><p>2) Blind Source Separation: BSS method demixes multidimensional signals into components/sources as independent as possible from each other. There is no or very little prior knowledge about the mixing matrix. Therefore, the aim is to separate a mixture into its source components without knowing the mixing process. BSS methods have been proven useful in removing artifacts from EEG signals <ref type="bibr" target="#b12">[13]</ref>. The famous BSS algorithms in the literature are either based on ICA <ref type="bibr" target="#b39">[40]</ref> or on second-order statistics (SOSs) <ref type="bibr" target="#b40">[41]</ref> or on the combination of both ICA and SOS <ref type="bibr" target="#b41">[42]</ref>. The BSS methods can be employed for extracting the OA sources without the knowledge of mixing coefficients if the hypothesis of independence of OA patterns and brain sources is followed. Different ICA methods can be used for separating the artifact components. We propose here to use EFICA <ref type="bibr" target="#b41">[42]</ref> for two main reasons: 1) it is derived from the well known computationally efficient and performant FastICA and 2) it adapts to the data (adaptive nonlinearity).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C. Proposed OA Filtering Pipeline</head><p>It should be noted that frequency-based filtering and spatial filtering can standalone filter the OAs and recover neural information. However, the fact is that not all channels are contaminated with OAs, which drives us to combine spatial filtering with frequency-based filtering to develop a procedure that requires eliminating only fewer components (only the contaminated ones) and, thus, reducing the computational burden. This section describes the proposed framework for combining these two techniques and presents a novel methodology for OA removal.</p><p>1) EWT-Based EEG Rhythm Separation: The OAs severely contaminate the δ-rhythms of EEG signals, requiring traditional band-specific filtering for their removal. The EWT decomposes signals after determining adaptive boundary frequencies in the signal spectrum. However, such decomposition does not guarantee the extraction of traditional bands (i.e., rhythms in the case of EEG). Moreover, the extraction of subbands adaptively may result in the presence of OAs in multiple narrowband low-frequency subband signals, necessitate extensive processing, and be ineffective. The frequency-domain  filtering can decompose EEG signals into rhythms (traditional bands), namely, δ, θ , α, β, and γ specified by the frequency range of 0-4, 4-8, 8-13, 13-30, 30-60 Hz, respectively. The separation of EEG rhythms using EWT was proposed in <ref type="bibr" target="#b35">[36]</ref>, where prior boundary/edge frequencies {ω i } i=1,2...,5 are set to 4, 8, 13, 30, and 60 Hz, respectively, for segmenting the Fourier spectrum in the range [0, f s /2]. Fig. <ref type="figure" target="#fig_3">5</ref> depicts the EWT filterbank generated for decomposition of EEG signal into rhythms. One can see that the filter bank generated by EWT has small transition bands with almost negligible stopband and pass-band ripples. The obtained EEG rhythms and their corresponding spectrums using EWT are shown in Fig. <ref type="figure" target="#fig_4">6</ref>. In the subsequent step, the extracted δ-rhythms are spatially filtered without altering the remaining bands.</p><p>2) Multichannel OA Suppression: As stated earlier, spatial filtering techniques complement the EWT-based frequencydomain filtering, extending OA suppression method for multichannel signals. We use SCA as a primary spatial filtering technique, and also employ different flavors of BSS techniques for comparison purpose.</p><p>SCA-Based Spatial Filtering: In our research, SCA spatially separates the OAs from the neural activities (i.e., δ component of OA-contaminated multichannel EEG signal) using an artifact dictionary.</p><p>The OAs propagate through the brain and are projected linearly onto the different channels (have distinct spatial locations) with different contamination coefficients. Furthermore, some artifacts appeared differently on different channels because their (dipolar) sources had different orientations (e.g., eye blinks and eye movements). Due to this various artifact patterns were observed on different channels. Therefore, an artifact-rich dictionary was formed by including highly contaminated EEG channels from different spatial locations of the scalp. For identifying the channels with high contamination, various approaches were used (such as selecting channels with high energy, with high δ-rhythm energy, channels have a high correlation with the δ-rhythm of highest energy channel, and channels with high ER values). The ER of δ-rhythm approach provided the best results and is adapted here. The ER corresponding to δ-rhythm of each channel of the multichannel EEG signal (contaminated) can be computed as</p><formula xml:id="formula_21">ER δ i = E δ i E δ i + E θ i + E α i + E β i + E γ i (<label>22</label></formula><formula xml:id="formula_22">)</formula><p>where,</p><formula xml:id="formula_23">E δ i , E θ i , E α i , E β i</formula><p>, and E γ i are the energies of δ, θ, α, β, and γ rhythms, respectively, for the ith channel of the contaminated multichannel EEG signal. The proposed method uses the raw EEG data to automatically determine the value of k (number of selected dictionary channels). The value of k is determined based on the set threshold of ER δ . For a raw EEG data y(n), the channels with ER δ values greater than μ y δ + Th * σ y δ will be included in the dictionary. The parameters μ y δ and σ y δ denote the mean and standard deviation (STD) of the ER δ values across all channels of the raw EEG signal y.</p><p>The variable Th denotes the threshold value. The δ-rhythms of the k selected channels form the dictionary of artifacts. ICA-Based Spatial Filtering: ICA estimates the sources of neural information in multichannel EEG signals. Following a similar approach, the idea is to apply ICA on the delta rhythm and detect the artifact sources followed by their elimination. The primary challenge in ICA-based decomposition is identifying artifact components/sources that are carried out following the high energy criteria (i.e., OA sources assumed to have higher energy than neural sources).</p><p>It should be noted that ICA performs spatial filtering without any dictionary or second data set, unlike SCA. However, contrary to ICA, SCA components are naturally ordered from OA sources at the top followed by the neural sources; hence no effort is required to detect the artifact components. After the spatial filtering, the artifact components are discarded, and clean δ-rhythms are recomposed, further combined with other EEG rhythms to recover the clean multichannel EEG signals. The step-by-step procedure of EWT-SCA method for OA removal is represented using Algorithm 1.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>D. Performance Measures</head><p>The proposed frequency-spatial filtering method's effectiveness in removing the OAs from the multichannel EEG signal Algorithm 1: Proposed EWT-SCA Filtering Approach Input: Multivariate EEG signal intermixed with ocular artifacts, y(n). Output: Multivariate clean EEG signal, ỹ(n).</p><p>Step 1: Develop EWT-based filterbank with EEG rhythm specific boundary frequencies using equations ( <ref type="formula" target="#formula_5">7</ref>) and (8).</p><p>Step 2: Decompose every channel into rhythms δ, θ , α, β, and γ ; create the first dataset S with the δ-rhythms of all the channels.</p><p>Step 3: Identify contaminated EEG channels with high ER δ i values using equation <ref type="bibr" target="#b21">(22)</ref> and create the artifact dictionary A with the δ-rhythms of the highest contaminated channels from different spatial locations.</p><p>Step 4: Compute the bases Z and Z a for the matrices S and A using equations ( <ref type="formula" target="#formula_9">11</ref>) and ( <ref type="formula" target="#formula_10">12</ref>), respectively.</p><p>Step 5: Find the desired rotation matrices P and R with SVD of the matrix C using equation <ref type="bibr" target="#b12">(13)</ref>.</p><p>Step 6: Construct the spatial filters V and V a , and rotate the matrices S and A using equations ( <ref type="formula">18</ref>) and ( <ref type="formula" target="#formula_16">19</ref>), respectively.</p><p>Step 7: Obtain the OA-free matrix S by suppressing the contaminated components using equation <ref type="bibr" target="#b20">(21)</ref>.</p><p>Step 8: Finally recover the clean multivariate EEG signal ỹ(n) by combining the matrix S representing clean δ-rhythms with other EEG rhythms extracted in Step 2. is validated using the following three different performance measures.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>1) Percentage Change in ER:</head><p>The Percentage change in ER (PCER) measures the reduction of artifact in the δ rhythm after applying the proposed method, which is mathematically expressed as</p><formula xml:id="formula_24">ER δ i = ER δ i -ER δ i × 100%<label>(23)</label></formula><p>where ER δ i is the ER corresponding to δ-rhythm of the ith contaminated channel as described in <ref type="bibr" target="#b21">(22)</ref>. Similarly, ER δ i denotes the ER corresponding to δrhythm of the cleaned the ith EEG channel, expressed as</p><formula xml:id="formula_25">ER δ i = E δ i E δ i + E θ i + E α i + E β i + E γ i (<label>24</label></formula><formula xml:id="formula_26">)</formula><p>where, E δ i , E θ i , E α i , E β i , E γ i are the energies of δ, θ, α, β and γ rhythms, respectively, for the i th channel of the cleaned multichannel EEG signal.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>2) Average Mean Absolute Error in Power Spectral Density Values:</head><p>To measure the proficiency of the proposed method in preserving the neural content while removing OAs, mean absolute error (MAE) in power spectral density (PSD) values are computed. In the PSD of the ith channel, the MAE corresponding to rhythm r ∈ {θ, α, β, γ } can be computed as <ref type="bibr" target="#b24">[25]</ref> MAE</p><formula xml:id="formula_27">r i PSD = K 2 k=K 1 PSD r i (k) -PSD r i (k) K 2 -K 1 (<label>25</label></formula><formula xml:id="formula_28">)</formula><p>Authorized licensed use limited to: Universiti Malaysia Sabah. Downloaded on June 04,2026 at 07:28:34 UTC from IEEE Xplore. Restrictions apply.</p><p>where K 1 and K 2 denote frequency bins of the PSD of tainted, (PSD r i (k)), and cleaned (PSD r i (k)) rhythms of the ith channel EEG record. Finally, the average MAE (AMEA) in PSD values can be computed</p><formula xml:id="formula_29">AverageMAE r PSD = 1 M M i=1 MAE r i PSD (<label>26</label></formula><formula xml:id="formula_30">)</formula><p>where M denotes the total number of EEG channels.</p><p>3) Signal-to-Noise Ratio: To evaluate the effectiveness of the signal reconstruction, signal-to-noise ratio (SNR) values are computed before and after the OA artifacts are removed. However, since the clean EEG signals are also available, the SNR computation is only done for simulated EEG recordings. The SNR for subject s and electrode e at the input (i/p) and output (o/p) of the proposed method are defined as SNR . <ref type="bibr" target="#b27">(28)</ref> The mixing coefficients M e and N e are defined in <ref type="bibr" target="#b0">(1)</ref>. The average SNR (ASNR) for a given session is then determined using the average of the channelwise SNR readings.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>IV. EXPERIMENTAL RESULTS</head><p>This section presents the performance of the proposed combinations of frequency and spatial filtering techniques (namely, EWT-SCA, finite impulse response (FIR)-SCA, EWT-EFICA, FIR-EFICA). However, only the outcomes of the bestperforming methods, such as EWT-SCA, EWT-EFICA, and monochannel EWT, are exhibited and discussed next. The performance of the EWT-SCA method on OA-contaminated simulated multichannel EEG signals is presented in Table <ref type="table" target="#tab_2">I</ref>. The method's performance is exhibited in terms of the maximum obtained PCER of δ rhythm, AMAE in PSD for remaining rhythms, and ASNR measures. It can be seen in Table <ref type="table" target="#tab_2">I</ref> that the proposed method has achieved high values of maximum PCER for δ rhythms for almost all the simulated sessions. These obtained values substantiate that EWT-SCA removes the OAs from δ-rhythms of multichannel EEG signals. On the other hand, the low values of AMAE in PSD in other rhythms indicate that the method works well in preserving neural information. After the OAs from multichannel EEG signals were removed, the proposed method provided better ASNR values. Fig. <ref type="figure">7</ref> shows the improvement in channelwise SNR for a considered EEG record.</p><p>Table <ref type="table" target="#tab_3">II</ref> presents the performance of the EWT-SCA method in removing OAs from real multichannel EEG signals. The obtained maximum PCER for δ-rhythms and AMAE in PSD values reveal the effectiveness of OA removal in real EEG signals.</p><p>The performance of the EWT-EFICA method in removing OAs from real multichannel EEG signals is exhibited in Table <ref type="table" target="#tab_4">III</ref>. We have evaluated EWT-EFICA method on all the considered real EEG sessions. However, the best five results are presented in the table. The global mean and STD values considering all the real EEG sessions are 55.082 ± 6.6457, 10.7879 ± 6.5029, 1.61E-14 ± 6.59E-15, 1.09E-14 ± 5.30E-15, and 6.83E-15 ± 5.47E-15 corresponding to maximum ER δ , AMAE θ , AMAE α , AMAE β , and AMAE γ , respectively. It can be observed in the table that the obtained maximum PCER values for δ rhythms are significantly lower than the corresponding values obtained using the EWT-SCA method. Thus, the maximum PCER values indicate the presence of OAs even after applying the EWT-EFICA method. After using EWT-EFICA, OAs spread across a substantial number of ICs, making it challenging to distinguish between clean signal space and artifact space. Also, the high AMAE in PSD values for θ -rhythms clearly states the undesired alteration of neural information after artifact removal. Table <ref type="table" target="#tab_5">IV</ref> depicts the obtained results when EWT is standalone applied    information is preserved in θ, α, β, and γ rhythms, the obtained maximum PCER values of δ rhythms are significantly lower compared to EWT-SCA and EWT-EFICA methods. The lower PCERs can be attributed to the set cutoff frequency (2 Hz) of monochannel EWT. The PCER may be increased by raising the cutoff frequency, but at the expense of losing delta band information. Fig. <ref type="figure" target="#fig_5">8</ref> presents a real OA-contaminated EEG signal, its clean versions, OA-free δ-rhythms, and the extracted artifact patterns obtained using EWT-SCA, monochannel EWT, and EWT-EFICA methods. It can be observed that the EWT-EFICA method fails to remove the low-frequency baseline component of the signal.</p><formula xml:id="formula_31">(a) (b) (c) (d) (e) (f) (g) (h) (i)</formula><p>The starting hypothesis is that channels with high ER of δ-rhythm represent OA-contaminated signals. These channels are selected as explained previously (see <ref type="bibr" target="#b21">(22)</ref> and following paragraph). In our experiments, the value of the threshold Th has been empirically set as 1.8. However, a 10% change in the threshold value has no appreciable impact on the method's performance. It is noteworthy that in the absence of eye artifacts k will be automatically set to zero and the process will not be continued. The histogram plots in Fig. <ref type="figure">9</ref> show that for the cleaned multichannel EEG signal ỹ(n), none of the channels have an ER δ value greater than the μ ỹδ + Th * σ ỹδ , so k is set to zero. The experiments have also shown that EWT-SCAbased processing of clean/lightly OA-affected EEG recordings results in a minimal alteration in the signals' delta bands as demonstrated in Fig. <ref type="figure" target="#fig_0">10</ref>.</p><p>The figure presents PSD plots for OA-contaminated and clean EEG signals considering both highly and slightly affected channels for a real EEG record. It is clear that for each of the scenarios under consideration, EWT-SCA performs better than EWT-EFICA and monochannel EWT approaches. But except for the frequency band below 4 Hz, which is affected by OAs, the PSDs of clean signals from all methods are very close to those of contaminated signals.</p><p>One can notice in Fig. <ref type="figure" target="#fig_7">11</ref> that the dictionary (corresponding to real EEG signal of Fig. <ref type="figure" target="#fig_1">2</ref>) contains three different artifact patterns which are automatically included based on the criterion of high ER of the δ rhythms [see <ref type="bibr" target="#b21">(22)</ref>] belonging to different spatial locations. Plot of the EEG artifact dictionary used for cleaning the real multichannel OA-contaminated EEG signals. Furthermore, detecting the artifact components/sources after spatial filtering is an important step in the proposed methods. Fig. <ref type="figure" target="#fig_1">12</ref> presents the 14 components obtained after rotating the basis of δ-rhythms onto the dictionary using SCA. It can be seen that SCA components representing the common subspace of the two databases appear at the top, followed by the components which represent the subspace for uncontaminated δ-rhythms. Hence, the uncontaminated δ-rhythms can be recomposed after eliminating the first three common subspace basis vectors [artifact components, correspond to unitary singular values <ref type="bibr" target="#b19">(20)</ref>] using a diagonal gain matrix. Finally, the recovered δ-rhythms are combined with other EEG rhythms to reconstruct the OA-free multivariate signal. Fig. <ref type="figure" target="#fig_0">13</ref> shows   the clean real multivariate EEG signal obtained using EWT-SCA method. For facilitating the interpretation and visual inspection, the eliminated artifacts (difference of raw EEG and processed EEG), on the same channels as in Fig. <ref type="figure" target="#fig_0">13</ref>, are shown in Fig. <ref type="figure" target="#fig_9">14</ref>.</p><p>Fig. <ref type="figure" target="#fig_10">15</ref> shows the scalograms <ref type="bibr" target="#b44">[45]</ref> of a real OAcontaminated EEG channel before and after applying the EWT-SCA method. It can be noticed that eye artifacts with high energy concentration are absent in the TF image after filtering process.</p><p>Fig. <ref type="figure" target="#fig_11">16</ref> plots the variation of performance parameters, namely, MAE (for θ and α rhythms) and PCER for δ rhythm with dictionary cutoff frequencies. It can be observed that though PCER increases slightly, the MAE values increase significantly above 4-Hz dictionary cutoff frequency. Therefore, the dictionary cutoff frequency is fixed at 4 Hz for all the OA-contaminated multichannel EEG records.   The subplots also present the performance of the method when a FIR filter bank replaces EWT. The trends of the subplots reveal that after eliminating a few components, the performance parameters converge. Hence, preserving the basic EEG information can be carried out by eliminating a minimal number of components.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A. Comparison With Existing Methods</head><p>We have compared our hybrid filtering methods with existing state-of-the-art OA removal methods in Table <ref type="table" target="#tab_6">V</ref>. For effective extraction of OAs from the intrinsic mode functions obtained using EEMD, Patel et al. <ref type="bibr" target="#b43">[44]</ref> replaced linear PCA with kernel PCA (kPCA), which outperformed the EEMD-PCA <ref type="bibr" target="#b26">[27]</ref> and the wavelet-based (symlet (sym3) as a basis function) <ref type="bibr" target="#b42">[43]</ref> methods in terms of MAE values in PSD for α rhythm.</p><p>Likewise, Maddirala and Shaik <ref type="bibr" target="#b24">[25]</ref> proposed SSA and ANC combination for removal of OAs and compared the method's performance with DWT-ANC method proposed by Peng et al. <ref type="bibr" target="#b23">[24]</ref>. The performance of SSA-ANC does not depend on the morphology of the EOG signal, and with an MAE value of 0.1671, it surpassed the DWT-ANC method. The DWT-ICA <ref type="bibr" target="#b22">[23]</ref> and the rhythm-based algorithm <ref type="bibr" target="#b28">[29]</ref> for removal of OA from EEG had MAE in PSD for α rhythm less than 0.1671, which suggests that these methods work The resemblance of the reconstructed EEG channel with the raw EEG channel is further evaluated in terms of the correlation coefficient index (CCI) measure; the channel by channel results have been compared with four existing state-of-theart methods <ref type="bibr" target="#b14">[15]</ref>, <ref type="bibr" target="#b15">[16]</ref>, <ref type="bibr" target="#b19">[20]</ref>, <ref type="bibr" target="#b29">[30]</ref>, enumerated in Table <ref type="table" target="#tab_7">VI</ref>. The Higher the CCI is, the better the method is at preserving the EEG information. The wavelet-ICA method <ref type="bibr" target="#b14">[15]</ref> achieved average CCI of 0.77 for real 14-channel EEG signals.</p><p>Likewise, the multichannel EEG eye-blink artifact suppression method, namely, the ASR method <ref type="bibr" target="#b19">[20]</ref>, achieves average CCI value of 0.85 when studied in the real EEG signals considered in this work. The state-of-the-art ICLabel method <ref type="bibr" target="#b15">[16]</ref> removed the EOG artifacts from real EEG data, resulting in an average CCI value of 0.72. The DL-based long short-term memory (LSTM) model <ref type="bibr" target="#b29">[30]</ref> was also tested on real EEG signals, with an average CCI value of 0.81. The DL model was trained using both clean and EOG-contaminated EEG signals available in EEGdenoiseNet <ref type="bibr" target="#b29">[30]</ref>. Studying the real EEG signals, the average CCI value for the proposed EWT-SCA method is evaluated as 0.81, which is comparable with the existing state-of-the-art methods. Other cutting-edge EEG artifact rejection techniques exist, such as Autoreject <ref type="bibr" target="#b45">[46]</ref>, however they are not very effective for removing eye blink artifacts <ref type="bibr" target="#b45">[46]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B. Analysis of Execution Time</head><p>The MATLAB platform was used to run the computer simulations on a system with an Intel Core i7-8750H CPU running at 2.20 GHz and 16 GB of RAM. The proposed method takes 960 ms for processing 64-channel EEG of duration 125 s. As can be seen in Fig. <ref type="figure" target="#fig_14">18</ref>, the proposed method executes much faster than the traditional ASR method <ref type="bibr" target="#b19">[20]</ref> for several real-world EEG sessions. On the other hand, the wavelet ICA method <ref type="bibr" target="#b14">[15]</ref> has a mean execution time of 0.060 s for processing 12 channel EEG signal of 105-s duration. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C. Discussion</head><p>The proposed methodology uses the capabilities of EWTbased frequency filtering and spatial filtering techniques and presents a new enhanced hybrid approach. Building an artifactrich dictionary is a crucial step in SCA-based approach.</p><p>In a nutshell, we seek to eliminate or reduce the eye artifacts on surface EEG signals using a dictionary based approach that can be seen as a nonlinear spatial filter in three steps: 1) we extract the dictionary from the raw data by EWT and channel selection; 2) we transform the raw data by spatial filtering (i.e., by rotating its basis onto the artifact space basis), the result being to identify artifact basis signals; and 3) the signals constituting the artifact basis are zeroed before the final reconstruction step, which yields clean EEG signals. Our method, in contrast to existing ones, derives the artifact basis dictionary from the raw data itself rather than using reference signals like EOG. It is more flexible than fixed reference signals since it serves as the basis of the artifact space (it allows reconstructing different versions of the artifacts). One can argue that this technique is also used by BSS/ICA-based methods. Still, a key difference with these approaches is the use of the (physiologically meaningful) dictionary to optimize the rotation of the signal space basis (while in ICA, the rotation maximizes the independence, with no particular concern about the physiological plausibility of the extracted basis of independent "sources").</p><p>As mentioned above, BSS methods decompose the data and could be in principle used to construct an artifact dictionary <ref type="bibr" target="#b15">[16]</ref>, <ref type="bibr" target="#b16">[17]</ref>, but identifying the artifact sources is challenging and more subjective as they appear randomly after the demixing process and, moreover, they could be mixed among them or even with brain sources.</p><p>The proposed method is fast and reliable and has been proven successful in removing artifacts from multichannel EEG signals recorded for BCI applications, showing performances similar or better than state of the art algorithms <ref type="bibr" target="#b15">[16]</ref>, <ref type="bibr" target="#b19">[20]</ref>, <ref type="bibr" target="#b29">[30]</ref>. Other applications can be explored, such as the removal of cardiac artifacts from multichannel EEG signals with the help of a dictionary constructed with multilead ECG signal recordings that are generally used for cardiac screening <ref type="bibr" target="#b46">[47]</ref>.</p><p>One should mention nevertheless that the method assumes that high-amplitude δ waves are mostly eye artifacts (which is a common assumption in the awake state and, thus, in BCI applications). If this condition is not fulfilled the design of the dictionary should be revisited. More generally, the method is sensitive to the choice of the artifact dictionary/basis, which should be chosen carefully (see analysis of the cutoff frequency, Fig. <ref type="figure" target="#fig_11">16</ref>).</p><p>Evaluating the BCI performance after applying the proposed method would be an important issue, but this is beyond the scope of the work reported here and will be left for further research. One can indeed note that ERPs used in BCI (such as P300 for example) are also low-frequency events <ref type="bibr" target="#b47">[48]</ref>, so one might wonder if they would be affected by the denoising procedure. Although not evaluated, as stated above, we conjecture that they will not be canceled, because they will not belong to the dictionary used for spatial filtering, as they will not belong to channels with high ER in the δ band (P300 ERPs are low amplitude events that become visible only after averaging over several occurrences.) More generally, comparisons of BCI performances (ERP detection and/or classification but also the effect on frequency-based methods for steady-state BCI approaches) is an important task which deserves a complete study in our opinion. Besides the preprocessing, the results will certainly depend on the task, as well as on the BCI specific algorithms.</p><p>It is noteworthy that the cancelation of eye artifacts proposed here, as any preprocessing methods, influences all further signal processing steps and the outcome of further analysis. Besides BCI, another important example is the estimation of functional connectivity, useful for clinical diagnostics (see <ref type="bibr" target="#b48">[49]</ref>). We believe that the method we propose here, while eliminating spurious connectivity measures due to eye artifacts, will not distort the estimation of important physiological connectivity measures, as it only affects limited frequency bands.</p><p>Finally, we can also note that, while the proposed method is designed for OA canceling only, it can be used to complement other artifact cancelation techniques (similar to other methods, see <ref type="bibr" target="#b19">[20]</ref>). The MATLAB code of the proposed EWT-SCA-based OA removal method is available at the following link: <ref type="url" target="https://github.com/abhijit12345678910/EOG-">https://github.com/abhijit12345678910/EOG-</ref>artifact-removal-from-multichannel-EEG-signals.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>V. CONCLUSION</head><p>We have proposed various combinations of frequency and spatial filtering techniques to remove OAs from multichannel EEG signals in the awake state. The EWT, which is the initial step in the proposed method, is used to decompose EEG signals into rhythms. As OAs mostly contaminate the lowfrequency range of the EEG signals, the δ-rhythms have been further considered for spatial filtering. The spatial filtering technique, namely, SCA armed with an artifact-rich dictionary (containing filtered artifact patterns from different spatial locations), has been optimally utilized to separate the OAs and neural information in the δ-rhythms. Finally, the artifact components have been eliminated before inverse spatial filtering and cleaned δ-rhythms are combined with other frequency bands of the EEG signals. While the SCA spatial filtering embeds a priori knowledge on the nature of the artifacts, blind methods can also be used. We have in particular tested a BSS method, EFICA, for separating the artifact and neural sources. EWT-SCA performed the best in removing the OAs and preserving the EEG information out of all the proposed hybrid methods. Furthermore, the complete filtering procedure has been automated without any supplementary reference signals and can be employed in real-time to clean a large EEG data set contaminated with OAs.</p><p>To conclude, we might note that, even if the performances of our method were clearly demonstrated on the publicly available data set <ref type="bibr" target="#b34">[35]</ref>, further research is needed to validate it on other data sets, as for example clinical signals recorded in the context of different pathologies (epilepsy, Alzheimer, etc). As mentioned previously in the Discussion, another future research direction is the study of the influence of our method on the performances of further processing tasks, such as BCI or connectivity analysis.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1 .</head><label>1</label><figDesc>Fig. 1. Plot of the OA-contaminated simulated multichannel EEG signal.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 2 .</head><label>2</label><figDesc>Fig. 2. Plot of multichannel real EEG signal contaminated with OAs.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 3 .Fig. 4 .</head><label>34</label><figDesc>Fig. 3. Plots of PSDs of all the real EEG channels and brain topographical maps.</figDesc><graphic coords="3,312.47,81.29,199.70,111.02" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 5 .</head><label>5</label><figDesc>Fig. 5. Plot of EWT based fixed boundary filter bank for decomposing the EEG channels into rhythms.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Fig. 6 .</head><label>6</label><figDesc>Fig. 6. Left column [(a)-(f)] from top to bottom shows EEG signal with OAs and its rhythms δ, θ , α, β, and γ obtained using an EWT-based filter bank. The right column [(g)-(l)] shows their corresponding frequency spectrums.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Fig. 8 .</head><label>8</label><figDesc>Fig. 8. Plots of the OA-contaminated EEG signals overlapped with clean EEG signals [left column: (a), (d), and (g)], artifact patterns [middle column: (b), (e), and (h)], and recovered clean δ-rhythms [right column: (c), (f), and (i)].</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Fig. 9 .Fig. 10 .</head><label>910</label><figDesc>Fig. 9. Plots of the histograms of the ER δ values for raw (left) and OAremoved (right) multichannel real EEG signals.</figDesc><graphic coords="9,49.43,81.29,199.70,111.02" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Fig. 11 .</head><label>11</label><figDesc>Fig. 11.Plot of the EEG artifact dictionary used for cleaning the real multichannel OA-contaminated EEG signals.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Fig. 12 .Fig. 13 .</head><label>1213</label><figDesc>Fig. 12. Plot of the SCA components of real EEG signals contaminated with OAs.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Fig. 14 .</head><label>14</label><figDesc>Fig. 14. Plot of the channelwise eliminated OAs using EWT-SCA method.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Fig. 15 .</head><label>15</label><figDesc>Fig. 15. Plots of scalograms of a OA-contaminated (real) EEG channel before (left) and after (right) applying EWT-SCA.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Fig. 16 .</head><label>16</label><figDesc>Fig.<ref type="bibr" target="#b15">16</ref>. Plots of the variation of performance parameters with dictionary cutoff frequencies.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Fig. 17 .</head><label>17</label><figDesc>Fig. 17. Plots of AMAE θ and Maximum ER δ versus the number of eliminated components for simulated and real multichannel EEG signals.</figDesc><graphic coords="10,51.49,219.07,245.52,115.08" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>Fig. 17</head><label>17</label><figDesc>Fig.17exhibits the graphical variation of the performance parameters with respect to the number of eliminated artifact components for both simulated and real EEG signals.The subplots also present the performance of the method when a FIR filter bank replaces EWT. The trends of the subplots reveal that after eliminating a few components, the performance parameters converge. Hence, preserving the basic EEG information can be carried out by eliminating a minimal number of components.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><head>Fig. 18 .</head><label>18</label><figDesc>Fig.<ref type="bibr" target="#b17">18</ref>. Plot of the execution times of the proposed EWT-SCA method and state-of-the-art ASR method for cleaning different real EEG sessions.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>TABLE I OBTAINED</head><label>I</label><figDesc>MAXIMUM PCER OF δ RHYTHMS, AMAE IN PSD, AND ASNR MEASURES FOR SIMULATED EEG RECORDS USING EWT-SCA Fig. 7. Plot of SNRs of individual channel before and after OA removal.</figDesc><table /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>TABLE II OBTAINED</head><label>II</label><figDesc>MAXIMUM PCER OF δ RHYTHMS AND AMAE IN PSD FOR OTHER RHYTHMS FOR REAL EEG RECORDS USING EWT-SCA</figDesc><table /><note><p>(cutoff frequency 2 Hz) channel by channel on real OAcontaminated EEG records. The global mean and STD values of the monochannel EWT considering all the real EEG sessions are 49.07 ± 7.236, 1.31E-14 ± 8.99E-15, 7.55E-15 ± 5.044E-15, 4.84E-15 ± 5.67E-15, and 2.91E-15 ± 4.99E-15 for maximum ER δ , AMAE θ , AMAE α , AMAE β , and AMAE γ , respectively. It can be noticed that though neural</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>TABLE III OBTAINED</head><label>III</label><figDesc>MAXIMUM PCER OF δ RHYTHMS AND AMAE IN PSD FOR OTHER RHYTHMS FOR REAL EEG RECORDS USING EWT-EFICA</figDesc><table /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>TABLE IV OBTAINED</head><label>IV</label><figDesc>MAXIMUM PCER OF δ RHYTHMS AND MAE IN PSD FOR OTHER RHYTHMS FOR REAL EEG RECORDS USING MONOCHANNEL EWT</figDesc><table /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6"><head>TABLE V COMPARISON</head><label>V</label><figDesc>WITH THE EXISTING METHODS IN TERMS OF MAE VALUES</figDesc><table /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_7"><head>TABLE VI COMPARISON</head><label>VI</label><figDesc>WITH THE CONVENTIONAL EEG EYE-BLINK ARTIFACT REMOVAL METHODS IN TERMS OF CCI MEASURE better in preserving the noncontaminated EEG information.Comparison of the MAE values of the existing methods with the proposed approach substantiates that EWT-SCA excels overall. We have also compared the hybrid approaches with a monochannel EWT-based method and found that EWT-SCA has the least MAE values in PSD for α rhythm.</figDesc><table /></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>Note that, using the algorithm in<ref type="bibr" target="#b13">[14]</ref>, a single-channel EEG can also be separated into the sources using ICA.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_1"><p>Authorized licensed use limited to: Universiti Malaysia Sabah. Downloaded on June 04,2026 at 07:28:34 UTC from IEEE Xplore. Restrictions apply.</p></note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Basics of electroencephalography (EEG)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">Q</forename><surname>Rana</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">T</forename><surname>Ghouse</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Govindarajan</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-319-39342-1_1</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Neurophysiology in Clinical Practice Cham</title>
+		<meeting><address><addrLine>Switzerland</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer Int</publisher>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="3" to="9" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Fundamentals of EEG measurement</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Teplan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Meas. Sci. Rev</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="1" to="11" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">A multivariate approach for patient-specific EEG seizure detection using empirical wavelet transform</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bhattacharyya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">B</forename><surname>Pachori</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Biomed. Eng</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="2003" to="2015" />
+			<date type="published" when="2017-09">Sep. 2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Principal dynamic mode analysis of EEG data for assisting the diagnosis of alzheimer&apos;s disease</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Escudero</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Shin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Ifeachor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Marmarelis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE J. Transl. Eng. Health Med</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="1" to="10" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">A multi-channel approach for cortical stimulation artefact suppression in depth EEG signals using time-frequency and spatial filtering</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bhattacharyya</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Biomed. Eng</title>
+		<imprint>
+			<biblScope unit="volume">66</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1915" to="1926" />
+			<date type="published" when="2019-07">Jul. 2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Muscle artifact removal toward mobile SSVEP-based BCI: A comparative study</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Chen</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/TIM.2021.3085944</idno>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Instrum. Meas</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="1" to="12" />
+			<date type="published" when="2021-06">Jun. 2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Artifact removal in physiological signals-Practices and possibilities</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">T</forename><surname>Sweeney</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">E</forename><surname>Ward</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">F</forename><surname>Mcloone</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Inf. Technol. Biomed</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="488" to="500" />
+			<date type="published" when="2012-05">May 2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Influence of eye lid movement upon electro-oculographic recording of vertical eye movements</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Barry</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">M</forename><surname>Jones</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Aerosp. Med</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page" from="855" to="858" />
+			<date type="published" when="1965-09">Sep. 1965</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Effects of eyelid closure, blinks, and eye movements on the electroencephalogram</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Iwasaki</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Clin. Neurophysiol</title>
+		<imprint>
+			<biblScope unit="volume">116</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="878" to="885" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Automatic correction of ocular artifacts in the EEG: A comparison of regression-based and component-based methods</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">L</forename><surname>Wallstrom</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">E</forename><surname>Kass</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Miller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">F</forename><surname>Cohn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">A</forename><surname>Fox</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int. J. Psychophysiol</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="105" to="119" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Ocular reduction in EEG signals based on adaptive filtering, regression and blind source separation</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Romero</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Mañanas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Barbanoj</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Biomed. Eng</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="176" to="191" />
+			<date type="published" when="2009-01">Jan. 2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Removal of ocular artifacts from electro-encephalogram by adaptive filtering</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Wilson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Russell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Med. Biol. Eng. Comput</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="407" to="412" />
+			<date type="published" when="2004-05">May 2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Using ICA for removal of ocular artifacts in EEG recorded from blind subjects</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Flexer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Bauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Pripfl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Dorffner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Neural Netw</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="998" to="1005" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Separation of sources from singlechannel EEG signals using independent component analysis</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Maddirala</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Shaik</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Instrum. Meas</title>
+		<imprint>
+			<biblScope unit="volume">67</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="382" to="393" />
+			<date type="published" when="2018-02">Feb. 2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Unsupervised eye blink artifact denoising of EEG data with modified multiscale sample entropy, kurtosis, and wavelet-ICA</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Mahajan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">I</forename><surname>Morshed</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE J. Biomed. Health Inform</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="158" to="165" />
+			<date type="published" when="2015-01">Jan. 2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">ICLabel: An automated electroencephalographic independent component classifier, dataset, and website</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Pion-Tonachini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Kreutz-Delgado</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Makeig</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">NeuroImage</title>
+		<imprint>
+			<biblScope unit="volume">198</biblScope>
+			<biblScope unit="page" from="181" to="197" />
+			<date type="published" when="2019-09">Sep. 2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Blind source separation, wavelet denoising and discriminant analysis for EEG artefacts and noise cancelling</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">R</forename><surname>Vázquez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Vélez-Pérez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Ranta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">L</forename><surname>Dorr</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Maquin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Maillard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biomed. Signal Process. Control</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="389" to="400" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Removing electroencephalographic artifacts: Comparison between ICA and PCA</title>
+		<author>
+			<persName><forename type="first">T.-P</forename><surname>Jung</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. Neural Netw. Signal Process. 8th IEEE Signal Process. Soc. Workshop</title>
+		<meeting>Neural Netw. Signal ess. 8th IEEE Signal ess. Soc. Workshop</meeting>
+		<imprint>
+			<date type="published" when="1998">1998</date>
+			<biblScope unit="page" from="63" to="72" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Artifact removal techniques with signal reconstruction</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A E</forename><surname>Kothe</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T.-P</forename><surname>Jung</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">U.S. Patent App</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="895" to="440" />
+			<date type="published" when="2016-04-28">Apr. 28, 2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Evaluation of artifact subspace reconstruction for automatic artifact components removal in multi-channel EEG recordings</title>
+		<author>
+			<persName><forename type="first">C.-Y</forename><surname>Chang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S.-H</forename><surname>Hsu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Pion-Tonachini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T.-P</forename><surname>Jung</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Biomed. Eng</title>
+		<imprint>
+			<biblScope unit="volume">67</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1114" to="1121" />
+			<date type="published" when="2020-04">Apr. 2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">A wavelet based de-noising technique for ocular artifact correction of the electroencephalogram</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Zikov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Bibian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">A</forename><surname>Dumont</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Huzmezan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Ries</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. 2nd Joint 24th Annu. Conf. Annu. Fall Meeting Biomed. Eng</title>
+		<meeting>2nd Joint 24th Annu. Conf. Annu. Fall Meeting Biomed. Eng</meeting>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="98" to="105" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Comparative study of wavelet-based unsupervised ocular artifact removal techniques for single-channel EEG data</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Khatun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Mahajan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">I</forename><surname>Morshed</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE J. Transl. Eng. Health Med</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="1" to="8" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Employing spatially constrained ICA and wavelet denoising, for automatic removal of artifacts from multichannel EEG data</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">T</forename><surname>Akhtar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Mitsuhashi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>James</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Signal Process</title>
+		<imprint>
+			<biblScope unit="volume">92</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="401" to="416" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Removal of ocular artifacts in EEG-An improved approach combining DWT and ANC for portable applications</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Peng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE J. Biomed. Health Inform</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="600" to="607" />
+			<date type="published" when="2013-05">May 2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Removal of EOG artifacts from single channel EEG signals using combined singular spectrum analysis and adaptive noise canceler</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Maddirala</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Shaik</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Sensors J</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">23</biblScope>
+			<biblScope unit="page" from="8279" to="8287" />
+			<date type="published" when="2016-12">Dec. 2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b25">
+	<analytic>
+		<title level="a" type="main">FastEMD-CCA algorithm for unsupervised and fast removal of eyeblink artifacts from electroencephalogram</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Egambaram</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Badruddin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">S</forename><surname>Asirvadam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Begum</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Fauvet</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Stolz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biomed. Signal Process. Control</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="page">101692</biblScope>
+			<date type="published" when="2020-03">Mar. 2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Ocular artifact suppression from EEG using ensemble empirical mode decomposition with principal component analysis</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Patel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Sengottuvel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Janawadkar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Gireesan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">S</forename><surname>Radhakrishnan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Mariyappa</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comput. Electr. Eng</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="page" from="78" to="86" />
+			<date type="published" when="2016-08">Aug. 2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b27">
+	<analytic>
+		<title level="a" type="main">An effective and robust framework for ocular artifact removal from single-channel EEG signal based on variational mode decomposition</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Saini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">U</forename><surname>Satija</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/JSEN.2019.2942153</idno>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Sensors J</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="369" to="376" />
+			<date type="published" when="2020-01">Jan. 2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Elimination of ocular artifacts from single channel EEG signals using FBSE-EWT based rhythms</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Gajbhiye</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Tripathy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">B</forename><surname>Pachori</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Sensors J</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="3687" to="3696" />
+			<date type="published" when="2020-04">Apr. 2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b29">
+	<analytic>
+		<title level="a" type="main">EEGdenoiseNet: A benchmark dataset for deep learning solutions of EEG denoising</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Neural Eng</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page">56057</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b30">
+	<monogr>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">H</forename><surname>Golub</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Van Loan</surname></persName>
+		</author>
+		<title level="m">Matrix Computations</title>
+		<meeting><address><addrLine>Baltimore, MA, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>John Hopkins Univ. Press</publisher>
+			<date type="published" when="2012">2012</date>
+			<biblScope unit="volume">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Empirical wavelet transform</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Gilles</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Signal Process</title>
+		<imprint>
+			<biblScope unit="volume">61</biblScope>
+			<biblScope unit="issue">16</biblScope>
+			<biblScope unit="page" from="3999" to="4010" />
+			<date type="published" when="2013-08">Aug. 2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b32">
+	<analytic>
+		<title level="a" type="main">A semi-simulated EEG/EOG dataset for the comparison of EOG artifact rejection techniques</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Klados</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">D</forename><surname>Bamidis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Data Brief</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="1004" to="1006" />
+			<date type="published" when="2016-09">Sep. 2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b33">
+	<analytic>
+		<title level="a" type="main">BCI2000: A general-purpose brain-computer interface (BCI) system</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Schalk</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Mcfarland</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hinterberger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Birbaumer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Wolpaw</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Biomed. Eng</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1034" to="1043" />
+			<date type="published" when="2004-06">Jun. 2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b34">
+	<analytic>
+		<title level="a" type="main">PhysioBank, PhysioToolkit, and PhysioNet</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">L</forename><surname>Goldberger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Circulation</title>
+		<imprint>
+			<biblScope unit="volume">101</biblScope>
+			<biblScope unit="page" from="215" to="e220" />
+			<date type="published" when="2000-06">Jun. 2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b35">
+	<analytic>
+		<title level="a" type="main">A novel approach for automated detection of focal EEG signals using empirical wavelet transform</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bhattacharyya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sharma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">B</forename><surname>Pachori</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Sircar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">U</forename><forename type="middle">R</forename><surname>Acharya</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Neural Comput. Appl</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="47" to="57" />
+			<date type="published" when="2018-04">Apr. 2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b36">
+	<monogr>
+		<author>
+			<persName><forename type="first">I</forename><surname>Daubechies</surname></persName>
+		</author>
+		<title level="m">Ten Lectures on Wavelets (CBMS-NSF Regional Conference Series in Applied Mathematics)</title>
+		<meeting><address><addrLine>Philadelphia, PA, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>Soc. Ind. Appl. Math</publisher>
+			<date type="published" when="1992-01">Jan. 1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Approximate canonical correlation analysis for common/specific subspace decompositions</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Ranta</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biomed. Signal Process. Control</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="page">102780</biblScope>
+			<date type="published" when="2021-07">Jul. 2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b38">
+	<monogr>
+		<title level="m" type="main">Adaptive Blind Signal and Image Processing: Learning Algorithms and Applications</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Cichocki</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S.-I</forename><surname>Amari</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>Chichester, U.K.</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Fast and robust fixed-point algorithms for independent component analysis</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Hyvarinen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Neural Netw</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="626" to="634" />
+			<date type="published" when="1999-05">May 1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b40">
+	<analytic>
+		<title level="a" type="main">A blind source separation technique using second-order statistics</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Belouchrani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Abed-Meraim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-F</forename><surname>Cardoso</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Moulines</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Signal Process</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="434" to="444" />
+			<date type="published" when="1997-02">Feb. 1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Blind signal separation by combining two ICA algorithms: HOS-based EFICA and time structure-based WASOBI</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Tichavský</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Koldovský</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Doron</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Yeredor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Gómez-Herrero</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. 14th Eur. Signal Process. Conf</title>
+		<meeting>14th Eur. Signal ess. Conf</meeting>
+		<imprint>
+			<date type="published" when="2006-09">Sep. 2006</date>
+			<biblScope unit="page" from="1" to="5" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Wavelet-based envelope features with automatic EOG artifact removal: Application to single-trial EEG data</title>
+		<author>
+			<persName><forename type="first">W.-Y</forename><surname>Hsu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C.-H</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H.-J</forename><surname>Hsu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P.-H</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I.-R</forename><surname>Chen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Expert Syst. Appl</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="2743" to="2749" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Decoding non-linearity for effective extraction of the eye-blink artifact pattern from EEG recordings</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Patel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Gireesan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Sengottuvel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Pattern Recognit. Lett</title>
+		<imprint>
+			<biblScope unit="volume">139</biblScope>
+			<biblScope unit="page" from="42" to="49" />
+			<date type="published" when="2020-11">Nov. 2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Higher-order properties of analytic wavelets</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Lilly</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">C</forename><surname>Olhede</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Signal Process</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="146" to="160" />
+			<date type="published" when="2009-01">Jan. 2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Autoreject: Automated artifact rejection for MEG and EEG data</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Jas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Engemann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Bekhti</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Raimondo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gramfort</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">NeuroImage</title>
+		<imprint>
+			<biblScope unit="volume">159</biblScope>
+			<biblScope unit="page" from="417" to="429" />
+			<date type="published" when="2017-10">Oct. 2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Multi-branch fusion network for myocardial infarction screening from 12-lead ECG images</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Hao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Gao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comput. Methods Programs Biomed</title>
+		<imprint>
+			<biblScope unit="volume">184</biblScope>
+			<biblScope unit="page">105286</biblScope>
+			<date type="published" when="2020-02">Feb. 2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Finally, what is the best filter for P300 detection?</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Bougrain</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Saavedra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Ranta</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. TOBI Workshop Lll-Tools Brain-Comput. Interact</title>
+		<meeting>TOBI Workshop Lll-Tools Brain-Comput. Interact<address><addrLine>Würzburg, Allemagne</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2012-03">Mar. 2012</date>
+			<biblScope unit="page" from="1" to="3" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b48">
+	<analytic>
+		<title level="a" type="main">EEG preprocessing for synchronization estimation and epilepsy lateralization</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Vélez-Pérez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Romo-Vázquez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Ranta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Louis-Dorr</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Maillard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. Annu. Int. Conf. IEEE Eng. Med. Biol. Soc</title>
+		<meeting>Annu. Int. Conf. IEEE Eng. Med. Biol. Soc</meeting>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<biblScope unit="page" from="5028" to="5031" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>
