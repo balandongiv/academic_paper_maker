@@ -1,0 +1,81 @@
+# Scopus keyword search backing the Discussion of the blink-region-detection manuscript
+# (blink_detection_llm). Each query targets one claim the Discussion has to situate against
+# the literature; the comment above it says which.
+#
+# Run:  python tutorial/run_keyword_search.py --config config_keyword_search_blink_discussion.yaml --dry-run
+#       python tutorial/run_keyword_search.py --config config_keyword_search_blink_discussion.yaml
+
+run:
+  mode: keyword_search
+  force_rerun: false
+
+keywords:
+  # 1. Threshold-based blink / ocular artefact detection in EEG — the direct competitor class.
+  - >-
+    TITLE-ABS-KEY(
+      (eeg OR electroencephalogra*)
+      AND ("eye blink" OR "eye-blink" OR blink OR "ocular artifact" OR "ocular artefact")
+      AND (detect* OR identif*)
+      AND (threshold* OR "amplitude threshold" OR "adaptive threshold")
+    ) AND PUBYEAR > 2018
+
+  # 2. Blink / ocular features for driver drowsiness and fatigue — the application context.
+  - >-
+    TITLE-ABS-KEY(
+      (eeg OR electroencephalogra*)
+      AND ("driver drowsiness" OR "driver fatigue" OR "driving fatigue" OR microsleep)
+      AND (blink OR "eye closure" OR PERCLOS OR "blink rate")
+    ) AND PUBYEAR > 2018
+
+  # 3. Epoch length / window size as an analysis choice — grounds Experiment 3.
+  - >-
+    TITLE-ABS-KEY(
+      (eeg OR electroencephalogra*)
+      AND ("epoch length" OR "epoch duration" OR "window length" OR "window size"
+           OR "segment length")
+      AND (effect OR influence OR sensitiv* OR choice OR impact)
+    ) AND PUBYEAR > 2018
+
+  # 4. Reduced-montage and single-channel EEG — grounds the Experiment 1 conclusion.
+  - >-
+    TITLE-ABS-KEY(
+      (eeg OR electroencephalogra*)
+      AND ("single channel" OR "single-channel" OR "reduced montage" OR "channel selection"
+           OR "electrode reduction" OR "few channels")
+      AND (blink OR ocular OR artifact OR artefact OR drowsi* OR fatigue)
+    ) AND PUBYEAR > 2018
+
+  # 5. Robust statistics (median / MAD) for artefact thresholds — grounds the Stage-B estimator.
+  - >-
+    TITLE-ABS-KEY(
+      (eeg OR electroencephalogra* OR biosignal OR "biomedical signal")
+      AND ("median absolute deviation" OR "robust statistic*" OR "robust threshold"
+           OR "robust estimator")
+      AND (artifact OR artefact OR threshold* OR detect*)
+    ) AND PUBYEAR > 2017
+
+  # 6. Automated EEG artefact-rejection pipelines — positions the method among tooling.
+  - >-
+    TITLE-ABS-KEY(
+      (eeg OR electroencephalogra*)
+      AND (autoreject OR "automatic artifact rejection" OR "automated artifact rejection"
+           OR blinker OR "artifact subspace reconstruction" OR ASR)
+      AND (pipeline OR automat* OR preprocess*)
+    ) AND PUBYEAR > 2017
+
+  # 7. Event-level vs sample-level scoring of detectors — grounds the evaluation protocol.
+  - >-
+    TITLE-ABS-KEY(
+      (eeg OR electroencephalogra* OR eog)
+      AND (blink OR ocular OR "eye movement")
+      AND (detect* OR annotat*)
+      AND ("event-level" OR "event based" OR "intersection over union" OR "overlap criterion"
+           OR "matching criterion" OR "evaluation protocol")
+    ) AND PUBYEAR > 2016
+
+master_list:
+  path: complete_file_available_in_zotero.csv
+  reuse_existing: true
+
+output:
+  directory: output/keyword_search_blink_discussion/

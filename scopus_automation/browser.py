@@ -12,6 +12,7 @@ The dedicated profile is separate from your normal Chrome profile.
 from __future__ import annotations
 
 import logging
+import os
 import time
 from pathlib import Path
 
@@ -24,8 +25,38 @@ from .config import ScopusConfig
 
 log = logging.getLogger(__name__)
 
-CHROME_EXE   = r"C:\Users\balan\AppData\Local\Google\Chrome\Application\chrome.exe"
-SELENIUM_PROFILE_DIR = r"C:\selenium\chrome-profile"
+#: Persistent Selenium profile holding the logged-in Scopus session. Override with the
+#: SCOPUS_PROFILE_DIR environment variable when the session lives in a different profile
+#: (the sign-in is stored per profile, so pointing at the wrong one forces a fresh login).
+SELENIUM_PROFILE_DIR = os.environ.get(
+    "SCOPUS_PROFILE_DIR", r"C:\selenium\chrome-profile"
+)
+
+# Chrome installs to either the per-user or the machine-wide location depending on how it
+# was installed, so the binary must be resolved at runtime. Hardcoding one of these paths
+# makes the driver fail with a bare "Chrome failed to start" on any machine using the other.
+_CHROME_CANDIDATES = (
+    r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+    r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+    r"C:\Users\balan\AppData\Local\Google\Chrome\Application\chrome.exe",
+)
+
+
+def _resolve_chrome_exe() -> str:
+    """First Chrome binary that actually exists; fail loudly rather than guessing."""
+    override = os.environ.get("CHROME_EXE")
+    candidates = (override, *_CHROME_CANDIDATES) if override else _CHROME_CANDIDATES
+    for path in candidates:
+        if path and Path(path).exists():
+            return path
+    raise RuntimeError(
+        "Could not find chrome.exe. Checked:\n  "
+        + "\n  ".join(c for c in candidates if c)
+        + "\nSet the CHROME_EXE environment variable to the correct path."
+    )
+
+
+CHROME_EXE = _resolve_chrome_exe()
 
 
 def _resolve_chromedriver(config_path: str) -> str:

@@ -1,0 +1,66 @@
+Anwary, A. R., Cetinkaya, D., Vassallo, M., & Bouchachia, H. (2021). Smart-Cover: A real
+time sitting posture monitoring system. Sensors and Actuators, A: Physical, 317.
+https://doi.org/10.1016/j.sna.2020.112451
+Arshad, J., Asim, H. M., Ashraf, M. A., Jaffery, M. H., Zaidi, K. S., & Amentie, M. D. (2022).
+An Intelligent Cost-Efficient System to Prevent the Improper Posture Hazards in
+Offices Using Machine Learning Algorithms. Computational Intelligence and
+Neuroscience, 2022. https://doi.org/10.1155/2022/7957148
+Beri, M., Kumar, B., Tiwari, S., Sharma, N., Vashishtya, H., & Chaudhary, P. (2022). IoT
+Based Health Monitoring System Built on ESP32. 2022 2nd International
+Conference on Advance Computing and Innovative Technologies in Engineering,
+ICACITE 2022, 454–458. https://doi.org/10.1109/ICACITE53722.2022.9823528
+Bowler, A. L., Pound, M. P., & Watson, N. J. (2022). A review of ultrasonic sensing and
+machine learning methods to monitor industrial processes. In Ultrasonics (Vol.
+124). Elsevier B.V. https://doi.org/10.1016/j.ultras.2022.106776
+Ferdous, J., Roy, B., Hossen, M., & Mehedi Islam, Md. (2023). IMPLEMENTATION OF IOT
+BASED PATIENT HEALTH MONITORING SYSTEM USING ESP32 WEB SERVER.
+International Journal of Advanced Research, 11(06), 716–726.
+https://doi.org/10.21474/ijar01/17119
+Giovanelli, D., & Farella, E. (2016). Force Sensing Resistor and Evaluation of Technology
+for Wearable Body Pressure Sensing. Journal of Sensors, 2016.
+https://doi.org/10.1155/2016/9391850
+Helmstetter, S., & Matthiesen, S. (2023). Human Posture Estimation: A Systematic
+Review on Force-Based Methods-Analyzing the Differences in Required Expertise
+and Result Benefits for Their Utilization. In Sensors (Basel, Switzerland) (Vol. 23,
+Number 21). https://doi.org/10.3390/s23218997
+Jaffery, M. H., Ashraf, M. A., Almogren, A., Asim, H. M., Arshad, J., Khan, J., Rehman, A.
+U., & Hussen, S. (2022). FSR-Based Smart System for Detection of Wheelchair
+Sitting Postures Using Machine Learning Algorithms and Techniques. Journal of
+Sensors, 2022. https://doi.org/10.1155/2022/1901058
+Javaid, A., Abbas, A., Arshad, J., Rahmani, M. K. I., Chauhdary, S. T., Jaffery, M. H., &
+Banga, A. S. (2023). Force Sensitive Resistors-Based Real-Time Posture Detection
+System Using Machine Learning Algorithms. Computers, Materials and Continua,
+77, 1795–1814. https://doi.org/10.32604/cmc.2023.044140
+Kumar Sharma, G., & Tr, M. (2023). A Deep Analysis of Medical Monitoring System Based
+on ESP32 IoT System. 2023 3rd International Conference on Advance Computing
+and Innovative Technologies in Engineering, ICACITE 2023, 1848–1852.
+https://doi.org/10.1109/ICACITE57410.2023.10182920
+La Mura, M., De Gregorio, M., Lamberti, P., & Tucci, V. (2023). IoT System for Real-Time
+Posture Asymmetry Detection. Sensors, 23(10). https://doi.org/10.3390/s23104830
+Liu, Z., Shu, Z., Cascioli, V., & McCarthy, P. W. (2024). Comparative Analysis of Force-
+Sensitive Resistors and Triaxial Accelerometers for Sitting Posture Classification.
+Sensors, 24(23). https://doi.org/10.3390/s24237705
+Matuska, S., Paralic, M., & Hudec, R. (2020). A Smart System for Sitting Posture
+Detection Based on Force Sensors and Mobile Application. Mobile Information
+Systems, 2020. https://doi.org/10.1155/2020/6625797
+29
+Odesola, D. F., Kulon, J., Verghese, S., Partlow, A., & Gibson, C. (2024). Smart Sensing
+Chairs for Sitting Posture Detection, Classification, and Monitoring: A
+Comprehensive Review. In Sensors (Vol. 24, Number 9). Multidisciplinary Digital
+Publishing Institute (MDPI). https://doi.org/10.3390/s24092940
+Pereira, L., & Plácido da Silva, H. (2023). A Novel Smart Chair System for Posture
+Classification and Invisible ECG Monitoring. Sensors, 23(2).
+https://doi.org/10.3390/s23020719
+Sifuentes, E., Gonzalez-Landaeta, R., Cota-Ruiz, J., & Reverter, F. (2019). Seat
+occupancy detection based on a low-power microcontroller and a single FSR.
+Sensors (Switzerland), 19(3). https://doi.org/10.3390/s19030699
+Sujithra, J., Padmapriya, V., Gayathri, S., & Aadersh, R. (2024). An IoT System for Sitting
+Posture Detection Using Ultrasonic Sensor and Web Application. 2024
+International Conference on Communication, Computing and Internet of Things,
+IC3IoT 2024 - Proceedings. https://doi.org/10.1109/IC3IoT60841.2024.10550418
+Zaharuddin, M. S. H., & Mohd Shah, S. (2024). A Smart Chair for Sitting Postures
+Monitoring and Seat Occupancy Detection. Journal of Electronic Voltage and
+Application, 5(2). https://doi.org/10.30880/jeva.2024.05.02.004
+Zhao, Y., & You, Y. (2021). Design and data analysis of wearable sports posture
+measurement system based on Internet of Things. Alexandria Engineering Journal,
+60(1), 691–701. https://doi.org/10.1016/j.aej.2020.10.001
